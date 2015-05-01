@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="FmcEduServer:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="fmcEduServer.war">
+      <element id="artifact" artifact-name="FmcEduServer:war exploded" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="lib" />
+      </element>
+    </root>
+  </artifact>
+</component>
