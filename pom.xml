@@ -176,7 +176,7 @@
 					<encoding>${project.build.sourceEncoding}</encoding>
 				</configuration>
 			</plugin>
-			<plugin>
+			<!--<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>properties-maven-plugin</artifactId>
 				<version>1.0-alpha-2</version>
@@ -193,16 +193,20 @@
 						</configuration>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin>-->
 			<plugin>
 				<groupId>org.liquibase</groupId>
 				<artifactId>liquibase-maven-plugin</artifactId>
-				<version>2.0.5</version>
+				<version>3.0.5</version>
+				<configuration>
+					<propertyFileWillOverride>true</propertyFileWillOverride>
+					<propertyFile>${basedir}/src/main/resources/config/mybatis/mybatis.properties</propertyFile>
+				</configuration>
 				<dependencies>
 					<dependency>
 						<groupId>org.liquibase</groupId>
 						<artifactId>liquibase-core</artifactId>
-						<version>2.0.5</version>
+						<version>3.0.5</version>
 					</dependency>
 				</dependencies>
 				<executions>
@@ -210,10 +214,6 @@
 						<phase>process-resources</phase>
 						<configuration>
 							<changeLogFile>${basedir}/src/main/resources/liquibase/changeSet.xml</changeLogFile>
-							<driver>${jdbc.driverClassName}</driver>
-							<url>${jdbc.url}</url>
-							<username>${jdbc.username}</username>
-							<password>${jdbc.password}</password>
 						</configuration>
 						<goals>
 							<goal>update</goal>
