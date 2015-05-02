@@ -51,8 +51,6 @@
           <element id="library" level="project" name="Maven: org.codehaus.jackson:jackson-core-asl:1.9.12" />
           <element id="library" level="project" name="Maven: org.apache.poi:poi:3.10-FINAL" />
         </element>
-        <element id="dir-copy" path="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp" />
-        <element id="dir-copy" path="$PROJECT_DIR$/src/main/webapp/WEB-INF/tld" />
       </element>
       <element id="directory" name="META-INF">
         <element id="file-copy" path="$PROJECT_DIR$/target/MANIFEST.MF" />
