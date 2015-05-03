@@ -10,13 +10,13 @@ import javax.servlet.http.HttpServletRequestWrapper;
  */
 public class HTMLEscapeRequestWrapper extends HttpServletRequestWrapper {
 
-	public HTMLEscapeRequestWrapper(HttpServletRequest request) {
-		super(request);
+	public HTMLEscapeRequestWrapper(HttpServletRequest pRequest) {
+		super(pRequest);
 	}
 
 
 	@Override
-	public String getParameter(String name) {
-		return StringEscapeUtils.escapeHtml(this.getRequest().getParameter(name));
+	public String getParameter(String pName) {
+		return StringEscapeUtils.escapeHtml(this.getRequest().getParameter(pName));
 	}
 }
