@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fmc.edu.profile">
+
+	<select id="queryTempParentByPhone" parameterType="string" resultMap="temp_parent">
+		SELECT id, phone, identifying_code, identifying_date, creation_date, last_update_date
+		FROM temp_parent
+		WHERE phone = #{phone}
+	</select>
+
+	<insert id="saveTempParentWithPhone" keyProperty="id" useGeneratedKeys="true"
+	        parameterType="com.fmc.edu.model.profile.TempParentProfile">
+		INSERT INTO temp_parent (phone, identifying_code, identifying_date, creation_date, last_update_date)
+		VALUES (
+			#{phone}, #{identifyingCode}, #{identifyDate}, #{creationDate}, #{lastUpdateDate}
+		)
+	</insert>
+
+	<update id="saveTempParent" parameterType="com.fmc.edu.model.profile.TempParentProfile">
+		UPDATE temp_parent SET
+			phone = #{phone}, identifying_code = #{identifyingCode}, identifying_date=#{identifyDate}, last_update_date = #{lastUpdateDate}
+		WHERE id = #{id}
+	</update>
+
+	<resultMap id="temp_parent" type="com.fmc.edu.model.profile.TempParentProfile">
+		<id property="id" column="id" />
+		<result property="phone" column="phone" />
+		<result property="identifyingCode" column="identifying_code" />
+		<result property="identifyDate" column="identifying_date" />
+		<result property="creationDate" column="creation_date" />
+		<result property="lastUpdateDate" column="last_update_date" />
+	</resultMap>
+
+</mapper>
