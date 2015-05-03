@@ -220,6 +220,7 @@
                 <configuration>
                     <propertyFileWillOverride>true</propertyFileWillOverride>
                     <propertyFile>${basedir}/src/main/resources/config/mybatis/mybatis.properties</propertyFile>
+                    <changeLogFile>${basedir}/src/main/resources/liquibase/changeSet.xml</changeLogFile>
                 </configuration>
                 <dependencies>
                     <dependency>
@@ -231,9 +232,6 @@
                 <executions>
                     <execution>
                         <phase>process-resources</phase>
-                        <configuration>
-                            <changeLogFile>${basedir}/src/main/resources/liquibase/changeSet.xml</changeLogFile>
-                        </configuration>
                         <goals>
                             <goal>update</goal>
                         </goals>
