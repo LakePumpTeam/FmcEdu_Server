@@ -32,7 +32,7 @@ public class WebConfig {
     private static Properties props;
 
     static {
-        Resource resource = new ClassPathResource("/config/web.properties");
+        Resource resource = new ClassPathResource("/web.properties");
         try {
             props = PropertiesLoaderUtils.loadProperties(resource);
         } catch (IOException e) {
