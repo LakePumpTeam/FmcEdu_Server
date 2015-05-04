@@ -14,7 +14,7 @@ import java.util.Set;
 @Service(value = "dummyMessageIdentifyService")
 public class DummyMessageIdentifyService implements IMessageIdentifyService {
 
-	private Set<String> mHistoryRandomNumbers = new HashSet<>();
+	private Set<String> mHistoryRandomNumbers = new HashSet<String>();
 
 	private static final int LENGTH = 6;
 

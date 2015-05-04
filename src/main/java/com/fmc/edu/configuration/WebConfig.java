@@ -14,7 +14,7 @@ import java.util.Properties;
 /**
  * Created by YW on 2015/5/3.
  */
-@Component
+@Component("webConfig")
 @Scope("singleton")
 public class WebConfig {
     private static final Logger LOG = Logger.getLogger(WebConfig.class);
