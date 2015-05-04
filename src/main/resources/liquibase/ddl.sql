@@ -23,7 +23,7 @@ USE `fmc_edu`;
 DROP TABLE IF EXISTS `fmc_edu`.`Province`;
 
 CREATE TABLE IF NOT EXISTS `fmc_edu`.`Province` (
-  `Id`               INT      NOT NULL AUTO_INCREMENT,
+  `Id` INT NOT NULL AUTO_INCREMENT,
   `Name` VARCHAR(40) NOT NULL,
   `Last_Update_Date` DATETIME NOT NULL,
   PRIMARY KEY (`Id`)
@@ -54,18 +54,19 @@ CREATE INDEX `fk_City_Province_idx` ON `fmc_edu`.`City` (`Province_Id` ASC);
 DROP TABLE IF EXISTS `fmc_edu`.`Address`;
 
 CREATE TABLE IF NOT EXISTS `fmc_edu`.`Address` (
-  `Id`               INT      NOT NULL AUTO_INCREMENT,
+  `Id`            INT      NOT NULL AUTO_INCREMENT,
+  `Province_Id`   INT      NOT NULL,
+  `City_Id`       INT      NOT NULL,
   `Full_Address` VARCHAR(200) NULL,
-  `Province_Id`      INT      NOT NULL,
-  `City_Id`          INT      NOT NULL,
+  `Creation_Date` DATETIME NULL,
   `Last_Update_Date` DATETIME NOT NULL,
   PRIMARY KEY (`Id`)
 )
-  ENGINE = MyISAM;
-
-CREATE INDEX `fk_Address_Province1_idx` ON `fmc_edu`.`Address` (`Province_Id` ASC);
+  ENGINE = InnoDB;
 
 CREATE INDEX `fk_Address_City1_idx` ON `fmc_edu`.`Address` (`City_Id` ASC);
+
+CREATE INDEX `fk_Address_Province1_idx` ON `fmc_edu`.`Address` (`Province_Id` ASC);
 
 
 -- -----------------------------------------------------
@@ -75,42 +76,20 @@ DROP TABLE IF EXISTS `fmc_edu`.`School`;
 
 CREATE TABLE IF NOT EXISTS `fmc_edu`.`School` (
   `Id`               INT         NOT NULL AUTO_INCREMENT,
-  `Name`             VARCHAR(80) NULL,
+  `Name`             VARCHAR(80) NOT NULL,
   `Province_Id`      INT         NOT NULL,
   `City_Id`          INT         NOT NULL,
   `Address_Id`       INT         NULL,
   `Last_Update_Date` DATETIME    NOT NULL,
   PRIMARY KEY (`Id`)
 )
-  ENGINE = MyISAM;
+  ENGINE = InnoDB;
 
 CREATE INDEX `fk_School_City1_idx` ON `fmc_edu`.`School` (`City_Id` ASC);
 
 CREATE INDEX `fk_School_Address1_idx` ON `fmc_edu`.`School` (`Address_Id` ASC);
 
 CREATE INDEX `fk_School_Province1_idx` ON `fmc_edu`.`School` (`Province_Id` ASC);
-
-
--- -----------------------------------------------------
--- Table `fmc_edu`.`Teacher`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `fmc_edu`.`Teacher`;
-
-CREATE TABLE IF NOT EXISTS `fmc_edu`.`Teacher` (
-  `Id`               INT         NOT NULL AUTO_INCREMENT,
-  `Name`             VARCHAR(20) NOT NULL,
-  `Phone`            VARCHAR(11) NOT NULL,
-  `Password`         VARCHAR(32) NOT NULL,
-  `School_Id`        INT         NOT NULL,
-  `Head_Teacher`     TINYINT(1)  NOT NULL,
-  `App_Id`           VARCHAR(20) NULL,
-  `Available`        TINYINT(1)  NULL     DEFAULT 1,
-  `Last_Update_Date` DATETIME    NOT NULL,
-  PRIMARY KEY (`Id`)
-)
-  ENGINE = MyISAM;
-
-CREATE INDEX `fk_Teacher_School1_idx` ON `fmc_edu`.`Teacher` (`School_Id` ASC);
 
 
 -- -----------------------------------------------------
@@ -128,11 +107,9 @@ CREATE TABLE IF NOT EXISTS `fmc_edu`.`Class` (
   `Last_Update_Date` DATETIME    NOT NULL,
   PRIMARY KEY (`Id`)
 )
-  ENGINE = MyISAM;
+  ENGINE = InnoDB;
 
 CREATE INDEX `fk_Class_School1_idx` ON `fmc_edu`.`Class` (`School_id` ASC);
-
-CREATE INDEX `fk_Class_Teacher1_idx` ON `fmc_edu`.`Class` (`Head_Teacher_Id` ASC);
 
 
 -- -----------------------------------------------------
@@ -148,13 +125,53 @@ CREATE TABLE IF NOT EXISTS `fmc_edu`.`Student` (
   `Birth`            DATE        NULL,
   `Ring_Number`      VARCHAR(45) NULL,
   `Creation_Date`    DATETIME    NULL,
-  `Available`        TINYINT(1)  NULL     DEFAULT 1,
+  `Available`        TINYINT(1)  NOT NULL DEFAULT 1,
   `Last_Update_Date` DATETIME    NOT NULL,
   PRIMARY KEY (`Id`)
 )
-  ENGINE = MyISAM;
+  ENGINE = InnoDB;
 
 CREATE INDEX `fk_Student_Class1_idx` ON `fmc_edu`.`Student` (`Class_id` ASC);
+
+
+-- -----------------------------------------------------
+-- Table `fmc_edu`.`Profile`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `fmc_edu`.`Profile`;
+
+CREATE TABLE IF NOT EXISTS `fmc_edu`.`Profile` (
+  `Id`               INT         NOT NULL AUTO_INCREMENT,
+  `Name`             VARCHAR(20) NULL,
+  `Phone`            VARCHAR(11) NOT NULL,
+  `Password`         VARCHAR(32) NULL,
+  `App_Id`           VARCHAR(20) NULL,
+  `Creation_Date`    DATETIME    NULL,
+  `Last_Login_Date`  DATETIME    NULL,
+  `Last_Update_Date` DATETIME    NOT NULL,
+  `Available`        TINYINT(1)  NOT NULL DEFAULT 1,
+  `Profile_Type`     TINYINT(1)  NOT NULL DEFAULT 1,
+  PRIMARY KEY (`Id`)
+)
+  ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `fmc_edu`.`Teacher`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `fmc_edu`.`Teacher`;
+
+CREATE TABLE IF NOT EXISTS `fmc_edu`.`Teacher` (
+  `Id`           INT        NOT NULL,
+  `School_Id`    INT        NOT NULL,
+  `Head_Teacher` TINYINT(1) NOT NULL DEFAULT 0,
+  `Initialized`  TINYINT(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`Id`)
+)
+  ENGINE = InnoDB;
+
+CREATE INDEX `fk_Teacher_School1_idx` ON `fmc_edu`.`Teacher` (`School_Id` ASC);
+
+CREATE INDEX `fk_Teacher_Profile1_idx` ON `fmc_edu`.`Teacher` (`Id` ASC);
 
 
 -- -----------------------------------------------------
@@ -163,26 +180,53 @@ CREATE INDEX `fk_Student_Class1_idx` ON `fmc_edu`.`Student` (`Class_id` ASC);
 DROP TABLE IF EXISTS `fmc_edu`.`Parent`;
 
 CREATE TABLE IF NOT EXISTS `fmc_edu`.`Parent` (
-  `Id`               INT         NOT NULL AUTO_INCREMENT,
-  `Name`             VARCHAR(20) NOT NULL,
-  `Phone`            VARCHAR(11) NOT NULL,
-  `Password`         VARCHAR(32) NOT NULL,
-  `Student_Id`       INT         NOT NULL,
-  `Address_Id`       INT         NULL,
-  `Approved`         TINYINT(1)  NULL     DEFAULT 0,
-  `Approved_Date`    DATETIME    NULL,
-  `App_Id`           VARCHAR(19) NULL,
-  `Creation_Date`    DATETIME    NULL,
-  `Available`        TINYINT(1)  NULL     DEFAULT 1,
-  `Last_Login_Date`  DATETIME    NULL,
-  `Last_Update_Date` DATETIME    NOT NULL,
+  `Id`                  INT        NOT NULL,
+  `Address_Id`          INT        NULL,
+  `Paid`                TINYINT(1) NOT NULL DEFAULT 0,
+  `Free_Trial`          TINYINT(1) NOT NULL DEFAULT 0,
+  `Free_Trial_End_Date` DATETIME   NULL,
   PRIMARY KEY (`Id`)
 )
-  ENGINE = MyISAM;
-
-CREATE INDEX `fk_Parent_Student1_idx` ON `fmc_edu`.`Parent` (`Student_Id` ASC);
+  ENGINE = InnoDB;
 
 CREATE INDEX `fk_Parent_Address1_idx` ON `fmc_edu`.`Parent` (`Address_Id` ASC);
+
+CREATE INDEX `fk_Parent_Profile1_idx` ON `fmc_edu`.`Parent` (`Id` ASC);
+
+
+-- -----------------------------------------------------
+-- Table `fmc_edu`.`Temp_Parent`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `fmc_edu`.`Temp_Parent`;
+
+CREATE TABLE IF NOT EXISTS `fmc_edu`.`Temp_Parent` (
+  `Id`               INT      NOT NULL,
+  `Identifying_Code` VARCHAR(20) NULL,
+  `Identifying_Date` DATETIME NULL,
+  PRIMARY KEY (`Id`)
+)
+  ENGINE = InnoDB;
+
+CREATE INDEX `fk_Temp_Parent_Profile1_idx` ON `fmc_edu`.`Temp_Parent` (`Id` ASC);
+
+
+-- -----------------------------------------------------
+-- Table `fmc_edu`.`Parent_Student_Map`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `fmc_edu`.`Parent_Student_Map`;
+
+CREATE TABLE IF NOT EXISTS `fmc_edu`.`Parent_Student_Map` (
+  `Parent_Id`     INT        NOT NULL,
+  `Student_Id`    INT        NOT NULL,
+  `Approved`      TINYINT(1) NOT NULL DEFAULT 0,
+  `Approved_Date` DATETIME   NULL,
+  PRIMARY KEY (`Parent_Id`, `Student_Id`)
+)
+  ENGINE = InnoDB;
+
+CREATE INDEX `fk_Parent_has_Student_Student1_idx` ON `fmc_edu`.`Parent_Student_Map` (`Student_Id` ASC);
+
+CREATE INDEX `fk_Parent_has_Student_Parent1_idx` ON `fmc_edu`.`Parent_Student_Map` (`Parent_Id` ASC);
 
 
 -- -----------------------------------------------------
@@ -193,34 +237,17 @@ DROP TABLE IF EXISTS `fmc_edu`.`Teacher_Class_Map`;
 CREATE TABLE IF NOT EXISTS `fmc_edu`.`Teacher_Class_Map` (
   `Teacher_Id`       INT         NOT NULL,
   `Class_Id`         INT         NOT NULL,
-  `Sub_Title`        VARCHAR(20) NOT NULL,
-  `Head_Tearcher`    TINYINT(1)  NULL DEFAULT 0,
-  `Available`        TINYINT(1)  NULL DEFAULT 1,
+  `Sub_Title`        VARCHAR(20) NULL,
+  `Head_Teacher`     TINYINT(1)  NOT NULL DEFAULT 0,
+  `Creation_Date`    DATETIME    NULL,
   `Last_Update_Date` DATETIME    NOT NULL,
   PRIMARY KEY (`Teacher_Id`, `Class_Id`)
 )
-  ENGINE = MyISAM;
+  ENGINE = InnoDB;
 
 CREATE INDEX `fk_Teacher_has_Class_Class1_idx` ON `fmc_edu`.`Teacher_Class_Map` (`Class_Id` ASC);
 
 CREATE INDEX `fk_Teacher_has_Class_Teacher1_idx` ON `fmc_edu`.`Teacher_Class_Map` (`Teacher_Id` ASC);
-
-
--- -----------------------------------------------------
--- Table `fmc_edu`.`Temp_Parent`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `fmc_edu`.`Temp_Parent`;
-
-CREATE TABLE IF NOT EXISTS `fmc_edu`.`Temp_Parent` (
-  `Id`               INT         NOT NULL AUTO_INCREMENT,
-  `Phone`            VARCHAR(11) NOT NULL,
-  `Identifying_Code` VARCHAR(20) NULL,
-  `Identifying_Date` DATETIME    NULL,
-  `Creation_Date`    DATETIME    NOT NULL,
-  `Last_Update_Date` DATETIME    NULL,
-  PRIMARY KEY (`Id`)
-)
-  ENGINE = MyISAM;
 
 
 SET SQL_MODE = @OLD_SQL_MODE;
