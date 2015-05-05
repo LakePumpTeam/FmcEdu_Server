@@ -7,15 +7,16 @@ import com.fmc.edu.model.profile.TempParentProfile;
  */
 public interface ITempProfileRepository {
 
-	String QUERY_TEMP_PARENT_BY_PHONE = "com.fmc.edu.profile.queryTempParentByPhone";
+	String QUERY_TEMP_PARENT_BY_PHONE = "com.fmc.edu.profile.temp.queryTempParentByPhone";
 
 	TempParentProfile queryTempParentProfileByPhone(String pPhone);
 
-	String SAVE_TEMP_PARENT_WITH_PHONE = "com.fmc.edu.profile.saveTempParentWithPhone";
+	String INITIAL_TEMP_PROFILE = "com.fmc.edu.profile.temp.initialTempParent";
+	String INITIAL_AUXILIARY_TEMP_PARENT = "com.fmc.edu.profile.temp.initialAuxiliaryTempParent";
 
-	boolean saveTempParentWithPhone(TempParentProfile pTempParent);
+	boolean initialTempProfile(TempParentProfile pTempParent);
 
-	String SAVE_TEMP_PARENT = "com.fmc.edu.profile.saveTempParent";
+	String UPDATE_IDENTIFY = "com.fmc.edu.profile.temp.updateIdentify";
 
-	boolean saveTempParent(TempParentProfile pTempParent);
+	boolean updateIdentify(TempParentProfile pTempParent);
 }

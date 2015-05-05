@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * Created by Yove on 5/4/2015.
@@ -25,12 +26,13 @@ public class ProfileController extends BaseController {
 
 	@RequestMapping(value = ("/requestPhoneIdentify" + GlobalConstant.URL_SUFFIX))
 	@ResponseBody
-	public String requestPhoneIdentify(final HttpServletRequest pRequest, final HttpServletResponse pResponse, final String cellphone) {
+	public String requestPhoneIdentify(final HttpServletRequest pRequest, final HttpServletResponse pResponse, final String cellphone) throws IOException {
+		String phone = decodeInput(cellphone);
 		// output error if phone number is blank
-		if (StringUtils.isBlank(cellphone)) {
+		if (StringUtils.isBlank(phone)) {
 			return generateJsonOutput(Boolean.FALSE, null, ERROR_EMPTY_PHONE);
 		}
-		String identifyCode = getProfileManager().registerParentWithPhoneNum(cellphone);
+		String identifyCode = getProfileManager().registerTempParentByPhoneNum(phone);
 		// request identify failed if identify is blank
 		// TODO should not return code, return for test
 		return generateJsonOutput(StringUtils.isNotBlank(identifyCode), identifyCode, null);

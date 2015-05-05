@@ -15,8 +15,8 @@ public class TempProfileRepository extends BaseRepository implements ITempProfil
 
 
 	@Override
-	public boolean saveTempParent(TempParentProfile pTempParent) {
-		return getSqlSession().update(SAVE_TEMP_PARENT, pTempParent) > 0;
+	public boolean updateIdentify(TempParentProfile pTempParent) {
+		return getSqlSession().update(UPDATE_IDENTIFY, pTempParent) > 0;
 	}
 
 	@Override
@@ -25,11 +25,15 @@ public class TempProfileRepository extends BaseRepository implements ITempProfil
 	}
 
 	@Override
-	public boolean saveTempParentWithPhone(TempParentProfile pTempParent) {
+	public boolean initialTempProfile(TempParentProfile pTempParent) {
 		if (pTempParent.getCreationDate() == null) {
 			pTempParent.setCreationDate(new Timestamp(System.currentTimeMillis()));
 		}
-		return getSqlSession().insert(SAVE_TEMP_PARENT_WITH_PHONE, pTempParent) > 0;
+		if (getSqlSession().insert(INITIAL_TEMP_PROFILE, pTempParent) > 0) {
+			// save super table success
+			return getSqlSession().insert(INITIAL_AUXILIARY_TEMP_PARENT, pTempParent) > 0;
+		}
+		return false;
 	}
 
 }

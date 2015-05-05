@@ -2,26 +2,35 @@
 <!DOCTYPE mapper
 		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.fmc.edu.profile">
+<mapper namespace="com.fmc.edu.profile.temp">
+
+	<sql id="condition_temp_parent">
+		Profile_Type = '0'
+	</sql>
+
 
 	<select id="queryTempParentByPhone" parameterType="string" resultMap="temp_parent">
 		SELECT id, phone, identifying_code, identifying_date, creation_date, last_update_date
-		FROM temp_parent
-		WHERE phone = #{phone}
+		FROM Profile
+		LEFT JOIN Temp_Parent on id = profile_id
+		WHERE phone = #{phone} AND Identifying_Date IS NULL AND
+		<include refid="condition_temp_parent" />
 	</select>
 
-	<insert id="saveTempParentWithPhone" keyProperty="id" useGeneratedKeys="true"
+	<insert id="initialTempParent" keyProperty="id" useGeneratedKeys="true"
 	        parameterType="com.fmc.edu.model.profile.TempParentProfile">
-		INSERT INTO temp_parent (phone, identifying_code, identifying_date, creation_date, last_update_date)
-		VALUES (
-			#{phone}, #{identifyingCode}, #{identifyDate}, #{creationDate}, #{lastUpdateDate}
-		)
+		INSERT INTO Profile (phone, profile_type, creation_date, last_update_date)
+		VALUES (#{phone}, #{profileType.value}, #{creationDate}, #{lastUpdateDate})
 	</insert>
 
-	<update id="saveTempParent" parameterType="com.fmc.edu.model.profile.TempParentProfile">
-		UPDATE temp_parent SET
-			phone = #{phone}, identifying_code = #{identifyingCode}, identifying_date=#{identifyDate}, last_update_date = #{lastUpdateDate}
-		WHERE id = #{id}
+	<insert id="initialAuxiliaryTempParent" parameterType="com.fmc.edu.model.profile.TempParentProfile">
+		INSERT INTO Temp_Parent (profile_id, identifying_code, identifying_date)
+		VALUES (#{id}, #{identifyingCode}, #{identifyDate})
+	</insert>
+
+	<update id="updateIdentify" parameterType="com.fmc.edu.model.profile.TempParentProfile">
+		UPDATE Temp_Parent SET identifying_code = #{identifyingCode}, identifying_date=#{identifyDate}
+		WHERE profile_id = #{id}
 	</update>
 
 	<resultMap id="temp_parent" type="com.fmc.edu.model.profile.TempParentProfile">

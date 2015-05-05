@@ -16,14 +16,14 @@ public class TempProfileService {
 	@Resource(name = "tempProfileRepository")
 	private ITempProfileRepository mTempProfileRepository;
 
-	public boolean saveTempParent(final String pPhoneNumber, final String pIdentifyCode) {
+	public boolean registerTempParent(final String pPhoneNumber, final String pIdentifyCode) {
 		TempParentProfile tempParent = getTempProfileRepository().queryTempParentProfileByPhone(pPhoneNumber);
 		if (RepositoryUtils.isItemExist(tempParent)) {
 			tempParent.setIdentifyingCode(pIdentifyCode);
-			return mTempProfileRepository.saveTempParent(tempParent);
+			return mTempProfileRepository.updateIdentify(tempParent);
 		}
 		tempParent = new TempParentProfile(pPhoneNumber, pIdentifyCode);
-		return mTempProfileRepository.saveTempParentWithPhone(tempParent);
+		return mTempProfileRepository.initialTempProfile(tempParent);
 	}
 
 	public ITempProfileRepository getTempProfileRepository() {

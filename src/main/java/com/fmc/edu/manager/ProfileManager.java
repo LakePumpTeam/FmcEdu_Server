@@ -25,9 +25,9 @@ public class ProfileManager {
 	@Resource(name = "webConfig")
 	private WebConfig mWebConfig;
 
-	public String registerParentWithPhoneNum(String pPhoneNumber) {
+	public String registerTempParentByPhoneNum(String pPhoneNumber) {
 		String identifyCode = getMessageIdentifyService().sendIdentifyRequest(pPhoneNumber);
-		boolean persistentFailure = getTempProfileService().saveTempParent(pPhoneNumber, identifyCode);
+		boolean persistentFailure = getTempProfileService().registerTempParent(pPhoneNumber, identifyCode);
 		return identifyCode;
 	}
 

@@ -54,9 +54,9 @@ CREATE INDEX `fk_City_Province_idx` ON `fmc_edu`.`City` (`Province_Id` ASC);
 DROP TABLE IF EXISTS `fmc_edu`.`Address`;
 
 CREATE TABLE IF NOT EXISTS `fmc_edu`.`Address` (
-  `Id`            INT      NOT NULL AUTO_INCREMENT,
-  `Province_Id`   INT      NOT NULL,
-  `City_Id`       INT      NOT NULL,
+  `Id`          INT NOT NULL AUTO_INCREMENT,
+  `Province_Id` INT NOT NULL,
+  `City_Id`     INT NOT NULL,
   `Full_Address` VARCHAR(200) NULL,
   `Creation_Date` DATETIME NULL,
   `Last_Update_Date` DATETIME NOT NULL,
@@ -161,17 +161,17 @@ CREATE TABLE IF NOT EXISTS `fmc_edu`.`Profile` (
 DROP TABLE IF EXISTS `fmc_edu`.`Teacher`;
 
 CREATE TABLE IF NOT EXISTS `fmc_edu`.`Teacher` (
-  `Id`           INT        NOT NULL,
-  `School_Id`    INT        NOT NULL,
+  `Profile_Id`  INT        NOT NULL,
+  `School_Id`   INT        NOT NULL,
   `Head_Teacher` TINYINT(1) NOT NULL DEFAULT 0,
-  `Initialized`  TINYINT(1) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`Id`)
+  `Initialized` TINYINT(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`Profile_Id`)
 )
   ENGINE = InnoDB;
 
 CREATE INDEX `fk_Teacher_School1_idx` ON `fmc_edu`.`Teacher` (`School_Id` ASC);
 
-CREATE INDEX `fk_Teacher_Profile1_idx` ON `fmc_edu`.`Teacher` (`Id` ASC);
+CREATE INDEX `fk_Teacher_Profile1_idx` ON `fmc_edu`.`Teacher` (`Profile_Id` ASC);
 
 
 -- -----------------------------------------------------
@@ -180,18 +180,18 @@ CREATE INDEX `fk_Teacher_Profile1_idx` ON `fmc_edu`.`Teacher` (`Id` ASC);
 DROP TABLE IF EXISTS `fmc_edu`.`Parent`;
 
 CREATE TABLE IF NOT EXISTS `fmc_edu`.`Parent` (
-  `Id`                  INT        NOT NULL,
+  `Profile_Id`          INT        NOT NULL,
   `Address_Id`          INT        NULL,
   `Paid`                TINYINT(1) NOT NULL DEFAULT 0,
   `Free_Trial`          TINYINT(1) NOT NULL DEFAULT 0,
   `Free_Trial_End_Date` DATETIME   NULL,
-  PRIMARY KEY (`Id`)
+  PRIMARY KEY (`Profile_Id`)
 )
   ENGINE = InnoDB;
 
 CREATE INDEX `fk_Parent_Address1_idx` ON `fmc_edu`.`Parent` (`Address_Id` ASC);
 
-CREATE INDEX `fk_Parent_Profile1_idx` ON `fmc_edu`.`Parent` (`Id` ASC);
+CREATE INDEX `fk_Parent_Profile1_idx` ON `fmc_edu`.`Parent` (`Profile_Id` ASC);
 
 
 -- -----------------------------------------------------
@@ -200,14 +200,14 @@ CREATE INDEX `fk_Parent_Profile1_idx` ON `fmc_edu`.`Parent` (`Id` ASC);
 DROP TABLE IF EXISTS `fmc_edu`.`Temp_Parent`;
 
 CREATE TABLE IF NOT EXISTS `fmc_edu`.`Temp_Parent` (
-  `Id`               INT      NOT NULL,
+  `Profile_Id` INT NOT NULL,
   `Identifying_Code` VARCHAR(20) NULL,
   `Identifying_Date` DATETIME NULL,
-  PRIMARY KEY (`Id`)
+  PRIMARY KEY (`Profile_Id`)
 )
   ENGINE = InnoDB;
 
-CREATE INDEX `fk_Temp_Parent_Profile1_idx` ON `fmc_edu`.`Temp_Parent` (`Id` ASC);
+CREATE INDEX `fk_Temp_Parent_Profile1_idx` ON `fmc_edu`.`Temp_Parent` (`Profile_Id` ASC);
 
 
 -- -----------------------------------------------------
