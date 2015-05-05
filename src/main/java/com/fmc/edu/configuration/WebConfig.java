@@ -29,6 +29,10 @@ public class WebConfig {
 
     private static final String SECRET_KEY = "secretKey";
 
+    private static final String DES_PASSWORD = "desPassword";
+
+    private static final String DEFAULT_DES_PASSWORD = "9288028820109132570743325311898426347855298773549268758875018579537756572163084478873699447306034466200616411960574122434059469100235892702736860872901247123456";
+
     private static Properties props;
 
     static {
@@ -74,5 +78,16 @@ public class WebConfig {
             throw new Exception("Bai Du secretKey not was configured.");
         }
         return props.getProperty(WebConfig.SECRET_KEY);
+    }
+
+    public String getDESPassword() throws Exception {
+        if (props == null) {
+            throw new Exception("DES password not was configured.");
+        }
+        String password = props.getProperty(WebConfig.DES_PASSWORD);
+        if (StringUtils.isBlank(password)) {
+            return DEFAULT_DES_PASSWORD;
+        }
+        return password;
     }
 }

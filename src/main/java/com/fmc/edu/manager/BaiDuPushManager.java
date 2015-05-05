@@ -15,10 +15,10 @@ import javax.annotation.Resource;
 public class BaiDuPushManager {
     private static final Logger LOG = Logger.getLogger(BaiDuPushManager.class);
 
-    @Resource
+    @Resource(name = "AndroidPushNotification")
     private IBaiDuPushNotification mBaiDuAndroidPushNotification;
 
-    @Resource
+    @Resource(name = "IOSPushNotification")
     private IBaiDuPushNotification mBaiDuIOSPushNotification;
 
     @Resource

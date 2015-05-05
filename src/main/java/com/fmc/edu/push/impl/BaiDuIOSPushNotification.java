@@ -19,7 +19,7 @@ import javax.annotation.Resource;
 /**
  * Created by YW on 2015/5/3.
  */
-@Component
+@Component("IOSPushNotification")
 public class BaiDuIOSPushNotification implements IBaiDuPushNotification {
     private static final Logger LOG = Logger.getLogger(BaiDuIOSPushNotification.class);
 

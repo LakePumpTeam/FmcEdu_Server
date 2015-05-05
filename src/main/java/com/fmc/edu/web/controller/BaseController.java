@@ -20,7 +20,7 @@ public abstract class BaseController {
     }
 
     protected String generateJsonOutput(boolean pSuccess, Object pJsonData, String pMessage) {
-        Map<String, Object> result = new HashMap<>();
+        Map<String, Object> result = new HashMap<String, Object>();
         result.put(JSONOutputConstant.PARAM_STATUS, getStatusMapping(pSuccess));
         if (pJsonData == null) {
             pJsonData = StringUtils.EMPTY;
