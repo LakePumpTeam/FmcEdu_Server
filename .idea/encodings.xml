@@ -2,13 +2,23 @@
 <project version="4">
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/fmc/edu/executor/processor/InstantiationTracingBeanPostProcessor.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/fmc/edu/model/autho/Permission.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/fmc/edu/model/autho/Role.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/fmc/edu/model/autho/RolePermssion.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/fmc/edu/model/autho/User.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/fmc/edu/model/autho/UserRole.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/resources/config" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/liquibase" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/log4j.properties" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/resources/messages.properties" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/web.properties" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/tld/c.tld" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/tld/fmt.tld" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/tld/fn.tld" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/tld/sql.tld" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/tld/x.tld" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/includes" charset="GBK" />
   </component>
 </project>

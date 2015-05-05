@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="fcmAuthorizingRealm" class="com.fmc.edu.service.auth.FCMAuthorizingRealm">
+    </bean>
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="fcmAuthorizingRealm"/>
+    </bean>
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager"/>
+        <property name="loginUrl" value="/profile/login"/>
+        <property name="filterChainDefinitions">
+            <value>
+                /profile/login=anon
+                /profile/logout=anon
+                /profile/requestPhoneIdentify=anon
+                /profile/**=anon
+                /main**=authc
+                /user/info**=authc
+                /test/**=authc,perms[test:update]
+            </value>
+        </property>
+    </bean>
+
+    <!-- Shiro life cycle processor-->
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+</beans>

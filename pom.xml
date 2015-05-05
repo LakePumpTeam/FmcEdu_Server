@@ -15,6 +15,7 @@
         <pioVersion>3.10-FINAL</pioVersion>
         <mysqlVersion>5.1.8</mysqlVersion>
         <mybatisVersion>3.2.3</mybatisVersion>
+        <shiroVersion>1.2.3</shiroVersion>
     </properties>
 
     <dependencies>
@@ -52,13 +53,6 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aop</artifactId>
-            <version>${springVersion}</version>
-            <type>jar</type>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aspects</artifactId>
             <version>${springVersion}</version>
             <type>jar</type>
             <scope>compile</scope>
@@ -242,6 +236,22 @@
             <groupId>baidu</groupId>
             <artifactId>bacc-api-lib</artifactId>
             <version>1.1.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-core</artifactId>
+            <version>${shiroVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-web</artifactId>
+            <version>${shiroVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-spring</artifactId>
+            <version>${shiroVersion}</version>
         </dependency>
     </dependencies>
     <build>
