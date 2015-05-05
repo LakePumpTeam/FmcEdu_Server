@@ -11,12 +11,20 @@ public interface ITempProfileRepository {
 
 	TempParentProfile queryTempParentProfileByPhone(String pPhone);
 
-	String INITIAL_TEMP_PROFILE = "com.fmc.edu.profile.temp.initialTempParent";
+	String INITIAL_TEMP_PARENT = "com.fmc.edu.profile.temp.initialTempParent";
 	String INITIAL_AUXILIARY_TEMP_PARENT = "com.fmc.edu.profile.temp.initialAuxiliaryTempParent";
 
-	boolean initialTempProfile(TempParentProfile pTempParent);
+	boolean initialTempParentProfile(TempParentProfile pTempParent);
 
-	String UPDATE_IDENTIFY = "com.fmc.edu.profile.temp.updateIdentify";
+	String UPDATE_TEMP_PARENT_IDENTIFY = "com.fmc.edu.profile.temp.updateTempParentProfileIdentify";
 
-	boolean updateIdentify(TempParentProfile pTempParent);
+	boolean updateTempParentProfileIdentify(TempParentProfile pTempParent);
+
+	String QUERY_TEMP_PARENT_BY_IDENTIFY_CODE = "com.fmc.edu.profile.temp.queryTempParentByIdentifyCode";
+
+	TempParentProfile queryTempParentProfileByIdentifyCode(TempParentProfile pTempParent);
+
+	String INITIAL_PARENT_PROFILE = "com.fmc.edu.profile.temp.initialParentProfile";
+
+	boolean initialParentProfile(int pId);
 }

@@ -28,10 +28,24 @@
 		VALUES (#{id}, #{identifyingCode}, #{identifyDate})
 	</insert>
 
-	<update id="updateIdentify" parameterType="com.fmc.edu.model.profile.TempParentProfile">
+	<update id="updateTempParentProfileIdentify" parameterType="com.fmc.edu.model.profile.TempParentProfile">
 		UPDATE Temp_Parent SET identifying_code = #{identifyingCode}, identifying_date=#{identifyDate}
 		WHERE profile_id = #{id}
 	</update>
+
+	<select id="queryTempParentByIdentifyCode" parameterType="com.fmc.edu.model.profile.TempParentProfile"
+	        resultMap="temp_parent">
+		SELECT id, phone, identifying_code, identifying_date, creation_date, last_update_date
+		FROM Profile
+		LEFT JOIN Temp_Parent on id = profile_id
+		WHERE phone = #{phone} AND identifying_code = #{identifyingCode} AND Identifying_Date IS NULL AND
+		<include refid="condition_temp_parent" />
+	</select>
+
+	<insert id="initialParentProfile" parameterType="string">
+		INSERT INTO Parent (profile_id, paid, free_trial)
+		VALUES (#{id}, 0, 0)
+	</insert>
 
 	<resultMap id="temp_parent" type="com.fmc.edu.model.profile.TempParentProfile">
 		<id property="id" column="id" />

@@ -6,6 +6,7 @@ import com.fmc.edu.util.RepositoryUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.sql.Timestamp;
 
 /**
  * Created by Yove on 5/4/2015.
@@ -20,10 +21,23 @@ public class TempProfileService {
 		TempParentProfile tempParent = getTempProfileRepository().queryTempParentProfileByPhone(pPhoneNumber);
 		if (RepositoryUtils.isItemExist(tempParent)) {
 			tempParent.setIdentifyingCode(pIdentifyCode);
-			return mTempProfileRepository.updateIdentify(tempParent);
+			return mTempProfileRepository.updateTempParentProfileIdentify(tempParent);
 		}
 		tempParent = new TempParentProfile(pPhoneNumber, pIdentifyCode);
-		return mTempProfileRepository.initialTempProfile(tempParent);
+		return mTempProfileRepository.initialTempParentProfile(tempParent);
+	}
+
+	public boolean verifyTempParentAuthCode(String pPhoneNumber, String pIdentifyingCode) {
+		TempParentProfile tempParent = new TempParentProfile(pPhoneNumber, pIdentifyingCode);
+		tempParent = getTempProfileRepository().queryTempParentProfileByIdentifyCode(tempParent);
+		if (RepositoryUtils.isItemExist(tempParent)) {
+			//passed identify
+			tempParent.setIdentifyDate(new Timestamp(System.currentTimeMillis()));
+			if (getTempProfileRepository().updateTempParentProfileIdentify(tempParent)) {
+				return getTempProfileRepository().initialParentProfile(tempParent.getId());
+			}
+		}
+		return false;
 	}
 
 	public ITempProfileRepository getTempProfileRepository() {

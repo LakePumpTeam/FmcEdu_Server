@@ -25,10 +25,14 @@ public class ProfileManager {
 	@Resource(name = "webConfig")
 	private WebConfig mWebConfig;
 
-	public String registerTempParentByPhoneNum(String pPhoneNumber) {
+	public String registerTempParent(String pPhoneNumber) {
 		String identifyCode = getMessageIdentifyService().sendIdentifyRequest(pPhoneNumber);
 		boolean persistentFailure = getTempProfileService().registerTempParent(pPhoneNumber, identifyCode);
 		return identifyCode;
+	}
+
+	public boolean verifyTempParentIdentifyingCode(String pPhoneNumber, String pIdentifyingCode) {
+		return getTempProfileService().verifyTempParentAuthCode(pPhoneNumber, pIdentifyingCode);
 	}
 
 	/**
