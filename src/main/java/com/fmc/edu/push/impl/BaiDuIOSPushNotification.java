@@ -24,14 +24,11 @@ public class BaiDuIOSPushNotification implements IBaiDuPushNotification {
     private static final Logger LOG = Logger.getLogger(BaiDuIOSPushNotification.class);
 
     @Resource
-    private WebConfig webConfig;
+    private WebConfig mWebConfig;
 
     @Override
     public boolean pushMsg(long pChannelId, String pUserId, String pMsg) throws Exception {
-          /*
-         * @brief 推送单播通知(IOS APNS) message_type = 1 (默认为0)
-         */
-        ChannelKeyPair pair = new ChannelKeyPair(webConfig.getApiKey(), webConfig.getSecretKey());
+        ChannelKeyPair pair = new ChannelKeyPair(getWebConfig().getApiKey(), getWebConfig().getSecretKey());
 
         //1. create BaiduChannelClient instance
         BaiduChannelClient channelClient = new BaiduChannelClient(pair);
@@ -40,7 +37,7 @@ public class BaiDuIOSPushNotification implements IBaiDuPushNotification {
         channelClient.setChannelLogHandler(new YunLogHandler() {
             @Override
             public void onHandle(YunLogEvent event) {
-                if (webConfig.isDevelopment()) {
+                if (getWebConfig().isDevelopment()) {
                     System.out.println(event.getMessage());
                 }
             }
@@ -52,7 +49,7 @@ public class BaiDuIOSPushNotification implements IBaiDuPushNotification {
             // 3. create request object
             PushUnicastMessageRequest request = new PushUnicastMessageRequest();
             request.setDeviceType(PushDeviceType.IOS);
-            request.setDeployStatus(webConfig.deployStatus()); // DeployStatus => 1: Developer 2:
+            request.setDeployStatus(getWebConfig().deployStatus()); // DeployStatus => 1: Developer 2:
             // Production
             request.setChannelId(pChannelId);
             request.setUserId(pUserId);
@@ -78,5 +75,13 @@ public class BaiDuIOSPushNotification implements IBaiDuPushNotification {
             return false;
         }
         return true;
+    }
+
+    public WebConfig getWebConfig() {
+        return mWebConfig;
+    }
+
+    public void setWebConfig(WebConfig pWebConfig) {
+        mWebConfig = pWebConfig;
     }
 }
