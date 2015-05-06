@@ -4,6 +4,7 @@ import com.fmc.edu.model.autho.Permission;
 import com.fmc.edu.model.autho.Role;
 import com.fmc.edu.repository.BaseRepository;
 import com.fmc.edu.repository.IPermissionRepository;
+
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
@@ -17,7 +18,7 @@ import java.util.List;
 public class PermissionRepository extends BaseRepository implements IPermissionRepository {
 
     @Override
-    public List<Role> findRoleByIdentity(String pIdentity) {
+    public List<Role> findRoleByIdentity(int pIdentity) {
         Role role = new Role();
         role.setId(1);
         role.setAvailable(true);
