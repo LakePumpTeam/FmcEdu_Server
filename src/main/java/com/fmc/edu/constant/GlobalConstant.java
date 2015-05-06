@@ -22,4 +22,6 @@ public interface GlobalConstant {
     int STATUS_SUCCESS = 0;
 
     int STATUS_ERROR = -1;
+
+
 }

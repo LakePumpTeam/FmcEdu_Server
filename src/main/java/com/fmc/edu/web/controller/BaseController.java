@@ -2,11 +2,13 @@ package com.fmc.edu.web.controller;
 
 import com.fmc.edu.constant.GlobalConstant;
 import com.fmc.edu.constant.JSONOutputConstant;
+import com.fmc.edu.util.pagenation.Pagination;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang3.StringUtils;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.HashMap;
@@ -47,5 +49,12 @@ public abstract class BaseController {
 			return null;
 		}
 		return new String((new BASE64Decoder()).decodeBuffer(pParameter), Charset.forName(GlobalConstant.CHARSET_UTF8));
+	}
+
+
+	protected Pagination buildPagination(HttpServletRequest pRequest) throws IOException {
+		String pageNum = decodeInput(pRequest.getParameter("pagecount"));
+		String pageSize = decodeInput(pRequest.getParameter("pagesize"));
+		return new Pagination(Integer.valueOf(pageNum), Integer.valueOf(pageSize));
 	}
 }
