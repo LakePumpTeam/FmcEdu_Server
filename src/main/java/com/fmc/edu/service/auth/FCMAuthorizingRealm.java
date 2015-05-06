@@ -21,7 +21,7 @@ public class FCMAuthorizingRealm extends AuthorizingRealm {
     private PermissionManager mPermissionManager;
 
     /**
-     * Do the permition authorize.
+     * Do the permission authorize.
      *
      * @param principalCollection
      * @return
