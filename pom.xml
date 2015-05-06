@@ -253,6 +253,11 @@
             <artifactId>shiro-spring</artifactId>
             <version>${shiroVersion}</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-ehcache</artifactId>
+            <version>${shiroVersion}</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

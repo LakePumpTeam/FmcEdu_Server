@@ -1,7 +1,6 @@
 package com.fmc.edu.service.auth;
 
-import com.fmc.edu.model.autho.Permission;
-import com.fmc.edu.model.autho.Role;
+import com.fmc.edu.manager.PermissionManager;
 import com.fmc.edu.model.autho.User;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -10,7 +9,7 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
+import javax.annotation.Resource;
 import java.util.Set;
 
 /**
@@ -18,6 +17,9 @@ import java.util.Set;
  */
 @Service
 public class FCMAuthorizingRealm extends AuthorizingRealm {
+    @Resource(name = "permissionManager")
+    private PermissionManager mPermissionManager;
+
     /**
      * Do the permition authorize.
      *
@@ -28,20 +30,11 @@ public class FCMAuthorizingRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
 
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-        Role role = new Role();
-        role.setId(1l);
-        role.setAvailable(true);
-        role.setDescription("test");
-        role.setRole("test");
-        //role = userService.findRoles(username);
-        Set<String> roles = new HashSet<String>();
-        roles.add(role.getRole());
-        authorizationInfo.setRoles(roles);
-        Permission permission = new Permission();
-        Set<String> permissions = new HashSet<String>();
-        //userService.findPermissions(username)
-        permissions.add("test:update");
-        authorizationInfo.setStringPermissions(permissions);
+        //TODO Should input real user id
+        Set<String> role = getPermissionManager().getRolesForUser(0);
+        authorizationInfo.setRoles(role);
+        //TODO Should input real user id
+        authorizationInfo.setStringPermissions(getPermissionManager().getPermissonsByUserId(0));
 
         return authorizationInfo;
     }
@@ -56,14 +49,12 @@ public class FCMAuthorizingRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
 
-        String username = (String) authenticationToken.getPrincipal();
+        String loginUser = (String) authenticationToken.getPrincipal();
 
         User user = new User();//userService.findByUsername(username);
-        user.setId(1l);
+        user.setId(1);
         user.setUsername("test");
         user.setPassword("123");
-        user.setLocked(false);
-        user.setSalt("salt");
 
         if (user == null) {
             throw new UnknownAccountException();
@@ -107,5 +98,13 @@ public class FCMAuthorizingRealm extends AuthorizingRealm {
     public void clearAllCache() {
         clearAllCachedAuthenticationInfo();
         clearAllCachedAuthorizationInfo();
+    }
+
+    public PermissionManager getPermissionManager() {
+        return mPermissionManager;
+    }
+
+    public void setPermissionManager(PermissionManager pPermissionManager) {
+        mPermissionManager = pPermissionManager;
     }
 }

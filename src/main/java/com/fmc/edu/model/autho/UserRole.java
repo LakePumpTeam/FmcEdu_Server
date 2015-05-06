@@ -1,52 +1,27 @@
 package com.fmc.edu.model.autho;
 
+import com.fmc.edu.model.BaseBean;
+
 import java.io.Serializable;
 
-public class UserRole implements Serializable {
+public class UserRole extends BaseBean implements Serializable {
 
-    private Long userId;
-    private Long roleId;
+    private int mUserId;
+    private int mRoleId;
 
-    public Long getUserId() {
-        return userId;
+    public int getUserId() {
+        return mUserId;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUserId(int pUserId) {
+        mUserId = pUserId;
     }
 
-    public Long getRoleId() {
-        return roleId;
+    public int getRoleId() {
+        return mRoleId;
     }
 
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        UserRole userRole = (UserRole) o;
-
-        if (roleId != null ? !roleId.equals(userRole.roleId) : userRole.roleId != null) return false;
-        return !(userId != null ? !userId.equals(userRole.userId) : userRole.userId != null);
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = userId != null ? userId.hashCode() : 0;
-        result = 31 * result + (roleId != null ? roleId.hashCode() : 0);
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "UserRole{" +
-                "userId=" + userId +
-                ", roleId=" + roleId +
-                '}';
+    public void setRoleId(int pRoleId) {
+        mRoleId = pRoleId;
     }
 }

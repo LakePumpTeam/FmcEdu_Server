@@ -1,52 +1,27 @@
 package com.fmc.edu.model.autho;
 
+import com.fmc.edu.model.BaseBean;
+
 import java.io.Serializable;
 
-public class RolePermssion implements Serializable {
+public class RolePermssion extends BaseBean implements Serializable {
 
-    private Long roleId;
-    private Long permissionId;
+    private int mRoleId;
+    private int mPermissionId;
 
-    public Long getRoleId() {
-        return roleId;
+    public int getRoleId() {
+        return mRoleId;
     }
 
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
+    public void setRoleId(int pRoleId) {
+        mRoleId = pRoleId;
     }
 
-    public Long getPermissionId() {
-        return permissionId;
+    public int getPermissionId() {
+        return mPermissionId;
     }
 
-    public void setPermissionId(Long permissionId) {
-        this.permissionId = permissionId;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        RolePermssion that = (RolePermssion) o;
-
-        if (permissionId != null ? !permissionId.equals(that.permissionId) : that.permissionId != null) return false;
-        return !(roleId != null ? !roleId.equals(that.roleId) : that.roleId != null);
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = roleId != null ? roleId.hashCode() : 0;
-        result = 31 * result + (permissionId != null ? permissionId.hashCode() : 0);
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "RolePermssion{" +
-                "roleId=" + roleId +
-                ", permissionId=" + permissionId +
-                '}';
+    public void setPermissionId(int pPermissionId) {
+        mPermissionId = pPermissionId;
     }
 }

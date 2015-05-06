@@ -16,6 +16,18 @@
         <property name="defaultEncoding" value="UTF-8"></property>
     </bean>
 
-    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver"/>
+    <!--Spring MVC will throw the org.springframework.web.multipart.MaxUploadSizeExceededException exception when the upload file exceed the max size. -->
+    <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="exceptionMappings">
+            <props>
+                <!--Redirect to this url when catch the exception MaxUploadSizeExceededException -->
+                <prop key="org.springframework.web.multipart.MaxUploadSizeExceededException">WEB-INF/error_fileupload
+                </prop>
+                <!---->
+                <prop key="java.lang.Throwable">/WEB-INF/jsp/error.jsp</prop>
+            </props>
+        </property>
+    </bean>
 
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver"/>
 </beans>
