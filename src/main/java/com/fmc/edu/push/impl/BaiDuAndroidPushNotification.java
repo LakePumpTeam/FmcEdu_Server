@@ -14,8 +14,6 @@ import com.fmc.edu.push.PushDeviceType;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
-
 /**
  * Created by YW on 2015/5/3.
  */
@@ -23,13 +21,10 @@ import javax.annotation.Resource;
 public class BaiDuAndroidPushNotification implements IBaiDuPushNotification {
     private static final Logger LOG = Logger.getLogger(BaiDuAndroidPushNotification.class);
 
-    @Resource
-    private WebConfig webConfig;
-
     @Override
     public boolean pushMsg(long pChannelId, String pUserId, String pMsg) throws Exception {
 
-        ChannelKeyPair pair = new ChannelKeyPair(webConfig.getApiKey(), webConfig.getSecretKey());
+        ChannelKeyPair pair = new ChannelKeyPair(WebConfig.getApiKey(), WebConfig.getSecretKey());
 
         //1. create BaiduChannelClient instance
         BaiduChannelClient channelClient = new BaiduChannelClient(pair);
@@ -38,7 +33,7 @@ public class BaiDuAndroidPushNotification implements IBaiDuPushNotification {
         channelClient.setChannelLogHandler(new YunLogHandler() {
             @Override
             public void onHandle(YunLogEvent event) {
-                if (webConfig.deployStatus() == WebConfig.DEPLOY_STATUS_DEVELOPER) {
+                if (WebConfig.deployStatus() == WebConfig.DEPLOY_STATUS_DEVELOPER) {
                     System.out.println(event.getMessage());
                 }
             }

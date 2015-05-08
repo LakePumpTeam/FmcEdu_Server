@@ -5,7 +5,6 @@ import com.fmc.edu.crypto.ICryptoService;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
@@ -18,14 +17,12 @@ public class DESCryptoService implements ICryptoService {
     private static final Logger LOG = Logger.getLogger(DESCryptoService.class);
 
     private static final String DES_NAME = "DES";
-    @Resource
-    private WebConfig mWebConfig;
 
     @Override
     public byte[] encrypt(byte[] pSrc) {
         try {
             SecureRandom random = new SecureRandom();
-            DESKeySpec desKey = new DESKeySpec(getWebConfig().getDESPassword().getBytes());
+            DESKeySpec desKey = new DESKeySpec(WebConfig.getDESPassword().getBytes());
             SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(DES_NAME);
             SecretKey secreTkey = keyFactory.generateSecret(desKey);
             Cipher cipher = Cipher.getInstance(DES_NAME);
@@ -41,7 +38,7 @@ public class DESCryptoService implements ICryptoService {
     public byte[] decrypt(byte[] pSrc) {
         try {
             SecureRandom random = new SecureRandom();
-            DESKeySpec desKey = new DESKeySpec(getWebConfig().getDESPassword().getBytes());
+            DESKeySpec desKey = new DESKeySpec(WebConfig.getDESPassword().getBytes());
             SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(DES_NAME);
             SecretKey secreTkey = keyFactory.generateSecret(desKey);
             Cipher cipher = Cipher.getInstance(DES_NAME);
@@ -53,11 +50,4 @@ public class DESCryptoService implements ICryptoService {
         return null;
     }
 
-    public WebConfig getWebConfig() {
-        return mWebConfig;
-    }
-
-    public void setWebConfig(WebConfig pWebConfig) {
-        this.mWebConfig = pWebConfig;
-    }
 }

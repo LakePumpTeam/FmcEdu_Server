@@ -24,7 +24,7 @@ public abstract class BaseRepository {
 	protected static final String SIZE = "size";
 
 	protected Map<String, Object> paginationToParameters(Pagination pPagination) {
-		Map<String, Object> parameters = new HashMap<>();
+		Map<String, Object> parameters = new HashMap<String, Object>();
 		if (pPagination == null) {
 			return parameters;
 		}

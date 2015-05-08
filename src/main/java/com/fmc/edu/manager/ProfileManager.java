@@ -22,9 +22,6 @@ public class ProfileManager {
 	@Resource(name = "tempProfileService")
 	private TempProfileService mTempProfileService;
 
-	@Resource(name = "webConfig")
-	private WebConfig mWebConfig;
-
 	public String registerTempParent(String pPhoneNumber) {
 		String identifyCode = getMessageIdentifyService().sendIdentifyRequest(pPhoneNumber);
 		boolean persistentFailure = getTempProfileService().registerTempParent(pPhoneNumber, identifyCode);
@@ -41,7 +38,7 @@ public class ProfileManager {
 	 * @return
 	 */
 	public IMessageIdentifyService getMessageIdentifyService() {
-		if (mWebConfig.isDevelopment()) {
+		if (WebConfig.isDevelopment()) {
 			return mDummyMessageIdentifyService;
 		}
 		return mMessageIdentifyService;
@@ -57,15 +54,6 @@ public class ProfileManager {
 
 	public void setDummyMessageIdentifyService(IMessageIdentifyService pDummyMessageIdentifyService) {
 		mDummyMessageIdentifyService = pDummyMessageIdentifyService;
-	}
-
-
-	public WebConfig getWebConfig() {
-		return mWebConfig;
-	}
-
-	public void setWebConfig(WebConfig pWebConfig) {
-		mWebConfig = pWebConfig;
 	}
 
 	public TempProfileService getTempProfileService() {

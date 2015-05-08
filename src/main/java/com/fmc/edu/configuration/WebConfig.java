@@ -2,11 +2,9 @@ package com.fmc.edu.configuration;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.springframework.context.annotation.Scope;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.Properties;
@@ -14,8 +12,6 @@ import java.util.Properties;
 /**
  * Created by YW on 2015/5/3.
  */
-@Component("webConfig")
-@Scope("singleton")
 public class WebConfig {
     private static final Logger LOG = Logger.getLogger(WebConfig.class);
 
@@ -40,11 +36,11 @@ public class WebConfig {
         try {
             props = PropertiesLoaderUtils.loadProperties(resource);
         } catch (IOException e) {
-            LOG.error("Reading web.properties failed.", e);
+            LOG.error("Loading web.properties failed.", e);
         }
     }
 
-    public int deployStatus() {
+    public static int deployStatus() {
 
         if (props == null) {
             LOG.debug("web.properties read failed, then returning #WebConfig.DEPLOY_STATUS_DEVELOPER");
@@ -58,29 +54,29 @@ public class WebConfig {
         return Integer.valueOf(deployStatus);
     }
 
-    public boolean isDevelopment() {
+    public static boolean isDevelopment() {
         return deployStatus() == WebConfig.DEPLOY_STATUS_DEVELOPER;
     }
 
-    public boolean isProduction() {
+    public static boolean isProduction() {
         return !isDevelopment();
     }
 
-    public String getApiKey() throws Exception {
+    public static String getApiKey() throws Exception {
         if (props == null) {
             throw new Exception("Bai Du apiKey not was configured.");
         }
         return props.getProperty(WebConfig.API_KEY);
     }
 
-    public String getSecretKey() throws Exception {
+    public static String getSecretKey() throws Exception {
         if (props == null) {
             throw new Exception("Bai Du secretKey not was configured.");
         }
         return props.getProperty(WebConfig.SECRET_KEY);
     }
 
-    public String getDESPassword() throws Exception {
+    public static String getDESPassword() throws Exception {
         if (props == null) {
             throw new Exception("DES password not was configured.");
         }

@@ -1,6 +1,5 @@
 package com.fmc.edu.manager;
 
-import com.fmc.edu.configuration.WebConfig;
 import com.fmc.edu.push.IBaiDuPushNotification;
 import com.fmc.edu.push.PushDeviceType;
 import org.apache.log4j.Logger;
@@ -20,9 +19,6 @@ public class BaiDuPushManager {
 
     @Resource(name = "IOSPushNotification")
     private IBaiDuPushNotification mBaiDuIOSPushNotification;
-
-    @Resource
-    private WebConfig mWebConfig;
 
     public boolean pushNotificationMsg(final int pDevice, final long pChannelId, final String pUserId, final String pMsg) throws Exception {
         LOG.debug("push notification message: device type is:" + PushDeviceType.toString(pDevice));
