@@ -5,7 +5,7 @@ import com.fmc.edu.model.profile.TempParentProfile;
 /**
  * Created by Yove on 5/4/2015.
  */
-public interface ITempProfileRepository {
+public interface ITempParentRepository {
 
 	String QUERY_TEMP_PARENT_BY_PHONE = "com.fmc.edu.profile.temp.queryTempParentByPhone";
 

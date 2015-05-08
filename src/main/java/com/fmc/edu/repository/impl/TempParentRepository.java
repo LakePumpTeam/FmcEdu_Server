@@ -2,7 +2,7 @@ package com.fmc.edu.repository.impl;
 
 import com.fmc.edu.model.profile.TempParentProfile;
 import com.fmc.edu.repository.BaseRepository;
-import com.fmc.edu.repository.ITempProfileRepository;
+import com.fmc.edu.repository.ITempParentRepository;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
@@ -10,8 +10,8 @@ import java.sql.Timestamp;
 /**
  * Created by Yove on 5/3/2015.
  */
-@Repository("tempProfileRepository")
-public class TempProfileRepository extends BaseRepository implements ITempProfileRepository {
+@Repository("tempParentRepository")
+public class TempParentRepository extends BaseRepository implements ITempParentRepository {
 
 
 	@Override

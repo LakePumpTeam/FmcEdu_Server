@@ -2,7 +2,8 @@ package com.fmc.edu.manager;
 
 import com.fmc.edu.configuration.WebConfig;
 import com.fmc.edu.service.IMessageIdentifyService;
-import com.fmc.edu.service.impl.TempProfileService;
+import com.fmc.edu.service.impl.ParentService;
+import com.fmc.edu.service.impl.TempParentService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -19,18 +20,28 @@ public class ProfileManager {
 	@Resource(name = "messageIdentifyService")
 	private IMessageIdentifyService mMessageIdentifyService;
 
-	@Resource(name = "tempProfileService")
-	private TempProfileService mTempProfileService;
+	@Resource(name = "tempParentService")
+	private TempParentService mTempParentService;
+
+	@Resource(name = "parentService")
+	private ParentService mParentService;
+
 
 	public String registerTempParent(String pPhoneNumber) {
 		String identifyCode = getMessageIdentifyService().sendIdentifyRequest(pPhoneNumber);
-		boolean persistentFailure = getTempProfileService().registerTempParent(pPhoneNumber, identifyCode);
+		boolean persistentFailure = getTempParentService().registerTempParent(pPhoneNumber, identifyCode);
 		return identifyCode;
 	}
 
 	public boolean verifyTempParentIdentifyingCode(String pPhoneNumber, String pIdentifyingCode) {
-		return getTempProfileService().verifyTempParentAuthCode(pPhoneNumber, pIdentifyingCode);
+		return getTempParentService().verifyTempParentAuthCode(pPhoneNumber, pIdentifyingCode);
 	}
+
+	public boolean registerParent(String pPhoneNumber, int pAddressId) {
+		// TODO check the parent is between temp parent and parent
+		return getParentService().registerParent(pPhoneNumber, pAddressId);
+	}
+
 
 	/**
 	 * Return the MessageIdentifyService according the develop status.
@@ -56,11 +67,19 @@ public class ProfileManager {
 		mDummyMessageIdentifyService = pDummyMessageIdentifyService;
 	}
 
-	public TempProfileService getTempProfileService() {
-		return mTempProfileService;
+	public TempParentService getTempParentService() {
+		return mTempParentService;
 	}
 
-	public void setTempProfileService(final TempProfileService pTempProfileService) {
-		mTempProfileService = pTempProfileService;
+	public void setTempParentService(final TempParentService pTempParentService) {
+		mTempParentService = pTempParentService;
+	}
+
+	public ParentService getParentService() {
+		return mParentService;
+	}
+
+	public void setParentService(final ParentService pParentService) {
+		mParentService = pParentService;
 	}
 }
