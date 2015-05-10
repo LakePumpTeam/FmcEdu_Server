@@ -13,10 +13,12 @@ import java.util.Properties;
  * Created by YW on 2015/5/3.
  */
 public class WebConfig {
+	private static final Logger LOG = Logger.getLogger(WebConfig.class);
+
 	public static final int DEPLOY_STATUS_DEVELOPER = 1;
 	public static final int DEPLOY_STATUS_PRODUCTION = 2;
-	private static final Logger LOG = Logger.getLogger(WebConfig.class);
 	private static final String DEPLOY_STATUS = "deployStatus";
+	private static final String ENCODE_BASE64_INPUT_PARAM = "encodeBase64InputParam";
 
 	private static final String API_KEY = "apiKey";
 
@@ -82,5 +84,16 @@ public class WebConfig {
 			return DEFAULT_DES_PASSWORD;
 		}
 		return password;
+	}
+
+	public static boolean getEncodeBase64InputParam() {
+		if (props == null) {
+			return  false;
+		}
+		String encodeBase64InputParam = props.getProperty(WebConfig.ENCODE_BASE64_INPUT_PARAM);
+		if (StringUtils.isBlank(encodeBase64InputParam)) {
+			return false;
+		}
+		return Boolean.valueOf(encodeBase64InputParam);
 	}
 }

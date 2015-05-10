@@ -31,9 +31,12 @@
         &nbsp;|&nbsp; <span class="result" encode-type="decode"></span></li>
 </ul>
 <hr/>
+<fieldset>
+<legend>注册</legend>
 <table border="1">
     <tr>
         <th width="5%">Index#</th>
+        <th>Function</th>
         <th>BaseURL</th>
         <th>Parameters</th>
         <th>Request</th>
@@ -42,6 +45,7 @@
     </tr>
     <tr>
         <td>#1</td>
+        <td class="function">注册：发送验证码（针对家长）</td>
         <td class="baseUrl">${ctx}/profile/requestPhoneIdentify</td>
         <td class="parameters">
             <table>
@@ -57,6 +61,7 @@
     </tr>
     <tr>
         <td>#2</td>
+        <td class="function">注册：验证基本信息</td>
         <td class="baseUrl">${ctx}/profile/requestRegisterConfirm</td>
         <td class="parameters">
             <table>
@@ -83,5 +88,75 @@
         <td class="result"></td>
     </tr>
 </table>
+</fieldset>
+
+<hr/>
+<fieldset>
+    <legend>地址</legend>
+    <table border="1">
+        <tr>
+            <th width="5%">Index#</th>
+            <th>Function</th>
+            <th>BaseURL</th>
+            <th>Parameters</th>
+            <th>Request</th>
+            <th>Reset</th>
+            <th width="56%">Result</th>
+        </tr>
+        <tr>
+            <td>#1</td>
+            <td class="function">省份</td>
+            <td class="baseUrl">${ctx}/location/requestProv</td>
+            <td class="parameters">
+                <table>
+                    <tr>
+                        <td align="right"><label for="filterKey" title="filterKey">filterKey(可空</label></td>
+                        <td><input type="text" class="ipt_value" id="filterKey" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="pageIndex" title="pageIndex">pageIndex(从1开始)</label></td>
+                        <td><input type="text" class="ipt_value" id="pageIndex" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="pageSize" title="pageSize">pageSize</label></td>
+                        <td><input type="text" class="ipt_value" id="pageSize" value=""/></td>
+                    </tr>
+                </table>
+            </td>
+            <td><input type="button" class="btn_request" value="Request"/></td>
+            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td class="result"></td>
+        </tr>
+
+        <tr>
+            <td>#2</td>
+            <td class="function">城市</td>
+            <td class="baseUrl">${ctx}/location/requestCitys</td>
+            <td class="parameters">
+                <table>
+                    <tr>
+                        <td align="right"><label for="filterKey" title="filterKey">filterKey(可空)</label></td>
+                        <td><input type="text" class="ipt_value" id="filterKey" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="provId" title="provId">provId</label></td>
+                        <td><input type="text" class="ipt_value" id="provId" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="pageIndex" title="pageIndex">pageIndex(从1开始)</label></td>
+                        <td><input type="text" class="ipt_value" id="pageIndex" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="pageSize" title="pageSize">pageSize</label></td>
+                        <td><input type="text" class="ipt_value" id="pageSize" value=""/></td>
+                    </tr>
+                </table>
+            </td>
+            <td><input type="button" class="btn_request" value="Request"/></td>
+            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td class="result"></td>
+        </tr>
+    </table>
+</fieldset>
 </body>
 </html>

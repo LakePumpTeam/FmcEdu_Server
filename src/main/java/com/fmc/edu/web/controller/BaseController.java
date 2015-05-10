@@ -1,5 +1,6 @@
 package com.fmc.edu.web.controller;
 
+import com.fmc.edu.configuration.WebConfig;
 import com.fmc.edu.constant.GlobalConstant;
 import com.fmc.edu.constant.JSONOutputConstant;
 import com.fmc.edu.util.pagenation.Pagination;
@@ -18,6 +19,7 @@ import java.util.Map;
  * Created by Yove on 5/4/2015.
  */
 public abstract class BaseController {
+	private static int BASS64_MIN_LENGTH = 4;
 
 	protected int getStatusMapping(boolean pSuccess) {
 		return pSuccess ? GlobalConstant.STATUS_SUCCESS : GlobalConstant.STATUS_ERROR;
@@ -48,13 +50,22 @@ public abstract class BaseController {
 		if (StringUtils.isBlank(pParameter)) {
 			return null;
 		}
-		return new String((new BASE64Decoder()).decodeBuffer(pParameter), Charset.forName(GlobalConstant.CHARSET_UTF8));
+		String parameter = pParameter;
+		//as the min length of base64 encoded string is 4, so we need append "=" to right if the length less then 4.
+		int minLengthDiff = BASS64_MIN_LENGTH - pParameter.length();
+		if(minLengthDiff > 0){
+			parameter = StringUtils.rightPad(pParameter, BASS64_MIN_LENGTH, '=');
+		}
+		if(WebConfig.getEncodeBase64InputParam()){
+			return new String((new BASE64Decoder()).decodeBuffer(parameter), Charset.forName(GlobalConstant.CHARSET_UTF8));
+		}
+		return pParameter;
 	}
 
 
 	protected Pagination buildPagination(HttpServletRequest pRequest) throws IOException {
-		String pageNum = decodeInput(pRequest.getParameter("pagecount"));
-		String pageSize = decodeInput(pRequest.getParameter("pagesize"));
-		return new Pagination(Integer.valueOf(pageNum), Integer.valueOf(pageSize));
+		String pageIndex = decodeInput(pRequest.getParameter("pageIndex"));
+		String pageSize = decodeInput(pRequest.getParameter("pageSize"));
+		return new Pagination(Integer.valueOf(pageIndex), Integer.valueOf(pageSize));
 	}
 }

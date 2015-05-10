@@ -17,8 +17,12 @@ public class LocationManager {
 	@Resource(name = "locationService")
 	private LocationService mLocationService;
 
-	public List<Map<String, String>> queryCityPage(final Pagination pPagenation, final String pKey) {
-		return getLocationService().queryCityPage(pPagenation, pKey);
+	public List<Map<String, String>> queryProvincePage(final Pagination pPagenation, final String pKey) {
+		return getLocationService().queryProvincePage(pPagenation, pKey);
+	}
+
+	public List<Map<String, String>> queryCityPage(final Pagination pPagenation,final int pProvId, final String pKey) {
+		return getLocationService().queryCityPage(pPagenation, pProvId,pKey);
 	}
 
 	public LocationService getLocationService() {

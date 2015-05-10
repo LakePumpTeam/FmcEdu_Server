@@ -8,11 +8,28 @@
 		limit #{start}, #{size}
 	</sql>
 
+	<select id="filterProvCount" parameterType="map" resultType="int">
+		SELECT count(id)
+		FROM province
+		<if test="key != null">
+			WHERE `name` LIKE CONCAT('%', #{key})
+		</if>
+	</select>
+
+	<select id="filterProvPage" parameterType="map" resultType="map">
+		SELECT id, `name`
+		FROM province
+		<if test="key != null">
+			WHERE `name` LIKE CONCAT('%', #{key})
+		</if>
+		<include refid="limit-split-page" />
+	</select>
+
 	<select id="filterCityCount" parameterType="map" resultType="int">
 		SELECT count(id)
 		FROM city
 		<if test="key != null">
-			WHERE `name` LIKE CONCAT('%', #{key})
+			WHERE province_id = #{provId} and  `name` LIKE CONCAT('%', #{key})
 		</if>
 	</select>
 
@@ -20,7 +37,7 @@
 		SELECT id, `name`
 		FROM city
 		<if test="key != null">
-			WHERE `name` LIKE CONCAT('%', #{key})
+			WHERE province_id = #{provId} and  `name` LIKE CONCAT('%', #{key})
 		</if>
 		<include refid="limit-split-page" />
 	</select>

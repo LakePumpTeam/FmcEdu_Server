@@ -24,12 +24,22 @@ public class LocationController extends BaseController {
 	@Resource(name = "locationManager")
 	private LocationManager mLocationManager;
 
-	@RequestMapping(value = ("/requestCityPage" + GlobalConstant.URL_SUFFIX))
+	@RequestMapping(value = ("/requestProv" + GlobalConstant.URL_SUFFIX))
 	@ResponseBody
-	public String requestCityPage(final HttpServletRequest pRequest, final HttpServletResponse pResponse, String filterkey) throws IOException {
-		String key = decodeInput(filterkey);
+	public String requestProv(final HttpServletRequest pRequest, final HttpServletResponse pResponse, String filterKey ) throws IOException {
+		String key = decodeInput(filterKey);
 		Pagination pagination = buildPagination(pRequest);
-		List<Map<String, String>> cities = getLocationManager().queryCityPage(pagination, key);
+		List<Map<String, String>> cities = getLocationManager().queryProvincePage(pagination, key);
+		return generateJsonOutput(Boolean.TRUE, cities, null);
+	}
+
+	@RequestMapping(value = ("/requestCitys" + GlobalConstant.URL_SUFFIX))
+	@ResponseBody
+	public String requestCityPage(final HttpServletRequest pRequest, final HttpServletResponse pResponse,final String provId, String filterKey ) throws IOException {
+		String key = decodeInput(filterKey);
+		String provinceId = decodeInput(provId);
+		Pagination pagination = buildPagination(pRequest);
+		List<Map<String, String>> cities = getLocationManager().queryCityPage(pagination,Integer.valueOf(provinceId), key);
 		return generateJsonOutput(Boolean.TRUE, cities, null);
 	}
 
