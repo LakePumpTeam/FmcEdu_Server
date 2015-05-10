@@ -142,7 +142,7 @@ drop table if exists `fmc_edu`.`profile`;
 create table if not exists `fmc_edu`.`profile` (
 	`id`               int         not null auto_increment,
 	`name`             varchar(20) null,
-	`phone`            varchar(11) not null,
+	`phone`            varchar(15) not null,
 	`password`         varchar(32) null,
 	`app_id`           varchar(20) null,
 	`creation_date`    datetime    null,
