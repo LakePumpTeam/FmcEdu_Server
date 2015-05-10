@@ -1,255 +1,255 @@
--- MySQL Workbench Forward Engineering
+-- mysql workbench forward engineering
 
-SET @OLD_UNIQUE_CHECKS = @@UNIQUE_CHECKS, UNIQUE_CHECKS = 0;
-SET @OLD_FOREIGN_KEY_CHECKS = @@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS = 0;
-SET @OLD_SQL_MODE = @@SQL_MODE, SQL_MODE = 'TRADITIONAL,ALLOW_INVALID_DATES';
-
--- -----------------------------------------------------
--- Schema fmc_edu
--- -----------------------------------------------------
-DROP SCHEMA IF EXISTS `fmc_edu`;
+set @old_unique_checks = @@unique_checks, unique_checks = 0;
+set @old_foreign_key_checks = @@foreign_key_checks, foreign_key_checks = 0;
+set @old_sql_mode = @@sql_mode, sql_mode = 'traditional,allow_invalid_dates';
 
 -- -----------------------------------------------------
--- Schema fmc_edu
+-- schema fmc_edu
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `fmc_edu`
-	DEFAULT CHARACTER SET utf8
-	COLLATE utf8_general_ci;
-USE `fmc_edu`;
+drop schema if exists `fmc_edu`;
 
 -- -----------------------------------------------------
--- Table `fmc_edu`.`Province`
+-- schema fmc_edu
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `fmc_edu`.`Province`;
+create schema if not exists `fmc_edu`
+	default character set utf8
+	collate utf8_general_ci;
+use `fmc_edu`;
 
-CREATE TABLE IF NOT EXISTS `fmc_edu`.`Province` (
-	`Id`               INT         NOT NULL AUTO_INCREMENT,
-	`Name`             VARCHAR(40) NOT NULL,
-	`Last_Update_Date` DATETIME    NOT NULL,
-	PRIMARY KEY (`Id`)
+-- -----------------------------------------------------
+-- table `fmc_edu`.`province`
+-- -----------------------------------------------------
+drop table if exists `fmc_edu`.`province`;
+
+create table if not exists `fmc_edu`.`province` (
+	`id`               int         not null auto_increment,
+	`name`             varchar(40) not null,
+	`last_update_date` datetime    not null,
+	primary key (`id`)
 )
-	ENGINE = MyISAM;
+	engine = myisam;
 
 
 -- -----------------------------------------------------
--- Table `fmc_edu`.`City`
+-- table `fmc_edu`.`city`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `fmc_edu`.`City`;
+drop table if exists `fmc_edu`.`city`;
 
-CREATE TABLE IF NOT EXISTS `fmc_edu`.`City` (
-	`Id`               INT         NOT NULL AUTO_INCREMENT,
-	`Name`             VARCHAR(40) NOT NULL,
-	`Province_Id`      INT         NOT NULL,
-	`Last_Update_Date` DATETIME    NOT NULL,
-	PRIMARY KEY (`Id`)
+create table if not exists `fmc_edu`.`city` (
+	`id`               int         not null auto_increment,
+	`name`             varchar(40) not null,
+	`province_id`      int         not null,
+	`last_update_date` datetime    not null,
+	primary key (`id`)
 )
-	ENGINE = MyISAM;
+	engine = myisam;
 
-CREATE INDEX `fk_City_Province_idx` ON `fmc_edu`.`City` (`Province_Id` ASC);
+create index `fk_city_province_idx` on `fmc_edu`.`city` (`province_id` asc);
 
 
 -- -----------------------------------------------------
--- Table `fmc_edu`.`Address`
+-- table `fmc_edu`.`address`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `fmc_edu`.`Address`;
+drop table if exists `fmc_edu`.`address`;
 
-CREATE TABLE IF NOT EXISTS `fmc_edu`.`Address` (
-	`Id`               INT          NOT NULL AUTO_INCREMENT,
-	`Province_Id`      INT          NOT NULL,
-	`City_Id`          INT          NOT NULL,
-	`Full_Address`     VARCHAR(200) NULL,
-	`Creation_Date`    DATETIME     NULL,
-	`Last_Update_Date` DATETIME     NOT NULL,
-	PRIMARY KEY (`Id`)
+create table if not exists `fmc_edu`.`address` (
+	`id`               int          not null auto_increment,
+	`province_id`      int          not null,
+	`city_id`          int          not null,
+	`full_address`     varchar(200) null,
+	`creation_date`    datetime     null,
+	`last_update_date` datetime     not null,
+	primary key (`id`)
 )
-	ENGINE = InnoDB;
+	engine = innodb;
 
-CREATE INDEX `fk_Address_City1_idx` ON `fmc_edu`.`Address` (`City_Id` ASC);
+create index `fk_address_city1_idx` on `fmc_edu`.`address` (`city_id` asc);
 
-CREATE INDEX `fk_Address_Province1_idx` ON `fmc_edu`.`Address` (`Province_Id` ASC);
+create index `fk_address_province1_idx` on `fmc_edu`.`address` (`province_id` asc);
 
 
 -- -----------------------------------------------------
--- Table `fmc_edu`.`School`
+-- table `fmc_edu`.`school`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `fmc_edu`.`School`;
+drop table if exists `fmc_edu`.`school`;
 
-CREATE TABLE IF NOT EXISTS `fmc_edu`.`School` (
-	`Id`               INT         NOT NULL AUTO_INCREMENT,
-	`Name`             VARCHAR(80) NOT NULL,
-	`Province_Id`      INT         NOT NULL,
-	`City_Id`          INT         NOT NULL,
-	`Address_Id`       INT         NULL,
-	`Last_Update_Date` DATETIME    NOT NULL,
-	PRIMARY KEY (`Id`)
+create table if not exists `fmc_edu`.`school` (
+	`id`               int         not null auto_increment,
+	`name`             varchar(80) not null,
+	`province_id`      int         not null,
+	`city_id`          int         not null,
+	`address_id`       int         null,
+	`last_update_date` datetime    not null,
+	primary key (`id`)
 )
-	ENGINE = InnoDB;
+	engine = innodb;
 
-CREATE INDEX `fk_School_City1_idx` ON `fmc_edu`.`School` (`City_Id` ASC);
+create index `fk_school_city1_idx` on `fmc_edu`.`school` (`city_id` asc);
 
-CREATE INDEX `fk_School_Address1_idx` ON `fmc_edu`.`School` (`Address_Id` ASC);
+create index `fk_school_address1_idx` on `fmc_edu`.`school` (`address_id` asc);
 
-CREATE INDEX `fk_School_Province1_idx` ON `fmc_edu`.`School` (`Province_Id` ASC);
+create index `fk_school_province1_idx` on `fmc_edu`.`school` (`province_id` asc);
 
 
 -- -----------------------------------------------------
--- Table `fmc_edu`.`Class`
+-- table `fmc_edu`.`class`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `fmc_edu`.`Class`;
+drop table if exists `fmc_edu`.`class`;
 
-CREATE TABLE IF NOT EXISTS `fmc_edu`.`Class` (
-	`Id`               INT         NOT NULL AUTO_INCREMENT,
-	`School_id`        INT         NOT NULL,
-	`Grade`            VARCHAR(50) NOT NULL,
-	`Class`            VARCHAR(50) NOT NULL,
-	`Available`        TINYINT(1)  NOT NULL DEFAULT 1,
-	`Head_Teacher_Id`  INT         NULL,
-	`Last_Update_Date` DATETIME    NOT NULL,
-	PRIMARY KEY (`Id`)
+create table if not exists `fmc_edu`.`class` (
+	`id`               int         not null auto_increment,
+	`school_id`        int         not null,
+	`grade`            varchar(50) not null,
+	`class`            varchar(50) not null,
+	`available`        tinyint(1)  not null default 1,
+	`head_teacher_id`  int         null,
+	`last_update_date` datetime    not null,
+	primary key (`id`)
 )
-	ENGINE = InnoDB;
+	engine = innodb;
 
-CREATE INDEX `fk_Class_School1_idx` ON `fmc_edu`.`Class` (`School_id` ASC);
+create index `fk_class_school1_idx` on `fmc_edu`.`class` (`school_id` asc);
 
 
 -- -----------------------------------------------------
--- Table `fmc_edu`.`Student`
+-- table `fmc_edu`.`student`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `fmc_edu`.`Student`;
+drop table if exists `fmc_edu`.`student`;
 
-CREATE TABLE IF NOT EXISTS `fmc_edu`.`Student` (
-	`Id`               INT         NOT NULL AUTO_INCREMENT,
-	`Name`             VARCHAR(20) NOT NULL,
-	`Class_id`         INT         NOT NULL,
-	`Sex`              TINYINT(1)  NULL,
-	`Birth`            DATE        NULL,
-	`Ring_Number`      VARCHAR(45) NULL,
-	`Creation_Date`    DATETIME    NULL,
-	`Available`        TINYINT(1)  NOT NULL DEFAULT 1,
-	`Last_Update_Date` DATETIME    NOT NULL,
-	PRIMARY KEY (`Id`)
+create table if not exists `fmc_edu`.`student` (
+	`id`               int         not null auto_increment,
+	`name`             varchar(20) not null,
+	`class_id`         int         not null,
+	`sex`              tinyint(1)  null,
+	`birth`            date        null,
+	`ring_number`      varchar(45) null,
+	`creation_date`    datetime    null,
+	`available`        tinyint(1)  not null default 1,
+	`last_update_date` datetime    not null,
+	primary key (`id`)
 )
-	ENGINE = InnoDB;
+	engine = innodb;
 
-CREATE INDEX `fk_Student_Class1_idx` ON `fmc_edu`.`Student` (`Class_id` ASC);
+create index `fk_student_class1_idx` on `fmc_edu`.`student` (`class_id` asc);
 
 
 -- -----------------------------------------------------
--- Table `fmc_edu`.`Profile`
+-- table `fmc_edu`.`profile`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `fmc_edu`.`Profile`;
+drop table if exists `fmc_edu`.`profile`;
 
-CREATE TABLE IF NOT EXISTS `fmc_edu`.`Profile` (
-	`Id`               INT         NOT NULL AUTO_INCREMENT,
-	`Name`             VARCHAR(20) NULL,
-	`Phone`            VARCHAR(11) NOT NULL,
-	`Password`         VARCHAR(32) NULL,
-	`App_Id`           VARCHAR(20) NULL,
-	`Creation_Date`    DATETIME    NULL,
-	`Last_Login_Date`  DATETIME    NULL,
-	`Last_Update_Date` DATETIME    NOT NULL,
-	`Available`        TINYINT(1)  NOT NULL DEFAULT 1,
-	`Profile_Type`     TINYINT(1)  NOT NULL DEFAULT 1,
-	PRIMARY KEY (`Id`)
+create table if not exists `fmc_edu`.`profile` (
+	`id`               int         not null auto_increment,
+	`name`             varchar(20) null,
+	`phone`            varchar(11) not null,
+	`password`         varchar(32) null,
+	`app_id`           varchar(20) null,
+	`creation_date`    datetime    null,
+	`last_login_date`  datetime    null,
+	`last_update_date` datetime    not null,
+	`available`        tinyint(1)  not null default 1,
+	`profile_type`     tinyint(1)  not null default 1,
+	primary key (`id`)
 )
-	ENGINE = InnoDB;
+	engine = innodb;
 
 
 -- -----------------------------------------------------
--- Table `fmc_edu`.`Teacher`
+-- table `fmc_edu`.`teacher`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `fmc_edu`.`Teacher`;
+drop table if exists `fmc_edu`.`teacher`;
 
-CREATE TABLE IF NOT EXISTS `fmc_edu`.`Teacher` (
-	`Profile_Id`   INT        NOT NULL,
-	`School_Id`    INT        NOT NULL,
-	`Head_Teacher` TINYINT(1) NOT NULL DEFAULT 0,
-	`Initialized`  TINYINT(1) NOT NULL DEFAULT 0,
-	PRIMARY KEY (`Profile_Id`)
+create table if not exists `fmc_edu`.`teacher` (
+	`profile_id`   int        not null,
+	`school_id`    int        not null,
+	`head_teacher` tinyint(1) not null default 0,
+	`initialized`  tinyint(1) not null default 0,
+	primary key (`profile_id`)
 )
-	ENGINE = InnoDB;
+	engine = innodb;
 
-CREATE INDEX `fk_Teacher_School1_idx` ON `fmc_edu`.`Teacher` (`School_Id` ASC);
+create index `fk_teacher_school1_idx` on `fmc_edu`.`teacher` (`school_id` asc);
 
-CREATE INDEX `fk_Teacher_Profile1_idx` ON `fmc_edu`.`Teacher` (`Profile_Id` ASC);
+create index `fk_teacher_profile1_idx` on `fmc_edu`.`teacher` (`profile_id` asc);
 
 
 -- -----------------------------------------------------
--- Table `fmc_edu`.`Parent`
+-- table `fmc_edu`.`parent`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `fmc_edu`.`Parent`;
+drop table if exists `fmc_edu`.`parent`;
 
-CREATE TABLE IF NOT EXISTS `fmc_edu`.`Parent` (
-	`Profile_Id`          INT        NOT NULL,
-	`Address_Id`          INT        NULL,
-	`Paid`                TINYINT(1) NOT NULL DEFAULT 0,
-	`Free_Trial`          TINYINT(1) NOT NULL DEFAULT 0,
-	`Free_Trial_End_Date` DATETIME   NULL,
-	PRIMARY KEY (`Profile_Id`)
+create table if not exists `fmc_edu`.`parent` (
+	`profile_id`          int        not null,
+	`address_id`          int        null,
+	`paid`                tinyint(1) not null default 0,
+	`free_trial`          tinyint(1) not null default 0,
+	`free_trial_end_date` datetime   null,
+	primary key (`profile_id`)
 )
-	ENGINE = InnoDB;
+	engine = innodb;
 
-CREATE INDEX `fk_Parent_Address1_idx` ON `fmc_edu`.`Parent` (`Address_Id` ASC);
+create index `fk_parent_address1_idx` on `fmc_edu`.`parent` (`address_id` asc);
 
-CREATE INDEX `fk_Parent_Profile1_idx` ON `fmc_edu`.`Parent` (`Profile_Id` ASC);
+create index `fk_parent_profile1_idx` on `fmc_edu`.`parent` (`profile_id` asc);
 
 
 -- -----------------------------------------------------
--- Table `fmc_edu`.`Temp_Parent`
+-- table `fmc_edu`.`temp_parent`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `fmc_edu`.`Temp_Parent`;
+drop table if exists `fmc_edu`.`temp_parent`;
 
-CREATE TABLE IF NOT EXISTS `fmc_edu`.`Temp_Parent` (
-	`Profile_Id`       INT         NOT NULL,
-	`Identifying_Code` VARCHAR(20) NULL,
-	`Identifying_Date` DATETIME    NULL,
-	PRIMARY KEY (`Profile_Id`)
+create table if not exists `fmc_edu`.`temp_parent` (
+	`profile_id`       int         not null,
+	`identifying_code` varchar(20) null,
+	`identifying_date` datetime    null,
+	primary key (`profile_id`)
 )
-	ENGINE = InnoDB;
+	engine = innodb;
 
-CREATE INDEX `fk_Temp_Parent_Profile1_idx` ON `fmc_edu`.`Temp_Parent` (`Profile_Id` ASC);
+create index `fk_temp_parent_profile1_idx` on `fmc_edu`.`temp_parent` (`profile_id` asc);
 
 
 -- -----------------------------------------------------
--- Table `fmc_edu`.`Parent_Student_Map`
+-- table `fmc_edu`.`parent_student_map`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `fmc_edu`.`Parent_Student_Map`;
+drop table if exists `fmc_edu`.`parent_student_map`;
 
-CREATE TABLE IF NOT EXISTS `fmc_edu`.`Parent_Student_Map` (
-	`Parent_Id`     INT        NOT NULL,
-	`Student_Id`    INT        NOT NULL,
-	`Approved`      TINYINT(1) NOT NULL DEFAULT 0,
-	`Approved_Date` DATETIME   NULL,
-	PRIMARY KEY (`Parent_Id`, `Student_Id`)
+create table if not exists `fmc_edu`.`parent_student_map` (
+	`parent_id`     int        not null,
+	`student_id`    int        not null,
+	`approved`      tinyint(1) not null default 0,
+	`approved_date` datetime   null,
+	primary key (`parent_id`, `student_id`)
 )
-	ENGINE = InnoDB;
+	engine = innodb;
 
-CREATE INDEX `fk_Parent_has_Student_Student1_idx` ON `fmc_edu`.`Parent_Student_Map` (`Student_Id` ASC);
+create index `fk_parent_has_student_student1_idx` on `fmc_edu`.`parent_student_map` (`student_id` asc);
 
-CREATE INDEX `fk_Parent_has_Student_Parent1_idx` ON `fmc_edu`.`Parent_Student_Map` (`Parent_Id` ASC);
+create index `fk_parent_has_student_parent1_idx` on `fmc_edu`.`parent_student_map` (`parent_id` asc);
 
 
 -- -----------------------------------------------------
--- Table `fmc_edu`.`Teacher_Class_Map`
+-- table `fmc_edu`.`teacher_class_map`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `fmc_edu`.`Teacher_Class_Map`;
+drop table if exists `fmc_edu`.`teacher_class_map`;
 
-CREATE TABLE IF NOT EXISTS `fmc_edu`.`Teacher_Class_Map` (
-	`Teacher_Id`       INT         NOT NULL,
-	`Class_Id`         INT         NOT NULL,
-	`Sub_Title`        VARCHAR(20) NULL,
-	`Head_Teacher`     TINYINT(1)  NOT NULL DEFAULT 0,
-	`Creation_Date`    DATETIME    NULL,
-	`Last_Update_Date` DATETIME    NOT NULL,
-	PRIMARY KEY (`Teacher_Id`, `Class_Id`)
+create table if not exists `fmc_edu`.`teacher_class_map` (
+	`teacher_id`       int         not null,
+	`class_id`         int         not null,
+	`sub_title`        varchar(20) null,
+	`head_teacher`     tinyint(1)  not null default 0,
+	`creation_date`    datetime    null,
+	`last_update_date` datetime    not null,
+	primary key (`teacher_id`, `class_id`)
 )
-	ENGINE = InnoDB;
+	engine = innodb;
 
-CREATE INDEX `fk_Teacher_has_Class_Class1_idx` ON `fmc_edu`.`Teacher_Class_Map` (`Class_Id` ASC);
+create index `fk_teacher_has_class_class1_idx` on `fmc_edu`.`teacher_class_map` (`class_id` asc);
 
-CREATE INDEX `fk_Teacher_has_Class_Teacher1_idx` ON `fmc_edu`.`Teacher_Class_Map` (`Teacher_Id` ASC);
+create index `fk_teacher_has_class_teacher1_idx` on `fmc_edu`.`teacher_class_map` (`teacher_id` asc);
 
 
-SET SQL_MODE = @OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS = @OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS = @OLD_UNIQUE_CHECKS;
+set sql_mode = @old_sql_mode;
+set foreign_key_checks = @old_foreign_key_checks;
+set unique_checks = @old_unique_checks;
