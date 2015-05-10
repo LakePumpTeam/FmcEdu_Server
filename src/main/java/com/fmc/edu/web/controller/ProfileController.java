@@ -93,6 +93,7 @@ public class ProfileController extends BaseController {
             return generateJsonOutput(Boolean.FALSE, null, ERROR_PASSWORD_CONFIRM);
         }
         boolean success = getProfileManager().verifyTempParentIdentifyingCode(phoneNumber, passwordDecode, identifyingCode);
+        //TODO Should response error message when status is not 0.
         return generateJsonOutput(success, null, null);
     }
 
