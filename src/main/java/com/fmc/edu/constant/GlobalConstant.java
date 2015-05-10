@@ -23,5 +23,8 @@ public interface GlobalConstant {
 
 	int STATUS_ERROR = -1;
 
+	String TRUE = "true";
+
+	String FALSE = "false";
 
 }

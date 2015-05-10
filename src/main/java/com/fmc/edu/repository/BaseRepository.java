@@ -1,17 +1,21 @@
 package com.fmc.edu.repository;
 
 
+import com.fmc.edu.constant.GlobalConstant;
 import com.fmc.edu.util.pagenation.Pagination;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.ibatis.session.SqlSession;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public abstract class BaseRepository {
 
 	protected static final String START_INDEX = "start";
 	protected static final String SIZE = "size";
+	protected static final String IS_LAST_PAGE = "isLastPage";
 	@Resource(name = "sqlSession")
 	private SqlSession sqlSession;
 
@@ -27,6 +31,20 @@ public abstract class BaseRepository {
 		parameters.put(START_INDEX, pPagination.getPageStartIndex());
 		parameters.put(SIZE, pPagination.getPageSize());
 		return parameters;
+	}
+
+	protected void addIsLastPageFlag(List<Map<String, String>> pResult, final int pPageSize){
+		if(pResult == null){
+			return;
+		}
+
+		Map<String,String> isLastPageMap = new HashMap<>(1);
+		pResult.add(isLastPageMap);
+		if(CollectionUtils.isEmpty(pResult) || pResult.size() <= pPageSize){
+			isLastPageMap.put(IS_LAST_PAGE, GlobalConstant.TRUE);
+		}else{
+			isLastPageMap.put(IS_LAST_PAGE, GlobalConstant.FALSE);
+		}
 	}
 
 }

@@ -3,8 +3,10 @@ package com.fmc.edu.repository.impl;
 import com.fmc.edu.repository.BaseRepository;
 import com.fmc.edu.repository.ILocationRepository;
 import com.fmc.edu.util.pagenation.Pagination;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -32,7 +34,9 @@ public class LocationRepository extends BaseRepository implements ILocationRepos
 		params.put("provId", pProvId);
 		int count = getSqlSession().selectOne(FILTER_CITY_COUNT, params);
 		if (count > 0) {
-			return getSqlSession().selectList(FILTER_CITY_PAGE, params);
+			List<Map<String, String>> queryResult = getSqlSession().selectList(FILTER_CITY_PAGE, params);
+			addIsLastPageFlag(queryResult, pPagination.getPageSize());
+			return queryResult;
 		}
 		return null;
 	}
