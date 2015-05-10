@@ -49,6 +49,6 @@
         on t.profile_id = tcm.teacher_Id
         LEFT JOIN class c
         ON tcm.class_Id = c.id
-        WHERE c.id = #{classId} and tcm.school_id = #{schoolId};
+        WHERE c.id = #{classId} and t.school_id = #{schoolId};
     </select>
 </mapper>
