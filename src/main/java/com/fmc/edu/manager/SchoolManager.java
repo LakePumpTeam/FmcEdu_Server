@@ -16,16 +16,16 @@ public class SchoolManager {
     @Resource(name = "schoolService")
     private SchoolService mSchoolService;
 
-    public List<Map<String, String>> querySchoolsPage(Pagination pPagination, int pCityId, String pKey) {
+    public Map<String,Object> querySchoolsPage(Pagination pPagination, int pCityId, String pKey) {
         return getSchoolService().querySchoolsPage(pPagination,pCityId,pKey);
     }
 
-    public List<Map<String, String>> queryClassesPage(Pagination pPagination, int pSchoolId, String pKey) {
+    public Map<String,Object> queryClassesPage(Pagination pPagination, int pSchoolId, String pKey) {
         return getSchoolService().queryClassesPage(pPagination,pSchoolId,pKey);
     }
 
-    public List<Map<String, String>> queryHeadmasterPage(Pagination pPagination, int pClassId, final int pSchoolId, String pKey) {
-        return getSchoolService().queryHeadmasterPage(pPagination,pClassId,pSchoolId,pKey);
+    public List<Map<String, String>> queryHeadmasterPage(int pClassId, final int pSchoolId) {
+        return getSchoolService().queryHeadmasterPage(pClassId,pSchoolId);
     }
     public SchoolService getSchoolService() {
         return mSchoolService;

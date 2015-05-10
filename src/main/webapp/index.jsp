@@ -110,7 +110,7 @@
             <td class="parameters">
                 <table>
                     <tr>
-                        <td align="right"><label for="filterKey" title="filterKey">filterKey(可空</label></td>
+                        <td align="right"><label for="filterKey" title="filterKey">filterKey(可空)</label></td>
                         <td><input type="text" class="ipt_value" id="filterKey" value=""/></td>
                     </tr>
                     <tr>
@@ -131,7 +131,7 @@
         <tr>
             <td>#2</td>
             <td class="function">城市</td>
-            <td class="baseUrl">${ctx}/location/requestCitys</td>
+            <td class="baseUrl">${ctx}/location/requestCities</td>
             <td class="parameters">
                 <table>
                     <tr>
@@ -157,6 +157,97 @@
             <td class="result"></td>
         </tr>
     </table>
+</fieldset>
+
+<fieldset>
+    <legend>学校</legend>
+    <table border="1">
+        <tr>
+            <th width="5%">Index#</th>
+            <th>Function</th>
+            <th>BaseURL</th>
+            <th>Parameters</th>
+            <th>Request</th>
+            <th>Reset</th>
+            <th width="56%">Result</th>
+        </tr>
+        <tr>
+            <td>#1</td>
+            <td class="function">学校</td>
+            <td class="baseUrl">${ctx}/school/requestSchools</td>
+            <td class="parameters">
+                <table>
+                    <tr>
+                        <td align="right"><label for="filterKey" title="filterKey">filterKey(可空)</label></td>
+                        <td><input type="text" class="ipt_value" id="filterKey" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="cityId" title="cityId">cityId</label></td>
+                        <td><input type="text" class="ipt_value" id="cityId" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="pageIndex" title="pageIndex">pageIndex(从1开始)</label></td>
+                        <td><input type="text" class="ipt_value" id="pageIndex" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="pageSize" title="pageSize">pageSize</label></td>
+                        <td><input type="text" class="ipt_value" id="pageSize" value=""/></td>
+                    </tr>
+                </table>
+            </td>
+            <td><input type="button" class="btn_request" value="Request"/></td>
+            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td class="result"></td>
+        </tr>
+        <tr>
+            <td>#2</td>
+            <td class="function">班级</td>
+            <td class="baseUrl">${ctx}/school/requestClasses</td>
+            <td class="parameters">
+                <table>
+                    <tr>
+                        <td align="right"><label for="filterKey" title="filterKey">filterKey(可空)</label></td>
+                        <td><input type="text" class="ipt_value" id="filterKey" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="schoolId" title="schoolId">schoolId</label></td>
+                        <td><input type="text" class="ipt_value" id="schoolId" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="pageIndex" title="pageIndex">pageIndex(从1开始)</label></td>
+                        <td><input type="text" class="ipt_value" id="pageIndex" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="pageSize" title="pageSize">pageSize</label></td>
+                        <td><input type="text" class="ipt_value" id="pageSize" value=""/></td>
+                    </tr>
+                </table>
+            </td>
+            <td><input type="button" class="btn_request" value="Request"/></td>
+            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td class="result"></td>
+        </tr>
+        <tr>
+            <td>#2</td>
+            <td class="function">班主任</td>
+            <td class="baseUrl">${ctx}/school/requestHeadTeacher</td>
+            <td class="parameters">
+                <table>
+                    <tr>
+                        <td align="right"><label for="schoolId" title="schoolId">schoolId</label></td>
+                        <td><input type="text" class="ipt_value" id="schoolId" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="classId" title="classId">classId</label></td>
+                        <td><input type="text" class="ipt_value" id="classId" value=""/></td>
+                    </tr>
+                </table>
+            </td>
+            <td><input type="button" class="btn_request" value="Request"/></td>
+            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td class="result"></td>
+        </tr>
+     </table>
 </fieldset>
 </body>
 </html>
