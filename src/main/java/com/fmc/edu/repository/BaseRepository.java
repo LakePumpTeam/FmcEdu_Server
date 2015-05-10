@@ -38,7 +38,7 @@ public abstract class BaseRepository {
 			return;
 		}
 
-		if(CollectionUtils.isEmpty(pResult) || pResult.size() <= pPageSize){
+		if(CollectionUtils.isEmpty(pResult) || pResult.size() < pPageSize){
 			pDataMap.put(IS_LAST_PAGE, GlobalConstant.TRUE);
 		}else{
 			pDataMap.put(IS_LAST_PAGE, GlobalConstant.FALSE);
