@@ -14,45 +14,45 @@ import javax.annotation.Resource;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:config/spring/spring-*.xml")
 public class TestBaiDuPushMessage {
-    @Resource(name = "AndroidPushNotification")
-    private IBaiDuPushNotification mBaiDuAndroidPushNotification;
+	@Resource(name = "AndroidPushNotification")
+	private IBaiDuPushNotification mBaiDuAndroidPushNotification;
 
-    @Resource(name = "IOSPushNotification")
-    private IBaiDuPushNotification mBaiDuIOSPushNotification;
+	@Resource(name = "IOSPushNotification")
+	private IBaiDuPushNotification mBaiDuIOSPushNotification;
 
-    // @Test
-    public void testAndroidPushNotificationMsg() {
-        String testMsg = "Test android device push notification";
-        try {
-            getBaiDuAndroidPushNotification().pushMsg(123, "sd", testMsg);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+	// @Test
+	public void testAndroidPushNotificationMsg() {
+		String testMsg = "Test android device push notification";
+		try {
+			getBaiDuAndroidPushNotification().pushMsg(123, "sd", testMsg);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
-    @Test
-    public void tesIOSPushNotificationMsg() {
-        String testMsg = "Test ios device push notification";
-        try {
-            getBaiDuIOSPushNotification().pushMsg(123, "sd", testMsg);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+	@Test
+	public void tesIOSPushNotificationMsg() {
+		String testMsg = "Test ios device push notification";
+		try {
+			getBaiDuIOSPushNotification().pushMsg(123, "sd", testMsg);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
-    public IBaiDuPushNotification getBaiDuAndroidPushNotification() {
-        return mBaiDuAndroidPushNotification;
-    }
+	public IBaiDuPushNotification getBaiDuAndroidPushNotification() {
+		return mBaiDuAndroidPushNotification;
+	}
 
-    public void setBaiDuAndroidPushNotification(IBaiDuPushNotification pBaiDuAndroidPushNotification) {
-        this.mBaiDuAndroidPushNotification = pBaiDuAndroidPushNotification;
-    }
+	public void setBaiDuAndroidPushNotification(IBaiDuPushNotification pBaiDuAndroidPushNotification) {
+		this.mBaiDuAndroidPushNotification = pBaiDuAndroidPushNotification;
+	}
 
-    public IBaiDuPushNotification getBaiDuIOSPushNotification() {
-        return mBaiDuIOSPushNotification;
-    }
+	public IBaiDuPushNotification getBaiDuIOSPushNotification() {
+		return mBaiDuIOSPushNotification;
+	}
 
-    public void setBaiDuIOSPushNotification(IBaiDuPushNotification pBaiDuIOSPushNotification) {
-        this.mBaiDuIOSPushNotification = pBaiDuIOSPushNotification;
-    }
+	public void setBaiDuIOSPushNotification(IBaiDuPushNotification pBaiDuIOSPushNotification) {
+		this.mBaiDuIOSPushNotification = pBaiDuIOSPushNotification;
+	}
 }

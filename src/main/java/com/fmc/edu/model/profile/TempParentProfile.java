@@ -12,10 +12,6 @@ public class TempParentProfile extends BaseProfile {
 
 	private Timestamp mIdentifyDate;
 
-	private boolean isIdentified() {
-		return mIdentifyDate != null;
-	}
-
 	public TempParentProfile() {
 		setProfileType(ProfileType.TEMP_PARENT);
 	}
@@ -26,6 +22,9 @@ public class TempParentProfile extends BaseProfile {
 		this.mIdentifyingCode = pIdentifyingCode;
 	}
 
+	private boolean isIdentified() {
+		return mIdentifyDate != null;
+	}
 
 	public Timestamp getIdentifyDate() {
 		return mIdentifyDate;

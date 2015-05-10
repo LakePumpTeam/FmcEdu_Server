@@ -16,43 +16,43 @@ import java.util.Set;
  */
 @Service(value = "permissionManager")
 public class PermissionManager {
-    @Resource(name = "permissionRepository")
-    private IPermissionRepository mPermissionRepository;
+	@Resource(name = "permissionRepository")
+	private IPermissionRepository mPermissionRepository;
 
-    public Set<String> getRolesForUser(final int pUserId) {
-        List<Role> roleList = getPermissionRepository().findRoleByIdentity(pUserId);
-        Set<String> roleNames = new HashSet<String>();
-        for (Role role : roleList) {
-            roleNames.add(role.getRole());
-        }
-        return roleNames;
-    }
+	public Set<String> getRolesForUser(final int pUserId) {
+		List<Role> roleList = getPermissionRepository().findRoleByIdentity(pUserId);
+		Set<String> roleNames = new HashSet<String>();
+		for (Role role : roleList) {
+			roleNames.add(role.getRole());
+		}
+		return roleNames;
+	}
 
-    public List<String> getPermissonsByRoleId(final int pRoleId) {
-        List<Permission> permissions = getPermissionRepository().findPermissionByRoleId(pRoleId);
-        List<String> permissionNames = new ArrayList<String>(permissions.size());
-        for (Permission permission : permissions) {
-            permissionNames.add(permission.getPermission());
-        }
-        return permissionNames;
-    }
+	public List<String> getPermissonsByRoleId(final int pRoleId) {
+		List<Permission> permissions = getPermissionRepository().findPermissionByRoleId(pRoleId);
+		List<String> permissionNames = new ArrayList<String>(permissions.size());
+		for (Permission permission : permissions) {
+			permissionNames.add(permission.getPermission());
+		}
+		return permissionNames;
+	}
 
-    public Set<String> getPermissonsByUserId(final int pUserId) {
-        List<Role> roleList = getPermissionRepository().findRoleByIdentity(pUserId);
-        Set<String> roleNames = new HashSet<String>();
-        Set<String> grantPermissions = new HashSet<String>();
-        for (Role role : roleList) {
-            grantPermissions.addAll(getPermissonsByRoleId(role.getId()));
-        }
-        return grantPermissions;
-    }
+	public Set<String> getPermissonsByUserId(final int pUserId) {
+		List<Role> roleList = getPermissionRepository().findRoleByIdentity(pUserId);
+		Set<String> roleNames = new HashSet<String>();
+		Set<String> grantPermissions = new HashSet<String>();
+		for (Role role : roleList) {
+			grantPermissions.addAll(getPermissonsByRoleId(role.getId()));
+		}
+		return grantPermissions;
+	}
 
-    public IPermissionRepository getPermissionRepository() {
+	public IPermissionRepository getPermissionRepository() {
 
-        return mPermissionRepository;
-    }
+		return mPermissionRepository;
+	}
 
-    public void setPermissionRepository(IPermissionRepository pPermissionRepository) {
-        mPermissionRepository = pPermissionRepository;
-    }
+	public void setPermissionRepository(IPermissionRepository pPermissionRepository) {
+		mPermissionRepository = pPermissionRepository;
+	}
 }

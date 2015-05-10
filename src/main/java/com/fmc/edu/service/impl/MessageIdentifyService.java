@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
  */
 @Service(value = "messageIdentifyService")
 public class MessageIdentifyService implements IMessageIdentifyService {
-    @Override
-    public String sendIdentifyRequest(String pPhoneNumber) {
-        return null;
-    }
+	@Override
+	public String sendIdentifyRequest(String pPhoneNumber) {
+		return null;
+	}
 }

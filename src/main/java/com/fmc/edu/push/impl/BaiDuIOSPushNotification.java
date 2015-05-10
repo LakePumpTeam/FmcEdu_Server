@@ -19,56 +19,56 @@ import org.springframework.stereotype.Component;
  */
 @Component("IOSPushNotification")
 public class BaiDuIOSPushNotification implements IBaiDuPushNotification {
-    private static final Logger LOG = Logger.getLogger(BaiDuIOSPushNotification.class);
+	private static final Logger LOG = Logger.getLogger(BaiDuIOSPushNotification.class);
 
-    @Override
-    public boolean pushMsg(long pChannelId, String pUserId, String pMsg) throws Exception {
-        ChannelKeyPair pair = new ChannelKeyPair(WebConfig.getApiKey(), WebConfig.getSecretKey());
+	@Override
+	public boolean pushMsg(long pChannelId, String pUserId, String pMsg) throws Exception {
+		ChannelKeyPair pair = new ChannelKeyPair(WebConfig.getApiKey(), WebConfig.getSecretKey());
 
-        //1. create BaiduChannelClient instance
-        BaiduChannelClient channelClient = new BaiduChannelClient(pair);
+		//1. create BaiduChannelClient instance
+		BaiduChannelClient channelClient = new BaiduChannelClient(pair);
 
-        //2.this used to open the log, and we could save this message to database or log file.
-        channelClient.setChannelLogHandler(new YunLogHandler() {
-            @Override
-            public void onHandle(YunLogEvent event) {
-                if (WebConfig.isDevelopment()) {
-                    System.out.println(event.getMessage());
-                }
-            }
-        });
+		//2.this used to open the log, and we could save this message to database or log file.
+		channelClient.setChannelLogHandler(new YunLogHandler() {
+			@Override
+			public void onHandle(YunLogEvent event) {
+				if (WebConfig.isDevelopment()) {
+					System.out.println(event.getMessage());
+				}
+			}
+		});
 
-        LOG.debug("Pushing message:" + pMsg);
+		LOG.debug("Pushing message:" + pMsg);
 
-        try {
-            // 3. create request object
-            PushUnicastMessageRequest request = new PushUnicastMessageRequest();
-            request.setDeviceType(PushDeviceType.IOS);
-            request.setDeployStatus(WebConfig.deployStatus()); // DeployStatus => 1: Developer 2:
-            // Production
-            request.setChannelId(pChannelId);
-            request.setUserId(pUserId);
+		try {
+			// 3. create request object
+			PushUnicastMessageRequest request = new PushUnicastMessageRequest();
+			request.setDeviceType(PushDeviceType.IOS);
+			request.setDeployStatus(WebConfig.deployStatus()); // DeployStatus => 1: Developer 2:
+			// Production
+			request.setChannelId(pChannelId);
+			request.setUserId(pUserId);
 
-            request.setMessageType(1);
-            request.setMessage(pMsg);
+			request.setMessageType(1);
+			request.setMessage(pMsg);
 
-            // 4. Invoking the API to push message.
-            PushUnicastMessageResponse response = channelClient.pushUnicastMessage(request);
+			// 4. Invoking the API to push message.
+			PushUnicastMessageResponse response = channelClient.pushUnicastMessage(request);
 
-            // 5. Checking the amount of pushing success message.
-            int pushSuccessAccount = response.getSuccessAmount();
-            System.out.println("push amount : " + pushSuccessAccount);
+			// 5. Checking the amount of pushing success message.
+			int pushSuccessAccount = response.getSuccessAmount();
+			System.out.println("push amount : " + pushSuccessAccount);
 
-        } catch (ChannelClientException e) {
-            // client exception
-            e.printStackTrace();
-            return false;
-        } catch (ChannelServerException e) {
-            // server exception
-            System.out.println(String.format("request_id: %d, error_code: %d, error_message: %s",
-                    e.getRequestId(), e.getErrorCode(), e.getErrorMsg()));
-            return false;
-        }
-        return true;
-    }
+		} catch (ChannelClientException e) {
+			// client exception
+			e.printStackTrace();
+			return false;
+		} catch (ChannelServerException e) {
+			// server exception
+			System.out.println(String.format("request_id: %d, error_code: %d, error_message: %s",
+					e.getRequestId(), e.getErrorCode(), e.getErrorMsg()));
+			return false;
+		}
+		return true;
+	}
 }

@@ -12,41 +12,41 @@ import javax.annotation.Resource;
  */
 @Service(value = "baiduPushManager")
 public class BaiDuPushManager {
-    private static final Logger LOG = Logger.getLogger(BaiDuPushManager.class);
+	private static final Logger LOG = Logger.getLogger(BaiDuPushManager.class);
 
-    @Resource(name = "AndroidPushNotification")
-    private IBaiDuPushNotification mBaiDuAndroidPushNotification;
+	@Resource(name = "AndroidPushNotification")
+	private IBaiDuPushNotification mBaiDuAndroidPushNotification;
 
-    @Resource(name = "IOSPushNotification")
-    private IBaiDuPushNotification mBaiDuIOSPushNotification;
+	@Resource(name = "IOSPushNotification")
+	private IBaiDuPushNotification mBaiDuIOSPushNotification;
 
-    public boolean pushNotificationMsg(final int pDevice, final long pChannelId, final String pUserId, final String pMsg) throws Exception {
-        LOG.debug("push notification message: device type is:" + PushDeviceType.toString(pDevice));
+	public boolean pushNotificationMsg(final int pDevice, final long pChannelId, final String pUserId, final String pMsg) throws Exception {
+		LOG.debug("push notification message: device type is:" + PushDeviceType.toString(pDevice));
 
-        boolean isPushSuccess = false;
-        if (PushDeviceType.ANDROID == pDevice) {
-            isPushSuccess = getBaiDuAndroidPushNotification().pushMsg(pChannelId, pUserId, pMsg);
-        }
-        if (PushDeviceType.IOS == pDevice) {
-            isPushSuccess = getBaiDuIOSPushNotification().pushMsg(pChannelId, pUserId, pMsg);
-        }
-        LOG.debug("push notification message: is success? " + PushDeviceType.toString(pDevice));
-        return isPushSuccess;
-    }
+		boolean isPushSuccess = false;
+		if (PushDeviceType.ANDROID == pDevice) {
+			isPushSuccess = getBaiDuAndroidPushNotification().pushMsg(pChannelId, pUserId, pMsg);
+		}
+		if (PushDeviceType.IOS == pDevice) {
+			isPushSuccess = getBaiDuIOSPushNotification().pushMsg(pChannelId, pUserId, pMsg);
+		}
+		LOG.debug("push notification message: is success? " + PushDeviceType.toString(pDevice));
+		return isPushSuccess;
+	}
 
-    public IBaiDuPushNotification getBaiDuAndroidPushNotification() {
-        return mBaiDuAndroidPushNotification;
-    }
+	public IBaiDuPushNotification getBaiDuAndroidPushNotification() {
+		return mBaiDuAndroidPushNotification;
+	}
 
-    public void setBaiDuAndroidPushNotification(IBaiDuPushNotification pBaiDuAndroidPushNotification) {
-        mBaiDuAndroidPushNotification = pBaiDuAndroidPushNotification;
-    }
+	public void setBaiDuAndroidPushNotification(IBaiDuPushNotification pBaiDuAndroidPushNotification) {
+		mBaiDuAndroidPushNotification = pBaiDuAndroidPushNotification;
+	}
 
-    public IBaiDuPushNotification getBaiDuIOSPushNotification() {
-        return mBaiDuIOSPushNotification;
-    }
+	public IBaiDuPushNotification getBaiDuIOSPushNotification() {
+		return mBaiDuIOSPushNotification;
+	}
 
-    public void setBaiDuIOSPushNotification(IBaiDuPushNotification pBaiDuIOSPushNotification) {
-        mBaiDuIOSPushNotification = pBaiDuIOSPushNotification;
-    }
+	public void setBaiDuIOSPushNotification(IBaiDuPushNotification pBaiDuIOSPushNotification) {
+		mBaiDuIOSPushNotification = pBaiDuIOSPushNotification;
+	}
 }

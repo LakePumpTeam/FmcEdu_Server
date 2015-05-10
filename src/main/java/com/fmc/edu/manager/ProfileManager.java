@@ -33,8 +33,8 @@ public class ProfileManager {
 		return identifyCode;
 	}
 
-	public boolean verifyTempParentIdentifyingCode(String pPhoneNumber, String pIdentifyingCode) {
-		return getTempParentService().verifyTempParentAuthCode(pPhoneNumber, pIdentifyingCode);
+	public boolean verifyTempParentIdentifyingCode(String pPhoneNumber, final String pPassword, String pIdentifyingCode) {
+		return getTempParentService().verifyTempParentAuthCode(pPhoneNumber, pPassword, pIdentifyingCode);
 	}
 
 	public boolean registerParent(String pPhoneNumber, int pAddressId) {

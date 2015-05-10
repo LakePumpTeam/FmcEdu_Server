@@ -27,12 +27,13 @@ public class TempParentService {
 		return mTempParentRepository.initialTempParentProfile(tempParent);
 	}
 
-	public boolean verifyTempParentAuthCode(String pPhoneNumber, String pIdentifyingCode) {
+	public boolean verifyTempParentAuthCode(String pPhoneNumber, final String pPassword, String pIdentifyingCode) {
 		TempParentProfile tempParent = new TempParentProfile(pPhoneNumber, pIdentifyingCode);
 		tempParent = getTempParentRepository().queryTempParentProfileByIdentifyCode(tempParent);
 		if (RepositoryUtils.isItemExist(tempParent)) {
 			//passed identify
 			tempParent.setIdentifyDate(new Timestamp(System.currentTimeMillis()));
+			tempParent.setPassword(pPassword);
 			if (getTempParentRepository().updateTempParentProfileIdentify(tempParent)) {
 				return getTempParentRepository().initialParentProfile(tempParent.getId());
 			}

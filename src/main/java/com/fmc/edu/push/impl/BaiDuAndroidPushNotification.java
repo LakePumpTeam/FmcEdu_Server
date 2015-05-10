@@ -19,52 +19,52 @@ import org.springframework.stereotype.Component;
  */
 @Component("AndroidPushNotification")
 public class BaiDuAndroidPushNotification implements IBaiDuPushNotification {
-    private static final Logger LOG = Logger.getLogger(BaiDuAndroidPushNotification.class);
+	private static final Logger LOG = Logger.getLogger(BaiDuAndroidPushNotification.class);
 
-    @Override
-    public boolean pushMsg(long pChannelId, String pUserId, String pMsg) throws Exception {
+	@Override
+	public boolean pushMsg(long pChannelId, String pUserId, String pMsg) throws Exception {
 
-        ChannelKeyPair pair = new ChannelKeyPair(WebConfig.getApiKey(), WebConfig.getSecretKey());
+		ChannelKeyPair pair = new ChannelKeyPair(WebConfig.getApiKey(), WebConfig.getSecretKey());
 
-        //1. create BaiduChannelClient instance
-        BaiduChannelClient channelClient = new BaiduChannelClient(pair);
+		//1. create BaiduChannelClient instance
+		BaiduChannelClient channelClient = new BaiduChannelClient(pair);
 
-        //2.this used to open the log, and we could save this message to database or log file.
-        channelClient.setChannelLogHandler(new YunLogHandler() {
-            @Override
-            public void onHandle(YunLogEvent event) {
-                if (WebConfig.deployStatus() == WebConfig.DEPLOY_STATUS_DEVELOPER) {
-                    System.out.println(event.getMessage());
-                }
-            }
-        });
+		//2.this used to open the log, and we could save this message to database or log file.
+		channelClient.setChannelLogHandler(new YunLogHandler() {
+			@Override
+			public void onHandle(YunLogEvent event) {
+				if (WebConfig.deployStatus() == WebConfig.DEPLOY_STATUS_DEVELOPER) {
+					System.out.println(event.getMessage());
+				}
+			}
+		});
 
-        LOG.debug("Pushing message:" + pMsg);
-        try {
-            // 3. create request object
-            PushUnicastMessageRequest request = new PushUnicastMessageRequest();
-            request.setDeviceType(PushDeviceType.ANDROID);
-            request.setChannelId(pChannelId);
-            request.setUserId(pUserId);
+		LOG.debug("Pushing message:" + pMsg);
+		try {
+			// 3. create request object
+			PushUnicastMessageRequest request = new PushUnicastMessageRequest();
+			request.setDeviceType(PushDeviceType.ANDROID);
+			request.setChannelId(pChannelId);
+			request.setUserId(pUserId);
 
-            request.setMessageType(0);
-            request.setMessage(pMsg);
+			request.setMessageType(0);
+			request.setMessage(pMsg);
 
-            // 4. Invoking the API to push message.
-            PushUnicastMessageResponse response = channelClient
-                    .pushUnicastMessage(request);
+			// 4. Invoking the API to push message.
+			PushUnicastMessageResponse response = channelClient
+					.pushUnicastMessage(request);
 
-            // 5. Checking the amount of pushing success message.
-            LOG.debug("push amount : " + response.getSuccessAmount());
+			// 5. Checking the amount of pushing success message.
+			LOG.debug("push amount : " + response.getSuccessAmount());
 
-        } catch (ChannelClientException e) {
-            LOG.error("Occur ChannelClientException exception:", e);
-            return false;
-        } catch (ChannelServerException e) {
-            LOG.error(String.format("request_id: %d, error_code: %d, error_message: %s",
-                    e.getRequestId(), e.getErrorCode(), e.getErrorMsg()));
-            return false;
-        }
-        return true;
-    }
+		} catch (ChannelClientException e) {
+			LOG.error("Occur ChannelClientException exception:", e);
+			return false;
+		} catch (ChannelServerException e) {
+			LOG.error(String.format("request_id: %d, error_code: %d, error_message: %s",
+					e.getRequestId(), e.getErrorCode(), e.getErrorMsg()));
+			return false;
+		}
+		return true;
+	}
 }

@@ -13,8 +13,7 @@
 		SELECT id, phone, identifying_code, identifying_date, creation_date, last_update_date
 		FROM Profile
 		LEFT JOIN Temp_Parent on id = profile_id
-		WHERE phone = #{phone} AND Identifying_Date IS NULL AND
-		<include refid="condition_temp_parent" />
+		WHERE phone = #{phone}
 	</select>
 
 	<insert id="initialTempParent" keyProperty="id" useGeneratedKeys="true"
@@ -29,8 +28,10 @@
 	</insert>
 
 	<update id="updateTempParentProfileIdentify" parameterType="com.fmc.edu.model.profile.TempParentProfile">
-		UPDATE Temp_Parent SET identifying_code = #{identifyingCode}, identifying_date=#{identifyDate}
-		WHERE profile_id = #{id}
+		UPDATE Profile
+		LEFT JOIN Temp_Parent ON id = profile_id
+		SET password = #{password}, identifying_code = #{identifyingCode}, identifying_date=#{identifyDate}
+		WHERE id = #{id}
 	</update>
 
 	<select id="queryTempParentByIdentifyCode" parameterType="com.fmc.edu.model.profile.TempParentProfile"

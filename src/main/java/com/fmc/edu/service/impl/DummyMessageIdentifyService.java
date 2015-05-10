@@ -14,9 +14,8 @@ import java.util.Set;
 @Service(value = "dummyMessageIdentifyService")
 public class DummyMessageIdentifyService implements IMessageIdentifyService {
 
-	private Set<String> mHistoryRandomNumbers = new HashSet<String>();
-
 	private static final int LENGTH = 6;
+	private Set<String> mHistoryRandomNumbers = new HashSet<String>();
 
 	@Override
 	public String sendIdentifyRequest(final String pPhoneNumber) {

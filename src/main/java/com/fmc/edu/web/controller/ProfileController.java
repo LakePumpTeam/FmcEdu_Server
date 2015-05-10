@@ -12,7 +12,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
@@ -35,6 +34,7 @@ public class ProfileController extends BaseController {
 
 	private static final String ERROR_INVALID_PHONE = "Sorry, the phone number is invalid.";
 	private static final String ERROR_SESSION_EXPIRED = "Sorry, the session has expired.";
+	private static final String ERROR_PASSWORD_CONFIRM = "Sorry, the password isn't match the confirmation.";
 
 
 	@Resource(name = "profileManager")
@@ -51,10 +51,10 @@ public class ProfileController extends BaseController {
 
 	@RequestMapping(value = ("/requestPhoneIdentify" + GlobalConstant.URL_SUFFIX))
 	@ResponseBody
-	public String requestPhoneIdentify(final HttpServletRequest pRequest, final HttpServletResponse pResponse, final String cellphone) throws IOException {
-		String phone = decodeInput(cellphone);
+	public String requestPhoneIdentify(final HttpServletRequest pRequest, final HttpServletResponse pResponse, final String cellPhone) throws IOException {
+		String phone = decodeInput(cellPhone);
 		// output error if phone number is blank
-		if (ValidationUtils.isValidPhoneNumber(phone)) {
+		if (cellPhone == null || ValidationUtils.isValidPhoneNumber(phone)) {
 			return generateJsonOutput(Boolean.FALSE, null, ERROR_INVALID_PHONE);
 		}
 		String identifyCode = getProfileManager().registerTempParent(phone);
@@ -66,22 +66,29 @@ public class ProfileController extends BaseController {
 		}
 		// request identify failed if identify is blank
 		// TODO should not return code, return for test
-		return generateJsonOutput(success, identifyCode, null);
+		Map<String, Object> dataMap = new HashMap<>();
+		dataMap.put("identifyCode", identifyCode);
+		return generateJsonOutput(success, dataMap, null);
 	}
 
-	@RequestMapping(value = "/requestPhoneIdentifyReply" + GlobalConstant.URL_SUFFIX)
+	@RequestMapping(value = "/requestRegisterConfirm" + GlobalConstant.URL_SUFFIX)
 	@ResponseBody
-	public String requestPhoneIdentifyReply(final HttpServletRequest pRequest, final HttpServletResponse pResponse, final String authcode) throws IOException {
-		String identifyingCode = decodeInput(authcode);
-		//TODO maybe we need get phone from request instead of session
-		String phoneNumber = (String) pRequest.getSession().getAttribute(SessionConstant.SESSION_KEY_PHONE);
+	public String requestRegisterConfirm(final HttpServletRequest pRequest, final HttpServletResponse pResponse, String cellPhone, final String authCode,
+			String password, String confirmPassword) throws IOException {
+		String identifyingCode = decodeInput(authCode);
+		String phoneNumber = decodeInput(cellPhone);
+		String passwordDecode = decodeInput(password);
+		if (StringUtils.isBlank(phoneNumber)) {
+			phoneNumber = (String) pRequest.getSession().getAttribute(SessionConstant.SESSION_KEY_PHONE);
+		}
 		if (StringUtils.isBlank(phoneNumber)) {
 			return generateJsonOutput(Boolean.FALSE, null, ERROR_SESSION_EXPIRED);
 		}
-		boolean success = getProfileManager().verifyTempParentIdentifyingCode(phoneNumber, identifyingCode);
-		Map<String, Object> dataMap = new HashMap<>();
-		dataMap.put("issuccess", success);
-		return generateJsonOutput(success, dataMap, null);
+		if (!StringUtils.endsWith(password, confirmPassword)) {
+			return generateJsonOutput(Boolean.FALSE, null, ERROR_PASSWORD_CONFIRM);
+		}
+		boolean success = getProfileManager().verifyTempParentIdentifyingCode(phoneNumber, passwordDecode, identifyingCode);
+		return generateJsonOutput(success, null, null);
 	}
 
 	@RequestMapping(value = "/requestPhoneIdentifyReply" + GlobalConstant.URL_SUFFIX)
@@ -131,11 +138,11 @@ public class ProfileController extends BaseController {
 		mParameterBuilder = pParameterBuilder;
 	}
 
-	public PlatformTransactionManager getTransactionManager() {
+	public DataSourceTransactionManager getTransactionManager() {
 		return mTransactionManager;
 	}
 
-	public void setTransactionManager(final PlatformTransactionManager pTransactionManager) {
+	public void setTransactionManager(final DataSourceTransactionManager pTransactionManager) {
 		mTransactionManager = pTransactionManager;
 	}
 }

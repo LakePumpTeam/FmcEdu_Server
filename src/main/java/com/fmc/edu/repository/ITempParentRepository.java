@@ -8,23 +8,19 @@ import com.fmc.edu.model.profile.TempParentProfile;
 public interface ITempParentRepository {
 
 	String QUERY_TEMP_PARENT_BY_PHONE = "com.fmc.edu.profile.temp.queryTempParentByPhone";
+	String INITIAL_TEMP_PARENT = "com.fmc.edu.profile.temp.initialTempParent";
+	String INITIAL_AUXILIARY_TEMP_PARENT = "com.fmc.edu.profile.temp.initialAuxiliaryTempParent";
+	String UPDATE_TEMP_PARENT_IDENTIFY = "com.fmc.edu.profile.temp.updateTempParentProfileIdentify";
+	String QUERY_TEMP_PARENT_BY_IDENTIFY_CODE = "com.fmc.edu.profile.temp.queryTempParentByIdentifyCode";
+	String INITIAL_PARENT_PROFILE = "com.fmc.edu.profile.temp.initialParentProfile";
 
 	TempParentProfile queryTempParentProfileByPhone(String pPhone);
 
-	String INITIAL_TEMP_PARENT = "com.fmc.edu.profile.temp.initialTempParent";
-	String INITIAL_AUXILIARY_TEMP_PARENT = "com.fmc.edu.profile.temp.initialAuxiliaryTempParent";
-
 	boolean initialTempParentProfile(TempParentProfile pTempParent);
-
-	String UPDATE_TEMP_PARENT_IDENTIFY = "com.fmc.edu.profile.temp.updateTempParentProfileIdentify";
 
 	boolean updateTempParentProfileIdentify(TempParentProfile pTempParent);
 
-	String QUERY_TEMP_PARENT_BY_IDENTIFY_CODE = "com.fmc.edu.profile.temp.queryTempParentByIdentifyCode";
-
 	TempParentProfile queryTempParentProfileByIdentifyCode(TempParentProfile pTempParent);
-
-	String INITIAL_PARENT_PROFILE = "com.fmc.edu.profile.temp.initialParentProfile";
 
 	boolean initialParentProfile(int pId);
 }

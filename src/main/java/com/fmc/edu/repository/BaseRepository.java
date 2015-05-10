@@ -10,18 +10,14 @@ import java.util.Map;
 
 public abstract class BaseRepository {
 
+	protected static final String START_INDEX = "start";
+	protected static final String SIZE = "size";
 	@Resource(name = "sqlSession")
 	private SqlSession sqlSession;
-
 
 	public SqlSession getSqlSession() {
 		return this.sqlSession;
 	}
-
-
-	protected static final String START_INDEX = "start";
-
-	protected static final String SIZE = "size";
 
 	protected Map<String, Object> paginationToParameters(Pagination pPagination) {
 		Map<String, Object> parameters = new HashMap<String, Object>();

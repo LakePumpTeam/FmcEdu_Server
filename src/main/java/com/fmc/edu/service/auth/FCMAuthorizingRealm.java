@@ -17,94 +17,94 @@ import java.util.Set;
  */
 @Service
 public class FCMAuthorizingRealm extends AuthorizingRealm {
-    @Resource(name = "permissionManager")
-    private PermissionManager mPermissionManager;
+	@Resource(name = "permissionManager")
+	private PermissionManager mPermissionManager;
 
-    /**
-     * Do the permission authorize.
-     *
-     * @param principalCollection
-     * @return
-     */
-    @Override
-    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
+	/**
+	 * Do the permission authorize.
+	 *
+	 * @param principalCollection
+	 * @return
+	 */
+	@Override
+	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
 
-        SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-        //TODO Should input real user id
-        Set<String> role = getPermissionManager().getRolesForUser(0);
-        authorizationInfo.setRoles(role);
-        //TODO Should input real user id
-        authorizationInfo.setStringPermissions(getPermissionManager().getPermissonsByUserId(0));
+		SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
+		//TODO Should input real user id
+		Set<String> role = getPermissionManager().getRolesForUser(0);
+		authorizationInfo.setRoles(role);
+		//TODO Should input real user id
+		authorizationInfo.setStringPermissions(getPermissionManager().getPermissonsByUserId(0));
 
-        return authorizationInfo;
-    }
+		return authorizationInfo;
+	}
 
-    /**
-     * Authenticate the login.
-     *
-     * @param authenticationToken
-     * @return
-     * @throws AuthenticationException
-     */
-    @Override
-    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
+	/**
+	 * Authenticate the login.
+	 *
+	 * @param authenticationToken
+	 * @return
+	 * @throws AuthenticationException
+	 */
+	@Override
+	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
 
-        String loginUser = (String) authenticationToken.getPrincipal();
+		String loginUser = (String) authenticationToken.getPrincipal();
 
-        User user = new User();//userService.findByUsername(username);
-        user.setId(1);
-        user.setUsername("test");
-        user.setPassword("123");
+		User user = new User();//userService.findByUsername(username);
+		user.setId(1);
+		user.setUsername("test");
+		user.setPassword("123");
 
-        if (user == null) {
-            throw new UnknownAccountException();
-        }
+		if (user == null) {
+			throw new UnknownAccountException();
+		}
 
-        if (Boolean.TRUE.equals(user.getLocked())) {
-            throw new LockedAccountException();
-        }
+		if (Boolean.TRUE.equals(user.getLocked())) {
+			throw new LockedAccountException();
+		}
 
-        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
-                user.getUsername(),
-                user.getPassword(),
-                getName()
-        );
-        return authenticationInfo;
-    }
+		SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
+				user.getUsername(),
+				user.getPassword(),
+				getName()
+		);
+		return authenticationInfo;
+	}
 
-    @Override
-    public void clearCachedAuthorizationInfo(PrincipalCollection principals) {
-        super.clearCachedAuthorizationInfo(principals);
-    }
+	@Override
+	public void clearCachedAuthorizationInfo(PrincipalCollection principals) {
+		super.clearCachedAuthorizationInfo(principals);
+	}
 
-    @Override
-    public void clearCachedAuthenticationInfo(PrincipalCollection principals) {
-        super.clearCachedAuthenticationInfo(principals);
-    }
+	@Override
+	public void clearCachedAuthenticationInfo(PrincipalCollection principals) {
+		super.clearCachedAuthenticationInfo(principals);
+	}
 
-    @Override
-    public void clearCache(PrincipalCollection principals) {
-        super.clearCache(principals);
-    }
+	@Override
+	public void clearCache(PrincipalCollection principals) {
+		super.clearCache(principals);
+	}
 
-    public void clearAllCachedAuthorizationInfo() {
-        getAuthorizationCache().clear();
-    }
+	public void clearAllCachedAuthorizationInfo() {
+		getAuthorizationCache().clear();
+	}
 
-    public void clearAllCachedAuthenticationInfo() {
-        getAuthenticationCache().clear();
-    }
+	public void clearAllCachedAuthenticationInfo() {
+		getAuthenticationCache().clear();
+	}
 
-    public void clearAllCache() {
-        clearAllCachedAuthenticationInfo();
-        clearAllCachedAuthorizationInfo();
-    }
+	public void clearAllCache() {
+		clearAllCachedAuthenticationInfo();
+		clearAllCachedAuthorizationInfo();
+	}
 
-    public PermissionManager getPermissionManager() {
-        return mPermissionManager;
-    }
+	public PermissionManager getPermissionManager() {
+		return mPermissionManager;
+	}
 
-    public void setPermissionManager(PermissionManager pPermissionManager) {
-        mPermissionManager = pPermissionManager;
-    }
+	public void setPermissionManager(PermissionManager pPermissionManager) {
+		mPermissionManager = pPermissionManager;
+	}
 }
