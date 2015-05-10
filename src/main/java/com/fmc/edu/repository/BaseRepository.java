@@ -33,17 +33,15 @@ public abstract class BaseRepository {
 		return parameters;
 	}
 
-	protected void addIsLastPageFlag(List<Map<String, String>> pResult, final int pPageSize){
+	protected void addIsLastPageFlag(Map<String,Object> pDataMap, List<Map<String, String>> pResult, final int pPageSize){
 		if(pResult == null){
 			return;
 		}
 
-		Map<String,String> isLastPageMap = new HashMap<>(1);
-		pResult.add(isLastPageMap);
 		if(CollectionUtils.isEmpty(pResult) || pResult.size() <= pPageSize){
-			isLastPageMap.put(IS_LAST_PAGE, GlobalConstant.TRUE);
+			pDataMap.put(IS_LAST_PAGE, GlobalConstant.TRUE);
 		}else{
-			isLastPageMap.put(IS_LAST_PAGE, GlobalConstant.FALSE);
+			pDataMap.put(IS_LAST_PAGE, GlobalConstant.FALSE);
 		}
 	}
 

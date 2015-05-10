@@ -21,7 +21,7 @@ public class LocationManager {
 		return getLocationService().queryProvincePage(pPagenation, pKey);
 	}
 
-	public List<Map<String, String>> queryCityPage(final Pagination pPagenation,final int pProvId, final String pKey) {
+	public Map<String, Object> queryCityPage(final Pagination pPagenation,final int pProvId, final String pKey) {
 		return getLocationService().queryCityPage(pPagenation, pProvId,pKey);
 	}
 

@@ -20,7 +20,7 @@ public class LocationService {
 	public List<Map<String, String>> queryProvincePage(final Pagination pPagination, final String pKey) {
 		return getLocationRepository().queryProvincePage(pPagination, pKey);
 	}
-	public List<Map<String, String>> queryCityPage(final Pagination pPagination,final int pProvId, final String pKey) {
+	public  Map<String, Object> queryCityPage(final Pagination pPagination,final int pProvId, final String pKey) {
 		return getLocationRepository().queryCityPage(pPagination, pProvId, pKey);
 	}
 

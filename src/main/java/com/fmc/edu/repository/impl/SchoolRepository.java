@@ -21,7 +21,7 @@ public class SchoolRepository  extends BaseRepository implements ISchoolReposito
         int count = getSqlSession().selectOne(QUERY_SCHOOL_COUNT, params);
         if (count > 0) {
             List<Map<String, String>> queryResult = getSqlSession().selectList(QUERY_SCHOOL_PAGE, params);
-            addIsLastPageFlag(queryResult, pPagination.getPageSize());
+            //addIsLastPageFlag(queryResult, pPagination.getPageSize());
             return queryResult;
         }
         return null;
@@ -35,7 +35,7 @@ public class SchoolRepository  extends BaseRepository implements ISchoolReposito
         int count = getSqlSession().selectOne(QUERY_CLASS_COUNT, params);
         if (count > 0) {
             List<Map<String, String>> queryResult = getSqlSession().selectList(QUERY_CLASS_PAGE, params);
-            addIsLastPageFlag(queryResult, pPagination.getPageSize());
+            //addIsLastPageFlag(queryResult, pPagination.getPageSize());
             return queryResult;
         }
         return null;

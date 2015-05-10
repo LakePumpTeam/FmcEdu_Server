@@ -6,6 +6,7 @@ import com.fmc.edu.util.pagenation.Pagination;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,15 +29,17 @@ public class LocationRepository extends BaseRepository implements ILocationRepos
 	}
 
 	@Override
-	public List<Map<String, String>> queryCityPage(final Pagination pPagination,final int pProvId, final String pKey) {
+	public Map<String, Object> queryCityPage(final Pagination pPagination,final int pProvId, final String pKey) {
 		Map<String, Object> params = paginationToParameters(pPagination);
 		params.put("key", pKey);
 		params.put("provId", pProvId);
 		int count = getSqlSession().selectOne(FILTER_CITY_COUNT, params);
 		if (count > 0) {
+			Map<String,Object> dataMap= new HashMap<String,Object>(2);
 			List<Map<String, String>> queryResult = getSqlSession().selectList(FILTER_CITY_PAGE, params);
-			addIsLastPageFlag(queryResult, pPagination.getPageSize());
-			return queryResult;
+			dataMap.put("cities",queryResult);
+			addIsLastPageFlag(dataMap, queryResult, pPagination.getPageSize());
+			return dataMap;
 		}
 		return null;
 	}

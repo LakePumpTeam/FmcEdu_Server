@@ -39,8 +39,8 @@ public class LocationController extends BaseController {
 		String key = decodeInput(filterKey);
 		String provinceId = decodeInput(provId);
 		Pagination pagination = buildPagination(pRequest);
-		List<Map<String, String>> cities = getLocationManager().queryCityPage(pagination,Integer.valueOf(provinceId), key);
-		return generateJsonOutput(Boolean.TRUE, cities, null);
+		Map<String, Object> dataMap = getLocationManager().queryCityPage(pagination,Integer.valueOf(provinceId), key);
+		return generateJsonOutput(Boolean.TRUE, dataMap, null);
 	}
 
 	public LocationManager getLocationManager() {

@@ -17,5 +17,5 @@ public interface ILocationRepository {
 	String FILTER_CITY_COUNT = "com.fmc.edu.location.filterCityCount";
 	String FILTER_CITY_PAGE = "com.fmc.edu.location.filterCityPage";
 
-	List<Map<String, String>> queryCityPage(final Pagination pPagination,final int pProvId, final String pKey);
+	Map<String, Object> queryCityPage(final Pagination pPagination,final int pProvId, final String pKey);
 }
