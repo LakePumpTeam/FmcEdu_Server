@@ -21,7 +21,7 @@
     </select>
 
     <select id="querySchoolPage" parameterType="map" resultType="map">
-        SELECT id, `name`
+        SELECT id as schoolId, `name` as schoolName
         FROM school
         <if test="key != null">
             WHERE `city_id` = #{cityId} and `name` LIKE CONCAT('%', #{key})
@@ -38,7 +38,7 @@
     </select>
 
     <select id="queryClassPage" parameterType="map" resultType="map">
-        SELECT id, `name`
+        SELECT id as classId, `name` as className
         FROM class
         <if test="key != null">
             WHERE `school_id` = #{schoolId} and `name` LIKE CONCAT('%', #{key})
@@ -47,7 +47,7 @@
     </select>
 
     <select id="queryHeadmaster" parameterType="map" resultType="map">
-        SELECT p.id, p.name
+        SELECT p.id as headTeacherId, p.name as headTeacherName
         FROM profile p
         LEFT JOIN teacher t
         ON p.id = t.profile_id

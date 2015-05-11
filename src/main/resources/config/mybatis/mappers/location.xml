@@ -23,7 +23,7 @@
     </select>
 
     <select id="filterProvPage" parameterType="map" resultType="map">
-        SELECT id, `name`
+        SELECT id as provId, `name`
         FROM province
         <if test="key != null">
             WHERE `name` LIKE CONCAT('%', #{key})
@@ -40,7 +40,7 @@
     </select>
 
     <select id="filterCityPage" parameterType="map" resultType="map">
-        SELECT id, `name`
+        SELECT id as cityId, `name`
         FROM city
         <if test="key != null">
             WHERE province_id = #{provId} and `name` LIKE CONCAT('%', #{key})
