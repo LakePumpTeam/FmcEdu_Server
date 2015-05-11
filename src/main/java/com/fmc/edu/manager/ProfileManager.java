@@ -1,6 +1,9 @@
 package com.fmc.edu.manager;
 
 import com.fmc.edu.configuration.WebConfig;
+import com.fmc.edu.model.address.Address;
+import com.fmc.edu.model.relationship.ParentStudentRelationship;
+import com.fmc.edu.model.student.Student;
 import com.fmc.edu.service.IMessageIdentifyService;
 import com.fmc.edu.service.impl.ParentService;
 import com.fmc.edu.service.impl.TempParentService;
@@ -26,6 +29,9 @@ public class ProfileManager {
 	@Resource(name = "parentService")
 	private ParentService mParentService;
 
+	@Resource(name = "schoolManager")
+	private SchoolManager mSchoolManager;
+
 
 	public String registerTempParent(String pPhoneNumber) {
 		String identifyCode = getMessageIdentifyService().sendIdentifyRequest(pPhoneNumber);
@@ -37,11 +43,22 @@ public class ProfileManager {
 		return getTempParentService().verifyTempParentAuthCode(pPhoneNumber, pPassword, pIdentifyingCode);
 	}
 
-	public boolean registerParent(String pPhoneNumber, int pAddressId) {
+	public boolean registerParentAddress(String pPhoneNumber, Address pAddress) {
 		// TODO check the parent is between temp parent and parent
-		return getParentService().registerParent(pPhoneNumber, pAddressId);
+		return getParentService().registerParentAddress(pPhoneNumber, pAddress);
 	}
 
+
+	public void registerRelationshipBetweenStudent(final ParentStudentRelationship pParentStudentRelationship, final Student pStudent, final int pAddressId) {
+		boolean persist = getSchoolManager().persistStudent(pStudent);
+		if (persist && pStudent.getId() > 0) {
+			pParentStudentRelationship.setStudentId(pStudent.getId());
+			boolean register = getParentService().registerParentStudentRelationship(pParentStudentRelationship);
+			if (register) {
+				getParentService().registerParent(pParentStudentRelationship.getParentPhone(), pAddressId);
+			}
+		}
+	}
 
 	/**
 	 * Return the MessageIdentifyService according the develop status.
@@ -81,5 +98,13 @@ public class ProfileManager {
 
 	public void setParentService(final ParentService pParentService) {
 		mParentService = pParentService;
+	}
+
+	public SchoolManager getSchoolManager() {
+		return mSchoolManager;
+	}
+
+	public void setSchoolManager(final SchoolManager pSchoolManager) {
+		mSchoolManager = pSchoolManager;
 	}
 }

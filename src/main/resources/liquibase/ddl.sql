@@ -160,6 +160,8 @@ CREATE TABLE IF NOT EXISTS `fmc_edu`.`profile` (
   ENGINE = InnoDB
   DEFAULT CHARACTER SET = utf8;
 
+CREATE UNIQUE INDEX `phone_UNIQUE` ON `fmc_edu`.`profile` (`phone` ASC);
+
 
 -- -----------------------------------------------------
 -- Table `fmc_edu`.`teacher`
@@ -167,10 +169,10 @@ CREATE TABLE IF NOT EXISTS `fmc_edu`.`profile` (
 DROP TABLE IF EXISTS `fmc_edu`.`teacher`;
 
 CREATE TABLE IF NOT EXISTS `fmc_edu`.`teacher` (
-  `profile_id`   INT(11)    NOT NULL,
-  `school_id`    INT(11)    NOT NULL,
+  `profile_id`  INT(11)    NOT NULL,
+  `school_id`   INT(11)    NOT NULL,
   `head_teacher` TINYINT(1) NOT NULL DEFAULT '0',
-  `initialized`  TINYINT(1) NOT NULL DEFAULT '0',
+  `initialized` TINYINT(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`profile_id`)
 )
   ENGINE = InnoDB
@@ -208,9 +210,9 @@ CREATE INDEX `fk_Parent_Profile1_idx` ON `fmc_edu`.`parent` (`profile_id` ASC);
 DROP TABLE IF EXISTS `fmc_edu`.`temp_parent`;
 
 CREATE TABLE IF NOT EXISTS `fmc_edu`.`temp_parent` (
-  `profile_id`       INT(11)     NOT NULL,
+  `profile_id`       INT(11)  NOT NULL,
   `identifying_code` VARCHAR(20) NULL DEFAULT NULL,
-  `identifying_date` DATETIME    NULL DEFAULT NULL,
+  `identifying_date` DATETIME NULL DEFAULT NULL,
   PRIMARY KEY (`profile_id`)
 )
   ENGINE = InnoDB
@@ -453,10 +455,10 @@ CREATE INDEX `fk_student_class1_idx` ON `fmc_edu`.`student` (`class_id` ASC);
 DROP TABLE IF EXISTS `fmc_edu`.`teacher`;
 
 CREATE TABLE IF NOT EXISTS `fmc_edu`.`teacher` (
-  `profile_id`   INT(11)    NOT NULL,
-  `school_id`    INT(11)    NOT NULL,
+  `profile_id`  INT(11)    NOT NULL,
+  `school_id`   INT(11)    NOT NULL,
   `head_teacher` TINYINT(1) NOT NULL DEFAULT '0',
-  `initialized`  TINYINT(1) NOT NULL DEFAULT '0',
+  `initialized` TINYINT(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`profile_id`)
 )
   ENGINE = InnoDB
@@ -495,9 +497,9 @@ CREATE INDEX `fk_teacher_has_class_teacher1_idx` ON `fmc_edu`.`teacher_class_map
 DROP TABLE IF EXISTS `fmc_edu`.`temp_parent`;
 
 CREATE TABLE IF NOT EXISTS `fmc_edu`.`temp_parent` (
-  `profile_id`       INT(11)     NOT NULL,
+  `profile_id`       INT(11)  NOT NULL,
   `identifying_code` VARCHAR(20) NULL DEFAULT NULL,
-  `identifying_date` DATETIME    NULL DEFAULT NULL,
+  `identifying_date` DATETIME NULL DEFAULT NULL,
   PRIMARY KEY (`profile_id`)
 )
   ENGINE = InnoDB

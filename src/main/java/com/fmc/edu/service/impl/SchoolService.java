@@ -1,5 +1,6 @@
 package com.fmc.edu.service.impl;
 
+import com.fmc.edu.model.student.Student;
 import com.fmc.edu.repository.ISchoolRepository;
 import com.fmc.edu.util.pagenation.Pagination;
 import org.springframework.stereotype.Service;
@@ -13,26 +14,40 @@ import java.util.Map;
  */
 @Service("schoolService")
 public class SchoolService {
-    @Resource(name="schoolRepository")
-    private ISchoolRepository mSchoolRepository;
 
-    public Map<String,Object> querySchoolsPage(Pagination pPagination, int pCityId, String pKey) {
-      return getSchoolRepository().querySchoolsPage(pPagination,pCityId,pKey);
-    }
+	@Resource(name = "schoolRepository")
+	private ISchoolRepository mSchoolRepository;
 
-    public Map<String,Object> queryClassesPage(Pagination pPagination, int pSchoolId, String pKey) {
-     return getSchoolRepository().queryClassesPage(pPagination,pSchoolId,pKey);
-    }
+	public Map<String, Object> querySchoolsPage(Pagination pPagination, int pCityId, String pKey) {
+		return getSchoolRepository().querySchoolsPage(pPagination, pCityId, pKey);
+	}
 
-    public List<Map<String, String>> queryHeadmasterPage(int pClassId, final int pSchoolId) {
-     return getSchoolRepository().queryHeadmasterPage(pClassId,pSchoolId);
-    }
+	public Map<String, Object> queryClassesPage(Pagination pPagination, int pSchoolId, String pKey) {
+		return getSchoolRepository().queryClassesPage(pPagination, pSchoolId, pKey);
+	}
 
-    public ISchoolRepository getSchoolRepository() {
-        return mSchoolRepository;
-    }
+	public List<Map<String, String>> queryHeadmasterPage(int pClassId, final int pSchoolId) {
+		return getSchoolRepository().queryHeadmasterPage(pClassId, pSchoolId);
+	}
 
-    public void setSchoolRepository(ISchoolRepository schoolRepository) {
-        this.mSchoolRepository = schoolRepository;
-    }
+	public boolean updateStudentById(final Student pStudent) {
+		return getSchoolRepository().updateStudentById(pStudent);
+	}
+
+	public boolean saveOrUpdateStudentByFields(final Student pStudent) {
+		int id = getSchoolRepository().queryStudentIdByFields(pStudent);
+		if (id > 0) {
+			pStudent.setId(id);
+			return updateStudentById(pStudent);
+		}
+		return getSchoolRepository().initialStudent(pStudent);
+	}
+
+	public ISchoolRepository getSchoolRepository() {
+		return mSchoolRepository;
+	}
+
+	public void setSchoolRepository(ISchoolRepository schoolRepository) {
+		this.mSchoolRepository = schoolRepository;
+	}
 }

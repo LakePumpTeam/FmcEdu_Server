@@ -11,25 +11,25 @@
 
 	<select id="queryTempParentByPhone" parameterType="string" resultMap="temp_parent">
 		SELECT id, phone, identifying_code, identifying_date, creation_date, last_update_date
-		FROM Profile
-		LEFT JOIN Temp_Parent on id = profile_id
+		FROM profile
+		LEFT JOIN temp_parent on id = profile_id
 		WHERE phone = #{phone}
 	</select>
 
 	<insert id="initialTempParent" keyProperty="id" useGeneratedKeys="true"
 	        parameterType="com.fmc.edu.model.profile.TempParentProfile">
-		INSERT INTO Profile (phone, profile_type, creation_date, last_update_date)
+		INSERT INTO profile (phone, profile_type, creation_date, last_update_date)
 		VALUES (#{phone}, #{profileType.value}, #{creationDate}, #{lastUpdateDate})
 	</insert>
 
 	<insert id="initialAuxiliaryTempParent" parameterType="com.fmc.edu.model.profile.TempParentProfile">
-		INSERT INTO Temp_Parent (profile_id, identifying_code, identifying_date)
+		INSERT INTO temp_parent (profile_id, identifying_code, identifying_date)
 		VALUES (#{id}, #{identifyingCode}, #{identifyDate})
 	</insert>
 
 	<update id="updateTempParentProfileIdentify" parameterType="com.fmc.edu.model.profile.TempParentProfile">
-		UPDATE Profile
-		LEFT JOIN Temp_Parent ON id = profile_id
+		UPDATE profile
+		LEFT JOIN temp_parent ON id = profile_id
 		SET password = #{password}, identifying_code = #{identifyingCode}, identifying_date=#{identifyDate}
 		WHERE id = #{id}
 	</update>
@@ -37,14 +37,14 @@
 	<select id="queryTempParentByIdentifyCode" parameterType="com.fmc.edu.model.profile.TempParentProfile"
 	        resultMap="temp_parent">
 		SELECT id, phone, identifying_code, identifying_date, creation_date, last_update_date
-		FROM Profile
-		LEFT JOIN Temp_Parent on id = profile_id
+		FROM profile
+		LEFT JOIN temp_parent on id = profile_id
 		WHERE phone = #{phone} AND identifying_code = #{identifyingCode} AND Identifying_Date IS NULL AND
 		<include refid="condition_temp_parent" />
 	</select>
 
 	<insert id="initialParentProfile" parameterType="string">
-		INSERT INTO Parent (profile_id, paid, free_trial)
+		INSERT INTO parent (profile_id, paid, free_trial)
 		VALUES (#{id}, 0, 0)
 	</insert>
 

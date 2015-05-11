@@ -2,7 +2,8 @@ package com.fmc.edu.model.address;
 
 import com.fmc.edu.model.BaseBean;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
+
 
 /**
  * Created by Yove on 5/8/2015.

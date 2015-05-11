@@ -20,6 +20,8 @@ public class Student extends BaseBean {
 
 	private String mRingNumber;
 
+	private String mRingPhone;
+
 	private Timestamp mCreationDate;
 
 	private boolean mAvailable;
@@ -70,6 +72,14 @@ public class Student extends BaseBean {
 
 	public void setRingNumber(final String pRingNumber) {
 		mRingNumber = pRingNumber;
+	}
+
+	public String getRingPhone() {
+		return mRingPhone;
+	}
+
+	public void setRingPhone(final String pRingPhone) {
+		mRingPhone = pRingPhone;
 	}
 
 	public Timestamp getCreationDate() {

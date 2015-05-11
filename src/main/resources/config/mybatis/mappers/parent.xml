@@ -15,4 +15,38 @@
 		WHERE phone = #{phone} and free_trial_end_date IS NULL AND
 		<include refid="condition_temp_parent" />
 	</update>
+
+	<insert id="persistParentAddress" parameterType="com.fmc.edu.model.address.Address">
+		INSERT INTO address (province_id, city_id, full_address, creation_date, last_update_date)
+		VALUES (#{provinceId}, #{cityId}, #{address}, #{creationDate}, #{lastUpdateDate});
+	</insert>
+
+	<select id="queryParentByPhone" parameterType="string" resultType="parent">
+		SELECT id, name, phone, app_id, channel_id, creation_date, last_login_date, last_update_date, available, address_id, paid,
+		free_trial, free_trail_end_date
+		FROM profile
+		LEFT JOIN parent ON id = profile_id
+		WHERE phone = #{phone}
+	</select>
+
+	<insert id="initialParentStudentRelationship" parameterType="com.fmc.edu.model.relationship.ParentStudentRelationship">
+		INSERT INTO parent_student_map (parent_id, student_id, relationship, creation_date, last_update_date)
+		VALUES (#{parentId}, #{studentId}, #{relationship}, #{creationDate}, #{lastUpdateDate})
+	</insert>
+
+	<resultMap id="parent" type="com.fmc.edu.model.profile.ParentProfile">
+		<id property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="phone" column="phone" />
+		<result property="appId" column="app_id" />
+		<result property="channelId" column="channel_id" />
+		<result property="creationDate" column="creation_date" />
+		<result property="lastLoginDate" column="last_login_date" />
+		<result property="lastUpdateDate" column="last_update_date" />
+		<result property="available" column="available" />
+		<result property="addressId" column="address_id" />
+		<result property="paid" column="paid" />
+		<result property="freeTrial" column="free_trial" />
+		<result property="freeTrialEndDate" column="free_trial_end_date" />
+	</resultMap>
 </mapper>

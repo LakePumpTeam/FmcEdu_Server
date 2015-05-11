@@ -1,5 +1,6 @@
 package com.fmc.edu.manager;
 
+import com.fmc.edu.model.student.Student;
 import com.fmc.edu.service.impl.SchoolService;
 import com.fmc.edu.util.pagenation.Pagination;
 import org.springframework.stereotype.Service;
@@ -13,25 +14,34 @@ import java.util.Map;
  */
 @Service(value = "schoolManager")
 public class SchoolManager {
-    @Resource(name = "schoolService")
-    private SchoolService mSchoolService;
 
-    public Map<String,Object> querySchoolsPage(Pagination pPagination, int pCityId, String pKey) {
-        return getSchoolService().querySchoolsPage(pPagination,pCityId,pKey);
-    }
+	@Resource(name = "schoolService")
+	private SchoolService mSchoolService;
 
-    public Map<String,Object> queryClassesPage(Pagination pPagination, int pSchoolId, String pKey) {
-        return getSchoolService().queryClassesPage(pPagination,pSchoolId,pKey);
-    }
+	public Map<String, Object> querySchoolsPage(Pagination pPagination, int pCityId, String pKey) {
+		return getSchoolService().querySchoolsPage(pPagination, pCityId, pKey);
+	}
 
-    public List<Map<String, String>> queryHeadmasterPage(int pClassId, final int pSchoolId) {
-        return getSchoolService().queryHeadmasterPage(pClassId,pSchoolId);
-    }
-    public SchoolService getSchoolService() {
-        return mSchoolService;
-    }
+	public Map<String, Object> queryClassesPage(Pagination pPagination, int pSchoolId, String pKey) {
+		return getSchoolService().queryClassesPage(pPagination, pSchoolId, pKey);
+	}
 
-    public void setSchoolService(SchoolService pSchoolService) {
-        this.mSchoolService = pSchoolService;
-    }
+	public List<Map<String, String>> queryHeadmasterPage(int pClassId, final int pSchoolId) {
+		return getSchoolService().queryHeadmasterPage(pClassId, pSchoolId);
+	}
+
+	public boolean persistStudent(final Student pStudent) {
+		if (pStudent.getId() > 0) {
+			return getSchoolService().updateStudentById(pStudent);
+		}
+		return getSchoolService().saveOrUpdateStudentByFields(pStudent);
+	}
+
+	public SchoolService getSchoolService() {
+		return mSchoolService;
+	}
+
+	public void setSchoolService(SchoolService pSchoolService) {
+		this.mSchoolService = pSchoolService;
+	}
 }
