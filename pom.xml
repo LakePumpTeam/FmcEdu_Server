@@ -290,7 +290,7 @@
                 </mybatis.db.url>
                 <mybatis.db.username>root</mybatis.db.username>
                 <mybatis.db.password>123abcABC</mybatis.db.password>
-                <cache.disk.store.path>/mnt/xvdb/var/encache/</cache.disk.store.path>
+                <cache.disk.store.path>/mnt/xvdb/var/ehcache</cache.disk.store.path>
             </properties>
         </profile>
     </profiles>
