@@ -379,6 +379,8 @@
                 </dependencies>
                 <executions>
                     <execution>
+                        <!--As the mybatis.properties will be filter when the resource phrase,
+                         so optimize the phase from "process-resource" to "process-class" phase-->
                         <phase>process-classes</phase>
                         <goals>
                             <goal>update</goal>
