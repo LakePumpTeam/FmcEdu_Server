@@ -33,7 +33,7 @@
 
     <select id="queryClassPage" parameterType="map" resultType="map">
         SELECT id, `name`
-        FROM school
+        FROM class
         <if test="key != null">
             WHERE `school_id` = #{schoolId} and `name` LIKE CONCAT('%', #{key})
         </if>
