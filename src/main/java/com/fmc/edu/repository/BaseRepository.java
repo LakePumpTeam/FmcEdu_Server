@@ -35,6 +35,7 @@ public abstract class BaseRepository {
 
 	protected void addIsLastPageFlag(Map<String,Object> pDataMap, List<Map<String, String>> pResult, final int pPageSize){
 		if(pResult == null){
+			pDataMap.put(IS_LAST_PAGE, GlobalConstant.TRUE);
 			return;
 		}
 

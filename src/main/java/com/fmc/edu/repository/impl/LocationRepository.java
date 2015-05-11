@@ -19,29 +19,30 @@ public class LocationRepository extends BaseRepository implements ILocationRepos
 	public Map<String, Object> queryProvincePage(Pagination pPagination, String pKey) {
 		Map<String, Object> params = paginationToParameters(pPagination);
 		params.put("key", pKey);
-		int count = getSqlSession().selectOne(FILTER_PROVINCE_COUNT, params);
+        Map<String, Object> dataMap = new HashMap<String, Object>(1);
+        List<Map<String, String>> queryResult = null;
+        int count = getSqlSession().selectOne(FILTER_PROVINCE_COUNT, params);
 		if (count > 0) {
-			Map<String, Object> dataMap = new HashMap<String, Object>(1);
-			List<Map<String, String>> queryResult = getSqlSession().selectList(FILTER_PROVINCE_PAGE, params);
-			dataMap.put("provinces", queryResult);
-			return dataMap;
-		}
-		return null;
-	}
+            queryResult = getSqlSession().selectList(FILTER_PROVINCE_PAGE, params);
+        }
+        dataMap.put("provinces", queryResult);
+        addIsLastPageFlag(dataMap, queryResult, pPagination.getPageSize());
+        return dataMap;
+    }
 
 	@Override
 	public Map<String, Object> queryCityPage(final Pagination pPagination,final int pProvId, final String pKey) {
 		Map<String, Object> params = paginationToParameters(pPagination);
 		params.put("key", pKey);
 		params.put("provId", pProvId);
-		int count = getSqlSession().selectOne(FILTER_CITY_COUNT, params);
+        Map<String, Object> dataMap = new HashMap<String, Object>(2);
+        List<Map<String, String>> queryResult = null;
+        int count = getSqlSession().selectOne(FILTER_CITY_COUNT, params);
 		if (count > 0) {
-			Map<String,Object> dataMap= new HashMap<String,Object>(2);
-			List<Map<String, String>> queryResult = getSqlSession().selectList(FILTER_CITY_PAGE, params);
-			dataMap.put("cities",queryResult);
-			addIsLastPageFlag(dataMap, queryResult, pPagination.getPageSize());
-			return dataMap;
-		}
-		return null;
-	}
+            queryResult = getSqlSession().selectList(FILTER_CITY_PAGE, params);
+        }
+        dataMap.put("cities", queryResult);
+        addIsLastPageFlag(dataMap, queryResult, pPagination.getPageSize());
+        return dataMap;
+    }
 }

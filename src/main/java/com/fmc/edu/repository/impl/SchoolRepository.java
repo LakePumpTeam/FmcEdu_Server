@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * Created by Yu on 2015/5/10.
@@ -21,14 +20,16 @@ public class SchoolRepository  extends BaseRepository implements ISchoolReposito
         params.put("key", pKey);
         params.put("cityId", pCityId);
         int count = getSqlSession().selectOne(QUERY_SCHOOL_COUNT, params);
+
+        Map<String, Object> dataList = new HashMap<String, Object>(2);
+        List<Map<String, String>> queryResult = null;
         if (count > 0) {
-            Map<String,Object> dataList = new HashMap<String, Object>(2);
-            List<Map<String, String>> queryResult = getSqlSession().selectList(QUERY_SCHOOL_PAGE, params);
-            dataList.put("schools",queryResult);
-            addIsLastPageFlag(dataList, queryResult, pPagination.getPageSize());
-            return dataList;
+            queryResult = getSqlSession().selectList(QUERY_SCHOOL_PAGE, params);
         }
-        return null;
+
+        dataList.put("schools", queryResult);
+        addIsLastPageFlag(dataList, queryResult, pPagination.getPageSize());
+        return dataList;
     }
 
     @Override
@@ -37,14 +38,14 @@ public class SchoolRepository  extends BaseRepository implements ISchoolReposito
         params.put("key", pKey);
         params.put("schoolId", pSchoolId);
         int count = getSqlSession().selectOne(QUERY_CLASS_COUNT, params);
+        Map<String, Object> dataList = new HashMap<String, Object>(2);
+        List<Map<String, String>> queryResult = null;
         if (count > 0) {
-            Map<String,Object> dataList = new HashMap<String, Object>(2);
-            List<Map<String, String>> queryResult = getSqlSession().selectList(QUERY_CLASS_PAGE, params);
-            dataList.put("classes", queryResult);
-            addIsLastPageFlag(dataList, queryResult, pPagination.getPageSize());
-            return dataList;
+            queryResult = getSqlSession().selectList(QUERY_CLASS_PAGE, params);
         }
-        return null;
+        dataList.put("classes", queryResult);
+        addIsLastPageFlag(dataList, queryResult, pPagination.getPageSize());
+        return dataList;
     }
 
     @Override
