@@ -1,17 +1,16 @@
 package com.fmc.edu.web;
 
-import com.fmc.edu.constant.GlobalConstant;
+import com.fmc.edu.crypto.Base64CryptoService;
 import com.fmc.edu.model.address.Address;
 import com.fmc.edu.model.relationship.ParentStudentRelationship;
 import com.fmc.edu.model.student.Student;
 import com.fmc.edu.util.DateUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
-import sun.misc.BASE64Decoder;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.text.ParseException;
 
 /**
@@ -19,21 +18,16 @@ import java.text.ParseException;
  */
 @Service(value = "requestParameterBuilder")
 public class RequestParameterBuilder {
-
-	protected String decodeInput(final String pParameter) throws IOException {
-		if (StringUtils.isBlank(pParameter)) {
-			return null;
-		}
-		return new String((new BASE64Decoder()).decodeBuffer(pParameter), Charset.forName(GlobalConstant.CHARSET_UTF8));
-	}
+	@Resource(name = "base64CryptoService")
+	private Base64CryptoService mBase64CryptoService;
 
 	public Student buildStudent(HttpServletRequest pRequest) throws IOException, ParseException {
-		String name = decodeInput(pRequest.getParameter("studentName"));
-		String sexString = decodeInput(pRequest.getParameter("studentSex"));
-		String birthString = decodeInput(pRequest.getParameter("studentAge"));
-		String ringNum = decodeInput(pRequest.getParameter("braceletNumber"));
-		String ringPhone = decodeInput(pRequest.getParameter("braceletCardNumber"));
-		String classId = decodeInput(pRequest.getParameter("classId"));
+		String name = mBase64CryptoService.decrypt(pRequest.getParameter("studentName"));
+		String sexString = mBase64CryptoService.decrypt(pRequest.getParameter("studentSex"));
+		String birthString = mBase64CryptoService.decrypt(pRequest.getParameter("studentAge"));
+		String ringNum = mBase64CryptoService.decrypt(pRequest.getParameter("braceletNumber"));
+		String ringPhone = mBase64CryptoService.decrypt(pRequest.getParameter("braceletCardNumber"));
+		String classId = mBase64CryptoService.decrypt(pRequest.getParameter("classId"));
 		Student stu = new Student(Integer.valueOf(classId), name);
 		//TODO update after confirmation
 		stu.setFemale(Boolean.valueOf(sexString));
@@ -46,20 +40,27 @@ public class RequestParameterBuilder {
 
 	public Address buildAddress(HttpServletRequest pRequest) throws IOException {
 		//TODO update after confirmation
-		String fullAddress = decodeInput(pRequest.getParameter("address"));
+		String fullAddress = mBase64CryptoService.decrypt(pRequest.getParameter("address"));
 		if (StringUtils.isBlank(fullAddress)) {
 			return null;
 		}
-		String provinceId = decodeInput(pRequest.getParameter("provId"));
-		String cityId = decodeInput(pRequest.getParameter("cityId"));
+		String provinceId = mBase64CryptoService.decrypt(pRequest.getParameter("provId"));
+		String cityId = mBase64CryptoService.decrypt(pRequest.getParameter("cityId"));
 		Address address = new Address(Integer.valueOf(provinceId), Integer.valueOf(cityId), fullAddress);
 		return address;
 	}
 
 	public ParentStudentRelationship buildParentStudentRelationship(HttpServletRequest pRequest) throws IOException {
-		String phone = decodeInput(pRequest.getParameter("cellPhone"));
-		String relationship = decodeInput(pRequest.getParameter("relation"));
+		String phone = mBase64CryptoService.decrypt(pRequest.getParameter("cellPhone"));
+		String relationship = mBase64CryptoService.decrypt(pRequest.getParameter("relation"));
 		return new ParentStudentRelationship(phone, relationship);
 	}
 
+	public Base64CryptoService getBase64CryptoService() {
+		return mBase64CryptoService;
+	}
+
+	public void setBase64CryptoService(Base64CryptoService pBase64CryptoService) {
+		this.mBase64CryptoService = pBase64CryptoService;
+	}
 }

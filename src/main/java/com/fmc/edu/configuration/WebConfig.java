@@ -86,7 +86,7 @@ public class WebConfig {
 		return password;
 	}
 
-	public static boolean getEncodeBase64InputParam() {
+	public static boolean isEncodeBase64InputParam() {
 		if (props == null) {
 			return  false;
 		}

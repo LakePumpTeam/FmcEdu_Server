@@ -298,7 +298,7 @@
             <td class="result"></td>
         </tr>
         <tr>
-            <td>#2</td>
+            <td>#3</td>
             <td class="function">班主任</td>
             <td class="baseUrl">${ctx}/school/requestHeadTeacher</td>
             <td class="parameters">
