@@ -5,6 +5,7 @@ import com.fmc.edu.repository.ILocationRepository;
 import com.fmc.edu.util.pagenation.Pagination;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +21,7 @@ public class LocationRepository extends BaseRepository implements ILocationRepos
 		Map<String, Object> params = paginationToParameters(pPagination);
 		params.put("key", pKey);
         Map<String, Object> dataMap = new HashMap<String, Object>(1);
-        List<Map<String, String>> queryResult = null;
+        List<Map<String, String>> queryResult = new ArrayList<Map<String, String>>(0);
         int count = getSqlSession().selectOne(FILTER_PROVINCE_COUNT, params);
 		if (count > 0) {
             queryResult = getSqlSession().selectList(FILTER_PROVINCE_PAGE, params);
@@ -36,7 +37,7 @@ public class LocationRepository extends BaseRepository implements ILocationRepos
 		params.put("key", pKey);
 		params.put("provId", pProvId);
         Map<String, Object> dataMap = new HashMap<String, Object>(2);
-        List<Map<String, String>> queryResult = null;
+        List<Map<String, String>> queryResult = new ArrayList<Map<String, String>>(0);
         int count = getSqlSession().selectOne(FILTER_CITY_COUNT, params);
 		if (count > 0) {
             queryResult = getSqlSession().selectList(FILTER_CITY_PAGE, params);
