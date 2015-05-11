@@ -293,7 +293,7 @@
             <resource>
                 <!--This config used to enable these file in the "directory" can reference property value in the pom.xml -->
                 <!--e.g: mybatis.properties-->
-                <directory>${project.basedir}src/main/resources</directory>
+                <directory>src/main/resources</directory>
                 <filtering>true</filtering>
                 <excludes>
                     <!--This config used to exclude some resource are packaged into war-->
