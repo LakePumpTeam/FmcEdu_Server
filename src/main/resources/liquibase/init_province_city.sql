@@ -1,5 +1,6 @@
+#province
 insert into province (name, last_update_date) values ("england", now());
-
+#city
 insert into city (id, province_id, name, last_update_date) values (1, 1, "aberdeen", now());
 insert into city (id, province_id, name, last_update_date) values (2, 1, "aberystwyth", now());
 insert into city (id, province_id, name, last_update_date) values (3, 1, "bangor", now());
@@ -124,3 +125,27 @@ insert into city (id, province_id, name, last_update_date) values (121, 1, "stor
 insert into city (id, province_id, name, last_update_date) values (122, 1, "flintshire", now());
 insert into city (id, province_id, name, last_update_date) values (123, 1, "newport", now());
 insert into city (id, province_id, name, last_update_date) values (124, 1, "medway", now());
+#school
+insert into school (name, province_id, city_id, last_update_date) values("aberdeen school", 1, 1, now());
+insert into school (name, province_id, city_id, last_update_date) values("bath school", 1, 1, now());
+insert into school (name, province_id, city_id, last_update_date) values("belfast school", 1, 1, now());
+insert into school (name, province_id, city_id, last_update_date) values("coventry school", 1, 1, now());
+insert into school (name, province_id, city_id, last_update_date) values("durham school", 1, 1, now());
+insert into school (name, province_id, city_id, last_update_date) values("gillingham school", 1, 1, now());
+insert into school (name, province_id, city_id, last_update_date) values("glasgow school", 1, 1, now());
+insert into school (name, province_id, city_id, last_update_date) values("inverness school", 1, 1, now());
+insert into school (name, province_id, city_id, last_update_date) values("kent school", 1, 1, now());
+insert into school (name, province_id, city_id, last_update_date) values("luton school", 1, 1, now());
+insert into school (name, province_id, city_id, last_update_date) values("oxford school", 1, 2, now());
+#class
+insert into class (grade, class, school_id, last_update_date) values("2015", "1", 1, now());
+insert into class (grade, class, school_id, last_update_date) values("2015", "2", 1, now());
+insert into class (grade, class, school_id, last_update_date) values("2015", "3", 1, now());
+insert into class (grade, class, school_id, last_update_date) values("2015", "4", 1, now());
+insert into class (grade, class, school_id, last_update_date) values("2015", "5", 1, now());
+insert into class (grade, class, school_id, last_update_date) values("2014", "1", 1, now());
+insert into class (grade, class, school_id, last_update_date) values("2014", "2", 1, now());
+insert into class (grade, class, school_id, last_update_date) values("2014", "3", 1, now());
+insert into class (grade, class, school_id, last_update_date) values("2014", "4", 1, now());
+insert into class (grade, class, school_id, last_update_date) values("2014", "5", 1, now());
+insert into class (grade, class, school_id, last_update_date) values("2014", "1", 2, now());
