@@ -5,6 +5,7 @@ import com.fmc.edu.repository.ISchoolRepository;
 import com.fmc.edu.util.pagenation.Pagination;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +23,7 @@ public class SchoolRepository  extends BaseRepository implements ISchoolReposito
         int count = getSqlSession().selectOne(QUERY_SCHOOL_COUNT, params);
 
         Map<String, Object> dataList = new HashMap<String, Object>(2);
-        List<Map<String, String>> queryResult = null;
+        List<Map<String, String>> queryResult = new ArrayList<Map<String, String>>(0);
         if (count > 0) {
             queryResult = getSqlSession().selectList(QUERY_SCHOOL_PAGE, params);
         }
@@ -39,7 +40,7 @@ public class SchoolRepository  extends BaseRepository implements ISchoolReposito
         params.put("schoolId", pSchoolId);
         int count = getSqlSession().selectOne(QUERY_CLASS_COUNT, params);
         Map<String, Object> dataList = new HashMap<String, Object>(2);
-        List<Map<String, String>> queryResult = null;
+        List<Map<String, String>> queryResult = new ArrayList<Map<String, String>>(0);
         if (count > 0) {
             queryResult = getSqlSession().selectList(QUERY_CLASS_PAGE, params);
         }
