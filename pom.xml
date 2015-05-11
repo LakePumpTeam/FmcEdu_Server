@@ -274,7 +274,6 @@
                 <mybatis.db.password>123</mybatis.db.password>
             </properties>
         </profile>
-
         <profile>
             <id>prod</id>
             <activation>
