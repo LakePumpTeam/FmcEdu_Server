@@ -1,45 +1,51 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fmc.edu.location">
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache"
+           eviction="FIFO"
+           flushInterval="60000"
+           size="512"
+           readOnly="true"
+            />
 
-	<sql id="limit-split-page">
-		limit #{start}, #{size}
-	</sql>
+    <sql id="limit-split-page">
+        limit #{start}, #{size}
+    </sql>
 
-	<select id="filterProvCount" parameterType="map" resultType="int">
-		SELECT count(id)
-		FROM province
-		<if test="key != null">
-			WHERE `name` LIKE CONCAT('%', #{key})
-		</if>
-	</select>
+    <select id="filterProvCount" parameterType="map" resultType="int">
+        SELECT count(id)
+        FROM province
+        <if test="key != null">
+            WHERE `name` LIKE CONCAT('%', #{key})
+        </if>
+    </select>
 
-	<select id="filterProvPage" parameterType="map" resultType="map">
-		SELECT id, `name`
-		FROM province
-		<if test="key != null">
-			WHERE `name` LIKE CONCAT('%', #{key})
-		</if>
-		<include refid="limit-split-page" />
-	</select>
+    <select id="filterProvPage" parameterType="map" resultType="map">
+        SELECT id, `name`
+        FROM province
+        <if test="key != null">
+            WHERE `name` LIKE CONCAT('%', #{key})
+        </if>
+        <include refid="limit-split-page"/>
+    </select>
 
-	<select id="filterCityCount" parameterType="map" resultType="int">
-		SELECT count(id)
-		FROM city
-		<if test="key != null">
-			WHERE province_id = #{provId} and  `name` LIKE CONCAT('%', #{key})
-		</if>
-	</select>
+    <select id="filterCityCount" parameterType="map" resultType="int">
+        SELECT count(id)
+        FROM city
+        <if test="key != null">
+            WHERE province_id = #{provId} and `name` LIKE CONCAT('%', #{key})
+        </if>
+    </select>
 
-	<select id="filterCityPage" parameterType="map" resultType="map">
-		SELECT id, `name`
-		FROM city
-		<if test="key != null">
-			WHERE province_id = #{provId} and  `name` LIKE CONCAT('%', #{key})
-		</if>
-		<include refid="limit-split-page" />
-	</select>
+    <select id="filterCityPage" parameterType="map" resultType="map">
+        SELECT id, `name`
+        FROM city
+        <if test="key != null">
+            WHERE province_id = #{provId} and `name` LIKE CONCAT('%', #{key})
+        </if>
+        <include refid="limit-split-page"/>
+    </select>
 
 </mapper>

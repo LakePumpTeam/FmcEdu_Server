@@ -116,7 +116,11 @@
             <artifactId>mybatis</artifactId>
             <version>${mybatisVersion}</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.mybatis.caches</groupId>
+            <artifactId>mybatis-ehcache</artifactId>
+            <version>1.0.3</version>
+        </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>jcl-over-slf4j</artifactId>
@@ -272,6 +276,7 @@
                 </mybatis.db.url>
                 <mybatis.db.username>root</mybatis.db.username>
                 <mybatis.db.password>123</mybatis.db.password>
+                <cache.disk.store.path>d:/ehcache/</cache.disk.store.path>
             </properties>
         </profile>
         <profile>
@@ -285,6 +290,7 @@
                 </mybatis.db.url>
                 <mybatis.db.username>root</mybatis.db.username>
                 <mybatis.db.password>123abcABC</mybatis.db.password>
+                <cache.disk.store.path>/mnt/xvdb/var/encache/</cache.disk.store.path>
             </properties>
         </profile>
     </profiles>
