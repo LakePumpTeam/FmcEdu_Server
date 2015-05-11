@@ -3,10 +3,8 @@ package com.fmc.edu.repository.impl;
 import com.fmc.edu.repository.BaseRepository;
 import com.fmc.edu.repository.ILocationRepository;
 import com.fmc.edu.util.pagenation.Pagination;
-import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,12 +16,15 @@ import java.util.Map;
 public class LocationRepository extends BaseRepository implements ILocationRepository {
 
 	@Override
-	public List<Map<String, String>> queryProvincePage(Pagination pPagination, String pKey) {
+	public Map<String, Object> queryProvincePage(Pagination pPagination, String pKey) {
 		Map<String, Object> params = paginationToParameters(pPagination);
 		params.put("key", pKey);
 		int count = getSqlSession().selectOne(FILTER_PROVINCE_COUNT, params);
 		if (count > 0) {
-			return getSqlSession().selectList(FILTER_PROVINCE_PAGE, params);
+			Map<String, Object> dataMap = new HashMap<String, Object>(1);
+			List<Map<String, String>> queryResult = getSqlSession().selectList(FILTER_PROVINCE_PAGE, params);
+			dataMap.put("provinces", queryResult);
+			return dataMap;
 		}
 		return null;
 	}

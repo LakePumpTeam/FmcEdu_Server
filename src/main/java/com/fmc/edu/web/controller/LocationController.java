@@ -12,7 +12,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -33,8 +32,8 @@ public class LocationController extends BaseController {
 		try {
 			String key = decodeInput(filterKey);
 			Pagination pagination = buildPagination(pRequest);
-			List<Map<String, String>> cities = getLocationManager().queryProvincePage(pagination, key);
-			responseMsg = generateJsonOutput(Boolean.TRUE, cities, null);
+			Map<String, Object> dataMap = getLocationManager().queryProvincePage(pagination, key);
+			responseMsg = generateJsonOutput(Boolean.TRUE, dataMap, null);
 		} catch (IOException e) {
 			responseMsg = generateJsonOutput(Boolean.FALSE, null, "Invalid input parameters.");
 			LOG.error(e);

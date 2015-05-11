@@ -5,7 +5,6 @@ import com.fmc.edu.util.pagenation.Pagination;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,7 +16,7 @@ public class LocationManager {
 	@Resource(name = "locationService")
 	private LocationService mLocationService;
 
-	public List<Map<String, String>> queryProvincePage(final Pagination pPagination, final String pKey) {
+	public Map<String, Object> queryProvincePage(final Pagination pPagination, final String pKey) {
 		return getLocationService().queryProvincePage(pPagination, pKey);
 	}
 
