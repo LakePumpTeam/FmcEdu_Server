@@ -21,7 +21,7 @@
 		VALUES (#{provinceId}, #{cityId}, #{address}, #{creationDate}, #{lastUpdateDate});
 	</insert>
 
-	<select id="queryParentByPhone" parameterType="string" resultType="parent">
+	<select id="queryParentByPhone" parameterType="string" resultMap="parent">
 		SELECT id, name, phone, app_id, channel_id, creation_date, last_login_date, last_update_date, available, address_id, paid,
 		free_trial, free_trail_end_date
 		FROM profile
