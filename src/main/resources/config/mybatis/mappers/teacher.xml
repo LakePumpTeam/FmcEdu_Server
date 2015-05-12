@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fmc.edu.teacher">
+    <resultMap id="school" type="com.fmc.edu.model.school.School">
+        <id property="id" column="scl_id"/>
+        <id property="name" column="schoolName"/>
+        <result property="provinceId" column="province_id"/>
+        <result property="cityId" column="city_id"/>
+        <result property="addressId" column="address_id"/>
+    </resultMap>
+
+    <resultMap id="teacher" type="com.fmc.edu.model.profile.TeacherProfile">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="phone" column="phone"/>
+        <result property="appId" column="app_id"/>
+        <result property="channelId" column="channel_id"/>
+        <result property="creationDate" column="creation_date"/>
+        <result property="lastLoginDate" column="last_login_date"/>
+        <result property="lastUpdateDate" column="last_update_date"/>
+        <result property="available" column="available"/>
+        <result property="headTeacher" column="head_teacher"/>
+        <result property="initialized" column="initialized"/>
+        <collection property="school" resultMap="school"/>
+    </resultMap>
+
+    <select id="queryTeacherById" parameterType="int" resultMap="teacher">
+        select p.id, p.name, p.phone, p.app_id, p.channel_id, p.creation_date, p.last_login_date, p.last_update_date,
+        p.available,
+        t.head_teacher, t.initialized,
+        scl.id as scl_id, scl.name as schoolName, scl.province_id, scl.city_id, scl.address_id
+        from profile p
+        left join teacher t
+        on p.id = t.profile_id
+        left join school scl
+        on scl.id = t.school_id
+        where t.id = #{id}
+    </select>
+</mapper>

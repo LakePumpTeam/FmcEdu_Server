@@ -1,0 +1,55 @@
+package com.fmc.edu.model.school;
+
+import com.fmc.edu.model.BaseBean;
+
+/**
+ * Created by Yu on 5/12/2015.
+ */
+public class FcmClass extends BaseBean {
+    private int mSchoolId;
+    private String mGrade;
+    private boolean mAvailable;
+    private String mRealClass;
+    private String mHeadTeacherId;
+
+    public int getSchoolId() {
+        return mSchoolId;
+    }
+
+    public void setSchoolId(int pSchoolId) {
+        mSchoolId = pSchoolId;
+    }
+
+    public String getGrade() {
+        return mGrade;
+    }
+
+    public void setGrade(String pGrade) {
+        mGrade = pGrade;
+    }
+
+    public boolean isAvailable() {
+        return mAvailable;
+    }
+
+    public void setAvailable(boolean pAvailable) {
+        mAvailable = pAvailable;
+    }
+
+    public String getRealClass() {
+        return mRealClass;
+    }
+
+    public void setRealClass(String pRealClass) {
+        mRealClass = pRealClass;
+    }
+
+    public String getHeadTeacherId() {
+        return mHeadTeacherId;
+    }
+
+    public void setHeadTeacherId(String pHeadTeacherId) {
+        mHeadTeacherId = pHeadTeacherId;
+    }
+
+}

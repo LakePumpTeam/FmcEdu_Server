@@ -1,52 +1,67 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fmc.edu.school">
-	<cache type="org.mybatis.caches.ehcache.EhcacheCache"
-	       eviction="FIFO"
-	       flushInterval="60000"
-	       size="512"
-	       readOnly="true"
-			/>
-	<sql id="limit-split-page">
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache"
+           eviction="FIFO"
+           flushInterval="60000"
+           size="512"
+           readOnly="true"
+            />
+    <sql id="limit-split-page">
         limit #{start}, #{size}
     </sql>
-	<select id="querySchoolCount" parameterType="map" resultType="int">
-		SELECT count(id)
-		FROM school
-		<if test="key != null">
-			WHERE `city_id` = #{cityId} and `name` LIKE CONCAT('%', #{key})
-		</if>
-	</select>
+    <select id="querySchoolCount" parameterType="map" resultType="int">
+        SELECT count(id)
+        FROM school
+        <where>
+            `city_id` = #{cityId}
+            <if test="key != null">
+                and `name` LIKE CONCAT('%', #{key})
+            </if>
+        </where>
 
-	<select id="querySchoolPage" parameterType="map" resultType="map">
-		SELECT id as schoolId, `name` as schoolName
-		FROM school
-		<if test="key != null">
-			WHERE `city_id` = #{cityId} and `name` LIKE CONCAT('%', #{key})
-		</if>
-		<include refid="limit-split-page" />
-	</select>
+    </select>
 
-	<select id="queryClassCount" parameterType="map" resultType="int">
-		SELECT count(id)
-		FROM class
-		<if test="key != null">
-			WHERE `school_id` = #{schoolId} and `name` LIKE CONCAT('%', #{key})
-		</if>
-	</select>
+    <select id="querySchoolPage" parameterType="map" resultType="map">
+        SELECT id as schoolId, `name` as schoolName
+        FROM school
+        <where>
+            `city_id` = #{cityId}
+            <if test="key != null">
+                and `name` LIKE CONCAT('%', #{key})
+            </if>
+        </where>
 
-	<select id="queryClassPage" parameterType="map" resultType="map">
-		SELECT id as classId, `name` as className
-		FROM class
-		<if test="key != null">
-			WHERE `school_id` = #{schoolId} and `name` LIKE CONCAT('%', #{key})
-		</if>
-		<include refid="limit-split-page" />
-	</select>
+        <include refid="limit-split-page"/>
+    </select>
 
-	<select id="queryHeadmaster" parameterType="map" resultType="map">
+    <select id="queryClassCount" parameterType="map" resultType="int">
+        SELECT count(id)
+        FROM class
+        <where>
+            `school_id` = #{schoolId}
+            <if test="key != null">
+                and `name` LIKE CONCAT('%', #{key})
+            </if>
+        </where>
+
+    </select>
+
+    <select id="queryClassPage" parameterType="map" resultType="map">
+        SELECT id as classId, `name` as className
+        FROM class
+        <where>
+            `school_id` = #{schoolId}
+            <if test="key != null">
+                and `name` LIKE CONCAT('%', #{key})
+            </if>
+        </where>
+        <include refid="limit-split-page"/>
+    </select>
+
+    <select id="queryHeadmaster" parameterType="map" resultType="map">
         SELECT p.id as headTeacherId, p.name as headTeacherName
         FROM profile p
         LEFT JOIN teacher t
@@ -58,21 +73,27 @@
         WHERE c.id = #{classId} and t.school_id = #{schoolId};
     </select>
 
-	<insert id="initialStudent" useGeneratedKeys="true" keyProperty="id" parameterType="com.fmc.edu.model.student.Student">
-		INSERT INTO student (name, class_id, sex, birth, ring_number, ring_phone, creation_date, last_update_date)
-		VALUES (#{name}, #{classId}, #{female}, #{birth}, #{ringNumber}, #{ringPhone}, #{creationDate}, #{lastUpdateDate})
-	</insert>
+    <select id="queryTeacherById" parameterType="int" resultMap="map">
+        SELECT
+    </select>
 
-	<select id="queryStudentIdByFields" parameterType="com.fmc.edu.model.student.Student" resultType="int">
-		SELECT id
-		FROM student
-		WHERE NAME = #{name} AND class_id = #{classId}
-	</select>
+    <insert id="initialStudent" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.fmc.edu.model.student.Student">
+        INSERT INTO student (name, class_id, sex, birth, ring_number, ring_phone, creation_date, last_update_date)
+        VALUES (#{name}, #{classId}, #{female}, #{birth}, #{ringNumber}, #{ringPhone}, #{creationDate},
+        #{lastUpdateDate})
+    </insert>
 
-	<update id="updateStudentById" parameterType="com.fmc.edu.model.student.Student">
-		UPDATE student
-		SET name = #{name}, class_id = #{classId}, sex = #{female}, birth = #{birth}, ring_number = #{ringNumber}
-			ring_phone = #{ringPhone}, last_update_date = #{lastUpdateDate}
-		WHERE id = #{id}
-	</update>
+    <select id="queryStudentIdByFields" parameterType="com.fmc.edu.model.student.Student" resultType="int">
+        SELECT id
+        FROM student
+        WHERE NAME = #{name} AND class_id = #{classId}
+    </select>
+
+    <update id="updateStudentById" parameterType="com.fmc.edu.model.student.Student">
+        UPDATE student
+        SET name = #{name}, class_id = #{classId}, sex = #{female}, birth = #{birth}, ring_number = #{ringNumber}
+        ring_phone = #{ringPhone}, last_update_date = #{lastUpdateDate}
+        WHERE id = #{id}
+    </update>
 </mapper>

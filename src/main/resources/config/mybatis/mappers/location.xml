@@ -34,17 +34,23 @@
     <select id="filterCityCount" parameterType="map" resultType="int">
         SELECT count(id)
         FROM city
-        <if test="key != null">
-            WHERE province_id = #{provId} and `name` LIKE CONCAT('%', #{key})
-        </if>
+        <where>
+            province_id = #{provId}
+            <if test="key != null">
+                and `name` LIKE CONCAT('%', #{key})
+            </if>
+        </where>
     </select>
 
     <select id="filterCityPage" parameterType="map" resultType="map">
         SELECT id as cityId, `name`
         FROM city
-        <if test="key != null">
-            WHERE province_id = #{provId} and `name` LIKE CONCAT('%', #{key})
-        </if>
+        <where>
+            province_id = #{provId}
+            <if test="key != null">
+                and `name` LIKE CONCAT('%', #{key})
+            </if>
+        </where>
         <include refid="limit-split-page"/>
     </select>
 

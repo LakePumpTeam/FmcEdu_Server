@@ -2,6 +2,7 @@ package com.fmc.edu.manager;
 
 import com.fmc.edu.configuration.WebConfig;
 import com.fmc.edu.model.address.Address;
+import com.fmc.edu.model.profile.ParentProfile;
 import com.fmc.edu.model.relationship.ParentStudentRelationship;
 import com.fmc.edu.model.student.Student;
 import com.fmc.edu.service.IMessageIdentifyService;
@@ -60,6 +61,9 @@ public class ProfileManager {
 		}
 	}
 
+	public ParentProfile queryParentByPhone(String pParentPhone) {
+		return getParentService().queryParentByPhone(pParentPhone);
+	}
 	/**
 	 * Return the MessageIdentifyService according the develop status.
 	 *

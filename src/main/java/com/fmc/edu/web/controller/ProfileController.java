@@ -2,13 +2,17 @@ package com.fmc.edu.web.controller;
 
 import com.fmc.edu.constant.GlobalConstant;
 import com.fmc.edu.constant.SessionConstant;
+import com.fmc.edu.exception.LoginException;
+import com.fmc.edu.manager.MyAccountManager;
 import com.fmc.edu.manager.ProfileManager;
 import com.fmc.edu.manager.SchoolManager;
 import com.fmc.edu.model.address.Address;
+import com.fmc.edu.model.profile.BaseProfile;
 import com.fmc.edu.model.relationship.ParentStudentRelationship;
 import com.fmc.edu.model.student.Student;
 import com.fmc.edu.util.ValidationUtils;
 import com.fmc.edu.web.RequestParameterBuilder;
+import com.fmc.edu.web.ResponseBuilder;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,8 +50,14 @@ public class ProfileController extends BaseController {
 	@Resource(name = "schoolManager")
 	private SchoolManager mSchoolManager;
 
+	@Resource(name = "myAccountManager")
+	private MyAccountManager mMyAccountManager;
+
 	@Resource(name = "requestParameterBuilder")
 	private RequestParameterBuilder mParameterBuilder;
+
+	@Resource(name = "responseBuilder")
+	private ResponseBuilder mResponseBuilder;
 
 	@Autowired
 	private DataSourceTransactionManager mTransactionManager;
@@ -124,6 +134,33 @@ public class ProfileController extends BaseController {
 		}
 	}
 
+	@RequestMapping(value = "/requestLogin" + GlobalConstant.URL_SUFFIX)
+	@ResponseBody
+	public String requestLogin(HttpServletRequest pRequest, final HttpServletResponse pResponse, final String userAccount, final String password) {
+		Map<String, Object> responseData = new HashMap<String, Object>();
+		boolean isLoginSuccess = false;
+		boolean success = true;
+		String failedMsg = null;
+		BaseProfile user = null;
+		try {
+			user = getMyAccountManager().loginUser(userAccount, password);
+			isLoginSuccess = true;
+		} catch (LoginException e) {
+			LOG.debug("Login failed:" + e.getMessage());
+			responseData.put("msg", e.getMessage());
+		} catch (Exception e) {
+			success = false;
+			failedMsg = e.getMessage();
+			LOG.error(e);
+		}
+		responseData.put("isLoginSuccess", isLoginSuccess);
+		if (user != null) {
+			getResponseBuilder().buildAuthorizedResponse(responseData, user);
+		}
+
+		return generateJsonOutput(success, responseData, failedMsg);
+	}
+
 	public ProfileManager getProfileManager() {
 		return mProfileManager;
 	}
@@ -154,5 +191,21 @@ public class ProfileController extends BaseController {
 
 	public void setTransactionManager(final DataSourceTransactionManager pTransactionManager) {
 		mTransactionManager = pTransactionManager;
+	}
+
+	public MyAccountManager getMyAccountManager() {
+		return mMyAccountManager;
+	}
+
+	public void setMyAccountManager(MyAccountManager pMyAccountManager) {
+		mMyAccountManager = pMyAccountManager;
+	}
+
+	public ResponseBuilder getResponseBuilder() {
+		return mResponseBuilder;
+	}
+
+	public void setResponseBuilder(ResponseBuilder pResponseBuilder) {
+		mResponseBuilder = pResponseBuilder;
 	}
 }

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fmc.edu.student">
+
+    <resultMap id="parentStudentRelationship" type="com.fmc.edu.model.relationship.ParentStudentRelationship">
+        <id property="parentId" column="parent_id"/>
+        <result property="studentId" column="student_id"/>
+        <result property="relationship" column="relationship"/>
+        <result property="approved" column="approved"/>
+        <result property="approvedDate" column="approved_date"/>
+    </resultMap>
+
+    <resultMap id="fcmClass" type="com.fmc.edu.model.school.FcmClass">
+        <id property="id" column="cls_id"/>
+        <id property="schoolId" column="school_id"/>
+        <result property="grade" column="grade"/>
+        <result property="available" column="available"/>
+        <result property="realClass" column="class"/>
+        <result property="headTeacherId" column="head_teacher_id"/>
+    </resultMap>
+
+
+    <resultMap id="school" type="com.fmc.edu.model.school.School">
+        <id property="id" column="scl_id"/>
+        <id property="name" column="schoolName"/>
+        <result property="provinceId" column="province_id"/>
+        <result property="cityId" column="city_id"/>
+        <result property="addressId" column="address_id"/>
+    </resultMap>
+
+
+    <resultMap id="student" type="com.fmc.edu.model.student.Student">
+        <id property="id" column="s_id"/>
+        <result property="classId" column="class_id"/>
+        <result property="name" column="name"/>
+        <result property="female" column="sex"/>
+        <result property="birth" column="birth"/>
+        <result property="ringNumber" column="ring_number"/>
+        <result property="ringPhone" column="ring_phone"/>
+        <result property="creationDate" column="creation_date"/>
+        <result property="available" column="available"/>
+        <collection property="mParentStudentRelationship" resultMap="parentStudentRelationship"/>
+        <collection property="school" resultMap="school"/>
+        <collection property="fcmClass" resultMap="fcmClass"/>
+    </resultMap>
+
+    <select id="queryStudentsByParentId" resultType="student" parameterType="string">
+        select s.id as s_id,
+        s.class_id,
+        s.sex,
+        s.birth,
+        s.ring_number,
+        s.ring_phone,
+        s.creation_date,
+        s.available,
+        psc.parent_id,
+        psc.student_id,
+        psc.relationship,
+        psc.approved,
+        psc.approved_date,
+        cls.id as cls_id,
+        cls.school_id,
+        cls.grade,
+        cls.class,
+        cls.available,
+        cls.head_teacher_id,
+        scl.id as scl_id,
+        scl.name as schoolName
+        from student s
+        left join parent_student_map psm
+        on s.id = psm.student_id
+        left join class cls
+        on cls.id = s.class_id
+        left join school scl
+        on scl.id =cls.school_id
+        where psm.parent_id = #{parentId}
+    </select>
+
+</mapper>

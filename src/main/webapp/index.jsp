@@ -157,6 +157,26 @@
         <td class="result"></td>
     </tr>
     -->
+  <tr>
+     <td>#4</td>
+     <td class="function">登陆</td>
+     <td class="baseUrl">${ctx}/profile/requestLogin</td>
+     <td class="parameters">
+         <table>
+             <tr>
+                 <td align="right"><label for="userAccount" title="userAccount">userAccount</label></td>
+                 <td><input type="text" class="ipt_value" id="userAccount" value=""/></td>
+             </tr>
+             <tr>
+                 <td align="right"><label for="password" title="password">password</label></td>
+                 <td><input type="text" class="ipt_value" id="password" value=""/></td>
+             </tr>
+         </table>
+     </td>
+     <td><input type="button" class="btn_request" value="Request"/></td>
+     <td><input type="button" class="btn_reset" value="Reset"/></td>
+     <td class="result"></td>
+ </tr>
 </table>
 </fieldset>
 

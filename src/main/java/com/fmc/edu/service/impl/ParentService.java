@@ -41,6 +41,10 @@ public class ParentService {
 		return false;
 	}
 
+	public ParentProfile queryParentByPhone(String pParentPhone) {
+		return getParentRepository().queryParentByPhone(pParentPhone);
+	}
+
 	public IParentRepository getParentRepository() {
 		return mParentRepository;
 	}
