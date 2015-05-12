@@ -118,7 +118,7 @@ public class ProfileController extends BaseController {
 			status.setRollbackOnly();
 		} finally {
 			getTransactionManager().commit(status);
-			Map<String, Object> dataMap = new HashMap<>();
+			Map<String, Object> dataMap = new HashMap<String, Object>();
 			dataMap.put("issuccess", success);
 			return generateJsonOutput(success, dataMap, null);
 		}

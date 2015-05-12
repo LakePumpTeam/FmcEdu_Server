@@ -1,6 +1,6 @@
 package com.fmc.edu.web;
 
-import com.fmc.edu.crypto.Base64CryptoService;
+import com.fmc.edu.crypto.impl.Base64CryptoService;
 import com.fmc.edu.model.address.Address;
 import com.fmc.edu.model.relationship.ParentStudentRelationship;
 import com.fmc.edu.model.student.Student;

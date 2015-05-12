@@ -1,6 +1,7 @@
-package com.fmc.edu.crypto;
+package com.fmc.edu.crypto.impl;
 
 import com.fmc.edu.constant.GlobalConstant;
+import com.fmc.edu.crypto.ICryptoService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import sun.misc.BASE64Decoder;
@@ -16,7 +17,7 @@ import java.nio.charset.Charset;
 @Service("base64CryptoService")
 public class Base64CryptoService implements ICryptoService {
 
-    private static int BASS64_MIN_LENGTH = 4;
+    private static int BASS64_MIN_LENGTH = 3;
 
     public String encrypt(final String pMessage) {
         if (pMessage == null) {
@@ -28,7 +29,7 @@ public class Base64CryptoService implements ICryptoService {
     @Override
     public byte[] encrypt(byte[] pSrc) {
         try {
-            return encrypt(new String(pSrc)).getBytes(GlobalConstant.CHARSET_UTF8);
+            return encrypt(new String(pSrc, Charset.forName(GlobalConstant.CHARSET_UTF8))).getBytes(GlobalConstant.CHARSET_UTF8);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -41,11 +42,11 @@ public class Base64CryptoService implements ICryptoService {
         }
         String parameter = pParameter;
         try {
-            if (parameter.length() >= BASS64_MIN_LENGTH && parameter.endsWith("==")) {
-                return new String((new BASE64Decoder()).decodeBuffer(parameter), Charset.forName(GlobalConstant.CHARSET_UTF8));
+            int diffLength = BASS64_MIN_LENGTH - (parameter.length() % BASS64_MIN_LENGTH);
+            if (diffLength > 0) {
+                //as the min length of base64 encoded string is 4, so we need append "=" to right if the length less then 4.
+                parameter = StringUtils.rightPad(parameter, parameter.length() + diffLength, '=');
             }
-            //as the min length of base64 encoded string is 4, so we need append "=" to right if the length less then 4.
-            parameter = StringUtils.rightPad(parameter, parameter.length() + 2, '=');
             return new String((new BASE64Decoder()).decodeBuffer(parameter), Charset.forName(GlobalConstant.CHARSET_UTF8));
         } catch (IOException e) {
             e.printStackTrace();
@@ -56,7 +57,7 @@ public class Base64CryptoService implements ICryptoService {
     @Override
     public byte[] decrypt(byte[] pSrc) {
         try {
-            return decrypt(new String(pSrc)).getBytes(GlobalConstant.CHARSET_UTF8);
+            return decrypt(new String(pSrc, Charset.forName(GlobalConstant.CHARSET_UTF8))).getBytes(GlobalConstant.CHARSET_UTF8);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
