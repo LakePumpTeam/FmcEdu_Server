@@ -143,7 +143,9 @@ public class ProfileController extends BaseController {
 		String failedMsg = null;
 		BaseProfile user = null;
 		try {
-			user = getMyAccountManager().loginUser(userAccount, password);
+			String account = decodeInput(userAccount);
+			String pwd = decodeInput(password);
+			user = getMyAccountManager().loginUser(account, pwd);
 			isLoginSuccess = true;
 		} catch (LoginException e) {
 			LOG.debug("Login failed:" + e.getMessage());
