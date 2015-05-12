@@ -73,10 +73,6 @@
         WHERE c.id = #{classId} and t.school_id = #{schoolId};
     </select>
 
-    <select id="queryTeacherById" parameterType="int" resultMap="map">
-        SELECT
-    </select>
-
     <insert id="initialStudent" useGeneratedKeys="true" keyProperty="id"
             parameterType="com.fmc.edu.model.student.Student">
         INSERT INTO student (name, class_id, sex, birth, ring_number, ring_phone, creation_date, last_update_date)
