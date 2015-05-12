@@ -21,8 +21,8 @@
         profile
         where phone = #{userAccount}
     </select>
-    
-    <update id="updateLoginStatus" parameterType="profile" flushCache="true">
+
+    <update id="updateLoginStatus" parameterMap="profile" flushCache="true">
         update profile
         set last_login_date = #{lastLoginDate}
         where id = #{id}
