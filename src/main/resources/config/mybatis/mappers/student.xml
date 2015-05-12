@@ -46,7 +46,7 @@
         <collection property="fcmClass" resultMap="fcmClass"/>
     </resultMap>
 
-    <select id="queryStudentsByParentId" resultType="student" parameterType="string">
+    <select id="queryStudentsByParentId" resultMap="student" parameterType="string">
         select s.id as s_id,
         s.class_id,
         s.sex,

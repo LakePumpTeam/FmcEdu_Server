@@ -3,7 +3,8 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fmc.edu.myaccount">
-    <select id="login" parameterType="string" resultType="profile">
+
+    <select id="login" parameterType="string" resultMap="profile">
         select
         id,
         name,
@@ -20,6 +21,7 @@
         profile
         where phone = #{userAccount}
     </select>
+    
     <update id="updateLoginStatus" parameterType="profile" flushCache="true">
         update profile
         set last_login_date = #{lastLoginDate}
