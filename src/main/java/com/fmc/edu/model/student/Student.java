@@ -13,121 +13,121 @@ import java.util.Date;
  */
 public class Student extends BaseBean {
 
-    private int mClassId;
+	private int mClassId;
 
-    private String mName;
+	private String mName;
 
-    private boolean mFemale;
+	private boolean mMale;
 
-    private Date mBirth;
+	private Date mBirth;
 
-    private String mRingNumber;
+	private String mRingNumber;
 
-    private String mRingPhone;
+	private String mRingPhone;
 
-    private Timestamp mCreationDate;
+	private Timestamp mCreationDate;
 
-    private boolean mAvailable;
+	private boolean mAvailable;
 
-    private ParentStudentRelationship mParentStudentRelationship;
+	private ParentStudentRelationship mParentStudentRelationship;
 
-    private School mSchool;
+	private School mSchool;
 
-    private FcmClass mFcmClass;
+	private FcmClass mFcmClass;
 
-    public Student() {
-    }
+	public Student() {
+	}
 
-    public Student(final int pClassId, final String pName) {
-        mClassId = pClassId;
-        mName = pName;
-    }
+	public Student(final int pClassId, final String pName) {
+		mClassId = pClassId;
+		mName = pName;
+	}
 
-    public int getClassId() {
-        return mClassId;
-    }
+	public int getClassId() {
+		return mClassId;
+	}
 
-    public void setClassId(final int pClassId) {
-        mClassId = pClassId;
-    }
+	public void setClassId(final int pClassId) {
+		mClassId = pClassId;
+	}
 
-    public String getName() {
-        return mName;
-    }
+	public String getName() {
+		return mName;
+	}
 
-    public void setName(final String pName) {
-        mName = pName;
-    }
+	public void setName(final String pName) {
+		mName = pName;
+	}
 
-    public boolean isFemale() {
-        return mFemale;
-    }
+	public boolean isMale() {
+		return mMale;
+	}
 
-    public void setFemale(final boolean pFemale) {
-        mFemale = pFemale;
-    }
+	public void setMale(final boolean pMale) {
+		mMale = pMale;
+	}
 
-    public Date getBirth() {
-        return mBirth;
-    }
+	public Date getBirth() {
+		return mBirth;
+	}
 
-    public void setBirth(final Date pBirth) {
-        mBirth = pBirth;
-    }
+	public void setBirth(final Date pBirth) {
+		mBirth = pBirth;
+	}
 
-    public String getRingNumber() {
-        return mRingNumber;
-    }
+	public String getRingNumber() {
+		return mRingNumber;
+	}
 
-    public void setRingNumber(final String pRingNumber) {
-        mRingNumber = pRingNumber;
-    }
+	public void setRingNumber(final String pRingNumber) {
+		mRingNumber = pRingNumber;
+	}
 
-    public String getRingPhone() {
-        return mRingPhone;
-    }
+	public String getRingPhone() {
+		return mRingPhone;
+	}
 
-    public void setRingPhone(final String pRingPhone) {
-        mRingPhone = pRingPhone;
-    }
+	public void setRingPhone(final String pRingPhone) {
+		mRingPhone = pRingPhone;
+	}
 
-    public Timestamp getCreationDate() {
-        return mCreationDate;
-    }
+	public Timestamp getCreationDate() {
+		return mCreationDate;
+	}
 
-    public void setCreationDate(final Timestamp pCreationDate) {
-        mCreationDate = pCreationDate;
-    }
+	public void setCreationDate(final Timestamp pCreationDate) {
+		mCreationDate = pCreationDate;
+	}
 
-    public boolean isAvailable() {
-        return mAvailable;
-    }
+	public boolean isAvailable() {
+		return mAvailable;
+	}
 
-    public void setAvailable(final boolean pAvailable) {
-        mAvailable = pAvailable;
-    }
+	public void setAvailable(final boolean pAvailable) {
+		mAvailable = pAvailable;
+	}
 
-    public ParentStudentRelationship getParentStudentRelationship() {
-        return mParentStudentRelationship;
-    }
+	public ParentStudentRelationship getParentStudentRelationship() {
+		return mParentStudentRelationship;
+	}
 
-    public void setParentStudentRelationship(ParentStudentRelationship pParentStudentRelationship) {
-        mParentStudentRelationship = pParentStudentRelationship;
-    }
+	public void setParentStudentRelationship(ParentStudentRelationship pParentStudentRelationship) {
+		mParentStudentRelationship = pParentStudentRelationship;
+	}
 
-    public FcmClass getFcmClass() {
-        return mFcmClass;
-    }
+	public FcmClass getFcmClass() {
+		return mFcmClass;
+	}
 
-    public void setFcmClass(FcmClass pFcmClass) {
-        mFcmClass = pFcmClass;
-    }
+	public void setFcmClass(FcmClass pFcmClass) {
+		mFcmClass = pFcmClass;
+	}
 
-    public School getSchool() {
-        return mSchool;
-    }
+	public School getSchool() {
+		return mSchool;
+	}
 
-    public void setSchool(School pSchool) {
-        mSchool = pSchool;
-    }
+	public void setSchool(School pSchool) {
+		mSchool = pSchool;
+	}
 }

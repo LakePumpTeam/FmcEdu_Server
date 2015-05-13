@@ -8,6 +8,7 @@ import com.fmc.edu.manager.ProfileManager;
 import com.fmc.edu.manager.SchoolManager;
 import com.fmc.edu.model.address.Address;
 import com.fmc.edu.model.profile.BaseProfile;
+import com.fmc.edu.model.profile.ParentProfile;
 import com.fmc.edu.model.relationship.ParentStudentRelationship;
 import com.fmc.edu.model.student.Student;
 import com.fmc.edu.util.ValidationUtils;
@@ -15,12 +16,8 @@ import com.fmc.edu.web.RequestParameterBuilder;
 import com.fmc.edu.web.ResponseBuilder;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -37,12 +34,12 @@ import java.util.Map;
 @Controller
 @RequestMapping("/profile")
 public class ProfileController extends BaseController {
+
 	private static final Logger LOG = Logger.getLogger(ProfileController.class);
 
 	private static final String ERROR_INVALID_PHONE = "Sorry, the phone number is invalid.";
 	private static final String ERROR_SESSION_EXPIRED = "Sorry, the session has expired.";
 	private static final String ERROR_PASSWORD_CONFIRM = "Sorry, the password isn't match the confirmation.";
-
 
 	@Resource(name = "profileManager")
 	private ProfileManager mProfileManager;
@@ -59,8 +56,6 @@ public class ProfileController extends BaseController {
 	@Resource(name = "responseBuilder")
 	private ResponseBuilder mResponseBuilder;
 
-	@Autowired
-	private DataSourceTransactionManager mTransactionManager;
 
 	@RequestMapping(value = ("/requestPhoneIdentify" + GlobalConstant.URL_SUFFIX))
 	@ResponseBody
@@ -105,32 +100,32 @@ public class ProfileController extends BaseController {
 		}
 		boolean success = getProfileManager().verifyTempParentIdentifyingCode(phoneNumber, passwordDecode, identifyingCode);
 		//TODO Should response error message when status is not 0.
-		return generateJsonOutput(success, null, null);
+		return generateJsonOutput(success, new HashMap<>(), null);
 	}
 
 	@RequestMapping(value = "/requestRegisterBaseInfo" + GlobalConstant.URL_SUFFIX)
 	@ResponseBody
-	public String requestRegisterBaseInfo(HttpServletRequest pRequest, final HttpServletResponse pResponse, final String cellphone) throws IOException {
-		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
-		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
-		TransactionStatus status = getTransactionManager().getTransaction(def);
+	public String requestRegisterBaseInfo(HttpServletRequest pRequest, final HttpServletResponse pResponse, final String cellPhone)
+			throws IOException {
+		TransactionStatus status = ensureTransaction();
 		boolean success = true;
 		try {
-			String phone = decodeInput(cellphone);
+			ParentProfile parent = getParameterBuilder().buildParent(pRequest);
 			Address address = getParameterBuilder().buildAddress(pRequest);
 			if (address != null) {
-				getProfileManager().registerParentAddress(phone, address);
+				getProfileManager().registerParentAddress(parent.getPhone(), address);
+				parent.setAddressId(address.getId());
 			}
 			Student student = getParameterBuilder().buildStudent(pRequest);
 			ParentStudentRelationship relationship = getParameterBuilder().buildParentStudentRelationship(pRequest);
-			getProfileManager().registerRelationshipBetweenStudent(relationship, student, address.getId());
+			getProfileManager().registerRelationshipBetweenStudent(relationship, student, parent);
 		} catch (Exception e) {
+			LOG.error(e);
 			status.setRollbackOnly();
+			success = false;
 		} finally {
 			getTransactionManager().commit(status);
-			Map<String, Object> dataMap = new HashMap<String, Object>();
-			dataMap.put("issuccess", success);
-			return generateJsonOutput(success, dataMap, null);
+			return generateJsonOutput(success, new HashMap<>(), null);
 		}
 	}
 
@@ -185,14 +180,6 @@ public class ProfileController extends BaseController {
 
 	public void setParameterBuilder(final RequestParameterBuilder pParameterBuilder) {
 		mParameterBuilder = pParameterBuilder;
-	}
-
-	public DataSourceTransactionManager getTransactionManager() {
-		return mTransactionManager;
-	}
-
-	public void setTransactionManager(final DataSourceTransactionManager pTransactionManager) {
-		mTransactionManager = pTransactionManager;
 	}
 
 	public MyAccountManager getMyAccountManager() {

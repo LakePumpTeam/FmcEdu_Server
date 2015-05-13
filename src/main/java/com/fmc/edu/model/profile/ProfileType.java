@@ -5,7 +5,13 @@ package com.fmc.edu.model.profile;
  */
 public enum ProfileType {
 
-	TEMP_PARENT, PARENT, TEACHER;
+	TEMP_PARENT(9), PARENT(2), TEACHER(1);
+
+	private int mValue;
+
+	ProfileType(int pValue) {
+		this.mValue = pValue;
+	}
 
 	public String getName() {
 		return this.name();
@@ -13,6 +19,6 @@ public enum ProfileType {
 
 
 	public int getValue() {
-		return this.ordinal();
+		return this.mValue;
 	}
 }

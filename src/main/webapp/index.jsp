@@ -87,7 +87,6 @@
         <td><input type="button" class="btn_reset" value="Reset"/></td>
         <td class="result"></td>
     </tr>
-    <!--
     <tr>
         <td>#3</td>
         <td class="function">申请验证</td>
@@ -156,7 +155,6 @@
         <td><input type="button" class="btn_reset" value="Reset"/></td>
         <td class="result"></td>
     </tr>
-    -->
   <tr>
      <td>#4</td>
      <td class="function">登陆</td>

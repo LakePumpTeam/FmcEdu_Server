@@ -5,7 +5,7 @@
 <mapper namespace="com.fmc.edu.profile.temp">
 
 	<sql id="condition_temp_parent">
-		Profile_Type = '0'
+		Profile_Type = '9'
 	</sql>
 
 

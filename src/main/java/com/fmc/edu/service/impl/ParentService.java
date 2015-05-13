@@ -18,12 +18,9 @@ public class ParentService {
 	@Resource(name = "parentRepository")
 	private IParentRepository mParentRepository;
 
-	public boolean registerParent(final String pPhoneNumber, final int pAddressId) {
-		ParentProfile parent = new ParentProfile();
-		parent.setPhone(pPhoneNumber);
-		parent.setAddressId(pAddressId);
-		//		parent.setFreeTrialEndDate(DateUtils.getDaysLater(30));
-		return getParentRepository().initialParentProfile(parent);
+	public boolean registerParent(final String pPhoneNumber, final ParentProfile pParent) {
+		//parent.setFreeTrialEndDate(DateUtils.getDaysLater(30));
+		return getParentRepository().initialParentProfile(pParent);
 	}
 
 	public boolean registerParentAddress(String pPhoneNumber, Address pAddress) {

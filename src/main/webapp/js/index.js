@@ -28,7 +28,7 @@ $(document).ready(function () {
                 return true;
             }
             var name = element.attr("id");
-            var valueBase64 = window.btoa(value).replace(new RegExp("=","g"),"");
+            var valueBase64 = window.btoa(value).replace(new RegExp("=", "g"), "~");
             console.log("Get parameter  name: " + name);
             console.log("Get parameter value: " + value);
             console.log("Value base64 encode: " + valueBase64);

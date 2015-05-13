@@ -1,7 +1,7 @@
 package com.fmc.edu.crypto.impl;
 
 import com.fmc.edu.constant.GlobalConstant;
-import com.fmc.edu.crypto.ICryptoService;
+import com.fmc.edu.crypto.IEncryptService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import sun.misc.BASE64Decoder;
@@ -14,10 +14,10 @@ import java.nio.charset.Charset;
 /**
  * Created by Yu on 2015/5/12.
  */
-@Service("base64CryptoService")
-public class Base64CryptoService implements ICryptoService {
+@Service("base64EncryptService")
+public class Base64EncryptService implements IEncryptService {
 
-    private static int BASS64_MIN_LENGTH = 3;
+    private static int BASS64_MIN_LENGTH = 4;
 
     public String encrypt(final String pMessage) {
         if (pMessage == null) {

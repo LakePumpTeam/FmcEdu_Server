@@ -11,7 +11,7 @@ import java.util.Date;
  */
 public class DateUtils {
 
-	public static final String PATTERN_STUDENT_BIRTH = "YYYYMM";
+	public static final String PATTERN_STUDENT_BIRTH = "yyyy-MM-dd";
 
 	public static Timestamp getDaysLater(int pDays) {
 		Calendar calendar = Calendar.getInstance();

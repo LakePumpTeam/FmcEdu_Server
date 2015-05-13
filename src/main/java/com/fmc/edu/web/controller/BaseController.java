@@ -3,10 +3,15 @@ package com.fmc.edu.web.controller;
 import com.fmc.edu.configuration.WebConfig;
 import com.fmc.edu.constant.GlobalConstant;
 import com.fmc.edu.constant.JSONOutputConstant;
-import com.fmc.edu.crypto.impl.Base64CryptoService;
+import com.fmc.edu.crypto.impl.ReplacementBase64EncryptService;
 import com.fmc.edu.util.pagenation.Pagination;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -18,8 +23,12 @@ import java.util.Map;
  * Created by Yove on 5/4/2015.
  */
 public abstract class BaseController {
-    @Resource(name = "base64CryptoService")
-    private Base64CryptoService mBase64CryptoService;
+
+	@Autowired
+	private DataSourceTransactionManager mTransactionManager;
+
+	@Resource(name = "replacementBase64EncryptService")
+	private ReplacementBase64EncryptService mBase64EncryptService;
 
 	protected int getStatusMapping(boolean pSuccess) {
 		return pSuccess ? GlobalConstant.STATUS_SUCCESS : GlobalConstant.STATUS_ERROR;
@@ -40,16 +49,26 @@ public abstract class BaseController {
 	}
 
 	protected String encodeOutput(final String pMessage) {
-        return mBase64CryptoService.encrypt(pMessage);
-    }
+		return mBase64EncryptService.encrypt(pMessage);
+	}
 
-    protected String decodeInput(final String pParameter) throws IOException {
-        if (!WebConfig.isEncodeBase64InputParam()) {
-            return pParameter;
-        }
-        return mBase64CryptoService.decrypt(pParameter);
-    }
+	protected String decodeInput(final String pParameter) throws IOException {
+		if (!WebConfig.isEncodeBase64InputParam()) {
+			return pParameter;
+		}
+		return mBase64EncryptService.decrypt(pParameter);
+	}
 
+	protected TransactionStatus ensureTransaction() {
+		return ensureTransation(TransactionDefinition.PROPAGATION_REQUIRED);
+	}
+
+	protected TransactionStatus ensureTransation(int pPropagationBehavior) {
+		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+		def.setPropagationBehavior(pPropagationBehavior);
+		TransactionStatus status = getTransactionManager().getTransaction(def);
+		return status;
+	}
 
 	protected Pagination buildPagination(HttpServletRequest pRequest) throws IOException {
 		String pageIndex = decodeInput(pRequest.getParameter("pageIndex"));
@@ -57,11 +76,19 @@ public abstract class BaseController {
 		return new Pagination(Integer.valueOf(pageIndex), Integer.valueOf(pageSize));
 	}
 
-    public Base64CryptoService getBase64CryptoService() {
-        return mBase64CryptoService;
-    }
+	public DataSourceTransactionManager getTransactionManager() {
+		return mTransactionManager;
+	}
 
-    public void setBase64CryptoService(Base64CryptoService pBase64CryptoService) {
-        this.mBase64CryptoService = pBase64CryptoService;
-    }
+	public void setTransactionManager(final DataSourceTransactionManager pTransactionManager) {
+		mTransactionManager = pTransactionManager;
+	}
+
+	public ReplacementBase64EncryptService getBase64EncryptService() {
+		return mBase64EncryptService;
+	}
+
+	public void setBase64EncryptService(final ReplacementBase64EncryptService pBase64EncryptService) {
+		mBase64EncryptService = pBase64EncryptService;
+	}
 }

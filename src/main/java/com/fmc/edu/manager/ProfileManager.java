@@ -50,13 +50,13 @@ public class ProfileManager {
 	}
 
 
-	public void registerRelationshipBetweenStudent(final ParentStudentRelationship pParentStudentRelationship, final Student pStudent, final int pAddressId) {
+	public void registerRelationshipBetweenStudent(final ParentStudentRelationship pParentStudentRelationship, final Student pStudent, final ParentProfile pParent) {
 		boolean persist = getSchoolManager().persistStudent(pStudent);
 		if (persist && pStudent.getId() > 0) {
 			pParentStudentRelationship.setStudentId(pStudent.getId());
 			boolean register = getParentService().registerParentStudentRelationship(pParentStudentRelationship);
 			if (register) {
-				getParentService().registerParent(pParentStudentRelationship.getParentPhone(), pAddressId);
+				getParentService().registerParent(pParentStudentRelationship.getParentPhone(), pParent);
 			}
 		}
 	}
@@ -64,6 +64,7 @@ public class ProfileManager {
 	public ParentProfile queryParentByPhone(String pParentPhone) {
 		return getParentService().queryParentByPhone(pParentPhone);
 	}
+
 	/**
 	 * Return the MessageIdentifyService according the develop status.
 	 *
@@ -78,10 +79,6 @@ public class ProfileManager {
 
 	public void setMessageIdentifyService(IMessageIdentifyService pMessageIdentifyService) {
 		mMessageIdentifyService = pMessageIdentifyService;
-	}
-
-	public IMessageIdentifyService getDummyMessageIdentifyService() {
-		return mDummyMessageIdentifyService;
 	}
 
 	public void setDummyMessageIdentifyService(IMessageIdentifyService pDummyMessageIdentifyService) {

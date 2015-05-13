@@ -76,7 +76,7 @@
     <insert id="initialStudent" useGeneratedKeys="true" keyProperty="id"
             parameterType="com.fmc.edu.model.student.Student">
         INSERT INTO student (name, class_id, sex, birth, ring_number, ring_phone, creation_date, last_update_date)
-        VALUES (#{name}, #{classId}, #{female}, #{birth}, #{ringNumber}, #{ringPhone}, #{creationDate},
+        VALUES (#{name}, #{classId}, #{male}, #{birth}, #{ringNumber}, #{ringPhone}, #{creationDate},
         #{lastUpdateDate})
     </insert>
 
@@ -88,7 +88,7 @@
 
     <update id="updateStudentById" parameterType="com.fmc.edu.model.student.Student">
         UPDATE student
-        SET name = #{name}, class_id = #{classId}, sex = #{female}, birth = #{birth}, ring_number = #{ringNumber}
+        SET name = #{name}, class_id = #{classId}, sex = #{female}, birth = #{birth}, ring_number = #{ringNumber},
         ring_phone = #{ringPhone}, last_update_date = #{lastUpdateDate}
         WHERE id = #{id}
     </update>

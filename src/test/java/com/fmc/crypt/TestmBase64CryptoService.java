@@ -1,6 +1,6 @@
 package com.fmc.crypt;
 
-import com.fmc.edu.crypto.impl.Base64CryptoService;
+import com.fmc.edu.crypto.impl.Base64EncryptService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -15,24 +15,24 @@ import javax.annotation.Resource;
 @ContextConfiguration(locations = "classpath:config/spring/spring-*.xml")
 public class TestmBase64CryptoService {
     @Resource(name = "base64CryptoService")
-    private Base64CryptoService mBase64CryptoService;
+    private Base64EncryptService mBase64EncryptService;
 
     @Test
     public void testCrypto() {
         String test1 = "1";
-        String encrypto = mBase64CryptoService.encrypt(test1);
+        String encrypto = mBase64EncryptService.encrypt(test1);
         System.out.println("testEncrypto:" + encrypto);
-        System.out.println("decrypto:" + mBase64CryptoService.decrypt(encrypto));
-        System.out.println("decrypto:" + mBase64CryptoService.decrypt(encrypto.replaceAll("=", "")));
+        System.out.println("decrypto:" + mBase64EncryptService.decrypt(encrypto));
+        System.out.println("decrypto:" + mBase64EncryptService.decrypt(encrypto.replaceAll("=", "")));
         String test2 = "123123123sdfsdfsdfs";
-        encrypto = mBase64CryptoService.encrypt(test2);
+        encrypto = mBase64EncryptService.encrypt(test2);
         System.out.println("testEncrypto:" + encrypto);
-        System.out.println("decrypto:" + mBase64CryptoService.decrypt(encrypto));
-        System.out.println("decrypto:" + mBase64CryptoService.decrypt(encrypto.replaceAll("=", "")));
+        System.out.println("decrypto:" + mBase64EncryptService.decrypt(encrypto));
+        System.out.println("decrypto:" + mBase64EncryptService.decrypt(encrypto.replaceAll("=", "")));
         String test3 = "中文测试";
-        encrypto = mBase64CryptoService.encrypt(test3);
+        encrypto = mBase64EncryptService.encrypt(test3);
         System.out.println("testEncrypto:" + encrypto);
-        System.out.println("decrypto:" + mBase64CryptoService.decrypt(encrypto));
-        System.out.println("decrypto:" + mBase64CryptoService.decrypt(encrypto.replaceAll("=", "")));
+        System.out.println("decrypto:" + mBase64EncryptService.decrypt(encrypto));
+        System.out.println("decrypto:" + mBase64EncryptService.decrypt(encrypto.replaceAll("=", "")));
     }
 }

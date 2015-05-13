@@ -10,9 +10,10 @@ import com.fmc.edu.model.relationship.ParentStudentRelationship;
 public interface IParentRepository {
 
 	String INITIAL_PARENT_PROFILE = "com.fmc.edu.profile.parent.initialParentProfile";
-	String INITIAL_PARENT_ADDRESS = "com.fmc.edu.profile.parent.persistParentAddress";
 
 	boolean initialParentProfile(final ParentProfile pParentProfile);
+
+	String INITIAL_PARENT_ADDRESS = "com.fmc.edu.profile.parent.persistParentAddress";
 
 	boolean persistParentAddress(Address pAddress);
 

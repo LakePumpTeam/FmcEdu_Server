@@ -43,7 +43,7 @@ public class ResponseBuilder {
                 pResponseMap.put("auditState", student.getParentStudentRelationship().isApproved());
                 pResponseMap.put("userCardNum", student.getRingPhone());
                 pResponseMap.put("studentName", student.getName());
-                pResponseMap.put("studentSex", student.isFemale());
+                pResponseMap.put("studentSex", student.isMale());
                 pResponseMap.put("schoolName", student.getSchool().getName());
                 pResponseMap.put("repayState", parentProfile.isPaid());
             }

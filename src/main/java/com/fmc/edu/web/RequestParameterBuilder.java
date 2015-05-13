@@ -1,7 +1,8 @@
 package com.fmc.edu.web;
 
-import com.fmc.edu.crypto.impl.Base64CryptoService;
+import com.fmc.edu.crypto.impl.ReplacementBase64EncryptService;
 import com.fmc.edu.model.address.Address;
+import com.fmc.edu.model.profile.ParentProfile;
 import com.fmc.edu.model.relationship.ParentStudentRelationship;
 import com.fmc.edu.model.student.Student;
 import com.fmc.edu.util.DateUtils;
@@ -18,19 +19,20 @@ import java.text.ParseException;
  */
 @Service(value = "requestParameterBuilder")
 public class RequestParameterBuilder {
-	@Resource(name = "base64CryptoService")
-	private Base64CryptoService mBase64CryptoService;
+
+	@Resource(name = "replacementBase64EncryptService")
+	private ReplacementBase64EncryptService mBase64EncryptService;
 
 	public Student buildStudent(HttpServletRequest pRequest) throws IOException, ParseException {
-		String name = mBase64CryptoService.decrypt(pRequest.getParameter("studentName"));
-		String sexString = mBase64CryptoService.decrypt(pRequest.getParameter("studentSex"));
-		String birthString = mBase64CryptoService.decrypt(pRequest.getParameter("studentAge"));
-		String ringNum = mBase64CryptoService.decrypt(pRequest.getParameter("braceletNumber"));
-		String ringPhone = mBase64CryptoService.decrypt(pRequest.getParameter("braceletCardNumber"));
-		String classId = mBase64CryptoService.decrypt(pRequest.getParameter("classId"));
+		String name = mBase64EncryptService.decrypt(pRequest.getParameter("studentName"));
+		String sexString = mBase64EncryptService.decrypt(pRequest.getParameter("studentSex"));
+		String birthString = mBase64EncryptService.decrypt(pRequest.getParameter("studentAge"));
+		String ringNum = mBase64EncryptService.decrypt(pRequest.getParameter("braceletNumber"));
+		String ringPhone = mBase64EncryptService.decrypt(pRequest.getParameter("braceletCardNumber"));
+		String classId = mBase64EncryptService.decrypt(pRequest.getParameter("classId"));
 		Student stu = new Student(Integer.valueOf(classId), name);
 		//TODO update after confirmation
-		stu.setFemale(Boolean.valueOf(sexString));
+		stu.setMale(Boolean.valueOf(sexString));
 		stu.setBirth(DateUtils.getStudentBirth(birthString));
 		stu.setRingNumber(ringNum);
 		stu.setRingPhone(ringPhone);
@@ -40,27 +42,37 @@ public class RequestParameterBuilder {
 
 	public Address buildAddress(HttpServletRequest pRequest) throws IOException {
 		//TODO update after confirmation
-		String fullAddress = mBase64CryptoService.decrypt(pRequest.getParameter("address"));
+		String fullAddress = mBase64EncryptService.decrypt(pRequest.getParameter("address"));
 		if (StringUtils.isBlank(fullAddress)) {
 			return null;
 		}
-		String provinceId = mBase64CryptoService.decrypt(pRequest.getParameter("provId"));
-		String cityId = mBase64CryptoService.decrypt(pRequest.getParameter("cityId"));
+		String provinceId = mBase64EncryptService.decrypt(pRequest.getParameter("provId"));
+		String cityId = mBase64EncryptService.decrypt(pRequest.getParameter("cityId"));
 		Address address = new Address(Integer.valueOf(provinceId), Integer.valueOf(cityId), fullAddress);
 		return address;
 	}
 
 	public ParentStudentRelationship buildParentStudentRelationship(HttpServletRequest pRequest) throws IOException {
-		String phone = mBase64CryptoService.decrypt(pRequest.getParameter("cellPhone"));
-		String relationship = mBase64CryptoService.decrypt(pRequest.getParameter("relation"));
+		String phone = mBase64EncryptService.decrypt(pRequest.getParameter("cellPhone"));
+		String relationship = mBase64EncryptService.decrypt(pRequest.getParameter("relation"));
 		return new ParentStudentRelationship(phone, relationship);
 	}
 
-	public Base64CryptoService getBase64CryptoService() {
-		return mBase64CryptoService;
+	public ParentProfile buildParent(HttpServletRequest pRequest) {
+		ParentProfile parent = new ParentProfile();
+		String phone = getBase64EncryptService().decrypt(pRequest.getParameter("cellPhone"));
+		String parentName = getBase64EncryptService().decrypt(pRequest.getParameter("parentName"));
+		parent.setPhone(phone);
+		parent.setName(parentName);
+		return parent;
+
 	}
 
-	public void setBase64CryptoService(Base64CryptoService pBase64CryptoService) {
-		this.mBase64CryptoService = pBase64CryptoService;
+	public ReplacementBase64EncryptService getBase64EncryptService() {
+		return mBase64EncryptService;
+	}
+
+	public void setBase64EncryptService(final ReplacementBase64EncryptService pBase64EncryptService) {
+		mBase64EncryptService = pBase64EncryptService;
 	}
 }

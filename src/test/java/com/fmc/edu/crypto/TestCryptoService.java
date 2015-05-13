@@ -13,8 +13,8 @@ import javax.annotation.Resource;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:config/spring/spring-*.xml")
 public class TestCryptoService {
-	@Resource(name = "DESCryptoService")
-	private ICryptoService desCryptoService;
+	@Resource(name = "DESEncryptService")
+	private IEncryptService desCryptoService;
 
 	@Test
 	public void testDESScrypto() throws Exception {

@@ -13,6 +13,8 @@ public class ParentProfile extends BaseProfile {
 
 	private Timestamp mFreeTrialEndDate;
 
+	private boolean mFreeTrial;
+
 	public int getAddressId() {
 		return mAddressId;
 	}
@@ -35,5 +37,13 @@ public class ParentProfile extends BaseProfile {
 
 	public void setFreeTrialEndDate(final Timestamp pFreeTrialEndDate) {
 		mFreeTrialEndDate = pFreeTrialEndDate;
+	}
+
+	public boolean isFreeTrial() {
+		return mFreeTrial;
+	}
+
+	public void setFreeTrial(final boolean pFreeTrial) {
+		mFreeTrial = pFreeTrial;
 	}
 }
