@@ -60,10 +60,10 @@ public abstract class BaseController {
 	}
 
 	protected TransactionStatus ensureTransaction() {
-		return ensureTransation(TransactionDefinition.PROPAGATION_REQUIRED);
+		return ensureTransaction(TransactionDefinition.PROPAGATION_REQUIRED);
 	}
 
-	protected TransactionStatus ensureTransation(int pPropagationBehavior) {
+	protected TransactionStatus ensureTransaction(int pPropagationBehavior) {
 		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
 		def.setPropagationBehavior(pPropagationBehavior);
 		TransactionStatus status = getTransactionManager().getTransaction(def);

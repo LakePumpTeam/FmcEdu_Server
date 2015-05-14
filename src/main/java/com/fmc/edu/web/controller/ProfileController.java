@@ -1,5 +1,6 @@
 package com.fmc.edu.web.controller;
 
+import com.fmc.edu.configuration.WebConfig;
 import com.fmc.edu.constant.GlobalConstant;
 import com.fmc.edu.constant.SessionConstant;
 import com.fmc.edu.exception.LoginException;
@@ -60,25 +61,36 @@ public class ProfileController extends BaseController {
 	@RequestMapping(value = ("/requestPhoneIdentify" + GlobalConstant.URL_SUFFIX))
 	@ResponseBody
 	public String requestPhoneIdentify(final HttpServletRequest pRequest, final HttpServletResponse pResponse, final String cellPhone) throws IOException {
-		LOG.debug("Obtain encoded cellphone:" + cellPhone);
 		String phone = decodeInput(cellPhone);
 		LOG.debug("Decoded cellphone:" + phone);
 
+		String identifyCode = null;
+		TransactionStatus status = ensureTransaction();
+		boolean success = true;
+		try {
+			identifyCode = getProfileManager().registerTempParent(phone);
+			if (StringUtils.isNotBlank(identifyCode)) {
+				// save temp profile bean to session
+				pRequest.getSession().setAttribute(SessionConstant.SESSION_KEY_PHONE, phone);
+			} else {
+				success = false;
+			}
+		} catch (Exception e) {
+			LOG.error(e);
+			success = false;
+		} finally {
+			getTransactionManager().commit(status);
+		}
 		// output error if phone number is blank
 		if (cellPhone == null || ValidationUtils.isValidPhoneNumber(phone)) {
 			return generateJsonOutput(Boolean.FALSE, null, ERROR_INVALID_PHONE);
 		}
-		String identifyCode = getProfileManager().registerTempParent(phone);
-		boolean success = false;
-		if (StringUtils.isNotBlank(identifyCode)) {
-			success = true;
-			pRequest.getSession().setAttribute(SessionConstant.SESSION_KEY_PHONE, phone);
-			// save temp profile bean to session
-		}
 		// request identify failed if identify is blank
-		// TODO should not return code, return for test
 		Map<String, Object> dataMap = new HashMap<String, Object>();
-		dataMap.put("identifyCode", identifyCode);
+		if (WebConfig.isDevelopment()) {
+			dataMap.put("identifyCode", identifyCode);
+			LOG.debug(String.format("Send identify code: %s to phone: %s", identifyCode, phone));
+		}
 		return generateJsonOutput(success, dataMap, null);
 	}
 
@@ -89,16 +101,26 @@ public class ProfileController extends BaseController {
 		String identifyingCode = decodeInput(authCode);
 		String phoneNumber = decodeInput(cellPhone);
 		String passwordDecode = decodeInput(password);
-		if (StringUtils.isBlank(phoneNumber)) {
-			phoneNumber = (String) pRequest.getSession().getAttribute(SessionConstant.SESSION_KEY_PHONE);
+
+		TransactionStatus status = ensureTransaction();
+		boolean success = true;
+		try {
+			if (StringUtils.isBlank(phoneNumber)) {
+				phoneNumber = (String) pRequest.getSession().getAttribute(SessionConstant.SESSION_KEY_PHONE);
+			}
+			if (StringUtils.isBlank(phoneNumber)) {
+				return generateJsonOutput(Boolean.FALSE, null, ERROR_SESSION_EXPIRED);
+			}
+			if (StringUtils.isNoneBlank(confirmPassword) && !StringUtils.endsWith(password, confirmPassword)) {
+				return generateJsonOutput(Boolean.FALSE, null, ERROR_PASSWORD_CONFIRM);
+			}
+			success = getProfileManager().verifyTempParentIdentifyingCode(phoneNumber, passwordDecode, identifyingCode);
+		} catch (Exception e) {
+			LOG.error(e);
+			success = false;
+		} finally {
+			getTransactionManager().commit(status);
 		}
-		if (StringUtils.isBlank(phoneNumber)) {
-			return generateJsonOutput(Boolean.FALSE, null, ERROR_SESSION_EXPIRED);
-		}
-		if (!StringUtils.endsWith(password, confirmPassword)) {
-			return generateJsonOutput(Boolean.FALSE, null, ERROR_PASSWORD_CONFIRM);
-		}
-		boolean success = getProfileManager().verifyTempParentIdentifyingCode(phoneNumber, passwordDecode, identifyingCode);
 		//TODO Should response error message when status is not 0.
 		return generateJsonOutput(success, new HashMap<>(), null);
 	}
