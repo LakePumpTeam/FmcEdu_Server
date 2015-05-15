@@ -24,7 +24,7 @@ public class ResponseBean {
         responseData.put(JSONOutputConstant.PARAM_DATA, new HashMap<String, Object>());
 
         Map<String, Object> dataMap = (Map<String, Object>) responseData.get(JSONOutputConstant.PARAM_DATA);
-        dataMap.put(JSONOutputConstant.BUSSINESS_IS_SUCCESS, true);
+        dataMap.put(JSONOutputConstant.BUSSINESS_IS_SUCCESS, GlobalConstant.STATUS_SUCCESS);
         dataMap.put(JSONOutputConstant.BUSSINESS_MESSAGE, StringUtils.EMPTY);
     }
 
@@ -33,7 +33,7 @@ public class ResponseBean {
             return;
         }
         Map<String, Object> dataMap = (Map<String, Object>) responseData.get(JSONOutputConstant.PARAM_DATA);
-        dataMap.put(JSONOutputConstant.BUSSINESS_IS_SUCCESS, false);
+        dataMap.put(JSONOutputConstant.BUSSINESS_IS_SUCCESS, GlobalConstant.STATUS_ERROR);
         dataMap.put(JSONOutputConstant.BUSSINESS_MESSAGE, pBussinessMsg);
     }
 
