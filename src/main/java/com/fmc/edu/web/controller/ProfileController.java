@@ -14,6 +14,7 @@ import com.fmc.edu.model.relationship.ParentStudentRelationship;
 import com.fmc.edu.model.student.Student;
 import com.fmc.edu.util.ValidationUtils;
 import com.fmc.edu.web.RequestParameterBuilder;
+import com.fmc.edu.web.ResponseBean;
 import com.fmc.edu.web.ResponseBuilder;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -155,22 +156,23 @@ public class ProfileController extends BaseController {
 	@ResponseBody
 	public String requestLogin(HttpServletRequest pRequest, final HttpServletResponse pResponse, final String userAccount, final String password) {
 		BaseProfile user = null;
+		ResponseBean responseBean = new ResponseBean();
 		try {
 			String account = decodeInput(userAccount);
 			String pwd = decodeInput(password);
 			user = getMyAccountManager().loginUser(account, pwd);
 		} catch (LoginException e) {
 			LOG.debug("Login failed:" + e.getMessage());
-			getResponseBean().addBusinessMsg(e.getMessage());
+			responseBean.addBusinessMsg(e.getMessage());
 		} catch (Exception e) {
 			LOG.error(e);
-			addException(e);
+			responseBean.addErrorMsg(e.getMessage());
 		}
 		if (user != null) {
-			getResponseBuilder().buildAuthorizedResponse(getResponseBean(), user);
+			getResponseBuilder().buildAuthorizedResponse(responseBean, user);
 		}
 
-		return getResponseBean().toString();
+		return responseBean.toString();
 	}
 
 	public ProfileManager getProfileManager() {
