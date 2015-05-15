@@ -5,6 +5,7 @@ import com.fmc.edu.constant.JSONOutputConstant;
 import com.fmc.edu.crypto.impl.ReplacementBase64EncryptService;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,23 +29,35 @@ public class ResponseBean {
     }
 
     public void addBusinessMsg(final String pBussinessMsg) {
+        if (StringUtils.isBlank(pBussinessMsg)) {
+            return;
+        }
         Map<String, Object> dataMap = (Map<String, Object>) responseData.get(JSONOutputConstant.PARAM_DATA);
         dataMap.put(JSONOutputConstant.BUSSINESS_IS_SUCCESS, false);
         dataMap.put(JSONOutputConstant.BUSSINESS_MESSAGE, pBussinessMsg);
     }
 
     public void addErrorMsg(final String pErrorMsg) {
+        if (StringUtils.isBlank(pErrorMsg)) {
+            return;
+        }
         responseData.put(JSONOutputConstant.PARAM_STATUS, GlobalConstant.STATUS_ERROR);
         List<String> errors = (List<String>) responseData.get(JSONOutputConstant.PARAM_MESSAGE);
         errors.add(pErrorMsg);
     }
 
     public void addData(final String pKey, final Object pData) {
+        if (StringUtils.isBlank(pKey)) {
+            return;
+        }
         Map<String, Object> dataMap = (Map<String, Object>) responseData.get(JSONOutputConstant.PARAM_DATA);
         dataMap.put(pKey, pData);
     }
 
     public void addData(final Map<String, Object> pData) {
+        if (CollectionUtils.isEmpty(pData)) {
+            return;
+        }
         Map<String, Object> dataMap = (Map<String, Object>) responseData.get(JSONOutputConstant.PARAM_DATA);
         dataMap.putAll(pData);
     }
