@@ -5,7 +5,6 @@ import com.fmc.edu.constant.JSONOutputConstant;
 import com.fmc.edu.crypto.impl.ReplacementBase64EncryptService;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -19,7 +18,7 @@ import java.util.Map;
  * Created by Yu on 5/15/2015.
  */
 @Component("responseBean")
-@Scope("request")
+//@Scope("request")
 public class ResponseBean implements Serializable {
     @Resource(name = "replacementBase64EncryptService")
     private ReplacementBase64EncryptService mBase64EncryptService;
