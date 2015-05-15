@@ -46,7 +46,7 @@ public class SchoolRepository extends BaseRepository implements ISchoolRepositor
         if (count > 0) {
             queryResult = getSqlSession().selectList(QUERY_CLASS_PAGE, params);
         }
-        dataList.put("classes", queryResult);
+        dataList.put("classList", queryResult);
         addIsLastPageFlag(dataList, queryResult, pPagination.getPageSize());
         return dataList;
     }
