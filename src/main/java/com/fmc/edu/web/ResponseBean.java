@@ -6,8 +6,6 @@ import com.fmc.edu.crypto.impl.ReplacementBase64EncryptService;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.annotation.Resource;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,10 +14,7 @@ import java.util.Map;
 /**
  * Created by Yu on 5/15/2015.
  */
-public class ResponseBean implements Serializable {
-    @Resource(name = "replacementBase64EncryptService")
-    private ReplacementBase64EncryptService mBase64EncryptService;
-
+public class ResponseBean {
     private Map<String, Object> responseData = new HashMap<String, Object>();
 
     public ResponseBean() {
@@ -55,14 +50,7 @@ public class ResponseBean implements Serializable {
     }
 
     protected String encodeOutput(final String pMessage) {
-        return mBase64EncryptService.encrypt(pMessage);
-    }
-
-    public ReplacementBase64EncryptService getBase64EncryptService() {
-        return mBase64EncryptService;
-    }
-
-    public void setBase64EncryptService(ReplacementBase64EncryptService pBase64EncryptService) {
-        mBase64EncryptService = pBase64EncryptService;
+        ReplacementBase64EncryptService base64EncryptService = new ReplacementBase64EncryptService();
+        return base64EncryptService.encrypt(pMessage);
     }
 }
