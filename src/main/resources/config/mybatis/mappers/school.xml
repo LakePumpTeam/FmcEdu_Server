@@ -43,7 +43,7 @@
         <where>
             `school_id` = #{schoolId}
             <if test="key != null">
-                and `name` LIKE CONCAT('%', #{key})
+                and (`grade` LIKE CONCAT('%', #{key}) or `class` LIKE CONCAT('%', #{key}))
             </if>
         </where>
 
@@ -55,7 +55,7 @@
         <where>
             `school_id` = #{schoolId}
             <if test="key != null">
-                and `name` LIKE CONCAT('%', #{key})
+                and (`grade` LIKE CONCAT('%', #{key}) or `class` LIKE CONCAT('%', #{key}))
             </if>
         </where>
         <include refid="limit-split-page"/>
