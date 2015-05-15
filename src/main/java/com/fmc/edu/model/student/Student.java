@@ -2,7 +2,7 @@ package com.fmc.edu.model.student;
 
 import com.fmc.edu.model.BaseBean;
 import com.fmc.edu.model.relationship.ParentStudentRelationship;
-import com.fmc.edu.model.school.FcmClass;
+import com.fmc.edu.model.school.FmcClass;
 import com.fmc.edu.model.school.School;
 
 import java.sql.Timestamp;
@@ -33,7 +33,7 @@ public class Student extends BaseBean {
 
 	private School mSchool;
 
-	private FcmClass mFcmClass;
+	private FmcClass mFmcClass;
 
 	public Student() {
 	}
@@ -115,12 +115,12 @@ public class Student extends BaseBean {
 		mParentStudentRelationship = pParentStudentRelationship;
 	}
 
-	public FcmClass getFcmClass() {
-		return mFcmClass;
+	public FmcClass getFmcClass() {
+		return mFmcClass;
 	}
 
-	public void setFcmClass(FcmClass pFcmClass) {
-		mFcmClass = pFcmClass;
+	public void setFmcClass(FmcClass pFmcClass) {
+		mFmcClass = pFmcClass;
 	}
 
 	public School getSchool() {

@@ -32,210 +32,226 @@
 </ul>
 <hr/>
 <fieldset>
-<legend>注册</legend>
-<table border="1">
-    <tr>
-        <th width="5%">Index#</th>
-        <th>Function</th>
-        <th>BaseURL</th>
-        <th>Parameters</th>
-        <th>Request</th>
-        <th>Reset</th>
-        <th width="56%">Result</th>
-    </tr>
-    <tr>
-        <td>#1</td>
-        <td class="function">注册：发送验证码（针对家长）</td>
-        <td class="baseUrl">${ctx}/profile/requestPhoneIdentify</td>
-        <td class="parameters">
-            <table>
-                <tr>
-                    <td align="right"><label for="cellPhone" title="cellPhone">cellPhone</label></td>
-                    <td><input type="text" class="ipt_value" id="cellPhone" value=""/></td>
-                </tr>
-            </table>
-        </td>
-        <td><input type="button" class="btn_request" value="Request"/></td>
-        <td><input type="button" class="btn_reset" value="Reset"/></td>
-        <td class="result"></td>
-    </tr>
-    <tr>
-        <td>#2</td>
-        <td class="function">注册：验证基本信息</td>
-        <td class="baseUrl">${ctx}/profile/requestRegisterConfirm</td>
-        <td class="parameters">
-            <table>
-                <tr>
-                    <td align="right"><label for="cellPhone" title="cellPhone">cellPhone</label></td>
-                    <td><input type="text" class="ipt_value" id="cellPhone" value=""/></td>
-                </tr>
-                <tr>
-                    <td align="right"><label for="cellPhone" title="cellPhone">authCode</label></td>
-                    <td><input type="text" class="ipt_value" id="authCode" value=""/></td>
-                </tr>
-                <tr>
-                    <td align="right"><label for="cellPhone" title="cellPhone">password</label></td>
-                    <td><input type="text" class="ipt_value" id="password" value=""/></td>
-                </tr>
-                <tr>
-                    <td align="right"><label for="cellPhone" title="cellPhone">confirmPassword</label></td>
-                    <td><input type="text" class="ipt_value" id="confirmPassword" value=""/></td>
-                </tr>
-            </table>
-        </td>
-        <td><input type="button" class="btn_request" value="Request"/></td>
-        <td><input type="button" class="btn_reset" value="Reset"/></td>
-        <td class="result"></td>
-    </tr>
-    <tr>
-        <td>#3</td>
-        <td class="function">申请验证</td>
-        <td class="baseUrl">${ctx}/profile/requestRegisterBaseInfo</td>
-        <td class="parameters">
-            <table>
-                <tr>
-                    <td align="right"><label for="cellPhone" title="cellPhone">cellPhone</label></td>
-                    <td><input type="text" class="ipt_value" id="cellPhone" value="" /></td>
-                </tr>
-                <tr>
-                    <td align="right"><label for="provId" title="provId">provId</label></td>
-                    <td><input type="text" class="ipt_value" id="provId" value="" /></td>
-                </tr>
-                <tr>
-                    <td align="right"><label for="cityId" title="cityId">cityId</label></td>
-                    <td><input type="text" class="ipt_value" id="cityId" value="" /></td>
-                </tr>
-                <tr>
-                    <td align="right"><label for="schoolId" title="schoolId">schoolId</label></td>
-                    <td><input type="text" class="ipt_value" id="schoolId" value="" /></td>
-                </tr>
-                <tr>
-                    <td align="right"><label for="classId" title="classId">classId</label></td>
-                    <td><input type="text" class="ipt_value" id="classId" value="" /></td>
-                </tr>
-                <tr>
-                    <td align="right"><label for="teacherId" title="teacherId">teacherId</label></td>
-                    <td><input type="text" class="ipt_value" id="teacherId" value="" /></td>
-                </tr>
-                <tr>
-                    <td align="right"><label for="studentName" title="studentName">studentName</label></td>
-                    <td><input type="text" class="ipt_value" id="studentName" value="" /></td>
-                </tr>
-                <tr>
-                    <td align="right"><label for="studentSex" title="studentSex">studentSex</label></td>
-                    <td><input type="text" class="ipt_value" id="studentSex" value="" /></td>
-                </tr>
-                <tr>
-                    <td align="right"><label for="studentAge" title="studentAge">studentAge</label></td>
-                    <td><input type="text" class="ipt_value" id="studentAge" value="" /></td>
-                </tr>
-                <tr>
-                    <td align="right"><label for="parentName" title="parentName">parentName</label></td>
-                    <td><input type="text" class="ipt_value" id="parentName" value="" /></td>
-                </tr>
-                <tr>
-                    <td align="right"><label for="relation" title="relation">relation</label></td>
-                    <td><input type="text" class="ipt_value" id="relation" value="" /></td>
-                </tr>
-                <tr>
-                    <td align="right"><label for="address" title="address">address</label></td>
-                    <td><input type="text" class="ipt_value" id="address" value="" /></td>
-                </tr>
-                <tr>
-                    <td align="right"><label for="braceletCardNumber" title="braceletCardNumber">braceletCardNumber</label></td>
-                    <td><input type="text" class="ipt_value" id="braceletCardNumber" value="" /></td>
-                </tr>
-                <tr>
-                    <td align="right"><label for="braceletNumber" title="braceletNumber">braceletNumber</label></td>
-                    <td><input type="text" class="ipt_value" id="braceletNumber" value="" /></td>
-                </tr>
-                <tr>
-                    <td align="right"><label for="parentId" title="parentId">parentId</label></td>
-                    <td><input type="text" class="ipt_value" id="parentId" value=""/></td>
-                </tr>
-                <tr>
-                    <td align="right"><label for="studentId" title="studentId">studentId</label></td>
-                    <td><input type="text" class="ipt_value" id="studentId" value=""/></td>
-                </tr>
-                <tr>
-                    <td align="right"><label for="addressId" title="addressId">addressId</label></td>
-                    <td><input type="text" class="ipt_value" id="addressId" value=""/></td>
-                </tr>
-            </table>
-        </td>
-        <td><input type="button" class="btn_request" value="Request"/></td>
-        <td><input type="button" class="btn_reset" value="Reset"/></td>
-        <td class="result"></td>
-    </tr>
-  <tr>
-     <td>#4</td>
-     <td class="function">登陆</td>
-     <td class="baseUrl">${ctx}/profile/requestLogin</td>
-     <td class="parameters">
-         <table>
-             <tr>
-                 <td align="right"><label for="userAccount" title="userAccount">userAccount</label></td>
-                 <td><input type="text" class="ipt_value" id="userAccount" value=""/></td>
-             </tr>
-             <tr>
-                 <td align="right"><label for="password" title="password">password</label></td>
-                 <td><input type="text" class="ipt_value" id="password" value=""/></td>
-             </tr>
-         </table>
-     </td>
-     <td><input type="button" class="btn_request" value="Request"/></td>
-     <td><input type="button" class="btn_reset" value="Reset"/></td>
-     <td class="result"></td>
- </tr>
-    <tr>
-        <td>#5</td>
-        <td class="function">忘记密码接口</td>
-        <td class="baseUrl">${ctx}/profile/requestForgetPwd</td>
-        <td class="parameters">
-            <table>
-                <tr>
-                    <td align="right"><label for="cellPhone" title="cellPhone">cellPhone</label></td>
-                    <td><input type="text" class="ipt_value" id="cellPhone" value=""/></td>
-                </tr>
-                <tr>
-                    <td align="right"><label for="authCode" title="authCode">authCode</label></td>
-                    <td><input type="text" class="ipt_value" id="authCode" value=""/></td>
-                </tr>
-                <tr>
-                    <td align="right"><label for="password" title="password">password</label></td>
-                    <td><input type="text" class="ipt_value" id="password" value=""/></td>
-                </tr>
-            </table>
-        </td>
-        <td><input type="button" class="btn_request" value="Request"/></td>
-        <td><input type="button" class="btn_reset" value="Reset"/></td>
-        <td class="result"></td>
-    </tr>
-    <tr>
-        <td>#6</td>
-        <td class="function">修改密码</td>
-        <td class="baseUrl">${ctx}/profile/requestAlterPwd</td>
-        <td class="parameters">
-            <table>
-                <tr>
-                    <td align="right"><label for="userId" title="userId">userId</label></td>
-                    <td><input type="text" class="ipt_value" id="userId" value=""/></td>
-                </tr>
-                <tr>
-                    <td align="right"><label for="oldPassword" title="oldPassword">oldPassword</label></td>
-                    <td><input type="text" class="ipt_value" id="oldPassword" value=""/></td>
-                </tr>
-                <tr>
-                    <td align="right"><label for="newPassword" title="newPassword">newPassword</label></td>
-                    <td><input type="text" class="ipt_value" id="newPassword" value=""/></td>
-                </tr>
-            </table>
-        </td>
-        <td><input type="button" class="btn_request" value="Request"/></td>
-        <td><input type="button" class="btn_reset" value="Reset"/></td>
-        <td class="result"></td>
-    </tr>
-</table>
+    <legend>注册</legend>
+    <table border="1">
+        <tr>
+            <th width="5%">Index#</th>
+            <th>Function</th>
+            <th>BaseURL</th>
+            <th>Parameters</th>
+            <th>Request</th>
+            <th>Reset</th>
+            <th width="56%">Result</th>
+        </tr>
+        <tr>
+            <td>#1</td>
+            <td class="function">注册：发送验证码（针对家长）</td>
+            <td class="baseUrl">${ctx}/profile/requestPhoneIdentify</td>
+            <td class="parameters">
+                <table>
+                    <tr>
+                        <td align="right"><label for="cellPhone" title="cellPhone">cellPhone</label></td>
+                        <td><input type="text" class="ipt_value" id="cellPhone" value=""/></td>
+                    </tr>
+                </table>
+            </td>
+            <td><input type="button" class="btn_request" value="Request"/></td>
+            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td class="result"></td>
+        </tr>
+        <tr>
+            <td>#2</td>
+            <td class="function">注册：验证基本信息</td>
+            <td class="baseUrl">${ctx}/profile/requestRegisterConfirm</td>
+            <td class="parameters">
+                <table>
+                    <tr>
+                        <td align="right"><label for="cellPhone" title="cellPhone">cellPhone</label></td>
+                        <td><input type="text" class="ipt_value" id="cellPhone" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="cellPhone" title="cellPhone">authCode</label></td>
+                        <td><input type="text" class="ipt_value" id="authCode" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="cellPhone" title="cellPhone">password</label></td>
+                        <td><input type="text" class="ipt_value" id="password" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="cellPhone" title="cellPhone">confirmPassword</label></td>
+                        <td><input type="text" class="ipt_value" id="confirmPassword" value=""/></td>
+                    </tr>
+                </table>
+            </td>
+            <td><input type="button" class="btn_request" value="Request"/></td>
+            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td class="result"></td>
+        </tr>
+        <tr>
+            <td>#3</td>
+            <td class="function">申请验证</td>
+            <td class="baseUrl">${ctx}/profile/requestRegisterBaseInfo</td>
+            <td class="parameters">
+                <table>
+                    <tr>
+                        <td align="right"><label for="cellPhone" title="cellPhone">cellPhone</label></td>
+                        <td><input type="text" class="ipt_value" id="cellPhone" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="provId" title="provId">provId</label></td>
+                        <td><input type="text" class="ipt_value" id="provId" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="cityId" title="cityId">cityId</label></td>
+                        <td><input type="text" class="ipt_value" id="cityId" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="schoolId" title="schoolId">schoolId</label></td>
+                        <td><input type="text" class="ipt_value" id="schoolId" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="classId" title="classId">classId</label></td>
+                        <td><input type="text" class="ipt_value" id="classId" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="teacherId" title="teacherId">teacherId</label></td>
+                        <td><input type="text" class="ipt_value" id="teacherId" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="studentName" title="studentName">studentName</label></td>
+                        <td><input type="text" class="ipt_value" id="studentName" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="studentSex" title="studentSex">studentSex</label></td>
+                        <td><input type="text" class="ipt_value" id="studentSex" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="studentAge" title="studentAge">studentAge</label></td>
+                        <td><input type="text" class="ipt_value" id="studentAge" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="parentName" title="parentName">parentName</label></td>
+                        <td><input type="text" class="ipt_value" id="parentName" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="relation" title="relation">relation</label></td>
+                        <td><input type="text" class="ipt_value" id="relation" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="address" title="address">address</label></td>
+                        <td><input type="text" class="ipt_value" id="address" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="braceletCardNumber" title="braceletCardNumber">braceletCardNumber</label></td>
+                        <td><input type="text" class="ipt_value" id="braceletCardNumber" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="braceletNumber" title="braceletNumber">braceletNumber</label></td>
+                        <td><input type="text" class="ipt_value" id="braceletNumber" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="parentId" title="parentId">parentId</label></td>
+                        <td><input type="text" class="ipt_value" id="parentId" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="studentId" title="studentId">studentId</label></td>
+                        <td><input type="text" class="ipt_value" id="studentId" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="addressId" title="addressId">addressId</label></td>
+                        <td><input type="text" class="ipt_value" id="addressId" value=""/></td>
+                    </tr>
+                </table>
+            </td>
+            <td><input type="button" class="btn_request" value="Request"/></td>
+            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td class="result"></td>
+        </tr>
+        <tr>
+            <td>#4</td>
+            <td class="function">登陆</td>
+            <td class="baseUrl">${ctx}/profile/requestLogin</td>
+            <td class="parameters">
+                <table>
+                    <tr>
+                        <td align="right"><label for="userAccount" title="userAccount">userAccount</label></td>
+                        <td><input type="text" class="ipt_value" id="userAccount" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="password" title="password">password</label></td>
+                        <td><input type="text" class="ipt_value" id="password" value=""/></td>
+                    </tr>
+                </table>
+            </td>
+            <td><input type="button" class="btn_request" value="Request"/></td>
+            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td class="result"></td>
+        </tr>
+        <tr>
+            <td>#5</td>
+            <td class="function">忘记密码接口</td>
+            <td class="baseUrl">${ctx}/profile/requestForgetPwd</td>
+            <td class="parameters">
+                <table>
+                    <tr>
+                        <td align="right"><label for="cellPhone" title="cellPhone">cellPhone</label></td>
+                        <td><input type="text" class="ipt_value" id="cellPhone" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="authCode" title="authCode">authCode</label></td>
+                        <td><input type="text" class="ipt_value" id="authCode" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="password" title="password">password</label></td>
+                        <td><input type="text" class="ipt_value" id="password" value=""/></td>
+                    </tr>
+                </table>
+            </td>
+            <td><input type="button" class="btn_request" value="Request"/></td>
+            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td class="result"></td>
+        </tr>
+        <tr>
+            <td>#6</td>
+            <td class="function">修改密码</td>
+            <td class="baseUrl">${ctx}/profile/requestAlterPwd</td>
+            <td class="parameters">
+                <table>
+                    <tr>
+                        <td align="right"><label for="userId" title="userId">userId</label></td>
+                        <td><input type="text" class="ipt_value" id="userId" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="oldPassword" title="oldPassword">oldPassword</label></td>
+                        <td><input type="text" class="ipt_value" id="oldPassword" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="newPassword" title="newPassword">newPassword</label></td>
+                        <td><input type="text" class="ipt_value" id="newPassword" value=""/></td>
+                    </tr>
+                </table>
+            </td>
+            <td><input type="button" class="btn_request" value="Request"/></td>
+            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td class="result"></td>
+        </tr>
+        <tr>
+            <td>#1</td>
+            <td class="function">获取家长关联信息</td>
+            <td class="baseUrl">${ctx}/profile/requestGetRelateInfo</td>
+            <td class="parameters">
+                <table>
+                    <tr>
+                        <td align="right"><label for="parentId" title="parentId">parentId</label></td>
+                        <td><input type="text" class="ipt_value" id="parentId" value=""/></td>
+                    </tr>
+                </table>
+            </td>
+            <td><input type="button" class="btn_request" value="Request"/></td>
+            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td class="result"></td>
+        </tr>
+    </table>
 </fieldset>
 
 <hr/>
@@ -391,7 +407,7 @@
             <td><input type="button" class="btn_reset" value="Reset"/></td>
             <td class="result"></td>
         </tr>
-     </table>
+    </table>
 </fieldset>
 </body>
 </html>

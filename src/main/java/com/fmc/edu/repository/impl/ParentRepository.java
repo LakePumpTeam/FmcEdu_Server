@@ -48,4 +48,9 @@ public class ParentRepository extends BaseRepository implements IParentRepositor
 	public ParentProfile queryParentById(final int pParentId) {
 		return getSqlSession().selectOne(QUREY_PARENT_BY_ID, pParentId);
 	}
+
+	@Override
+	public ParentProfile queryParentDetailById(final int pParentId) {
+		return getSqlSession().selectOne(QUREY_PARENT_DETAIL_BY_ID, pParentId);
+	}
 }

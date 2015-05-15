@@ -67,6 +67,27 @@
 		WHERE id = #{id}
 	</update>
 
+	<select id="queryParentDetailById" parameterType="int" resultMap="parent">
+		SELECT pro.id, pro.`name`, pro.phone, pro.app_id, pro.channel_id, pro.creation_date, pro.last_login_date, pro.last_update_date, pro.available,
+		par.address_id, paid, free_trial, free_trial_end_date,
+		a.full_address, c.id as cityId, c.name as city, prov.id as provinceId, prov.name as province,
+		s.id as studentId, s.name as studentName, s.sex, s.birth, s.ring_number, s.ring_phone,
+		class.id as classId, class.grade, class.class, sch.id as schoolId, sch.name as schoolName,
+		m.relationship, t.profile_id as teacherId, tpro.name as teacherName
+		FROM profile pro
+		LEFT JOIN parent par ON pro.id = profile_id
+		LEFT JOIN address a ON par.address_id = a.id
+		LEFT JOIN city c ON a.city_id = c.id
+		LEFT JOIN province prov ON a.province_id = prov.id
+		LEFT JOIN parent_student_map m ON pro.id = m.parent_id
+		LEFT JOIN student s ON m.student_id = s.id
+		LEFT JOIN class class ON class.id = s.class_id
+		LEFT JOIN school sch ON sch.id = class.school_id
+		LEFT JOIN teacher t ON t.profile_id = class.head_teacher_id
+		LEFT JOIN profile tpro ON t.profile_id = tpro.id
+		WHERE pro.id = #{id}
+	</select>
+
 	<resultMap id="parent" type="com.fmc.edu.model.profile.ParentProfile">
 		<id property="id" column="id" />
 		<result property="name" column="name" />
@@ -81,6 +102,40 @@
 		<result property="paid" column="paid" />
 		<result property="freeTrial" column="free_trial" jdbcType="TINYINT" javaType="boolean" />
 		<result property="freeTrialEndDate" column="free_trial_end_date" />
+		<association property="address" javaType="com.fmc.edu.model.address.Address" column="address_id">
+			<id property="id" column="address_id" />
+			<result property="address" column="full_address" />
+			<result property="cityId" column="cityId" />
+			<result property="city" column="city" />
+			<result property="provinceId" column="provinceId" />
+			<result property="province" column="province" />
+		</association>
+		<association property="student" javaType="com.fmc.edu.model.student.Student" column="studentId">
+			<id property="id" column="studentId" />
+			<result property="name" column="name" />
+			<result property="male" column="sex" />
+			<result property="birth" column="birth" />
+			<result property="ringNumber" column="ring_number" />
+			<result property="ringPhone" column="ring_phone" />
+			<association property="school" javaType="com.fmc.edu.model.school.School" column="schoolId">
+				<id property="id" column="schoolId" />
+				<result property="name" column="schoolName" />
+			</association>
+			<association property="fmcClass" javaType="com.fmc.edu.model.school.FmcClass" column="classId">
+				<id property="id" column="classId" />
+				<result property="schoolId" column="schoolId" />
+				<result property="grade" column="grade" />
+				<result property="realClass" column="class" />
+				<result property="headTeacherId" column="teacherId" />
+				<result property="headTeacherName" column="teacherName" />
+			</association>
+			<association property="parentStudentRelationship" javaType="com.fmc.edu.model.relationship.ParentStudentRelationship"
+			             column="relationship">
+				<result property="parentId" column="id" />
+				<result property="studentId" column="studentId" />
+				<result property="relationship" column="relationship" />
+			</association>
+		</association>
 	</resultMap>
 
 	<resultMap id="address" type="com.fmc.edu.model.address.Address">

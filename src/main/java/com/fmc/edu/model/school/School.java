@@ -8,9 +8,16 @@ import com.fmc.edu.model.BaseBean;
 public class School extends BaseBean {
 
     private String mName;
+
     private int mProvinceId;
+
     private int mCityId;
+
     private int mAddressId;
+
+    public School() {
+
+    }
 
     public String getName() {
         return mName;

@@ -23,133 +23,139 @@ import javax.annotation.Resource;
 @Service(value = "profileManager")
 public class ProfileManager {
 
-    @Resource(name = "dummyMessageIdentifyService")
-    private IMessageIdentifyService mDummyMessageIdentifyService;
+	@Resource(name = "dummyMessageIdentifyService")
+	private IMessageIdentifyService mDummyMessageIdentifyService;
 
-    @Resource(name = "messageIdentifyService")
-    private IMessageIdentifyService mMessageIdentifyService;
+	@Resource(name = "messageIdentifyService")
+	private IMessageIdentifyService mMessageIdentifyService;
 
-    @Resource(name = "tempParentService")
-    private TempParentService mTempParentService;
+	@Resource(name = "tempParentService")
+	private TempParentService mTempParentService;
 
-    @Resource(name = "parentService")
-    private ParentService mParentService;
+	@Resource(name = "parentService")
+	private ParentService mParentService;
 
-    @Resource(name = "schoolManager")
-    private SchoolManager mSchoolManager;
+	@Resource(name = "schoolManager")
+	private SchoolManager mSchoolManager;
 
-    @Resource(name = "myAccountManager")
-    private MyAccountManager mMyAccountManager;
+	@Resource(name = "myAccountManager")
+	private MyAccountManager mMyAccountManager;
 
-    @Resource(name = "identityCodeManager")
-    private IdentityCodeManager mIdentityCodeManager;
+	@Resource(name = "identityCodeManager")
+	private IdentityCodeManager mIdentityCodeManager;
 
-    public boolean verifyTempParentIdentifyingCode(String pPhoneNumber, final String pPassword, String pIdentifyingCode) {
-        return getTempParentService().verifyTempParentAuthCode(pPhoneNumber, pPassword, pIdentifyingCode);
-    }
+	public boolean verifyTempParentIdentifyingCode(String pPhoneNumber, final String pPassword, String pIdentifyingCode) {
+		return getTempParentService().verifyTempParentAuthCode(pPhoneNumber, pPassword, pIdentifyingCode);
+	}
 
-    public boolean registerParentAddress(String pPhoneNumber, Address pAddress) {
-        return getParentService().registerParentAddress(pPhoneNumber, pAddress);
-    }
+	public boolean registerParentAddress(String pPhoneNumber, Address pAddress) {
+		return getParentService().registerParentAddress(pPhoneNumber, pAddress);
+	}
 
-    public String registerTempParent(String pPhoneNumber) {
-        String identifyCode = getMessageIdentifyService().sendIdentifyRequest(pPhoneNumber);
-        boolean persistentFailure = getTempParentService().registerTempParent(pPhoneNumber, identifyCode);
-        return identifyCode;
-    }
+	public String registerTempParent(String pPhoneNumber) {
+		String identifyCode = getMessageIdentifyService().sendIdentifyRequest(pPhoneNumber);
+		boolean persistentFailure = getTempParentService().registerTempParent(pPhoneNumber, identifyCode);
+		return identifyCode;
+	}
 
-    public void registerRelationshipBetweenStudent(final ParentStudentRelationship pParentStudentRelationship, final Student pStudent, final ParentProfile pParent) {
-        boolean persist = getSchoolManager().persistStudent(pStudent);
-        if (persist && pStudent.getId() > 0) {
-            pParentStudentRelationship.setStudentId(pStudent.getId());
-            boolean register = getParentService().registerParent(pParentStudentRelationship.getParentPhone(), pParent);
-            if (register) {
-                getParentService().registerParentStudentRelationship(pParentStudentRelationship);
-            }
-        }
-    }
+	public void registerRelationshipBetweenStudent(final ParentStudentRelationship pParentStudentRelationship, final Student pStudent, final ParentProfile pParent) {
+		boolean persist = getSchoolManager().persistStudent(pStudent);
+		if (persist && pStudent.getId() > 0) {
+			pParentStudentRelationship.setStudentId(pStudent.getId());
+			boolean register = getParentService().registerParent(pParentStudentRelationship.getParentPhone(), pParent);
+			if (register) {
+				getParentService().registerParentStudentRelationship(pParentStudentRelationship);
+			}
+		}
+	}
 
-    public boolean verifyIdentityCode(int pProfileId, String pAuthoCode) {
-        return getIdentityCodeManager().verifyIdentityCode(pProfileId, pAuthoCode);
-    }
+	public boolean verifyIdentityCode(int pProfileId, String pAuthoCode) {
+		return getIdentityCodeManager().verifyIdentityCode(pProfileId, pAuthoCode);
+	}
 
-    public ParentProfile queryParentByPhone(String pParentPhone) {
-        return getParentService().queryParentByPhone(pParentPhone);
-    }
+	public ParentProfile queryParentByPhone(String pParentPhone) {
+		return getParentService().queryParentByPhone(pParentPhone);
+	}
 
-    public String obtainIdentityCode(String phone) throws Exception {
-        BaseProfile user = getMyAccountManager().findUser(phone);
-        if (user == null) {
-            throw new ProfileException("用户不存在.");
-        }
-        String identifyCode = getMessageIdentifyService().sendIdentifyRequest(phone);
-        if (StringUtils.isBlank(identifyCode)) {
-            throw new IdentityCodeException("验证码获取失败.");
-        }
-        IdentityCode identityCodeEntity = new IdentityCode(user.getId(), identifyCode, getIdentityCodeManager().getIdentityCodeEndDate());
-        if (getIdentityCodeManager().insertIdentityCode(identityCodeEntity) <= 0) {
-            throw new IdentityCodeException("验证码获取失败.");
-        }
-        return identifyCode;
-    }
+	public String obtainIdentityCode(String phone) throws Exception {
+		BaseProfile user = getMyAccountManager().findUser(phone);
+		if (user == null) {
+			throw new ProfileException("用户不存在.");
+		}
+		String identifyCode = getMessageIdentifyService().sendIdentifyRequest(phone);
+		if (StringUtils.isBlank(identifyCode)) {
+			throw new IdentityCodeException("验证码获取失败.");
+		}
+		IdentityCode identityCodeEntity = new IdentityCode(user.getId(), identifyCode, getIdentityCodeManager().getIdentityCodeEndDate());
+		if (getIdentityCodeManager().insertIdentityCode(identityCodeEntity) <= 0) {
+			throw new IdentityCodeException("验证码获取失败.");
+		}
+		return identifyCode;
+	}
 
-    /**
-     * Return the MessageIdentifyService according the develop status.
-     *
-     * @return
-     */
-    public IMessageIdentifyService getMessageIdentifyService() {
-        if (WebConfig.isDevelopment()) {
-            return mDummyMessageIdentifyService;
-        }
-        return mMessageIdentifyService;
-    }
+	public ParentProfile queryParentDetailById(final int pParentId) {
+		return getParentService().getParentRepository().queryParentDetailById(pParentId);
+	}
 
-    public void setMessageIdentifyService(IMessageIdentifyService pMessageIdentifyService) {
-        mMessageIdentifyService = pMessageIdentifyService;
-    }
+	/**
+	 * Return the MessageIdentifyService according the develop status.
+	 *
+	 * @return
+	 */
+	public IMessageIdentifyService getMessageIdentifyService() {
+		if (WebConfig.isDevelopment()) {
+			return mDummyMessageIdentifyService;
+		}
+		return mMessageIdentifyService;
+	}
 
-    public void setDummyMessageIdentifyService(IMessageIdentifyService pDummyMessageIdentifyService) {
-        mDummyMessageIdentifyService = pDummyMessageIdentifyService;
-    }
+	public void setMessageIdentifyService(IMessageIdentifyService pMessageIdentifyService) {
+		mMessageIdentifyService = pMessageIdentifyService;
+	}
 
-    public TempParentService getTempParentService() {
-        return mTempParentService;
-    }
+	public void setDummyMessageIdentifyService(IMessageIdentifyService pDummyMessageIdentifyService) {
+		mDummyMessageIdentifyService = pDummyMessageIdentifyService;
+	}
 
-    public void setTempParentService(final TempParentService pTempParentService) {
-        mTempParentService = pTempParentService;
-    }
+	public TempParentService getTempParentService() {
+		return mTempParentService;
+	}
 
-    public ParentService getParentService() {
-        return mParentService;
-    }
+	public void setTempParentService(final TempParentService pTempParentService) {
+		mTempParentService = pTempParentService;
+	}
 
-    public void setParentService(final ParentService pParentService) {
-        mParentService = pParentService;
-    }
+	public ParentService getParentService() {
+		return mParentService;
+	}
 
-    public SchoolManager getSchoolManager() {
-        return mSchoolManager;
-    }
+	public void setParentService(final ParentService pParentService) {
+		mParentService = pParentService;
+	}
 
-    public void setSchoolManager(final SchoolManager pSchoolManager) {
-        mSchoolManager = pSchoolManager;
-    }
+	public SchoolManager getSchoolManager() {
+		return mSchoolManager;
+	}
 
-    public IdentityCodeManager getIdentityCodeManager() {
-        return mIdentityCodeManager;
-    }
+	public void setSchoolManager(final SchoolManager pSchoolManager) {
+		mSchoolManager = pSchoolManager;
+	}
 
-    public void setIdentityCodeManager(IdentityCodeManager pIdentityCodeManager) {
-        this.mIdentityCodeManager = pIdentityCodeManager;
-    }
+	public IdentityCodeManager getIdentityCodeManager() {
+		return mIdentityCodeManager;
+	}
 
-    public MyAccountManager getMyAccountManager() {
-        return mMyAccountManager;
-    }
+	public void setIdentityCodeManager(IdentityCodeManager pIdentityCodeManager) {
+		this.mIdentityCodeManager = pIdentityCodeManager;
+	}
 
-    public void setMyAccountManager(MyAccountManager pMyAccountManager) {
-        this.mMyAccountManager = pMyAccountManager;
-    }
+	public MyAccountManager getMyAccountManager() {
+		return mMyAccountManager;
+	}
+
+	public void setMyAccountManager(MyAccountManager pMyAccountManager) {
+		this.mMyAccountManager = pMyAccountManager;
+	}
+
+
 }

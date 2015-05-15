@@ -36,4 +36,8 @@ public interface IParentRepository {
 	String QUREY_PARENT_BY_ID = "com.fmc.edu.profile.parent.queryParentById";
 
 	ParentProfile queryParentById(int pParentId);
+
+	String QUREY_PARENT_DETAIL_BY_ID = "com.fmc.edu.profile.parent.queryParentDetailById";
+
+	ParentProfile queryParentDetailById(int pParentId);
 }
