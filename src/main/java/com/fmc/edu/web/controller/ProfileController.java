@@ -122,7 +122,7 @@ public class ProfileController extends BaseController {
 			getTransactionManager().commit(status);
 		}
 		//TODO Should response error message when status is not 0.
-		return generateJsonOutput(success, new HashMap<>(), null);
+		return generateJsonOutput(success, new HashMap<String, Object>(), null);
 	}
 
 	@RequestMapping(value = "/requestRegisterBaseInfo" + GlobalConstant.URL_SUFFIX)
@@ -147,37 +147,30 @@ public class ProfileController extends BaseController {
 			success = false;
 		} finally {
 			getTransactionManager().commit(status);
-			return generateJsonOutput(success, new HashMap<>(), null);
+			return generateJsonOutput(success, new HashMap<String, Object>(), null);
 		}
 	}
 
 	@RequestMapping(value = "/requestLogin" + GlobalConstant.URL_SUFFIX)
 	@ResponseBody
 	public String requestLogin(HttpServletRequest pRequest, final HttpServletResponse pResponse, final String userAccount, final String password) {
-		Map<String, Object> responseData = new HashMap<String, Object>();
-		boolean isLoginSuccess = false;
-		boolean success = true;
-		String failedMsg = null;
 		BaseProfile user = null;
 		try {
 			String account = decodeInput(userAccount);
 			String pwd = decodeInput(password);
 			user = getMyAccountManager().loginUser(account, pwd);
-			isLoginSuccess = true;
 		} catch (LoginException e) {
 			LOG.debug("Login failed:" + e.getMessage());
-			responseData.put("msg", e.getMessage());
+			getResponseBean().addBusinessMsg(e.getMessage());
 		} catch (Exception e) {
-			success = false;
-			failedMsg = e.getMessage();
 			LOG.error(e);
+			addException(e);
 		}
-		responseData.put("isLoginSuccess", isLoginSuccess);
 		if (user != null) {
-			getResponseBuilder().buildAuthorizedResponse(responseData, user);
+			getResponseBuilder().buildAuthorizedResponse(getResponseBean(), user);
 		}
 
-		return generateJsonOutput(success, responseData, failedMsg);
+		return getResponseBean().toString();
 	}
 
 	public ProfileManager getProfileManager() {

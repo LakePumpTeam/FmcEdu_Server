@@ -10,4 +10,8 @@ public interface JSONOutputConstant {
 	String PARAM_DATA = "data";
 
 	String PARAM_MESSAGE = "msg";
+
+	String BUSSINESS_IS_SUCCESS = "isSuccess";
+
+	String BUSSINESS_MESSAGE = "businessMsg";
 }

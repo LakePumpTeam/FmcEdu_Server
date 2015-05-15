@@ -5,6 +5,7 @@ import com.fmc.edu.constant.GlobalConstant;
 import com.fmc.edu.constant.JSONOutputConstant;
 import com.fmc.edu.crypto.impl.ReplacementBase64EncryptService;
 import com.fmc.edu.util.pagenation.Pagination;
+import com.fmc.edu.web.ResponseBean;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,9 @@ public abstract class BaseController {
 
 	@Resource(name = "replacementBase64EncryptService")
 	private ReplacementBase64EncryptService mBase64EncryptService;
+
+	@Resource(name = "responseBean")
+	private ResponseBean mResponseBean;
 
 	protected int getStatusMapping(boolean pSuccess) {
 		return pSuccess ? GlobalConstant.STATUS_SUCCESS : GlobalConstant.STATUS_ERROR;
@@ -76,6 +80,9 @@ public abstract class BaseController {
 		return new Pagination(Integer.valueOf(pageIndex), Integer.valueOf(pageSize));
 	}
 
+	protected void addException(final Exception pException) {
+		getResponseBean().addErrorMsg(pException.getMessage());
+	}
 	public DataSourceTransactionManager getTransactionManager() {
 		return mTransactionManager;
 	}
@@ -90,5 +97,13 @@ public abstract class BaseController {
 
 	public void setBase64EncryptService(final ReplacementBase64EncryptService pBase64EncryptService) {
 		mBase64EncryptService = pBase64EncryptService;
+	}
+
+	public ResponseBean getResponseBean() {
+		return mResponseBean;
+	}
+
+	public void setResponseBean(ResponseBean pResponseBean) {
+		mResponseBean = pResponseBean;
 	}
 }

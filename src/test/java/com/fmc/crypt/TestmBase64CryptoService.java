@@ -14,7 +14,7 @@ import javax.annotation.Resource;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:config/spring/spring-*.xml")
 public class TestmBase64CryptoService {
-    @Resource(name = "base64CryptoService")
+    @Resource(name = "base64EncryptService")
     private Base64EncryptService mBase64EncryptService;
 
     @Test
