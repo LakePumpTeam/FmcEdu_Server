@@ -18,7 +18,9 @@
 		SET `name` = #{name}, last_update_date = #{lastUpdateDate}, free_trial_end_date = #{freeTrialEndDate}, address_id = #{addressId},
 		profile_Type = 2
 		WHERE phone = #{phone} and free_trial_end_date IS NULL AND
+		(
 		<include refid="condition_temp_parent" />
+		or<include refid="condition_parent" />)
 	</update>
 
 	<insert id="persistParentAddress" useGeneratedKeys="true" keyProperty="id" parameterType="com.fmc.edu.model.address.Address">
@@ -37,7 +39,33 @@
 	<insert id="initialParentStudentRelationship" parameterType="com.fmc.edu.model.relationship.ParentStudentRelationship">
 		INSERT INTO parent_student_map (parent_id, student_id, relationship, creation_date, last_update_date)
 		VALUES (#{parentId}, #{studentId}, #{relationship}, #{creationDate}, #{lastUpdateDate})
+		ON DUPLICATE KEY UPDATE relationship = #{relationship}, approved = 0, last_update_date = #{lastUpdateDate}
 	</insert>
+
+	<select id="queryAddressByPhone" parameterType="string" resultMap="address">
+		SELECT a.id, a.province_id, a.city_id, a.full_address, a.creation_date, a.last_update_date,
+		c.name as `city`, prov.name as`province`
+		FROM address a
+		LEFT JOIN parent par ON par.address_id = a.id
+		LEFT JOIN profile pro ON pro.id = par.profile_id
+		LEFT JOIN city c ON a.city_id = c.id
+		LEFT JOIN province prov ON a.province_id = prov.id
+		WHERE pro.phone = #{phone}
+	</select>
+
+	<select id="queryParentById" parameterType="int" resultMap="parent">
+		SELECT id, `name`, phone, app_id, channel_id, creation_date, last_login_date, last_update_date, available, address_id, paid,
+		free_trial, free_trial_end_date
+		FROM profile
+		LEFT JOIN parent ON id = profile_id
+		WHERE id = #{id}
+	</select>
+
+	<update id="updateParentAddress" parameterType="com.fmc.edu.model.address.Address">
+		UPDATE address
+		SET province_id = #{provinceId}, city_id = #{cityId}, full_address = #{address}, last_update_date = #{lastUpdateDate}
+		WHERE id = #{id}
+	</update>
 
 	<resultMap id="parent" type="com.fmc.edu.model.profile.ParentProfile">
 		<id property="id" column="id" />
@@ -53,5 +81,16 @@
 		<result property="paid" column="paid" />
 		<result property="freeTrial" column="free_trial" jdbcType="TINYINT" javaType="boolean" />
 		<result property="freeTrialEndDate" column="free_trial_end_date" />
+	</resultMap>
+
+	<resultMap id="address" type="com.fmc.edu.model.address.Address">
+		<id property="id" column="id" />
+		<result property="provinceId" column="province_id" />
+		<result property="cityId" column="city_id" />
+		<result property="address" column="full_address" />
+		<result property="city" column="city" />
+		<result property="province" column="province" />
+		<result property="creationDate" column="creation_date" />
+		<result property="lastUpdateDate" column="last_update_date" />
 	</resultMap>
 </mapper>

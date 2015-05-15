@@ -33,4 +33,19 @@ public class ParentRepository extends BaseRepository implements IParentRepositor
 	public boolean initialParentStudentRelationship(final ParentStudentRelationship pParentStudentRelationship) {
 		return getSqlSession().insert(INITIAL_PARENT_STUDENT_RELATIONSHIP, pParentStudentRelationship) > 0;
 	}
+
+	@Override
+	public Address queryAddressByPhone(final String pPhoneNumber) {
+		return getSqlSession().selectOne(QUERY_ADDRESS_BY_PHONE, pPhoneNumber);
+	}
+
+	@Override
+	public boolean updateParentAddress(final Address pAddress) {
+		return getSqlSession().update(UPDATE_PARENT_ADDRESS, pAddress) > 0;
+	}
+
+	@Override
+	public ParentProfile queryParentById(final int pParentId) {
+		return getSqlSession().selectOne(QUREY_PARENT_BY_ID, pParentId);
+	}
 }

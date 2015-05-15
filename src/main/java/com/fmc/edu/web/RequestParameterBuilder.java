@@ -30,6 +30,7 @@ public class RequestParameterBuilder {
 		String ringNum = mBase64EncryptService.decrypt(pRequest.getParameter("braceletNumber"));
 		String ringPhone = mBase64EncryptService.decrypt(pRequest.getParameter("braceletCardNumber"));
 		String classId = mBase64EncryptService.decrypt(pRequest.getParameter("classId"));
+		String studentId = mBase64EncryptService.decrypt(pRequest.getParameter("studentId"));
 		Student stu = new Student(Integer.valueOf(classId), name);
 		//TODO update after confirmation
 		stu.setMale(Boolean.valueOf(sexString));
@@ -37,33 +38,48 @@ public class RequestParameterBuilder {
 		stu.setRingNumber(ringNum);
 		stu.setRingPhone(ringPhone);
 		stu.setAvailable(Boolean.TRUE);
+		if (StringUtils.isNoneBlank(studentId)) {
+			stu.setId(Integer.valueOf(studentId));
+		}
 		return stu;
 	}
 
 	public Address buildAddress(HttpServletRequest pRequest) throws IOException {
 		//TODO update after confirmation
 		String fullAddress = mBase64EncryptService.decrypt(pRequest.getParameter("address"));
-		if (StringUtils.isBlank(fullAddress)) {
-			return null;
-		}
 		String provinceId = mBase64EncryptService.decrypt(pRequest.getParameter("provId"));
 		String cityId = mBase64EncryptService.decrypt(pRequest.getParameter("cityId"));
+		String addressId = mBase64EncryptService.decrypt(pRequest.getParameter("addressId"));
 		Address address = new Address(Integer.valueOf(provinceId), Integer.valueOf(cityId), fullAddress);
+		if (StringUtils.isNoneBlank(addressId)) {
+			address.setId(Integer.valueOf(addressId));
+		}
 		return address;
 	}
 
 	public ParentStudentRelationship buildParentStudentRelationship(HttpServletRequest pRequest) throws IOException {
 		String phone = mBase64EncryptService.decrypt(pRequest.getParameter("cellPhone"));
 		String relationship = mBase64EncryptService.decrypt(pRequest.getParameter("relation"));
-		return new ParentStudentRelationship(phone, relationship);
+		String studentId = mBase64EncryptService.decrypt(pRequest.getParameter("studentId"));
+		String parentId = mBase64EncryptService.decrypt(pRequest.getParameter("parentId"));
+		ParentStudentRelationship psr = new ParentStudentRelationship(phone, relationship);
+		if (StringUtils.isNoneBlank(studentId) && StringUtils.isNoneBlank(parentId)) {
+			psr.setParentId(Integer.valueOf(parentId));
+			psr.setStudentId(Integer.valueOf(studentId));
+		}
+		return psr;
 	}
 
 	public ParentProfile buildParent(HttpServletRequest pRequest) {
 		ParentProfile parent = new ParentProfile();
 		String phone = getBase64EncryptService().decrypt(pRequest.getParameter("cellPhone"));
 		String parentName = getBase64EncryptService().decrypt(pRequest.getParameter("parentName"));
+		String parentId = getBase64EncryptService().decrypt(pRequest.getParameter("parentId"));
 		parent.setPhone(phone);
 		parent.setName(parentName);
+		if (StringUtils.isBlank(parentId)) {
+			parent.setId(Integer.valueOf(parentId));
+		}
 		return parent;
 
 	}

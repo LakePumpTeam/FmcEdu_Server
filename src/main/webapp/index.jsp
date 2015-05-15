@@ -149,6 +149,18 @@
                     <td align="right"><label for="braceletNumber" title="braceletNumber">braceletNumber</label></td>
                     <td><input type="text" class="ipt_value" id="braceletNumber" value="" /></td>
                 </tr>
+                <tr>
+                    <td align="right"><label for="parentId" title="parentId">parentId</label></td>
+                    <td><input type="text" class="ipt_value" id="parentId" value=""/></td>
+                </tr>
+                <tr>
+                    <td align="right"><label for="studentId" title="studentId">studentId</label></td>
+                    <td><input type="text" class="ipt_value" id="studentId" value=""/></td>
+                </tr>
+                <tr>
+                    <td align="right"><label for="addressId" title="addressId">addressId</label></td>
+                    <td><input type="text" class="ipt_value" id="addressId" value=""/></td>
+                </tr>
             </table>
         </td>
         <td><input type="button" class="btn_request" value="Request"/></td>

@@ -4,6 +4,7 @@ import com.fmc.edu.model.address.Address;
 import com.fmc.edu.model.profile.ParentProfile;
 import com.fmc.edu.model.relationship.ParentStudentRelationship;
 import com.fmc.edu.repository.IParentRepository;
+import com.fmc.edu.util.RepositoryUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -24,12 +25,26 @@ public class ParentService {
 	}
 
 	public boolean registerParentAddress(String pPhoneNumber, Address pAddress) {
-		pAddress.setCreationDate(new Timestamp(System.currentTimeMillis()));
-		return getParentRepository().persistParentAddress(pAddress);
+		if (pAddress.getId() == 0) {
+			Address address = getParentRepository().queryAddressByPhone(pPhoneNumber);
+			if (!RepositoryUtils.isItemExist(address)) {
+				// create new address record
+				pAddress.setCreationDate(new Timestamp(System.currentTimeMillis()));
+				return getParentRepository().persistParentAddress(pAddress);
+			}
+			pAddress.setId(address.getId());
+		}
+		// update address
+		return getParentRepository().updateParentAddress(pAddress);
 	}
 
 	public boolean registerParentStudentRelationship(final ParentStudentRelationship pParentStudentRelationship) {
-		ParentProfile parent = getParentRepository().queryParentByPhone(pParentStudentRelationship.getParentPhone());
+		ParentProfile parent = null;
+		if (pParentStudentRelationship.getParentId() == 0) {
+			parent = getParentRepository().queryParentByPhone(pParentStudentRelationship.getParentPhone());
+		} else {
+			parent = getParentRepository().queryParentById(pParentStudentRelationship.getParentId());
+		}
 		if (parent != null) {
 			pParentStudentRelationship.setParentId(parent.getId());
 			pParentStudentRelationship.setCreationDate(new Timestamp(System.currentTimeMillis()));

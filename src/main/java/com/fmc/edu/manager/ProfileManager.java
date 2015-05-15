@@ -36,7 +36,7 @@ public class ProfileManager {
 
 	public String registerTempParent(String pPhoneNumber) {
 		String identifyCode = getMessageIdentifyService().sendIdentifyRequest(pPhoneNumber);
-		boolean persistentFailure = getTempParentService().registerTempParent(pPhoneNumber, identifyCode);
+		boolean persistent = getTempParentService().registerTempParent(pPhoneNumber, identifyCode);
 		return identifyCode;
 	}
 
@@ -45,7 +45,6 @@ public class ProfileManager {
 	}
 
 	public boolean registerParentAddress(String pPhoneNumber, Address pAddress) {
-		// TODO check the parent is between temp parent and parent
 		return getParentService().registerParentAddress(pPhoneNumber, pAddress);
 	}
 
@@ -54,9 +53,9 @@ public class ProfileManager {
 		boolean persist = getSchoolManager().persistStudent(pStudent);
 		if (persist && pStudent.getId() > 0) {
 			pParentStudentRelationship.setStudentId(pStudent.getId());
-			boolean register = getParentService().registerParentStudentRelationship(pParentStudentRelationship);
+			boolean register = getParentService().registerParent(pParentStudentRelationship.getParentPhone(), pParent);
 			if (register) {
-				getParentService().registerParent(pParentStudentRelationship.getParentPhone(), pParent);
+				getParentService().registerParentStudentRelationship(pParentStudentRelationship);
 			}
 		}
 	}

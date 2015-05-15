@@ -5,9 +5,9 @@ $(document).ready(function () {
         var result = ul.find("span[encode-type='" + dataType + "']").text("");
         var value = ul.find(":text.ipt_value[encode-type='" + dataType + "']").val();
         if (dataType === "encode") {
-            result.text(window.btoa(value));
+            result.text(window.btoa(encodeURI(value)));
         } else {
-            result.text(window.atob(value));
+            result.text(decodeURI(window.atob(value)));
         }
     });
 
@@ -28,7 +28,7 @@ $(document).ready(function () {
                 return true;
             }
             var name = element.attr("id");
-            var valueBase64 = window.btoa(value).replace(new RegExp("=", "g"), "~");
+            var valueBase64 = window.btoa(encodeURI(value)).replace(new RegExp("=", "g"), "~");
             console.log("Get parameter  name: " + name);
             console.log("Get parameter value: " + value);
             console.log("Value base64 encode: " + valueBase64);
