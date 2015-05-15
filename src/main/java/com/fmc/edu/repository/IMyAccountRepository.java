@@ -6,7 +6,6 @@ import com.fmc.edu.model.profile.BaseProfile;
  * Created by Yu on 5/12/2015.
  */
 public interface IMyAccountRepository {
-
     String QUER_USER_BY_PHONE = "com.fmc.edu.myaccount.login";
 
     BaseProfile findUser(final String pPhone);
@@ -23,11 +22,4 @@ public interface IMyAccountRepository {
 
     int resetPassword(final BaseProfile pLoginedUser);
 
-    String UPDATE_PARENT_AUDIT_STATUS = "com.fmc.edu.myaccount.updateParentAuditStatus";
-
-    boolean updateParentAuditStatus(int pTeacherId, int[] pParentIds, boolean pPass);
-
-    String UPDATE_ALL_PARENT_AUDIT_STATUS = "com.fmc.edu.myaccount.updateAllParentAuditStatus";
-
-    boolean updateAllParentAuditStatus(int pTeacherId, boolean pPass);
 }

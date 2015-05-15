@@ -26,14 +26,6 @@ public class MyAccountService {
         return updatedCount > 0 ? true : false;
     }
 
-    public boolean updateParentAuditStatus(final int pTeacherId, final int[] pParentIds, final boolean pPass) {
-        return getMyAccountRepository().updateParentAuditStatus(pTeacherId, pParentIds, pPass);
-    }
-
-    public boolean updateAllParentAuditStatus(final int pTeacherId, final boolean pPass) {
-        return getMyAccountRepository().updateAllParentAuditStatus(pTeacherId, pPass);
-    }
-
     public int resetPassword(BaseProfile pLoginedUser) {
         return getMyAccountRepository().resetPassword(pLoginedUser);
     }

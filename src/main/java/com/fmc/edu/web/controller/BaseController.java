@@ -61,14 +61,6 @@ public abstract class BaseController {
 		return new Pagination(Integer.valueOf(pageIndex), Integer.valueOf(pageSize));
 	}
 
-	protected int[] decodeInputIds(final String[] pInputIds) throws IOException {
-		int[] ids = new int[pInputIds.length];
-		for (int i = 0; i < pInputIds.length; i++) {
-			ids[i] = Integer.valueOf(decodeInput(pInputIds[i]));
-		}
-		return ids;
-	}
-
 	public DataSourceTransactionManager getTransactionManager() {
 		return mTransactionManager;
 	}

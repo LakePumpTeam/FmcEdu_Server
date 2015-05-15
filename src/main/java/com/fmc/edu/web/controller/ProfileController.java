@@ -18,7 +18,6 @@ import com.fmc.edu.util.ValidationUtils;
 import com.fmc.edu.web.RequestParameterBuilder;
 import com.fmc.edu.web.ResponseBean;
 import com.fmc.edu.web.ResponseBuilder;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -45,7 +44,6 @@ public class ProfileController extends BaseController {
 	private static final String ERROR_SESSION_EXPIRED = "Sorry, the session has expired.";
 	private static final String ERROR_PASSWORD_CONFIRM = "Sorry, the password isn't match the confirmation.";
 	private static final String ERROR_NULL_PARENT_ID = "Sorry, the parent id should not be empty.";
-	private static final String ERROR_NULL_PARENT_IDS = "Sorry, the parent ids should not be empty.";
 	private static final String ERROR_INVALID_IDENTITY_CODE = "验证码错误.";
 
 	@Resource(name = "profileManager")
@@ -325,50 +323,6 @@ public class ProfileController extends BaseController {
 		responseBean.addData("braceletNumber", student.getRingNumber());
 		return responseBean.toString();
 	}
-
-	@RequestMapping(value = "/requestParentAudit" + GlobalConstant.URL_SUFFIX)
-	@ResponseBody
-	public String requestParentAudit(HttpServletRequest pRequest, final HttpServletResponse pResponse, final String teacherId, final
-	String[] parentIds, String setPass) {
-		ResponseBean responseBean = new ResponseBean();
-		if (ArrayUtils.isEmpty(parentIds)) {
-			responseBean.addErrorMsg(ERROR_NULL_PARENT_IDS);
-			return responseBean.toString();
-		}
-		TransactionStatus status = ensureTransaction();
-		try {
-			int[] ids = decodeInputIds(parentIds);
-			int tid = Integer.valueOf(decodeInput(teacherId));
-			boolean pass = Boolean.valueOf(decodeInput(setPass));
-			getMyAccountManager().updateParentAuditStatus(tid, ids, pass);
-		} catch (Exception e) {
-			LOG.error(e);
-			responseBean.addErrorMsg(e);
-		} finally {
-			getTransactionManager().commit(status);
-		}
-		return responseBean.toString();
-	}
-
-	@RequestMapping(value = "/requestParentAuditAll" + GlobalConstant.URL_SUFFIX)
-	@ResponseBody
-	public String requestParentAuditAll(HttpServletRequest pRequest, final HttpServletResponse pResponse, final String teacherId, final
-	String allPass) {
-		ResponseBean responseBean = new ResponseBean();
-		TransactionStatus status = ensureTransaction();
-		try {
-			int tid = Integer.valueOf(decodeInput(teacherId));
-			boolean pass = Boolean.valueOf(decodeInput(allPass));
-			getMyAccountManager().updateAllParentAuditStatus(tid, pass);
-		} catch (Exception e) {
-			LOG.error(e);
-			responseBean.addErrorMsg(e);
-		} finally {
-			getTransactionManager().commit(status);
-		}
-		return responseBean.toString();
-	}
-
 
 	public ProfileManager getProfileManager() {
 		return mProfileManager;
