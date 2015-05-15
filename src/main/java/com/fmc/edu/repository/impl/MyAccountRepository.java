@@ -5,6 +5,7 @@ import com.fmc.edu.repository.BaseRepository;
 import com.fmc.edu.repository.IMyAccountRepository;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,5 +36,25 @@ public class MyAccountRepository extends BaseRepository implements IMyAccountRep
     @Override
     public int resetPassword(BaseProfile pLoginedUser) {
         return getSqlSession().update(RESET_PASSWORD, pLoginedUser);
+    }
+
+    @Override
+    public boolean updateParentAuditStatus(final int pTeacherId, final int[] pParentIds, final boolean pPass) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("id", pTeacherId);
+        params.put("parentIds", pParentIds);
+        params.put("pass", pPass ? 1 : 2);
+        params.put("now", new Timestamp(System.currentTimeMillis()));
+        return getSqlSession().update(UPDATE_PARENT_AUDIT_STATUS, params) > 0;
+
+    }
+
+    @Override
+    public boolean updateAllParentAuditStatus(final int pTeacherId, final boolean pPass) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("id", pTeacherId);
+        params.put("pass", pPass ? 1 : 2);
+        params.put("now", new Timestamp(System.currentTimeMillis()));
+        return getSqlSession().update(UPDATE_ALL_PARENT_AUDIT_STATUS, params) > 0;
     }
 }
