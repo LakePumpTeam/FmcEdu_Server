@@ -74,8 +74,15 @@ public class ProfileController extends BaseController {
         try {
             identifyCode = getProfileManager().obtainIdentityCode(phone);
             //registerTempParent(phone);
-            // save temp profile bean to session
             pRequest.getSession().setAttribute(SessionConstant.SESSION_KEY_PHONE, phone);
+
+            // request identify failed if identify is blank
+            Map<String, Object> dataMap = new HashMap<String, Object>();
+            if (WebConfig.isDevelopment()) {
+                dataMap.put("identifyCode", identifyCode);
+                responseBean.addData("identifyCode", identifyCode);
+                LOG.debug(String.format("Send identify code: %s to phone: %s", identifyCode, phone));
+            }
         } catch (ProfileException ex) {
             responseBean.addBusinessMsg(ex.getMessage());
         } catch (IdentityCodeException ex) {
@@ -90,13 +97,6 @@ public class ProfileController extends BaseController {
         if (cellPhone == null || ValidationUtils.isValidPhoneNumber(phone)) {
             responseBean.addBusinessMsg(ERROR_INVALID_PHONE);
             return responseBean.toString();
-        }
-        // request identify failed if identify is blank
-        Map<String, Object> dataMap = new HashMap<String, Object>();
-        if (WebConfig.isDevelopment()) {
-            dataMap.put("identifyCode", identifyCode);
-            responseBean.addData("identifyCode", identifyCode);
-            LOG.debug(String.format("Send identify code: %s to phone: %s", identifyCode, phone));
         }
         return responseBean.toString();
     }
