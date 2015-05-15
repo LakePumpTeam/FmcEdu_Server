@@ -52,9 +52,8 @@ public class SchoolRepository extends BaseRepository implements ISchoolRepositor
     }
 
     @Override
-    public Map<String, Object> queryHeadmasterPage(int pClassId, final int pSchoolId) {
+    public Map<String, Object> queryHeadmasterPage(final int pSchoolId) {
         Map<String, Object> params = new HashMap<String, Object>(2);
-        params.put("classId", pClassId);
         params.put("schoolId", pSchoolId);
         return getSqlSession().selectOne(QUERY_HEADMASTER, params);
     }

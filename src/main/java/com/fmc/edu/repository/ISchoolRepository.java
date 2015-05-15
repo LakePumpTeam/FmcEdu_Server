@@ -21,7 +21,7 @@ public interface ISchoolRepository {
 
 	String QUERY_HEADMASTER = "com.fmc.edu.school.queryHeadmaster";
 
-	Map<String, Object> queryHeadmasterPage(final int pClassId, final int pSchoolId);
+	Map<String, Object> queryHeadmasterPage(final int pSchoolId);
 
 	String UPDATE_STUDENT_BY_ID = "com.fmc.edu.school.updateStudentById";
 

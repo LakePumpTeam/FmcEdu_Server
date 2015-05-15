@@ -70,13 +70,12 @@ public class SchoolController extends BaseController {
 
     @RequestMapping("/requestHeadTeacher")
     @ResponseBody
-    public String requestHeadmaster(final HttpServletRequest pRequest, final HttpServletResponse pResponse, final String schoolId, final String classId) {
+    public String requestHeadmaster(final HttpServletRequest pRequest, final HttpServletResponse pResponse, final String classId) {
         ResponseBean responseBean = new ResponseBean();
         try {
-            String school = decodeInput(schoolId);
             String correspondingClass = decodeInput(classId);
 
-            Map<String, Object> headmaster = getSchoolManager().queryHeadmasterPage(Integer.valueOf(school), Integer.valueOf(correspondingClass));
+            Map<String, Object> headmaster = getSchoolManager().queryHeadmasterPage(Integer.valueOf(correspondingClass));
             responseBean.addData(headmaster);
         } catch (IOException e) {
             responseBean.addErrorMsg(e);

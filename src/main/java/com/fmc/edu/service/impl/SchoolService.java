@@ -25,8 +25,8 @@ public class SchoolService {
         return getSchoolRepository().queryClassesPage(pPagination, pSchoolId, pKey);
     }
 
-    public Map<String, Object> queryHeadmasterPage(int pClassId, final int pSchoolId) {
-        return getSchoolRepository().queryHeadmasterPage(pClassId, pSchoolId);
+    public Map<String, Object> queryHeadmasterPage(final int pSchoolId) {
+        return getSchoolRepository().queryHeadmasterPage(pSchoolId);
     }
 
     public boolean updateStudentById(final Student pStudent) {
