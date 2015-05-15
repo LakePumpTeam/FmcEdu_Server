@@ -29,8 +29,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Yove on 5/4/2015.
@@ -77,9 +75,7 @@ public class ProfileController extends BaseController {
             pRequest.getSession().setAttribute(SessionConstant.SESSION_KEY_PHONE, phone);
 
             // request identify failed if identify is blank
-            Map<String, Object> dataMap = new HashMap<String, Object>();
             if (WebConfig.isDevelopment()) {
-                dataMap.put("identifyCode", identifyCode);
                 responseBean.addData("identifyCode", identifyCode);
                 LOG.debug(String.format("Send identify code: %s to phone: %s", identifyCode, phone));
             }
