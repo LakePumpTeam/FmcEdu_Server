@@ -5,28 +5,29 @@ import com.fmc.edu.model.profile.BaseProfile;
 import com.fmc.edu.service.impl.MyAccountService;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.io.UnsupportedEncodingException;
 import java.sql.Timestamp;
 
 /**
  * Created by Yu on 5/12/2015.
  */
-@Service("myAccountManager")
+@Component("myAccountManager")
 public class MyAccountManager {
     private static final Logger LOG = Logger.getLogger(MyAccountManager.class);
 
-    protected String NOT_FIND_USER = "账号不存在.";
+    protected String NOT_FIND_USER = "notFindUser";
 
-    protected String ACCOUNT_UNAVAILABLE = "账号不可用，请联系管理员.";
+    protected String ACCOUNT_UNAVAILABLE = "accountUnavailable";
 
-    protected String PASSWORD_IS_INVALID = "密码错误.";
+    protected String PASSWORD_IS_INVALID = "passwordIsInvalid";
 
     @Resource(name = "myAccountService")
     private MyAccountService mMyAccountService;
 
-    public BaseProfile loginUser(final String pAccount, final String pPassword) throws LoginException {
+    public BaseProfile loginUser(final String pAccount, final String pPassword) throws LoginException, UnsupportedEncodingException {
         BaseProfile user = getMyAccountService().findUser(pAccount);
         if (user == null) {
             throw new LoginException(NOT_FIND_USER);
@@ -44,6 +45,20 @@ public class MyAccountManager {
             LOG.error("Update login status failed.");
         }
         return user;
+    }
+
+    public BaseProfile findUser(final String pAccount) {
+        return getMyAccountService().findUser(pAccount);
+    }
+
+    public BaseProfile findUserById(String pProfileId) {
+        return getMyAccountService().findUserById(pProfileId);
+    }
+
+    public int resetPassword(BaseProfile pUser, String pPassword) {
+        pUser.setPassword(pPassword);
+        pUser.setLastUpdateDate(new Timestamp(System.currentTimeMillis()));
+        return getMyAccountService().resetPassword(pUser);
     }
 
     public MyAccountService getMyAccountService() {

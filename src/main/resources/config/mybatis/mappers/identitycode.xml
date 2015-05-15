@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fmc.edu.identitycode">
+    <resultMap id="identityCode" type="com.fmc.edu.model.common.IdentityCode">
+        <id column="id" property="id"/>
+        <result column="profile_id" property="profileId"/>
+        <result column="identifying_code" property="identityCode"/>
+        <result column="identifying_end_date" property="identityEndDate"/>
+    </resultMap>
+
+    <select id="queryIdentityCodeByProfileId" resultMap="identityCode" parameterType="int">
+      select id, profile_id,identifying_code,identifying_end_date
+      from identity_code
+      where profile_id = #{profileId} and identifying_end_date &lt;= now()
+    </select>
+    <insert id="insertIdentityCode" parameterMap="identityCode">
+        insert into (profile_id, identifying_code, identifying_end_date)
+        VALUES (#{profileId},#{identityCode},#{identityEndDate})
+    </insert>
+</mapper>

@@ -187,6 +187,54 @@
      <td><input type="button" class="btn_reset" value="Reset"/></td>
      <td class="result"></td>
  </tr>
+    <tr>
+        <td>#5</td>
+        <td class="function">忘记密码接口</td>
+        <td class="baseUrl">${ctx}/profile/requestForgetPwd</td>
+        <td class="parameters">
+            <table>
+                <tr>
+                    <td align="right"><label for="cellPhone" title="cellPhone">cellPhone</label></td>
+                    <td><input type="text" class="ipt_value" id="cellPhone" value=""/></td>
+                </tr>
+                <tr>
+                    <td align="right"><label for="authCode" title="authCode">authCode</label></td>
+                    <td><input type="text" class="ipt_value" id="authCode" value=""/></td>
+                </tr>
+                <tr>
+                    <td align="right"><label for="password" title="password">password</label></td>
+                    <td><input type="text" class="ipt_value" id="password" value=""/></td>
+                </tr>
+            </table>
+        </td>
+        <td><input type="button" class="btn_request" value="Request"/></td>
+        <td><input type="button" class="btn_reset" value="Reset"/></td>
+        <td class="result"></td>
+    </tr>
+    <tr>
+        <td>#5</td>
+        <td class="function">修改密码</td>
+        <td class="baseUrl">${ctx}/profile/requestAlterPwd</td>
+        <td class="parameters">
+            <table>
+                <tr>
+                    <td align="right"><label for="userId" title="userId">userId</label></td>
+                    <td><input type="text" class="ipt_value" id="userId" value=""/></td>
+                </tr>
+                <tr>
+                    <td align="right"><label for="oldPassword" title="oldPassword">oldPassword</label></td>
+                    <td><input type="text" class="ipt_value" id="oldPassword" value=""/></td>
+                </tr>
+                <tr>
+                    <td align="right"><label for="newPassword" title="newPassword">newPassword</label></td>
+                    <td><input type="text" class="ipt_value" id="newPassword" value=""/></td>
+                </tr>
+            </table>
+        </td>
+        <td><input type="button" class="btn_request" value="Request"/></td>
+        <td><input type="button" class="btn_reset" value="Reset"/></td>
+        <td class="result"></td>
+    </tr>
 </table>
 </fieldset>
 

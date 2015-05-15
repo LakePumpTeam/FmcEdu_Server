@@ -172,19 +172,19 @@ CREATE TABLE IF NOT EXISTS `fmc_edu`.`parent` (
   ENGINE = InnoDB;
 
 
--- -----------------------------------------------------
--- Table `fmc_edu`.`temp_parent`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `fmc_edu`.`temp_parent`;
-
-CREATE TABLE IF NOT EXISTS `fmc_edu`.`temp_parent` (
-  `profile_id`       INT         NOT NULL,
+CREATE TABLE IF NOT EXISTS `fmc_edu`.`identity_code` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `profile_id` INT NOT NULL,
   `identifying_code` VARCHAR(20) NULL,
-  `identifying_date` DATETIME    NULL,
-  PRIMARY KEY (`profile_id`)
-)
-  ENGINE = InnoDB;
-
+  `identifying_end_date` DATETIME NULL,
+  INDEX `fk_Temp_Parent_Profile1_idx` (`profile_id` ASC),
+  PRIMARY KEY (`id`, `profile_id`),
+  CONSTRAINT `fk_Temp_Parent_Profile1`
+    FOREIGN KEY (`profile_id`)
+    REFERENCES `fmc_edu`.`profile` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
 
 -- -----------------------------------------------------
 -- Table `fmc_edu`.`parent_student_map`

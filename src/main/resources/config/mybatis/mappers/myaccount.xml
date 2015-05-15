@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fmc.edu.myaccount">
 
-    <select id="login" parameterType="string" resultMap="profile">
+    <select id="login" parameterType="map" resultMap="profile">
         select
         id,
         name,
@@ -22,9 +22,33 @@
         where phone = #{userAccount}
     </select>
 
+    <select id="findUserById" parameterType="string" resultMap="profile">
+        select
+        id,
+        name,
+        password,
+        phone,
+        app_id,
+        channel_id,
+        creation_date,
+        last_login_date,
+        last_update_date,
+        profile_type,
+        available
+        from
+        profile
+        where id = #{profileId}
+    </select>
+
     <update id="updateLoginStatus" parameterType="com.fmc.edu.model.profile.BaseProfile" flushCache="true">
         update profile
         set last_login_date = #{lastLoginDate}
+        where id = #{id}
+    </update>
+
+    <update id="resetPassword" parameterType="com.fmc.edu.model.profile.BaseProfile" flushCache="true">
+        update profile
+        set password = #{password}, last_update_date = #{lastUpdateDate}
         where id = #{id}
     </update>
 

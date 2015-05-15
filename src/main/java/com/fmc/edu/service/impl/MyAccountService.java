@@ -18,9 +18,16 @@ public class MyAccountService {
         return getMyAccountRepository().findUser(pPhone);
     }
 
+    public BaseProfile findUserById(String pProfileId) {
+        return getMyAccountRepository().findUserById(pProfileId);
+    }
     public boolean saveLoginStatus(final BaseProfile pLoginedUser) {
         int updatedCount = getMyAccountRepository().saveLoginStatus(pLoginedUser);
         return updatedCount > 0 ? true : false;
+    }
+
+    public int resetPassword(BaseProfile pLoginedUser) {
+        return getMyAccountRepository().resetPassword(pLoginedUser);
     }
 
     public IMyAccountRepository getMyAccountRepository() {
