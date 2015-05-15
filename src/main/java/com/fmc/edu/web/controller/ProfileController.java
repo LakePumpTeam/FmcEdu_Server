@@ -200,6 +200,10 @@ public class ProfileController extends BaseController {
         TransactionStatus txStatus = ensureTransaction();
         try {
             BaseProfile user = getMyAccountManager().findUser(cellPhone);
+            if (user == null) {
+                responseBean.addBusinessMsg("用户不存在.");
+                return responseBean.toString();
+            }
             if (getProfileManager().verifyIdentityCode(user.getId(), authCode)) {
                 responseBean.addBusinessMsg("验证码错误.");
                 return responseBean.toString();
