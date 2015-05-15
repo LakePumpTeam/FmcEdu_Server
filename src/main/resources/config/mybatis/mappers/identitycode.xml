@@ -15,7 +15,7 @@
       from identity_code
       where profile_id = #{profileId} and identifying_end_date &lt;= now()
     </select>
-    <insert id="insertIdentityCode" parameterMap="identityCode">
+    <insert id="insertIdentityCode" parameterType="com.fmc.edu.model.common.IdentityCode">
         insert into (profile_id, identifying_code, identifying_end_date)
         VALUES (#{profileId},#{identityCode},#{identityEndDate})
     </insert>
