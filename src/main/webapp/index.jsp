@@ -236,7 +236,7 @@
             <td class="result"></td>
         </tr>
         <tr>
-            <td>#1</td>
+            <td>#7</td>
             <td class="function">获取家长关联信息</td>
             <td class="baseUrl">${ctx}/profile/requestGetRelateInfo</td>
             <td class="parameters">
@@ -244,6 +244,50 @@
                     <tr>
                         <td align="right"><label for="parentId" title="parentId">parentId</label></td>
                         <td><input type="text" class="ipt_value" id="parentId" value=""/></td>
+                    </tr>
+                </table>
+            </td>
+            <td><input type="button" class="btn_request" value="Request"/></td>
+            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td class="result"></td>
+        </tr>
+        <tr>
+            <td>#8</td>
+            <td class="function">家长审核</td>
+            <td class="baseUrl">${ctx}/profile/requestParentAudit</td>
+            <td class="parameters">
+                <table>
+                    <tr>
+                        <td align="right"><label for="parentIds" title="parentId">parentIds</label></td>
+                        <td><input type="text" class="ipt_value" id="parentIds" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="teacherId" title="teacherId">teacherId</label></td>
+                        <td><input type="text" class="ipt_value" id="teacherId" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="setPass" title="setPass">setPass</label></td>
+                        <td><input type="text" class="ipt_value" id="setPass" value=""/></td>
+                    </tr>
+                </table>
+            </td>
+            <td><input type="button" class="btn_request" value="Request"/></td>
+            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td class="result"></td>
+        </tr>
+        <tr>
+            <td>#9</td>
+            <td class="function">批量审核家长</td>
+            <td class="baseUrl">${ctx}/profile/requestParentAuditAll</td>
+            <td class="parameters">
+                <table>
+                    <tr>
+                        <td align="right"><label for="teacherId" title="teacherId">teacherId</label></td>
+                        <td><input type="text" class="ipt_value" id="teacherId" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="setPass" title="allPass">allPass</label></td>
+                        <td><input type="text" class="ipt_value" id="allPass" value=""/></td>
                     </tr>
                 </table>
             </td>

@@ -52,17 +52,36 @@
         where id = #{id}
     </update>
 
+    <update id="updateParentAuditStatus" parameterType="map">
+        UPDATE parent_student_map m
+        INNER JOIN student s ON m.student_id = s.id
+        INNER JOIN class c ON s.class_id = c.id
+        SET approved = #{pass}, approved_date = #{now}, m.last_update_date = #{now}
+        WHERE c.head_teacher_id = #{id} AND m.parent_id IN
+        <foreach item="parentId" collection="parentIds" index="index" open="(" separator="," close=")">
+            #{parentId}
+        </foreach>
+    </update>
+
+    <update id="updateAllParentAuditStatus" parameterType="map">
+        UPDATE parent_student_map m
+        INNER JOIN student s ON m.student_id = s.id
+        INNER JOIN class c ON s.class_id = c.id
+        SET approved = #{pass}, approved_date = #{now}, m.last_update_date = #{now}
+        WHERE c.head_teacher_id = #{id}
+    </update>
+
     <resultMap id="profile" type="com.fmc.edu.model.profile.BaseProfile">
-        <id property="id" column="id"/>
-        <result property="name" column="name"/>
-        <result property="phone" column="phone"/>
-        <result property="password" column="password"/>
-        <result property="appId" column="app_id"/>
-        <result property="channelId" column="channel_id"/>
-        <result property="creationDate" column="creation_date"/>
-        <result property="lastLoginDate" column="last_login_date"/>
-        <result property="lastUpdateDate" column="last_update_date"/>
-        <result property="available" column="available"/>
-        <result property="profileType" column="profile_type"/>
+        <id property="id" column="id" />
+        <result property="name" column="name" />
+        <result property="phone" column="phone" />
+        <result property="password" column="password" />
+        <result property="appId" column="app_id" />
+        <result property="channelId" column="channel_id" />
+        <result property="creationDate" column="creation_date" />
+        <result property="lastLoginDate" column="last_login_date" />
+        <result property="lastUpdateDate" column="last_update_date" />
+        <result property="available" column="available" />
+        <result property="profileType" column="profile_type" />
     </resultMap>
 </mapper>
