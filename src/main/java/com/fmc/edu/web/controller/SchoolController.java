@@ -37,8 +37,11 @@ public class SchoolController extends BaseController {
             Map<String, Object> schools = getSchoolManager().querySchoolsPage(pagination, Integer.valueOf(city), filter);
             responseBean.addData(schools);
         } catch (IOException e) {
-            responseBean.addErrorMsg(e.getMessage());
+            responseBean.addErrorMsg(e);
             LOG.error(e);
+        } catch (Exception ex) {
+            responseBean.addErrorMsg(ex);
+            LOG.error(ex);
         }
         return responseBean.toString();
     }
@@ -55,8 +58,11 @@ public class SchoolController extends BaseController {
             Map<String, Object> classses = getSchoolManager().queryClassesPage(pagination, Integer.valueOf(school), filter);
             responseBean.addData(classses);
         } catch (IOException e) {
-            responseBean.addErrorMsg(e.getMessage());
+            responseBean.addErrorMsg(e);
             LOG.error(e);
+        } catch (Exception ex) {
+            responseBean.addErrorMsg(ex);
+            LOG.error(ex);
         }
         return responseBean.toString();
     }
@@ -73,8 +79,11 @@ public class SchoolController extends BaseController {
             Map<String, Object> headmaster = getSchoolManager().queryHeadmasterPage(Integer.valueOf(school), Integer.valueOf(correspondingClass));
             responseBean.addData(headmaster);
         } catch (IOException e) {
-            responseBean.addErrorMsg(e.getMessage());
+            responseBean.addErrorMsg(e);
             LOG.error(e);
+        } catch (Exception ex) {
+            responseBean.addErrorMsg(ex);
+            LOG.error(ex);
         }
         return responseBean.toString();
     }

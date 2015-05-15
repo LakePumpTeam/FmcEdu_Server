@@ -79,7 +79,7 @@ public class ProfileController extends BaseController {
 			}
 		} catch (Exception e) {
 			LOG.error(e);
-			responseBean.addErrorMsg(e.getMessage());
+			responseBean.addErrorMsg(e);
 		} finally {
 			getTransactionManager().commit(status);
 		}
@@ -126,7 +126,7 @@ public class ProfileController extends BaseController {
 			}
 		} catch (Exception e) {
 			LOG.error(e);
-			responseBean.addErrorMsg(e.getMessage());
+			responseBean.addErrorMsg(e);
 		} finally {
 			getTransactionManager().commit(status);
 		}
@@ -152,7 +152,7 @@ public class ProfileController extends BaseController {
 			getProfileManager().registerRelationshipBetweenStudent(relationship, student, parent);
 		} catch (Exception e) {
 			LOG.error(e);
-			responseBean.addErrorMsg(e.getMessage());
+			responseBean.addErrorMsg(e);
 			status.setRollbackOnly();
 		} finally {
 			getTransactionManager().commit(status);
@@ -174,7 +174,7 @@ public class ProfileController extends BaseController {
 			responseBean.addBusinessMsg(e.getMessage());
 		} catch (Exception e) {
 			LOG.error(e);
-			responseBean.addErrorMsg(e.getMessage());
+			responseBean.addErrorMsg(e);
 		}
 		if (user != null) {
 			getResponseBuilder().buildAuthorizedResponse(responseBean, user);

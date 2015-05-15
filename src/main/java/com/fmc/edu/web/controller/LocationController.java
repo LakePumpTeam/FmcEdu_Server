@@ -36,8 +36,10 @@ public class LocationController extends BaseController {
             Map<String, Object> dataList = getLocationManager().queryProvincePage(pagination, key);
             responseBean.addData(dataList);
         } catch (IOException e) {
-            responseBean.addErrorMsg(e.getMessage());
+            responseBean.addErrorMsg(e);
             LOG.error(e);
+        } catch (Exception ex) {
+            responseBean.addErrorMsg(ex);
         }
         return responseBean.toString();
     }
@@ -53,8 +55,10 @@ public class LocationController extends BaseController {
             Map<String, Object> dataList = getLocationManager().queryCityPage(pagination, Integer.valueOf(provinceId), key);
             responseBean.addData(dataList);
         } catch (IOException e) {
-            responseBean.addErrorMsg(e.getMessage());
+            responseBean.addErrorMsg(e);
             LOG.error(e);
+        } catch (Exception ex) {
+            responseBean.addErrorMsg(ex);
         }
 
         return responseBean.toString();

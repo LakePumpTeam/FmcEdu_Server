@@ -46,6 +46,9 @@ public class ResponseBean {
         errors.add(pErrorMsg);
     }
 
+    public void addErrorMsg(final Exception pEx) {
+        addErrorMsg(pEx.getMessage());
+    }
     public void addData(final String pKey, final Object pData) {
         if (StringUtils.isBlank(pKey)) {
             return;
