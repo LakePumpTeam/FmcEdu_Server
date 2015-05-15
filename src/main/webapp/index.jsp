@@ -212,7 +212,7 @@
         <td class="result"></td>
     </tr>
     <tr>
-        <td>#5</td>
+        <td>#6</td>
         <td class="function">修改密码</td>
         <td class="baseUrl">${ctx}/profile/requestAlterPwd</td>
         <td class="parameters">
