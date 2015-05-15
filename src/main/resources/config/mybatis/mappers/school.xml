@@ -50,7 +50,7 @@
     </select>
 
     <select id="queryClassPage" parameterType="map" resultType="map">
-        SELECT id as classId, `name` as className
+        SELECT id as classId, CONCAT(grade, class) as className
         FROM class
         <where>
             `school_id` = #{schoolId}
