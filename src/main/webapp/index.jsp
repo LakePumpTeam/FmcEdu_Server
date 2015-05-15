@@ -322,10 +322,6 @@
             <td class="parameters">
                 <table>
                     <tr>
-                        <td align="right"><label for="schoolId" title="schoolId">schoolId</label></td>
-                        <td><input type="text" class="ipt_value" id="schoolId" value=""/></td>
-                    </tr>
-                    <tr>
                         <td align="right"><label for="classId" title="classId">classId</label></td>
                         <td><input type="text" class="ipt_value" id="classId" value=""/></td>
                     </tr>
