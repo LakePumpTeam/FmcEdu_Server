@@ -65,6 +65,10 @@ public class ResponseBean {
         dataMap.putAll(pData);
     }
 
+    public Boolean businessIsSuccess() {
+        Map<String, Object> dataMap = (Map<String, Object>) responseData.get(JSONOutputConstant.PARAM_DATA);
+        return (Boolean) dataMap.get(JSONOutputConstant.BUSSINESS_IS_SUCCESS);
+    }
     @Override
     public String toString() {
         return encodeOutput(JSONObject.fromObject(responseData).toString());

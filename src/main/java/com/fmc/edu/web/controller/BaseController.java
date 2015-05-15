@@ -3,6 +3,8 @@ package com.fmc.edu.web.controller;
 import com.fmc.edu.configuration.WebConfig;
 import com.fmc.edu.crypto.impl.ReplacementBase64EncryptService;
 import com.fmc.edu.util.pagenation.Pagination;
+import com.fmc.edu.web.ResponseBean;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
@@ -40,6 +42,17 @@ public abstract class BaseController {
 		def.setPropagationBehavior(pPropagationBehavior);
 		TransactionStatus status = getTransactionManager().getTransaction(def);
 		return status;
+	}
+
+	protected void validatePaginationParameters(final HttpServletRequest pRequest, ResponseBean responseBean) {
+		String pageIndex = pRequest.getParameter("pageIndex");
+		String pageSize = pRequest.getParameter("pageSize");
+		if (StringUtils.isBlank(pageIndex)) {
+			responseBean.addBusinessMsg("pageIndex is null.");
+		}
+		if (StringUtils.isBlank(pageSize)) {
+			responseBean.addBusinessMsg("pageSize is null.");
+		}
 	}
 
 	protected Pagination buildPagination(HttpServletRequest pRequest) throws IOException {

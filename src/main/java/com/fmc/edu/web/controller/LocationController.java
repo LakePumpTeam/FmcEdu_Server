@@ -4,6 +4,7 @@ import com.fmc.edu.constant.GlobalConstant;
 import com.fmc.edu.manager.LocationManager;
 import com.fmc.edu.util.pagenation.Pagination;
 import com.fmc.edu.web.ResponseBean;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +32,11 @@ public class LocationController extends BaseController {
     public String requestProv(final HttpServletRequest pRequest, final HttpServletResponse pResponse, String filterKey) {
         ResponseBean responseBean = new ResponseBean();
         try {
+            preRequestProv(pRequest, responseBean);
+            if (responseBean.businessIsSuccess()) {
+                return responseBean.toString();
+            }
+
             String key = decodeInput(filterKey);
             Pagination pagination = buildPagination(pRequest);
             Map<String, Object> dataList = getLocationManager().queryProvincePage(pagination, key);
@@ -44,14 +50,25 @@ public class LocationController extends BaseController {
         return responseBean.toString();
     }
 
+    protected void preRequestProv(final HttpServletRequest pRequest, ResponseBean responseBean) {
+        validatePaginationParameters(pRequest, responseBean);
+    }
+
     @RequestMapping(value = ("/requestCities" + GlobalConstant.URL_SUFFIX))
     @ResponseBody
-    public String requestCityPage(final HttpServletRequest pRequest, final HttpServletResponse pResponse, final String provId, String filterKey) {
+    public String requestCityPage(final HttpServletRequest pRequest, final HttpServletResponse pResponse, String filterKey) {
         ResponseBean responseBean = new ResponseBean();
         try {
+            preRequestCityPage(pRequest, responseBean);
+
+            if (responseBean.businessIsSuccess()) {
+                return responseBean.toString();
+            }
+
             String key = decodeInput(filterKey);
-            String provinceId = decodeInput(provId);
+            String provId = pRequest.getParameter("provId");
             Pagination pagination = buildPagination(pRequest);
+            String provinceId = decodeInput(provId);
             Map<String, Object> dataList = getLocationManager().queryCityPage(pagination, Integer.valueOf(provinceId), key);
             responseBean.addData(dataList);
         } catch (IOException e) {
@@ -64,6 +81,13 @@ public class LocationController extends BaseController {
         return responseBean.toString();
     }
 
+    protected void preRequestCityPage(final HttpServletRequest pRequest, ResponseBean responseBean) {
+        String provId = pRequest.getParameter("provId");
+        if (StringUtils.isBlank(provId)) {
+            responseBean.addBusinessMsg("省份不能为空.");
+        }
+        validatePaginationParameters(pRequest, responseBean);
+    }
     public LocationManager getLocationManager() {
         return mLocationManager;
     }
