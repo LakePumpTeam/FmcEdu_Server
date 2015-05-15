@@ -44,6 +44,11 @@ public class ResponseBean {
         dataMap.put(pKey, pData);
     }
 
+    public void addData(final Map<String, Object> pData) {
+        Map<String, Object> dataMap = (Map<String, Object>) responseData.get(JSONOutputConstant.PARAM_DATA);
+        dataMap.putAll(pData);
+    }
+
     @Override
     public String toString() {
         return encodeOutput(JSONObject.fromObject(responseData).toString());

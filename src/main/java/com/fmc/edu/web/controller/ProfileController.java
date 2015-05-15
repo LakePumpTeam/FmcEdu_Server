@@ -42,6 +42,7 @@ public class ProfileController extends BaseController {
 	private static final String ERROR_INVALID_PHONE = "Sorry, the phone number is invalid.";
 	private static final String ERROR_SESSION_EXPIRED = "Sorry, the session has expired.";
 	private static final String ERROR_PASSWORD_CONFIRM = "Sorry, the password isn't match the confirmation.";
+	private static final String ERROR_INVALID_IDENTITY_CODE = "验证码错误.";
 
 	@Resource(name = "profileManager")
 	private ProfileManager mProfileManager;
@@ -66,33 +67,35 @@ public class ProfileController extends BaseController {
 		LOG.debug("Decoded cellphone:" + phone);
 
 		String identifyCode = null;
+		ResponseBean responseBean = new ResponseBean();
 		TransactionStatus status = ensureTransaction();
-		boolean success = true;
 		try {
 			identifyCode = getProfileManager().registerTempParent(phone);
 			if (StringUtils.isNotBlank(identifyCode)) {
 				// save temp profile bean to session
 				pRequest.getSession().setAttribute(SessionConstant.SESSION_KEY_PHONE, phone);
 			} else {
-				success = false;
+				responseBean.addBusinessMsg("Cannot obtain identity code.");
 			}
 		} catch (Exception e) {
 			LOG.error(e);
-			success = false;
+			responseBean.addErrorMsg(e.getMessage());
 		} finally {
 			getTransactionManager().commit(status);
 		}
 		// output error if phone number is blank
 		if (cellPhone == null || ValidationUtils.isValidPhoneNumber(phone)) {
-			return generateJsonOutput(Boolean.FALSE, null, ERROR_INVALID_PHONE);
+			responseBean.addBusinessMsg(ERROR_INVALID_PHONE);
+			return responseBean.toString();
 		}
 		// request identify failed if identify is blank
 		Map<String, Object> dataMap = new HashMap<String, Object>();
 		if (WebConfig.isDevelopment()) {
 			dataMap.put("identifyCode", identifyCode);
+			responseBean.addData("identifyCode", identifyCode);
 			LOG.debug(String.format("Send identify code: %s to phone: %s", identifyCode, phone));
 		}
-		return generateJsonOutput(success, dataMap, null);
+		return responseBean.toString();
 	}
 
 	@RequestMapping(value = "/requestRegisterConfirm" + GlobalConstant.URL_SUFFIX)
@@ -103,27 +106,32 @@ public class ProfileController extends BaseController {
 		String phoneNumber = decodeInput(cellPhone);
 		String passwordDecode = decodeInput(password);
 
+		ResponseBean responseBean = new ResponseBean();
 		TransactionStatus status = ensureTransaction();
-		boolean success = true;
 		try {
 			if (StringUtils.isBlank(phoneNumber)) {
 				phoneNumber = (String) pRequest.getSession().getAttribute(SessionConstant.SESSION_KEY_PHONE);
 			}
 			if (StringUtils.isBlank(phoneNumber)) {
-				return generateJsonOutput(Boolean.FALSE, null, ERROR_SESSION_EXPIRED);
+				responseBean.addBusinessMsg(ERROR_SESSION_EXPIRED);
+				return responseBean.toString();
 			}
 			if (StringUtils.isNoneBlank(confirmPassword) && !StringUtils.endsWith(password, confirmPassword)) {
-				return generateJsonOutput(Boolean.FALSE, null, ERROR_PASSWORD_CONFIRM);
+				responseBean.addBusinessMsg(ERROR_SESSION_EXPIRED);
+				return responseBean.toString();
 			}
-			success = getProfileManager().verifyTempParentIdentifyingCode(phoneNumber, passwordDecode, identifyingCode);
+			if (getProfileManager().verifyTempParentIdentifyingCode(phoneNumber, passwordDecode, identifyingCode)) {
+				responseBean.addBusinessMsg(ERROR_INVALID_IDENTITY_CODE);
+				return responseBean.toString();
+			}
 		} catch (Exception e) {
 			LOG.error(e);
-			success = false;
+			responseBean.addErrorMsg(e.getMessage());
 		} finally {
 			getTransactionManager().commit(status);
 		}
 		//TODO Should response error message when status is not 0.
-		return generateJsonOutput(success, new HashMap<String, Object>(), null);
+		return responseBean.toString();
 	}
 
 	@RequestMapping(value = "/requestRegisterBaseInfo" + GlobalConstant.URL_SUFFIX)
@@ -131,7 +139,7 @@ public class ProfileController extends BaseController {
 	public String requestRegisterBaseInfo(HttpServletRequest pRequest, final HttpServletResponse pResponse, final String cellPhone)
 			throws IOException {
 		TransactionStatus status = ensureTransaction();
-		boolean success = true;
+		ResponseBean responseBean = new ResponseBean();
 		try {
 			ParentProfile parent = getParameterBuilder().buildParent(pRequest);
 			Address address = getParameterBuilder().buildAddress(pRequest);
@@ -144,19 +152,19 @@ public class ProfileController extends BaseController {
 			getProfileManager().registerRelationshipBetweenStudent(relationship, student, parent);
 		} catch (Exception e) {
 			LOG.error(e);
+			responseBean.addErrorMsg(e.getMessage());
 			status.setRollbackOnly();
-			success = false;
 		} finally {
 			getTransactionManager().commit(status);
-			return generateJsonOutput(success, new HashMap<String, Object>(), null);
+			return responseBean.toString();
 		}
 	}
 
 	@RequestMapping(value = "/requestLogin" + GlobalConstant.URL_SUFFIX)
 	@ResponseBody
 	public String requestLogin(HttpServletRequest pRequest, final HttpServletResponse pResponse, final String userAccount, final String password) {
-		BaseProfile user = null;
 		ResponseBean responseBean = new ResponseBean();
+		BaseProfile user = null;
 		try {
 			String account = decodeInput(userAccount);
 			String pwd = decodeInput(password);

@@ -3,6 +3,7 @@ package com.fmc.edu.web.controller;
 import com.fmc.edu.constant.GlobalConstant;
 import com.fmc.edu.manager.LocationManager;
 import com.fmc.edu.util.pagenation.Pagination;
+import com.fmc.edu.web.ResponseBean;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,50 +21,50 @@ import java.util.Map;
 @Controller
 @RequestMapping("/location")
 public class LocationController extends BaseController {
-	private static final Logger LOG = Logger.getLogger(LocationController.class);
+    private static final Logger LOG = Logger.getLogger(LocationController.class);
 
-	@Resource(name = "locationManager")
-	private LocationManager mLocationManager;
+    @Resource(name = "locationManager")
+    private LocationManager mLocationManager;
 
-	@RequestMapping(value = ("/requestProv" + GlobalConstant.URL_SUFFIX))
-	@ResponseBody
-	public String requestProv(final HttpServletRequest pRequest, final HttpServletResponse pResponse, String filterKey ) {
-		String responseMsg;
-		try {
-			String key = decodeInput(filterKey);
-			Pagination pagination = buildPagination(pRequest);
-			Map<String, Object> dataMap = getLocationManager().queryProvincePage(pagination, key);
-			responseMsg = generateJsonOutput(Boolean.TRUE, dataMap, null);
-		} catch (IOException e) {
-			responseMsg = generateJsonOutput(Boolean.FALSE, null, "Invalid input parameters.");
-			LOG.error(e);
-		}
-		return responseMsg;
-	}
+    @RequestMapping(value = ("/requestProv" + GlobalConstant.URL_SUFFIX))
+    @ResponseBody
+    public String requestProv(final HttpServletRequest pRequest, final HttpServletResponse pResponse, String filterKey) {
+        ResponseBean responseBean = new ResponseBean();
+        try {
+            String key = decodeInput(filterKey);
+            Pagination pagination = buildPagination(pRequest);
+            Map<String, Object> dataList = getLocationManager().queryProvincePage(pagination, key);
+            responseBean.addData(dataList);
+        } catch (IOException e) {
+            responseBean.addErrorMsg(e.getMessage());
+            LOG.error(e);
+        }
+        return responseBean.toString();
+    }
 
-	@RequestMapping(value = ("/requestCities" + GlobalConstant.URL_SUFFIX))
-	@ResponseBody
-	public String requestCityPage(final HttpServletRequest pRequest, final HttpServletResponse pResponse,final String provId, String filterKey ) {
-		String responseMsg;
-		try {
-			String key = decodeInput(filterKey);
-			String provinceId = decodeInput(provId);
-			Pagination pagination = buildPagination(pRequest);
-			Map<String, Object> dataMap = getLocationManager().queryCityPage(pagination,Integer.valueOf(provinceId), key);
-			responseMsg = generateJsonOutput(Boolean.TRUE, dataMap, null);
-		} catch (IOException e) {
-			responseMsg = generateJsonOutput(Boolean.FALSE, null,  "Invalid input parameters.");
-			LOG.error(e);
-		}
+    @RequestMapping(value = ("/requestCities" + GlobalConstant.URL_SUFFIX))
+    @ResponseBody
+    public String requestCityPage(final HttpServletRequest pRequest, final HttpServletResponse pResponse, final String provId, String filterKey) {
+        ResponseBean responseBean = new ResponseBean();
+        try {
+            String key = decodeInput(filterKey);
+            String provinceId = decodeInput(provId);
+            Pagination pagination = buildPagination(pRequest);
+            Map<String, Object> dataList = getLocationManager().queryCityPage(pagination, Integer.valueOf(provinceId), key);
+            responseBean.addData(dataList);
+        } catch (IOException e) {
+            responseBean.addErrorMsg(e.getMessage());
+            LOG.error(e);
+        }
 
-		return responseMsg;
-	}
+        return responseBean.toString();
+    }
 
-	public LocationManager getLocationManager() {
-		return mLocationManager;
-	}
+    public LocationManager getLocationManager() {
+        return mLocationManager;
+    }
 
-	public void setLocationManager(final LocationManager pLocationManager) {
-		mLocationManager = pLocationManager;
-	}
+    public void setLocationManager(final LocationManager pLocationManager) {
+        mLocationManager = pLocationManager;
+    }
 }

@@ -3,7 +3,6 @@ package com.fmc.edu.repository;
 import com.fmc.edu.model.student.Student;
 import com.fmc.edu.util.pagenation.Pagination;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,7 +21,7 @@ public interface ISchoolRepository {
 
 	String QUERY_HEADMASTER = "com.fmc.edu.school.queryHeadmaster";
 
-	List<Map<String, String>> queryHeadmasterPage(final int pClassId, final int pSchoolId);
+	Map<String, Object> queryHeadmasterPage(final int pClassId, final int pSchoolId);
 
 	String UPDATE_STUDENT_BY_ID = "com.fmc.edu.school.updateStudentById";
 

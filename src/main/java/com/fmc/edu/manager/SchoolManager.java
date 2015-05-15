@@ -6,7 +6,6 @@ import com.fmc.edu.util.pagenation.Pagination;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,7 +25,7 @@ public class SchoolManager {
 		return getSchoolService().queryClassesPage(pPagination, pSchoolId, pKey);
 	}
 
-	public List<Map<String, String>> queryHeadmasterPage(int pClassId, final int pSchoolId) {
+	public Map<String, Object> queryHeadmasterPage(int pClassId, final int pSchoolId) {
 		return getSchoolService().queryHeadmasterPage(pClassId, pSchoolId);
 	}
 
