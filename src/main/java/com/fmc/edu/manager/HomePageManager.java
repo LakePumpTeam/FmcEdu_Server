@@ -44,7 +44,7 @@ public class HomePageManager {
             } else {
                 teacher = headerTeachers.get(0);
             }
-            headerTeacher.put("teacherId", teacher.get("profileId"));
+            headerTeacher.put("teacherId", teacher.get("teacherId"));
             headerTeacher.put("teacherName", StringUtils.ifNULLReturn(teacher.get("teacherName"), ""));
             headerTeacher.put("sex", teacher.get("sex"));
             headerTeacher.put("className", StringUtils.ifNULLReturn(getSchoolManager().getClassString(String.valueOf(teacher.get("grade")), String.valueOf(teacher.get("class"))), ""));
