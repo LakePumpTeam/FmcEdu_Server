@@ -39,13 +39,13 @@ public class HomePageManager {
             Map<String, Object> teacher = headerTeachers.get(0);
             headerTeacher.put("teacherName", teacher.get("teacherName"));
             headerTeacher.put("sex", teacher.get("sex"));
-            headerTeacher.put("class", getSchoolManager().getClassString(String.valueOf(teacher.get("grade")), String.valueOf(teacher.get("class"))));
+            headerTeacher.put("className", getSchoolManager().getClassString(String.valueOf(teacher.get("grade")), String.valueOf(teacher.get("class"))));
         } else if (baseProfile.getProfileType() == ProfileType.TEACHER.getValue()) {
             headerTeacher.put("teacherName", baseProfile.getName());
             TeacherProfile teacher = getTeacherManager().queryTeacherById(baseProfile.getId());
             headerTeacher.put("sex", teacher.isMale());
             Map<String, Object> tClass = getTeacherManager().queryClassByTeacherId(baseProfile.getId());
-            headerTeacher.put("class", getSchoolManager().getClassString(String.valueOf(tClass.get("grade")), String.valueOf(tClass.get("class"))));
+            headerTeacher.put("className", getSchoolManager().getClassString(String.valueOf(tClass.get("grade")), String.valueOf(tClass.get("class"))));
         }
         return headerTeacher;
     }
