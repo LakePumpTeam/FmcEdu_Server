@@ -13,11 +13,11 @@ public class TempParentProfile extends BaseProfile {
 	private Timestamp mIdentifyDate;
 
 	public TempParentProfile() {
-		setProfileType(ProfileType.TEMP_PARENT);
+		setProfileType(ProfileType.TEMP_PARENT.getValue());
 	}
 
 	public TempParentProfile(String pPhoneNumber, String pIdentifyingCode) {
-		setProfileType(ProfileType.TEMP_PARENT);
+		setProfileType(ProfileType.TEMP_PARENT.getValue());
 		setPhone(pPhoneNumber);
 		this.mIdentifyingCode = pIdentifyingCode;
 	}

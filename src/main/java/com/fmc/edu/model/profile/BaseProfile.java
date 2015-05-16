@@ -23,7 +23,7 @@ public class BaseProfile extends BaseBean {
 
 	private boolean mAvailable;
 
-	private ProfileType mProfileType;
+	private int mProfileType;
 
 	public String getName() {
 		return mName;
@@ -81,11 +81,11 @@ public class BaseProfile extends BaseBean {
 		mAvailable = pAvailable;
 	}
 
-	public ProfileType getProfileType() {
+	public int getProfileType() {
 		return mProfileType;
 	}
 
-	public void setProfileType(final ProfileType pProfileType) {
+	public void setProfileType(final int pProfileType) {
 		mProfileType = pProfileType;
 	}
 }

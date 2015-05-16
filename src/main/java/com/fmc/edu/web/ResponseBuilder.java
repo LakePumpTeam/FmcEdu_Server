@@ -33,7 +33,7 @@ public class ResponseBuilder {
         pResponseBean.addData("userId", pProfile.getId());
         pResponseBean.addData("userRole", pProfile.getProfileType());
 
-        if (pProfile.getProfileType() == ProfileType.PARENT) {
+        if (pProfile.getProfileType() == ProfileType.PARENT.getValue()) {
             ParentProfile parentProfile = getProfileManager().queryParentByPhone(pProfile.getPhone());
             //TODO need to modify.
             List<Student> studentList = getStudentManager().queryStudentByParentId(parentProfile.getId());
