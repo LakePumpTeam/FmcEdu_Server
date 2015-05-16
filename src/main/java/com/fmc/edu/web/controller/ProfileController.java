@@ -119,14 +119,6 @@ public class ProfileController extends BaseController {
                 responseBean.addBusinessMsg(ERROR_SESSION_EXPIRED);
                 return responseBean.toString();
             }
-            if (StringUtils.isNoneBlank(confirmPassword) && !StringUtils.endsWith(password, confirmPassword)) {
-                responseBean.addBusinessMsg(ERROR_SESSION_EXPIRED);
-                return responseBean.toString();
-            }
-            /*if (getProfileManager().verifyTempParentIdentifyingCode(phoneNumber, passwordDecode, identifyingCode)) {
-                responseBean.addBusinessMsg(ERROR_INVALID_IDENTITY_CODE);
-				return responseBean.toString();
-			}*/
             if (!getProfileManager().verifyIdentityCodeAndRegister(phoneNumber, passwordDecode, identifyingCode)) {
                 responseBean.addBusinessMsg(ERROR_INVALID_IDENTITY_CODE);
                 return responseBean.toString();
