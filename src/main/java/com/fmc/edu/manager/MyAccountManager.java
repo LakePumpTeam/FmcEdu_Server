@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.io.UnsupportedEncodingException;
 import java.sql.Timestamp;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Yu on 5/12/2015.
@@ -67,6 +69,10 @@ public class MyAccountManager {
 		pUser.setPassword(pPassword);
 		pUser.setLastUpdateDate(new Timestamp(System.currentTimeMillis()));
 		return getMyAccountService().resetPassword(pUser);
+	}
+
+	public List<Map<String, Object>> getPendingAuditParents(final int pTeacherId) {
+		return getMyAccountService().getPendingAuditParents(pTeacherId);
 	}
 
 	public MyAccountService getMyAccountService() {

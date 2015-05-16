@@ -32,6 +32,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Yove on 5/4/2015.
@@ -206,7 +208,7 @@ public class ProfileController extends BaseController {
                 responseBean.addBusinessMsg("用户不存在.");
                 return responseBean.toString();
             }
-            if (!getProfileManager().verifyIdentityCode(user.getPhone(), authCode)) {
+            if (getProfileManager().verifyIdentityCode(user.getPhone(), authCode)) {
                 responseBean.addBusinessMsg("验证码错误.");
                 return responseBean.toString();
             }
@@ -320,7 +322,7 @@ public class ProfileController extends BaseController {
         responseBean.addData("teacherName", student.getFmcClass().getHeadTeacherName());
         responseBean.addData("studentName", student.getName());
         responseBean.addData("studentSex", student.isMale());
-        responseBean.addData("studentBirth", DateUtils.convertDateToDisplayString(student.getBirth()));
+        responseBean.addData("studentBirth", DateUtils.getStudentBirthString(student.getBirth()));
         responseBean.addData("parentName", parent.getName());
         responseBean.addData("relation", student.getParentStudentRelationship().getRelationship());
         responseBean.addData("address", address.getAddress());
@@ -372,6 +374,16 @@ public class ProfileController extends BaseController {
         return responseBean.toString();
     }
 
+	@RequestMapping(value = "/requestPendingAuditParentList" + GlobalConstant.URL_SUFFIX)
+	@ResponseBody
+	public String requestPendingAuditParents(HttpServletRequest pRequest, final HttpServletResponse pResponse, final String teacherId)
+			throws IOException {
+		ResponseBean responseBean = new ResponseBean();
+		int tid = Integer.valueOf(decodeInput(teacherId));
+		List<Map<String, Object>> pendingAuditParents = getMyAccountManager().getPendingAuditParents(tid);
+		responseBean.addData("parentsAuditList", pendingAuditParents);
+		return responseBean.toString();
+	}
 
     public ProfileManager getProfileManager() {
         return mProfileManager;
