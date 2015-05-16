@@ -37,7 +37,7 @@
         on p.id = t.profile_id
         left join school scl
         on scl.id = t.school_id
-        where t.id = #{id}
+        where t.profile_id = #{id}
     </select>
 
     <select id="queryHeaderTeacherByParentId" parameterType="int" resultType="map">
