@@ -24,6 +24,17 @@ public class DateUtils {
         return (new SimpleDateFormat(PATTERN_STUDENT_BIRTH)).parse(pBirthString);
     }
 
+    public static String convertDateToDisplayString(Date pDate) {
+        if (pDate == null) {
+            return "";
+        }
+        StringBuilder dateString = new StringBuilder();
+        dateString.append(pDate.getYear()).append("-")
+                .append(pDate.getMonth()).append("-")
+                .append(pDate.getDay());
+        return dateString.toString();
+    }
+
     public static Date addSeconds(final int pSeconds, Date pDate) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(pDate);

@@ -14,6 +14,7 @@ import com.fmc.edu.model.profile.BaseProfile;
 import com.fmc.edu.model.profile.ParentProfile;
 import com.fmc.edu.model.relationship.ParentStudentRelationship;
 import com.fmc.edu.model.student.Student;
+import com.fmc.edu.util.DateUtils;
 import com.fmc.edu.util.ValidationUtils;
 import com.fmc.edu.web.RequestParameterBuilder;
 import com.fmc.edu.web.ResponseBean;
@@ -319,7 +320,7 @@ public class ProfileController extends BaseController {
         responseBean.addData("teacherName", student.getFmcClass().getHeadTeacherName());
         responseBean.addData("studentName", student.getName());
         responseBean.addData("studentSex", student.isMale());
-        responseBean.addData("studentBirth", student.getBirth());
+        responseBean.addData("studentBirth", DateUtils.convertDateToDisplayString(student.getBirth()));
         responseBean.addData("parentName", parent.getName());
         responseBean.addData("relation", student.getParentStudentRelationship().getRelationship());
         responseBean.addData("address", address.getAddress());
