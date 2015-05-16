@@ -45,13 +45,13 @@ public class RequestParameterBuilder {
         }
 
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("name:\n").append(name)
-                .append("sexString:\n").append(sexString)
-                .append("birthString:\n").append(birthString)
-                .append("ringNum:\n").append(ringNum)
-                .append("ringPhone:\n").append(ringPhone)
-                .append("classId:\n").append(classId)
-                .append("studentId:\n").append(studentId);
+        stringBuilder.append("name:").append(name)
+                .append("\nsexString:").append(sexString)
+                .append("\nbirthString:").append(birthString)
+                .append("\nringNum:").append(ringNum)
+                .append("\nringPhone:").append(ringPhone)
+                .append("\nclassId:").append(classId)
+                .append("\nstudentId:").append(studentId);
         LOG.debug(stringBuilder.toString());
 
         return stu;
@@ -69,10 +69,10 @@ public class RequestParameterBuilder {
         }
 
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("fullAddress:\n").append(fullAddress)
-                .append("provinceId:\n").append(provinceId)
-                .append("cityId:\n").append(cityId)
-                .append("addressId:\n").append(addressId);
+        stringBuilder.append("fullAddress:").append(fullAddress)
+                .append("\nprovinceId:").append(provinceId)
+                .append("\ncityId:").append(cityId)
+                .append("\naddressId:").append(addressId);
         LOG.debug(stringBuilder.toString());
         return address;
     }
@@ -88,10 +88,10 @@ public class RequestParameterBuilder {
             psr.setStudentId(Integer.valueOf(studentId));
         }
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("phone:\n").append(phone)
-                .append("relationship:\n").append(relationship)
-                .append("studentId:\n").append(studentId)
-                .append("parentId:\n").append(parentId);
+        stringBuilder.append("phone:").append(phone)
+                .append("\nrelationship:").append(relationship)
+                .append("\nstudentId:").append(studentId)
+                .append("\nparentId:").append(parentId);
         LOG.debug(stringBuilder.toString());
         return psr;
     }
@@ -107,9 +107,9 @@ public class RequestParameterBuilder {
             parent.setId(Integer.valueOf(parentId));
         }
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("phone:\n").append(phone)
-                .append("parentName:\n").append(parentName)
-                .append("parentId:\n").append(parentId);
+        stringBuilder.append("phone:").append(phone)
+                .append("\nparentName:").append(parentName)
+                .append("\nparentId:").append(parentId);
         LOG.debug(stringBuilder.toString());
         return parent;
 
