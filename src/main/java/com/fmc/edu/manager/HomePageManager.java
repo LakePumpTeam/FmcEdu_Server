@@ -4,6 +4,7 @@ import com.fmc.edu.exception.ProfileException;
 import com.fmc.edu.model.profile.BaseProfile;
 import com.fmc.edu.model.profile.ProfileType;
 import com.fmc.edu.model.profile.TeacherProfile;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -36,15 +37,26 @@ public class HomePageManager {
 
         if (baseProfile.getProfileType() == ProfileType.PARENT.getValue()) {
             List<Map<String, Object>> headerTeachers = getTeacherManager().queryHeaderTeacherByParentId(baseProfile.getId());
-            Map<String, Object> teacher = headerTeachers.get(0);
+            Map<String, Object> teacher;
+            if (CollectionUtils.isEmpty(headerTeachers)) {
+                teacher = new HashMap<>(0);
+            } else {
+                teacher = headerTeachers.get(0);
+            }
             headerTeacher.put("teacherName", teacher.get("teacherName"));
             headerTeacher.put("sex", teacher.get("sex"));
             headerTeacher.put("className", getSchoolManager().getClassString(String.valueOf(teacher.get("grade")), String.valueOf(teacher.get("class"))));
         } else if (baseProfile.getProfileType() == ProfileType.TEACHER.getValue()) {
             headerTeacher.put("teacherName", baseProfile.getName());
             TeacherProfile teacher = getTeacherManager().queryTeacherById(baseProfile.getId());
+            if (teacher == null) {
+                teacher = new TeacherProfile();
+            }
             headerTeacher.put("sex", teacher.isMale());
             Map<String, Object> tClass = getTeacherManager().queryClassByTeacherId(baseProfile.getId());
+            if (tClass == null) {
+                tClass = new HashMap<>(0);
+            }
             headerTeacher.put("className", getSchoolManager().getClassString(String.valueOf(tClass.get("grade")), String.valueOf(tClass.get("class"))));
         }
         return headerTeacher;
