@@ -77,7 +77,7 @@ public class RequestParameterBuilder {
 		String parentId = getBase64EncryptService().decrypt(pRequest.getParameter("parentId"));
 		parent.setPhone(phone);
 		parent.setName(parentName);
-		if (StringUtils.isBlank(parentId)) {
+		if (!StringUtils.isBlank(parentId)) {
 			parent.setId(Integer.valueOf(parentId));
 		}
 		return parent;

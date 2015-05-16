@@ -19,9 +19,9 @@ public class IdentityCodeRepository extends BaseRepository implements IIdentityC
     }
 
     @Override
-    public IdentityCode queryIdentityCodeByProfileId(int pProfileId) {
+    public IdentityCode queryIdentityCodeByPhone(final String pPhone) {
         Map<String, Object> params = new HashMap<String, Object>();
-        params.put("profileId", pProfileId);
+        params.put("phone", pPhone);
         return getSqlSession().selectOne(QUERY_IDENTITY_CODE_BY_PROFILE_ID, params);
     }
 }

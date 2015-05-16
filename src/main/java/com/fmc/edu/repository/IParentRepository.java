@@ -1,6 +1,7 @@
 package com.fmc.edu.repository;
 
 import com.fmc.edu.model.address.Address;
+import com.fmc.edu.model.profile.BaseProfile;
 import com.fmc.edu.model.profile.ParentProfile;
 import com.fmc.edu.model.relationship.ParentStudentRelationship;
 
@@ -11,7 +12,11 @@ public interface IParentRepository {
 
 	String INITIAL_PARENT_PROFILE = "com.fmc.edu.profile.parent.initialParentProfile";
 
-	boolean initialParentProfile(final ParentProfile pParentProfile);
+	boolean updateParentProfile(final ParentProfile pParentProfile);
+
+	String INSERT_PARENT_PROFILE = "com.fmc.edu.profile.parent.insertParentProfile";
+
+	boolean insertParentProfile(final ParentProfile pParentProfile);
 
 	String INITIAL_PARENT_ADDRESS = "com.fmc.edu.profile.parent.persistParentAddress";
 
@@ -40,4 +45,8 @@ public interface IParentRepository {
 	String QUREY_PARENT_DETAIL_BY_ID = "com.fmc.edu.profile.parent.queryParentDetailById";
 
 	ParentProfile queryParentDetailById(int pParentId);
+
+	String INITIAL_PROFILE = "com.fmc.edu.profile.parent.initialProfile";
+
+	boolean initialProfile(BaseProfile baseProfile);
 }

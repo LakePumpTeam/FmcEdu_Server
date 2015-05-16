@@ -12,5 +12,5 @@ public interface IIdentityCodeRepository {
 
     String QUERY_IDENTITY_CODE_BY_PROFILE_ID = "com.fmc.edu.identitycode.queryIdentityCodeByProfileId";
 
-    IdentityCode queryIdentityCodeByProfileId(final int pProfileId);
+    IdentityCode queryIdentityCodeByPhone(final String pPhone);
 }

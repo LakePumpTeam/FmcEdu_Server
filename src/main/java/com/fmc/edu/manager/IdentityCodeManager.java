@@ -6,6 +6,7 @@ import com.fmc.edu.service.impl.IdentityCodeService;
 import com.fmc.edu.util.DateUtils;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.Date;
 
 /**
@@ -13,23 +14,24 @@ import java.util.Date;
  */
 @Service("identityCodeManager")
 public class IdentityCodeManager {
+    @Resource(name = "identityCodeService")
     private IdentityCodeService mIdentityCodeService;
 
     public int insertIdentityCode(IdentityCode pIdentityCode) {
         return getIdentityCodeService().insertIdentityCode(pIdentityCode);
     }
 
-    public IdentityCode queryIdentityCodeByProfileId(int pProfileId) {
-        return getIdentityCodeService().queryIdentityCodeByProfileId(pProfileId);
+    public IdentityCode queryIdentityCodeByPhone(String pPhone) {
+        return getIdentityCodeService().queryIdentityCodeByPhone(pPhone);
     }
 
-    public boolean verifyIdentityCode(int pProfileId, String pAuthoCode) {
-        IdentityCode identityCode = getIdentityCodeService().queryIdentityCodeByProfileId(pProfileId);
+    public boolean verifyIdentityCode(String pPhone, String pAuthoCode) {
+        IdentityCode identityCode = getIdentityCodeService().queryIdentityCodeByPhone(pPhone);
         if (identityCode == null) {
             return false;
         }
 
-        return identityCode.getmIdentityCode().equalsIgnoreCase(pAuthoCode);
+        return identityCode.getIdentityCode().equalsIgnoreCase(pAuthoCode);
     }
 
     public Date getIdentityCodeEndDate() {
