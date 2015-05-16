@@ -2,6 +2,9 @@ package com.fmc.edu.repository;
 
 import com.fmc.edu.model.profile.BaseProfile;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * Created by Yu on 5/12/2015.
  */
@@ -30,4 +33,8 @@ public interface IMyAccountRepository {
     String UPDATE_ALL_PARENT_AUDIT_STATUS = "com.fmc.edu.myaccount.updateAllParentAuditStatus";
 
     boolean updateAllParentAuditStatus(int pTeacherId, boolean pPass);
+
+    String QUERY_PENDING_AUDIT_PARENTS = "com.fmc.edu.myaccount.queryPendingAuditParents";
+
+    List<Map<String, Object>> queryPendingAuditParents(int pTeacherId);
 }
