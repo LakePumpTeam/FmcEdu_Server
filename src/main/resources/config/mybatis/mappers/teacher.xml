@@ -41,7 +41,7 @@
     </select>
 
     <select id="queryHeaderTeacherByParentId" parameterType="int" resultType="map">
-        select pf.id as profileId,t.profile_id as teacherId, pf.name as teacherName, t.sex as sex, cls.grade as
+        select pf.id as profileId,t_pf.id as teacherId, t_pf.name as teacherName, t.sex as sex, cls.grade as
         grade,cls.class as class from
         profile pf
         left join parent p
@@ -56,6 +56,8 @@
         on tcm.class_id=cls.id
         left join teacher t
         on t.profile_id = tcm.teacher_id
+        left join profile t_pf
+        on t_pf.id=t.profile_id
         where tcm.head_teacher=1 and pf.id = #{profileId};
     </select>
 
