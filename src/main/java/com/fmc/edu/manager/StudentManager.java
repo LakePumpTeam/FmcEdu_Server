@@ -4,6 +4,7 @@ import com.fmc.edu.model.student.Student;
 import com.fmc.edu.service.impl.StudentService;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -11,6 +12,7 @@ import java.util.List;
  */
 @Service(value = "studentManager")
 public class StudentManager {
+    @Resource(name = "studentService")
     private StudentService mStudentService;
 
     public List<Student> queryStudentByParentId(int pParentId) {

@@ -60,7 +60,7 @@ public class ProfileManager {
             BaseProfile baseProfile = new BaseProfile();
             baseProfile.setPhone(pPhoneNumber);
             baseProfile.setPassword(pPassword);
-            baseProfile.setProfileType(ProfileType.TEMP_PARENT.getValue());
+            baseProfile.setProfileType(ProfileType.PARENT.getValue());
             if (getParentService().initialProfile(baseProfile)) {
                 return true;
             }

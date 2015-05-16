@@ -194,11 +194,12 @@ public class ProfileController extends BaseController {
         if (!responseBean.businessIsSuccess()) {
             return responseBean.toString();
         }
-        String cellPhone = pRequest.getParameter("cellPhone");
-        String authCode = pRequest.getParameter("authCode");
-        String password = pRequest.getParameter("password");
         TransactionStatus txStatus = ensureTransaction();
         try {
+            String cellPhone = decodeInput(pRequest.getParameter("cellPhone"));
+            String authCode = decodeInput(pRequest.getParameter("authCode"));
+            String password = decodeInput(pRequest.getParameter("password"));
+
             BaseProfile user = getMyAccountManager().findUser(cellPhone);
             if (user == null) {
                 responseBean.addBusinessMsg("用户不存在.");
@@ -247,21 +248,22 @@ public class ProfileController extends BaseController {
         if (!responseBean.businessIsSuccess()) {
             return responseBean.toString();
         }
-        String userId = pRequest.getParameter("userId");
-        String oldPassword = pRequest.getParameter("oldPassword");
-        String newPassword = pRequest.getParameter("newPassword");
-        BaseProfile user = getMyAccountManager().findUserById(userId);
-        if (user == null) {
-            responseBean.addBusinessMsg("用户不存在.");
-            return responseBean.toString();
-        }
-
-        if (!user.getPassword().equals(oldPassword)) {
-            responseBean.addBusinessMsg("旧密码不正确.");
-            return responseBean.toString();
-        }
         TransactionStatus txStatus = ensureTransaction();
+
         try {
+            String userId = decodeInput(pRequest.getParameter("userId"));
+            String oldPassword = decodeInput(pRequest.getParameter("oldPassword"));
+            String newPassword = decodeInput(pRequest.getParameter("newPassword"));
+            BaseProfile user = getMyAccountManager().findUserById(userId);
+            if (user == null) {
+                responseBean.addBusinessMsg("用户不存在.");
+                return responseBean.toString();
+            }
+
+            if (!user.getPassword().equals(oldPassword)) {
+                responseBean.addBusinessMsg("旧密码不正确.");
+                return responseBean.toString();
+            }
             getMyAccountManager().resetPassword(user, newPassword);
         } catch (Exception ex) {
             txStatus.setRollbackOnly();

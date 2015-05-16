@@ -13,8 +13,8 @@
 	</sql>
 
     <insert id="initialProfile" parameterType="com.fmc.edu.model.profile.BaseProfile">
-        INSERT INTO profile (phone, password,last_update_date, profile_type,creation_date,last_update_date)
-        VALUES (#{phone},#{password}, now(), #{profileType}, now(), now())
+        INSERT INTO profile (phone, password,last_update_date, profile_type,creation_date)
+        VALUES (#{phone},#{password}, now(), #{profileType}, now())
 	</insert>
 
     <update id="initialParentProfile" parameterType="com.fmc.edu.model.profile.ParentProfile">
