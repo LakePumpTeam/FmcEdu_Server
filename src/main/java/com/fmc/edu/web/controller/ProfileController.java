@@ -205,7 +205,7 @@ public class ProfileController extends BaseController {
                 responseBean.addBusinessMsg("用户不存在.");
                 return responseBean.toString();
             }
-            if (getProfileManager().verifyIdentityCode(user.getPhone(), authCode)) {
+            if (!getProfileManager().verifyIdentityCode(user.getPhone(), authCode)) {
                 responseBean.addBusinessMsg("验证码错误.");
                 return responseBean.toString();
             }
