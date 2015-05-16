@@ -18,11 +18,11 @@ import java.sql.Timestamp;
 public class MyAccountManager {
 	private static final Logger LOG = Logger.getLogger(MyAccountManager.class);
 
-	protected String NOT_FIND_USER = "notFindUser";
+	protected String NOT_FIND_USER = "账号不存在.";
 
-	protected String ACCOUNT_UNAVAILABLE = "accountUnavailable";
+	protected String ACCOUNT_UNAVAILABLE = "账号不可用.";
 
-	protected String PASSWORD_IS_INVALID = "passwordIsInvalid";
+	protected String PASSWORD_IS_INVALID = "密码错误.";
 
 	@Resource(name = "myAccountService")
 	private MyAccountService mMyAccountService;
