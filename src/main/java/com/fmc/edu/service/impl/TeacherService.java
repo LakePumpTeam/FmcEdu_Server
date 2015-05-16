@@ -4,6 +4,7 @@ import com.fmc.edu.model.profile.TeacherProfile;
 import com.fmc.edu.repository.ITeacherRepository;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,7 @@ import java.util.Map;
  */
 @Service("teacherService")
 public class TeacherService {
+    @Resource(name = "teacherRepository")
     private ITeacherRepository mTeacherRepository;
 
     public TeacherProfile queryTeacherById(int pTeacherId) {
