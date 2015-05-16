@@ -7,9 +7,7 @@ import net.sf.json.JSONObject;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,7 +18,7 @@ public class ResponseBean {
 
     public ResponseBean() {
         responseData.put(JSONOutputConstant.PARAM_STATUS, GlobalConstant.STATUS_SUCCESS);
-        responseData.put(JSONOutputConstant.PARAM_MESSAGE, new ArrayList<String>());
+        responseData.put(JSONOutputConstant.PARAM_MESSAGE, StringUtils.EMPTY);
         responseData.put(JSONOutputConstant.PARAM_DATA, new HashMap<String, Object>());
 
         Map<String, Object> dataMap = (Map<String, Object>) responseData.get(JSONOutputConstant.PARAM_DATA);
@@ -42,8 +40,7 @@ public class ResponseBean {
             return;
         }
         responseData.put(JSONOutputConstant.PARAM_STATUS, GlobalConstant.STATUS_ERROR);
-        List<String> errors = (List<String>) responseData.get(JSONOutputConstant.PARAM_MESSAGE);
-        errors.add(pErrorMsg);
+        responseData.put(JSONOutputConstant.PARAM_MESSAGE, pErrorMsg);
     }
 
     public void addErrorMsg(final Exception pEx) {
