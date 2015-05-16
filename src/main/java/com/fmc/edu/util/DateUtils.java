@@ -24,6 +24,9 @@ public class DateUtils {
         return (new SimpleDateFormat(PATTERN_STUDENT_BIRTH)).parse(pBirthString);
     }
 
+    public static String getStudentBirthString(Date pDate) {
+        return (new SimpleDateFormat(PATTERN_STUDENT_BIRTH)).format(pDate);
+    }
     public static Date addSeconds(final int pSeconds, Date pDate) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(pDate);
