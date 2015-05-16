@@ -4,6 +4,7 @@ import com.fmc.edu.model.student.Student;
 import com.fmc.edu.service.impl.SchoolService;
 import com.fmc.edu.util.NumberUtils;
 import com.fmc.edu.util.pagenation.Pagination;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -32,6 +33,9 @@ public class SchoolManager {
     }
 
     public String getClassString(String grade, String cls) {
+        if (StringUtils.isBlank(grade) || StringUtils.isBlank(cls)) {
+            return "";
+        }
         int year = Integer.valueOf(grade);
         Calendar calendar = Calendar.getInstance();
         int gradeY = calendar.get(Calendar.YEAR) - year;
