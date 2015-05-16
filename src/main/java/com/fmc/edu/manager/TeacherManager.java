@@ -4,6 +4,9 @@ import com.fmc.edu.model.profile.TeacherProfile;
 import com.fmc.edu.service.impl.TeacherService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * Created by Yu on 5/12/2015.
  */
@@ -16,7 +19,13 @@ public class TeacherManager {
         return getTeacherService().queryTeacherById(pTeacherId);
     }
 
+    public List<Map<String, Object>> queryHeaderTeacherByParentId(int parentId) {
+        return getTeacherService().queryHeaderTeacherByParentId(parentId);
+    }
 
+    public Map<String, Object> queryClassByTeacherId(int pTeacherId) {
+        return getTeacherService().queryClassByTeacherId(pTeacherId);
+    }
     public TeacherService getTeacherService() {
         return mTeacherService;
     }

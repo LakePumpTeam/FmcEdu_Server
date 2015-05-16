@@ -10,6 +10,7 @@ public class TeacherProfile extends BaseProfile {
     private School mSchool;
     private boolean mHeadTeacher;
     private boolean mInitialized;
+    private boolean mMale;
 
     public School getSchool() {
         return mSchool;
@@ -33,5 +34,13 @@ public class TeacherProfile extends BaseProfile {
 
     public void setInitialized(boolean pInitialized) {
         mInitialized = pInitialized;
+    }
+
+    public boolean isMale() {
+        return mMale;
+    }
+
+    public void setMale(boolean pMale) {
+        this.mMale = pMale;
     }
 }

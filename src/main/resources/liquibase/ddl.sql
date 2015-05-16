@@ -149,6 +149,7 @@ DROP TABLE IF EXISTS `fmc_edu`.`teacher`;
 CREATE TABLE IF NOT EXISTS `fmc_edu`.`teacher` (
   `profile_id`   INT        NOT NULL,
   `school_id`    INT        NOT NULL,
+  `sex`          TINYINT(1) NOT NULL DEFAULT 0,
   `head_teacher` TINYINT(1) NOT NULL DEFAULT 0,
   `initialized`  TINYINT(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`profile_id`)
