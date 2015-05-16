@@ -25,8 +25,8 @@ public class SchoolManager {
 		return getSchoolService().queryClassesPage(pPagination, pSchoolId, pKey);
 	}
 
-	public Map<String, Object> queryHeadmasterPage(final int pSchoolId) {
-		return getSchoolService().queryHeadmasterPage(pSchoolId);
+	public Map<String, Object> queryHeadmasterPage(final int pClassId) {
+		return getSchoolService().queryHeadmasterPage(pClassId);
 	}
 
 	public boolean persistStudent(final Student pStudent) {
