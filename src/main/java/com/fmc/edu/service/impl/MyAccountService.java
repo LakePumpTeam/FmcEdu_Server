@@ -30,11 +30,11 @@ public class MyAccountService {
         return updatedCount > 0 ? true : false;
     }
 
-    public boolean updateParentAuditStatus(final int pTeacherId, final int[] pParentIds, final boolean pPass) {
+    public boolean updateParentAuditStatus(final int pTeacherId, final int[] pParentIds, final int pPass) {
         return getMyAccountRepository().updateParentAuditStatus(pTeacherId, pParentIds, pPass);
     }
 
-    public boolean updateAllParentAuditStatus(final int pTeacherId, final boolean pPass) {
+    public boolean updateAllParentAuditStatus(final int pTeacherId, final int pPass) {
         return getMyAccountRepository().updateAllParentAuditStatus(pTeacherId, pPass);
     }
 

@@ -66,11 +66,11 @@ public class MyAccountManager {
         return getMyAccountService().findUserById(pProfileId);
     }
 
-    public boolean updateParentAuditStatus(final int pTeacherId, final int[] pParentIds, final boolean pPass) {
+    public boolean updateParentAuditStatus(final int pTeacherId, final int[] pParentIds, final int pPass) {
         return getMyAccountService().updateParentAuditStatus(pTeacherId, pParentIds, pPass);
     }
 
-    public boolean updateAllParentAuditStatus(final int pTeacherId, final boolean pPass) {
+    public boolean updateAllParentAuditStatus(final int pTeacherId, final int pPass) {
         return getMyAccountService().updateAllParentAuditStatus(pTeacherId, pPass);
     }
 

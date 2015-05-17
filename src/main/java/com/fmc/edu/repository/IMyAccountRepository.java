@@ -29,11 +29,11 @@ public interface IMyAccountRepository {
 
     String UPDATE_PARENT_AUDIT_STATUS = "com.fmc.edu.myaccount.updateParentAuditStatus";
 
-    boolean updateParentAuditStatus(int pTeacherId, int[] pParentIds, boolean pPass);
+    boolean updateParentAuditStatus(int pTeacherId, int[] pParentIds, int pPass);
 
     String UPDATE_ALL_PARENT_AUDIT_STATUS = "com.fmc.edu.myaccount.updateAllParentAuditStatus";
 
-    boolean updateAllParentAuditStatus(int pTeacherId, boolean pPass);
+    boolean updateAllParentAuditStatus(int pTeacherId, int pPass);
 
     String QUERY_PENDING_AUDIT_PARENTS = "com.fmc.edu.myaccount.queryPendingAuditParents";
 

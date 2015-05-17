@@ -41,21 +41,21 @@ public class MyAccountRepository extends BaseRepository implements IMyAccountRep
     }
 
     @Override
-    public boolean updateParentAuditStatus(final int pTeacherId, final int[] pParentIds, final boolean pPass) {
+    public boolean updateParentAuditStatus(final int pTeacherId, final int[] pParentIds, final int pPass) {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("id", pTeacherId);
         params.put("parentIds", pParentIds);
-        params.put("pass", pPass ? 2 : 1);
+        params.put("pass", pPass);
         params.put("now", new Timestamp(System.currentTimeMillis()));
         return getSqlSession().update(UPDATE_PARENT_AUDIT_STATUS, params) > 0;
 
     }
 
     @Override
-    public boolean updateAllParentAuditStatus(final int pTeacherId, final boolean pPass) {
+    public boolean updateAllParentAuditStatus(final int pTeacherId, final int pPass) {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("id", pTeacherId);
-        params.put("pass", pPass ? 2 : 1);
+        params.put("pass", pPass);
         params.put("now", new Timestamp(System.currentTimeMillis()));
         return getSqlSession().update(UPDATE_ALL_PARENT_AUDIT_STATUS, params) > 0;
     }

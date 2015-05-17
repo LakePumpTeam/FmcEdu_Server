@@ -350,7 +350,7 @@ public class ProfileController extends BaseController {
         try {
             int[] ids = decodeInputIds(parentIds);
             int tid = Integer.valueOf(decodeInput(teacherId));
-            boolean pass = Boolean.valueOf(decodeInput(setPass));
+            int pass = Integer.valueOf(decodeInput(setPass));
             getMyAccountManager().updateParentAuditStatus(tid, ids, pass);
         } catch (Exception e) {
             LOG.error(e);
@@ -369,7 +369,7 @@ public class ProfileController extends BaseController {
         TransactionStatus status = ensureTransaction();
         try {
             int tid = Integer.valueOf(decodeInput(teacherId));
-            boolean pass = Boolean.valueOf(decodeInput(allPass));
+            int pass = Integer.valueOf(decodeInput(allPass));
             getMyAccountManager().updateAllParentAuditStatus(tid, pass);
         } catch (Exception e) {
             LOG.error(e);
