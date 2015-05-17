@@ -349,11 +349,16 @@ public class ProfileController extends BaseController {
         TransactionStatus status = ensureTransaction();
         try {
             LOG.debug("requestParentAudit():parentIds:" + parentIds);
-            LOG.debug("requestParentAudit():setPass:" + teacherId);
+            LOG.debug("requestParentAudit():teacherId:" + teacherId);
             LOG.debug("requestParentAudit():setPass:" + setPass);
+
+            LOG.debug("requestParentAudit():parentIds:" + parentIds);
             int[] ids = decodeInputIds(parentIds);
+            LOG.debug("requestParentAudit():decode parentIds:" + ids);
             int tid = Integer.valueOf(decodeInput(setPass));
+            LOG.debug("requestParentAudit():decode teacherId:" + tid);
             int pass = Integer.valueOf(decodeInput(setPass));
+            LOG.debug("requestParentAudit():decode setPass:" + pass);
             getMyAccountManager().updateParentAuditStatus(tid, ids, pass);
         } catch (Exception e) {
             LOG.error(e);
