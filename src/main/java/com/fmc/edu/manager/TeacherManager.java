@@ -28,6 +28,11 @@ public class TeacherManager {
     public Map<String, Object> queryClassByTeacherId(int pTeacherId) {
         return getTeacherService().queryClassByTeacherId(pTeacherId);
     }
+
+    public boolean updateTeacher(final TeacherProfile pTeacher) {
+        return getTeacherService().updateTeacher(pTeacher);
+    }
+
     public TeacherService getTeacherService() {
         return mTeacherService;
     }

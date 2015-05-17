@@ -1,12 +1,16 @@
 package com.fmc.edu.web.controller;
 
+import com.fmc.edu.constant.GlobalConstant;
 import com.fmc.edu.manager.SchoolManager;
+import com.fmc.edu.manager.TeacherManager;
 import com.fmc.edu.model.profile.TeacherProfile;
 import com.fmc.edu.util.DateUtils;
 import com.fmc.edu.util.pagenation.Pagination;
+import com.fmc.edu.web.RequestParameterBuilder;
 import com.fmc.edu.web.ResponseBean;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.TransactionStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -14,6 +18,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Map;
 
 /**
@@ -26,6 +31,12 @@ public class SchoolController extends BaseController {
 
 	@Resource(name = "schoolManager")
 	private SchoolManager mSchoolManager;
+
+	@Resource(name = "teacherManager")
+	private TeacherManager mTeacherManager;
+
+	@Resource(name = "requestParameterBuilder")
+	private RequestParameterBuilder mParameterBuilder;
 
 	@RequestMapping("/requestSchools")
 	@ResponseBody
@@ -104,11 +115,45 @@ public class SchoolController extends BaseController {
 		return responseBean.toString();
 	}
 
+	@RequestMapping(value = "/requestModifyTeacherInfo" + GlobalConstant.URL_SUFFIX)
+	@ResponseBody
+	public String requestModifyTeacherInfo(HttpServletRequest pRequest, final HttpServletResponse pResponse, final String teacherId)
+			throws IOException, ParseException {
+		ResponseBean responseBean = new ResponseBean();
+		TransactionStatus status = ensureTransaction();
+		try {
+			TeacherProfile teacher = getParameterBuilder().buildTeacher(pRequest);
+			getTeacherManager().updateTeacher(teacher);
+		} catch (Exception e) {
+			LOG.error(e);
+			status.setRollbackOnly();
+		} finally {
+			getTransactionManager().commit(status);
+			return responseBean.toString();
+		}
+	}
+
 	public SchoolManager getSchoolManager() {
 		return mSchoolManager;
 	}
 
 	public void setSchoolManager(SchoolManager pSchoolManager) {
 		this.mSchoolManager = pSchoolManager;
+	}
+
+	public RequestParameterBuilder getParameterBuilder() {
+		return mParameterBuilder;
+	}
+
+	public void setParameterBuilder(final RequestParameterBuilder pParameterBuilder) {
+		mParameterBuilder = pParameterBuilder;
+	}
+
+	public TeacherManager getTeacherManager() {
+		return mTeacherManager;
+	}
+
+	public void setTeacherManager(final TeacherManager pTeacherManager) {
+		mTeacherManager = pTeacherManager;
 	}
 }

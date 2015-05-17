@@ -10,16 +10,19 @@ import java.util.Map;
  */
 public interface ITeacherRepository {
 
-    String QUERY_TEACHER_BY_ID = "com.fmc.edu.teacher.queryTeacherById";
+	String QUERY_TEACHER_BY_ID = "com.fmc.edu.teacher.queryTeacherById";
 
-    TeacherProfile queryTeacherById(final int pTeacherId);
+	TeacherProfile queryTeacherById(final int pTeacherId);
 
-    String QUERY_HEADER_TEACHER_BY_PARENT_ID = "com.fmc.edu.teacher.queryHeaderTeacherByParentId";
+	String QUERY_HEADER_TEACHER_BY_PARENT_ID = "com.fmc.edu.teacher.queryHeaderTeacherByParentId";
 
-    List<Map<String, Object>> queryHeaderTeacherByParentId(final int parentId);
+	List<Map<String, Object>> queryHeaderTeacherByParentId(final int parentId);
 
-    String QUERY_CLASS_BY_TEACHER_ID = "com.fmc.edu.teacher.queryClassByTeacherId";
+	String QUERY_CLASS_BY_TEACHER_ID = "com.fmc.edu.teacher.queryClassByTeacherId";
 
-    Map<String, Object> queryClassByTeacherId(int pTeacherId);
+	Map<String, Object> queryClassByTeacherId(int pTeacherId);
 
+	String UPDATE_TEACHER = "updateTeacher";
+
+	boolean updateTeacher(TeacherProfile pTeacher);
 }

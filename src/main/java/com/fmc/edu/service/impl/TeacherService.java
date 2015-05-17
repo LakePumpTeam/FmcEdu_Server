@@ -29,6 +29,10 @@ public class TeacherService {
         return getTeacherRepository().queryClassByTeacherId(pTeacherId);
     }
 
+    public boolean updateTeacher(final TeacherProfile pTeacher) {
+        return getTeacherRepository().updateTeacher(pTeacher);
+    }
+
     public ITeacherRepository getTeacherRepository() {
         return mTeacherRepository;
     }

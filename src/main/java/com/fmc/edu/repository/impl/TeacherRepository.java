@@ -13,18 +13,23 @@ import java.util.Map;
  */
 @Repository("teacherRepository")
 public class TeacherRepository extends BaseRepository implements ITeacherRepository {
-    @Override
-    public TeacherProfile queryTeacherById(int pTeacherId) {
-        return getSqlSession().selectOne(QUERY_TEACHER_BY_ID, pTeacherId);
-    }
+	@Override
+	public TeacherProfile queryTeacherById(int pTeacherId) {
+		return getSqlSession().selectOne(QUERY_TEACHER_BY_ID, pTeacherId);
+	}
 
-    @Override
-    public List<Map<String, Object>> queryHeaderTeacherByParentId(int pTeacherId) {
-        return getSqlSession().selectList(QUERY_HEADER_TEACHER_BY_PARENT_ID, pTeacherId);
-    }
+	@Override
+	public List<Map<String, Object>> queryHeaderTeacherByParentId(int pTeacherId) {
+		return getSqlSession().selectList(QUERY_HEADER_TEACHER_BY_PARENT_ID, pTeacherId);
+	}
 
-    @Override
-    public Map<String, Object> queryClassByTeacherId(int pTeacherId) {
-        return getSqlSession().selectOne(QUERY_CLASS_BY_TEACHER_ID, pTeacherId);
-    }
+	@Override
+	public Map<String, Object> queryClassByTeacherId(int pTeacherId) {
+		return getSqlSession().selectOne(QUERY_CLASS_BY_TEACHER_ID, pTeacherId);
+	}
+
+	@Override
+	public boolean updateTeacher(final TeacherProfile pTeacher) {
+		return getSqlSession().update(UPDATE_TEACHER, pTeacher) > 0;
+	}
 }

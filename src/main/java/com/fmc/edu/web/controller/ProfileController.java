@@ -386,6 +386,7 @@ public class ProfileController extends BaseController {
 		return responseBean.toString();
 	}
 
+
 	public ProfileManager getProfileManager() {
 		return mProfileManager;
 	}

@@ -483,6 +483,46 @@
             <td><input type="button" class="btn_reset" value="Reset"/></td>
             <td class="result"></td>
         </tr>
+        <tr>
+            <td>#4</td>
+            <td class="function">教师信息查询</td>
+            <td class="baseUrl">${ctx}/school/requestModifyTeacherInfo</td>
+            <td class="parameters">
+                <table>
+                    <tr>
+                        <td align="right"><label for="teacherId" title="teacherId">teacherId</label></td>
+                        <td><input type="text" class="ipt_value" id="teacherId" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="teacherName" title="teacherName">teacherName</label></td>
+                        <td><input type="text" class="ipt_value" id="teacherName" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="teacherBirth" title="teacherBirth">teacherBirth</label></td>
+                        <td><input type="text" class="ipt_value" id="teacherBirth" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="teacherSex" title="teacherSex">teacherSex</label></td>
+                        <td><input type="text" class="ipt_value" id="teacherSex" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="course" title="course">course</label></td>
+                        <td><input type="text" class="ipt_value" id="course" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="cellPhone" title="cellPhone">cellPhone</label></td>
+                        <td><input type="text" class="ipt_value" id="cellPhone" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="resume" title="resume">resume</label></td>
+                        <td><input type="text" class="ipt_value" id="resume" value=""/></td>
+                    </tr>
+                </table>
+            </td>
+            <td><input type="button" class="btn_request" value="Request"/></td>
+            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td class="result"></td>
+        </tr>
     </table>
 </fieldset>
 

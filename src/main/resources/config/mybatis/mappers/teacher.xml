@@ -69,4 +69,11 @@
         on tcm.class_id=cls.id
         where tcm.teacher_id=#{teacherId};
     </select>
+
+    <update id="updateTeacher" parameterType="com.fmc.edu.model.profile.TeacherProfile">
+        UPDATE teacher
+        LEFT JOIN profile ON id = profile_id
+        SET name = #{name}, phone = #{phone}, sex = #{male}, resume = #{resume}, course = #{course}, birth = #{birth}
+        WHERE id = #{id}
+    </update>
 </mapper>
