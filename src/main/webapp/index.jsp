@@ -505,8 +505,8 @@
             <td class="parameters">
                 <table>
                     <tr>
-                        <td align="right"><label for="profileId" title="profileId">profileId</label></td>
-                        <td><input type="text" class="ipt_value" id="profileId" value=""/></td>
+                        <td align="right"><label for="userId" title="userId">userId</label></td>
+                        <td><input type="text" class="ipt_value" id="userId" value=""/></td>
                     </tr>
                 </table>
             </td>
