@@ -51,7 +51,7 @@ public class HomePageController extends BaseController {
     }
 
     private void preRequestHeaderTeacherForHomePage(final HttpServletRequest pRequest, ResponseBean pResponseBean) {
-        String profileId = pRequest.getParameter("profileId");
+        String profileId = pRequest.getParameter("userId");
         if (StringUtils.isBlank(profileId)) {
             pResponseBean.addBusinessMsg("用户id为空.");
             return;
