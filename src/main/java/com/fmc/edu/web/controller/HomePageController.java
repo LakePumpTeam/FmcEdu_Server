@@ -43,6 +43,9 @@ public class HomePageController extends BaseController {
         } catch (IOException e) {
             LOG.error(e);
             responseBean.addErrorMsg(e);
+        } catch (Exception e) {
+            LOG.error(e);
+            responseBean.addErrorMsg(e);
         }
         return responseBean.toString();
     }
