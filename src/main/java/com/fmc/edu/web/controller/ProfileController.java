@@ -355,7 +355,7 @@ public class ProfileController extends BaseController {
             LOG.debug("requestParentAudit():parentIds:" + parentIds);
             int[] ids = decodeInputIds(parentIds);
             LOG.debug("requestParentAudit():decode parentIds:" + ids);
-            int tid = Integer.valueOf(decodeInput(setPass));
+            int tid = Integer.valueOf(decodeInput(teacherId));
             LOG.debug("requestParentAudit():decode teacherId:" + tid);
             int pass = Integer.valueOf(decodeInput(setPass));
             LOG.debug("requestParentAudit():decode setPass:" + pass);
