@@ -2,12 +2,13 @@ package com.fmc.edu.model.profile;
 
 import com.fmc.edu.model.school.School;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by Yu on 5/12/2015.
  */
-public class TeacherProfile extends BaseProfile {
+public class TeacherProfile extends BaseProfile implements Serializable {
 
 	private School mSchool;
 

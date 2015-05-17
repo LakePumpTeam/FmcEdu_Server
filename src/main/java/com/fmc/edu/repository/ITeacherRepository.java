@@ -22,7 +22,7 @@ public interface ITeacherRepository {
 
 	Map<String, Object> queryClassByTeacherId(int pTeacherId);
 
-	String UPDATE_TEACHER = "updateTeacher";
+	String UPDATE_TEACHER = "com.fmc.edu.teacher.updateTeacher";
 
 	boolean updateTeacher(TeacherProfile pTeacher);
 }

@@ -105,7 +105,7 @@ public class SchoolController extends BaseController {
 	public String requestTeacherInfo(final HttpServletRequest pRequest, final HttpServletResponse pResponse, final String teacherId) throws IOException {
 		ResponseBean responseBean = new ResponseBean();
 		int tid = Integer.valueOf(decodeInput(teacherId));
-		TeacherProfile teacher = getSchoolManager().queryTeacherById(tid);
+		TeacherProfile teacher = getTeacherManager().queryTeacherById(tid);//getSchoolManager().queryTeacherById(tid);
 		responseBean.addData("teacherName", teacher.getName());
 		responseBean.addData("teacherBirth", DateUtils.getStudentBirthString(teacher.getBirth()));
 		responseBean.addData("cellPhone", teacher.getPhone());
