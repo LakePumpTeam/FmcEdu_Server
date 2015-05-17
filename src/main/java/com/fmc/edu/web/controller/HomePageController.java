@@ -35,7 +35,7 @@ public class HomePageController extends BaseController {
             if (!responseBean.businessIsSuccess()) {
                 return responseBean.toString();
             }
-            String profileId = decodeInput(pRequest.getParameter("profileId"));
+            String profileId = decodeInput(pRequest.getParameter("userId"));
             Map<String, Object> homePageTeacher = getHomePageManager().obtainHeaderTeacher(profileId);
             responseBean.addData(homePageTeacher);
         } catch (ProfileException e) {
@@ -43,12 +43,15 @@ public class HomePageController extends BaseController {
         } catch (IOException e) {
             LOG.error(e);
             responseBean.addErrorMsg(e);
+        } catch (Exception e) {
+            LOG.error(e);
+            responseBean.addErrorMsg(e);
         }
         return responseBean.toString();
     }
 
     private void preRequestHeaderTeacherForHomePage(final HttpServletRequest pRequest, ResponseBean pResponseBean) {
-        String profileId = pRequest.getParameter("profileId");
+        String profileId = pRequest.getParameter("userId");
         if (StringUtils.isBlank(profileId)) {
             pResponseBean.addBusinessMsg("用户id为空.");
             return;

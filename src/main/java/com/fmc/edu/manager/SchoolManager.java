@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,7 +27,12 @@ public class SchoolManager {
     }
 
     public Map<String, Object> queryClassesPage(Pagination pPagination, int pSchoolId, String pKey) {
-        return getSchoolService().queryClassesPage(pPagination, pSchoolId, pKey);
+        Map<String, Object> classes = getSchoolService().queryClassesPage(pPagination, pSchoolId, pKey);
+        List<Map<String, String>> queryResult = (List<Map<String, String>>) classes.get("classList");
+        for (Map<String, String> res : queryResult) {
+            res.put("className", getClassString(String.valueOf(res.get("grade")), String.valueOf(res.get("class"))));
+        }
+        return classes;
     }
 
     public Map<String, Object> queryHeadmasterPage(final int pClassId) {
