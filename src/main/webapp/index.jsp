@@ -467,6 +467,22 @@
             <td><input type="button" class="btn_reset" value="Reset"/></td>
             <td class="result"></td>
         </tr>
+        <tr>
+            <td>#3</td>
+            <td class="function">教师信息查询</td>
+            <td class="baseUrl">${ctx}/school/requestTeacherInfo</td>
+            <td class="parameters">
+                <table>
+                    <tr>
+                        <td align="right"><label for="teacherId" title="teacherId">teacherId</label></td>
+                        <td><input type="text" class="ipt_value" id="teacherId" value=""/></td>
+                    </tr>
+                </table>
+            </td>
+            <td><input type="button" class="btn_request" value="Request"/></td>
+            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td class="result"></td>
+        </tr>
     </table>
 </fieldset>
 

@@ -1,5 +1,6 @@
 package com.fmc.edu.manager;
 
+import com.fmc.edu.model.profile.TeacherProfile;
 import com.fmc.edu.model.student.Student;
 import com.fmc.edu.service.impl.SchoolService;
 import com.fmc.edu.util.NumberUtils;
@@ -55,6 +56,10 @@ public class SchoolManager {
             return getSchoolService().updateStudentById(pStudent);
         }
         return getSchoolService().saveOrUpdateStudentByFields(pStudent);
+    }
+
+    public TeacherProfile queryTeacherById(final int pTeacherId) {
+        return getSchoolService().queryTeacherById(pTeacherId);
     }
 
     public SchoolService getSchoolService() {

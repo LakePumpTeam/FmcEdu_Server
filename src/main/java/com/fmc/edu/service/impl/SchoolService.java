@@ -1,5 +1,6 @@
 package com.fmc.edu.service.impl;
 
+import com.fmc.edu.model.profile.TeacherProfile;
 import com.fmc.edu.model.student.Student;
 import com.fmc.edu.repository.ISchoolRepository;
 import com.fmc.edu.util.pagenation.Pagination;
@@ -40,6 +41,10 @@ public class SchoolService {
             return updateStudentById(pStudent);
         }
         return getSchoolRepository().initialStudent(pStudent);
+    }
+
+    public TeacherProfile queryTeacherById(final int pTeacherId) {
+        return getSchoolRepository().queryTeacherById(pTeacherId);
     }
 
     public ISchoolRepository getSchoolRepository() {

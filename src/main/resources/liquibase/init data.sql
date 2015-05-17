@@ -202,15 +202,15 @@ INSERT INTO profile(id, name, phone, last_update_date) values(7, "teacher7", "15
 INSERT INTO profile(id, name, phone, last_update_date) values(8, "teacher8", "15888888888", '2015-05-16');
 INSERT INTO profile(id, name, phone, last_update_date) values(9, "teacher9", "15888888889", '2015-05-16');
 #teacher
-INSERT INTO teacher(profile_id, school_id, sex, head_teacher, initialized, resume, course) values(1, 1, 1, 1, 1, 'Good Teacher1', 'Math');
-INSERT INTO teacher(profile_id, school_id, sex, head_teacher, initialized, resume, course) values(2, 2, 0, 1, 1, 'Good Teacher2', 'Nature');
-INSERT INTO teacher(profile_id, school_id, sex, head_teacher, initialized, resume, course) values(3, 3, 0, 1, 1, 'Good Teacher3', 'Chinese');
-INSERT INTO teacher(profile_id, school_id, sex, head_teacher, initialized, resume, course) values(4, 4, 1, 1, 0, 'Good Teacher4', 'English');
-INSERT INTO teacher(profile_id, school_id, sex, head_teacher, initialized, resume, course) values(5, 1, 1, 1, 1, 'Good Teacher5', 'English');
-INSERT INTO teacher(profile_id, school_id, sex, head_teacher, initialized, resume, course) values(6, 2, 0, 1, 1, 'Good Teacher6', 'Physics');
-INSERT INTO teacher(profile_id, school_id, sex, head_teacher, initialized, resume, course) values(7, 3, 0, 1, 1, 'Good Teacher7', 'Chemistry');
-INSERT INTO teacher(profile_id, school_id, sex, head_teacher, initialized, resume, course) values(8, 4, 1, 1, 0, 'Good Teacher8', 'CS');
-INSERT INTO teacher(profile_id, school_id, sex, head_teacher, initialized, resume, course) values(9, 4, 1, 1, 0, 'Good Teacher9', 'Philosophy');
+INSERT INTO teacher(profile_id, school_id, sex, head_teacher, initialized, resume, birth, course) values(1, 1, 1, 1, 1, 'Good Teacher1', '1970-03-04', 'Math');
+INSERT INTO teacher(profile_id, school_id, sex, head_teacher, initialized, resume, birth, course) values(2, 2, 0, 1, 1, 'Good Teacher2', '1970-03-05', 'Nature');
+INSERT INTO teacher(profile_id, school_id, sex, head_teacher, initialized, resume, birth, course) values(3, 3, 0, 1, 1, 'Good Teacher3', '1970-03-06', 'Chinese');
+INSERT INTO teacher(profile_id, school_id, sex, head_teacher, initialized, resume, birth, course) values(4, 4, 1, 1, 0, 'Good Teacher4', '1970-03-07', 'English');
+INSERT INTO teacher(profile_id, school_id, sex, head_teacher, initialized, resume, birth, course) values(5, 1, 1, 1, 1, 'Good Teacher5', '1970-03-08', 'English');
+INSERT INTO teacher(profile_id, school_id, sex, head_teacher, initialized, resume, birth, course) values(6, 2, 0, 1, 1, 'Good Teacher6', '1970-03-09', 'Physics');
+INSERT INTO teacher(profile_id, school_id, sex, head_teacher, initialized, resume, birth, course) values(7, 3, 0, 1, 1, 'Good Teacher7', '1970-03-10', 'Chemistry');
+INSERT INTO teacher(profile_id, school_id, sex, head_teacher, initialized, resume, birth, course) values(8, 4, 1, 1, 0, 'Good Teacher8', '1970-03-11', 'CS');
+INSERT INTO teacher(profile_id, school_id, sex, head_teacher, initialized, resume, birth, course) values(9, 4, 1, 1, 0, 'Good Teacher9', '1970-03-12', 'Philosophy');
 #teacher class mapping
 INSERT INTO teacher_class_map(teacher_id, class_id, sub_title, head_teacher, last_update_date) values(10001, 1, "Math",    1, '2015-05-16');
 INSERT INTO teacher_class_map(teacher_id, class_id, sub_title, head_teacher, last_update_date) values(10002, 2, "Nature",  1, '2015-05-16');

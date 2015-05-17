@@ -92,4 +92,31 @@
         ring_phone = #{ringPhone}, last_update_date = #{lastUpdateDate}
         WHERE id = #{id}
     </update>
+
+    <select id="queryTeacherById" parameterType="int" resultMap="teacher">
+        SELECT id, `name`, phone, app_id, channel_id, creation_date, last_login_date, last_update_date, available, concat(profile_type,
+        '') as profile_type,
+        school_id, sex, head_teacher, initialized, resume, course, birth
+        FROM profile
+        LEFT JOIN teacher ON id = profile_id
+        WHERE id = #{id}
+    </select>
+
+    <resultMap id="teacher" type="com.fmc.edu.model.profile.TeacherProfile">
+        <id property="id" column="id" />
+        <result property="name" column="name" />
+        <result property="phone" column="phone" />
+        <result property="appId" column="app_id" />
+        <result property="channelId" column="channel_id" />
+        <result property="creationDate" column="creation_date" />
+        <result property="lastLoginDate" column="last_login_date" />
+        <result property="lastUpdateDate" column="last_update_date" />
+        <result property="available" column="available" />
+        <result property="male" column="sex" />
+        <result property="headTeacher" column="head_teacher" />
+        <result property="initialized" column="initialized" />
+        <result property="resume" column="resume" />
+        <result property="course" column="course" />
+        <result property="birth" column="birth" />
+    </resultMap>
 </mapper>

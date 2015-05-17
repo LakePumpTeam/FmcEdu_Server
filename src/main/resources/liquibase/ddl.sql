@@ -145,7 +145,8 @@ CREATE TABLE IF NOT EXISTS `fmc_edu`.`teacher` (
   `head_teacher` TINYINT(1) NOT NULL DEFAULT 0,
   `initialized` TINYINT(1) NOT NULL DEFAULT 0,
   `resume` VARCHAR(400) NULL,
-  `course` VARCHAR(50) NULL)
+  `course` VARCHAR(50) NULL,
+  `birth` DATE NULL)
 ENGINE = InnoDB;
 
 

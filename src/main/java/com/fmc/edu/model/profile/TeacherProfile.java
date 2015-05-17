@@ -2,45 +2,80 @@ package com.fmc.edu.model.profile;
 
 import com.fmc.edu.model.school.School;
 
+import java.util.Date;
+
 /**
  * Created by Yu on 5/12/2015.
  */
 public class TeacherProfile extends BaseProfile {
 
-    private School mSchool;
-    private boolean mHeadTeacher;
-    private boolean mInitialized;
-    private boolean mMale;
+	private School mSchool;
 
-    public School getSchool() {
-        return mSchool;
-    }
+	private boolean mHeadTeacher;
 
-    public void setSchool(School pSchool) {
-        mSchool = pSchool;
-    }
+	private boolean mInitialized;
 
-    public boolean isHeadTeacher() {
-        return mHeadTeacher;
-    }
+	private boolean mMale;
 
-    public void setHeadTeacher(boolean pHeadTeacher) {
-        mHeadTeacher = pHeadTeacher;
-    }
+	private String mResume;
 
-    public boolean isInitialized() {
-        return mInitialized;
-    }
+	private String mCourse;
 
-    public void setInitialized(boolean pInitialized) {
-        mInitialized = pInitialized;
-    }
+	private Date mBirth;
 
-    public boolean isMale() {
-        return mMale;
-    }
+	public School getSchool() {
+		return mSchool;
+	}
 
-    public void setMale(boolean pMale) {
-        this.mMale = pMale;
-    }
+	public void setSchool(School pSchool) {
+		mSchool = pSchool;
+	}
+
+	public boolean isHeadTeacher() {
+		return mHeadTeacher;
+	}
+
+	public void setHeadTeacher(boolean pHeadTeacher) {
+		mHeadTeacher = pHeadTeacher;
+	}
+
+	public boolean isInitialized() {
+		return mInitialized;
+	}
+
+	public void setInitialized(boolean pInitialized) {
+		mInitialized = pInitialized;
+	}
+
+	public boolean isMale() {
+		return mMale;
+	}
+
+	public void setMale(boolean pMale) {
+		this.mMale = pMale;
+	}
+
+	public String getResume() {
+		return mResume;
+	}
+
+	public void setResume(final String pResume) {
+		mResume = pResume;
+	}
+
+	public String getCourse() {
+		return mCourse;
+	}
+
+	public void setCourse(final String pCourse) {
+		mCourse = pCourse;
+	}
+
+	public Date getBirth() {
+		return mBirth;
+	}
+
+	public void setBirth(final Date pBirth) {
+		mBirth = pBirth;
+	}
 }

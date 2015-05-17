@@ -1,5 +1,6 @@
 package com.fmc.edu.repository;
 
+import com.fmc.edu.model.profile.TeacherProfile;
 import com.fmc.edu.model.student.Student;
 import com.fmc.edu.util.pagenation.Pagination;
 
@@ -34,4 +35,8 @@ public interface ISchoolRepository {
 	String INITIAL_STUDENT = "com.fmc.edu.school.initialStudent";
 
 	boolean initialStudent(Student pStudent);
+
+	String QUERY_TEACHER_BY_ID = "com.fmc.edu.school.queryTeacherById";
+
+	TeacherProfile queryTeacherById(int pTeacherId);
 }

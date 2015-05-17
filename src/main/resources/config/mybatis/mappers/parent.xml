@@ -82,7 +82,7 @@
 
     <select id="queryParentDetailById" parameterType="int" resultMap="parent">
         SELECT pro.id, pro.`name` as `name`, pro.phone, pro.app_id, pro.channel_id, pro.creation_date,
-        pro.last_login_date, pro.last_update_date, pro.available,
+        pro.last_login_date, pro.last_update_date, pro.available, concat(pro.profile_type, '') as profile_type,
 		par.address_id, paid, free_trial, free_trial_end_date,
 		a.full_address, c.id as cityId, c.name as city, prov.id as provinceId, prov.name as province,
 		s.id as studentId, s.name as studentName, s.sex, s.birth, s.ring_number, s.ring_phone,
