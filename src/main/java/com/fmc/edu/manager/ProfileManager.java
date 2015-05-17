@@ -91,6 +91,7 @@ public class ProfileManager {
                 BaseProfile baseProfile = getMyAccountManager().findUser(pParentStudentRelationship.getParentPhone());
                 pParent.setId(baseProfile.getId());
                 register = getParentService().insertParentProfile(pParent);
+                getParentService().updateProfileName(pParent);
             }
             if (register) {
                 getParentService().registerParentStudentRelationship(pParentStudentRelationship);

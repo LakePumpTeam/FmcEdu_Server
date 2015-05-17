@@ -48,5 +48,9 @@ public interface IParentRepository {
 
 	String INITIAL_PROFILE = "com.fmc.edu.profile.parent.initialProfile";
 
-	boolean initialProfile(BaseProfile baseProfile);
+	boolean initialProfile(BaseProfile pBaseProfile);
+
+	String UPDATE_PROFILE_NAME = "com.fmc.edu.profile.parent.updateProfileName";
+
+	boolean updateProfileName(BaseProfile pBaseProfile);
 }
