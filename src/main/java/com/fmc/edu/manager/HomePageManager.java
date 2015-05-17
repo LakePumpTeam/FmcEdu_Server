@@ -33,7 +33,7 @@ public class HomePageManager {
             throw new ProfileException("用户不存在.");
         }
         Map<String, Object> headerTeacher = new HashMap<String, Object>();
-        headerTeacher.put("profileId", baseProfile.getId());
+        headerTeacher.put("userId", baseProfile.getId());
         headerTeacher.put("userRole", baseProfile.getProfileType());
 
         if (baseProfile.getProfileType() == ProfileType.PARENT.getValue()) {
