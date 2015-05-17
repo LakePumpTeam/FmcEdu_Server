@@ -348,8 +348,11 @@ public class ProfileController extends BaseController {
         }
         TransactionStatus status = ensureTransaction();
         try {
+            LOG.debug("requestParentAudit():parentIds:" + parentIds);
+            LOG.debug("requestParentAudit():setPass:" + teacherId);
+            LOG.debug("requestParentAudit():setPass:" + setPass);
             int[] ids = decodeInputIds(parentIds);
-            int tid = Integer.valueOf(decodeInput(teacherId));
+            int tid = Integer.valueOf(decodeInput(setPass));
             int pass = Integer.valueOf(decodeInput(setPass));
             getMyAccountManager().updateParentAuditStatus(tid, ids, pass);
         } catch (Exception e) {
