@@ -5,6 +5,7 @@ import com.fmc.edu.crypto.impl.ReplacementBase64EncryptService;
 import com.fmc.edu.util.pagenation.Pagination;
 import com.fmc.edu.web.ResponseBean;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
@@ -19,8 +20,8 @@ import java.io.IOException;
  * Created by Yove on 5/4/2015.
  */
 public abstract class BaseController {
-
-	@Autowired
+    private static final Logger LOG = Logger.getLogger(BaseController.class);
+    @Autowired
 	private DataSourceTransactionManager mTransactionManager;
 
 	@Resource(name = "replacementBase64EncryptService")
@@ -64,7 +65,8 @@ public abstract class BaseController {
 	protected int[] decodeInputIds(final String[] pInputIds) throws IOException {
 		int[] ids = new int[pInputIds.length];
 		for (int i = 0; i < pInputIds.length; i++) {
-			ids[i] = Integer.valueOf(decodeInput(pInputIds[i]));
+            LOG.debug("decodeInputIds:" + pInputIds[i]);
+            ids[i] = Integer.valueOf(decodeInput(pInputIds[i]));
 		}
 		return ids;
 	}
