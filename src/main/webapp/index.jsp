@@ -485,7 +485,7 @@
         </tr>
         <tr>
             <td>#4</td>
-            <td class="function">教师信息查询</td>
+            <td class="function">修改教师信息</td>
             <td class="baseUrl">${ctx}/school/requestModifyTeacherInfo</td>
             <td class="parameters">
                 <table>
