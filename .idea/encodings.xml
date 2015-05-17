@@ -13,7 +13,6 @@
     <file url="file://$PROJECT_DIR$/src/main/resources/liquibase" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/resources/log4j.properties" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/resources/messages.properties" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/production/dbconfig/mybatis.properties" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/resources/web.properties" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/tld/c.tld" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/tld/fmt.tld" charset="GBK" />
@@ -22,5 +21,6 @@
     <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/tld/x.tld" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/includes" charset="GBK" />
+    <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>
