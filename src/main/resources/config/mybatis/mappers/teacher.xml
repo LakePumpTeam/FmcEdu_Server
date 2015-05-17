@@ -33,7 +33,7 @@
     <select id="queryTeacherById" parameterType="int" resultMap="teacher">
         select p.id, p.name, p.phone, p.app_id, p.channel_id, p.creation_date, p.last_login_date, p.last_update_date,
         p.available,
-        t.head_teacher, t.initialized, t.sex, t.resume, t.course, t.birth
+        t.head_teacher, t.initialized, t.sex, t.resume, t.course, t.birth,
         scl.id as scl_id, scl.name as schoolName, scl.province_id, scl.city_id, scl.address_id
         from profile p
         left join teacher t
