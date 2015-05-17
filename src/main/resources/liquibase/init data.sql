@@ -212,7 +212,7 @@ INSERT INTO teacher(profile_id, school_id, sex, head_teacher, initialized, resum
 INSERT INTO teacher(profile_id, school_id, sex, head_teacher, initialized, resume, birth, course) values(8, 4, 1, 1, 0, 'Good Teacher8', '1970-03-11', 'CS');
 INSERT INTO teacher(profile_id, school_id, sex, head_teacher, initialized, resume, birth, course) values(9, 4, 1, 1, 0, 'Good Teacher9', '1970-03-12', 'Philosophy');
 #teacher class mapping
-INSERT INTO teacher_class_map(teacher_id, class_id, sub_title, head_teacher, last_update_date) values(10001, 1, "Math",    1, '2015-05-16');
-INSERT INTO teacher_class_map(teacher_id, class_id, sub_title, head_teacher, last_update_date) values(10002, 2, "Nature",  1, '2015-05-16');
-INSERT INTO teacher_class_map(teacher_id, class_id, sub_title, head_teacher, last_update_date) values(10003, 3, "Chinese", 1, '2015-05-16');
-INSERT INTO teacher_class_map(teacher_id, class_id, sub_title, head_teacher, last_update_date) values(10004, 4, "English", 1, '2015-05-16');
+INSERT INTO teacher_class_map(teacher_id, class_id, sub_title, head_teacher, last_update_date) values(1, 1, "Math",    1, '2015-05-16');
+INSERT INTO teacher_class_map(teacher_id, class_id, sub_title, head_teacher, last_update_date) values(2, 2, "Nature",  1, '2015-05-16');
+INSERT INTO teacher_class_map(teacher_id, class_id, sub_title, head_teacher, last_update_date) values(3, 3, "Chinese", 1, '2015-05-16');
+INSERT INTO teacher_class_map(teacher_id, class_id, sub_title, head_teacher, last_update_date) values(4, 4, "English", 1, '2015-05-16');
