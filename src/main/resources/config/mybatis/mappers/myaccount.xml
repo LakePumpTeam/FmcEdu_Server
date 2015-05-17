@@ -72,7 +72,7 @@
     </update>
 
     <select id="queryPendingAuditParents" parameterType="int" resultType="map">
-        SELECT m.parent_id as parentId, p.phone as cellPhone, p.name as parentName, approved as auditStatus
+        SELECT m.parent_id as parentId, p.phone as cellPhone, p.name as parentName, concat(approved, '') as auditStatus
         FROM parent_student_map m
         INNER JOIN student s ON m.student_id = s.id
         INNER JOIN class c ON s.class_id = c.id
