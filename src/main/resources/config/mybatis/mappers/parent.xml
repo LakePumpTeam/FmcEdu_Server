@@ -30,7 +30,7 @@
     </update>
 
     <insert id="insertParentProfile" parameterType="string">
-		INSERT INTO parent (profile_id,address_id, paid, free_trial)
+        INSERT INTO parent (profile_id, address_id, paid, free_trial)
 		VALUES (#{id}, #{addressId},0, 0)
 	</insert>
 
@@ -81,7 +81,7 @@
 	</update>
 
     <select id="queryParentDetailById" parameterType="int" resultMap="parent">
-        SELECT pro.id, pro.`name` as parentName, pro.phone, pro.app_id, pro.channel_id, pro.creation_date,
+        SELECT pro.id, pro.`name` as `name`, pro.phone, pro.app_id, pro.channel_id, pro.creation_date,
         pro.last_login_date, pro.last_update_date, pro.available,
 		par.address_id, paid, free_trial, free_trial_end_date,
 		a.full_address, c.id as cityId, c.name as city, prov.id as provinceId, prov.name as province,
@@ -101,6 +101,12 @@
 		LEFT JOIN profile tpro ON t.profile_id = tpro.id
 		WHERE pro.id = #{id}
 	</select>
+
+    <update id="updateProfileName" parameterType="com.fmc.edu.model.profile.BaseProfile">
+        UPDATE profile
+        SET name = #{name}
+        WHERE id = #{id};
+    </update>
 
     <resultMap id="parent" type="com.fmc.edu.model.profile.ParentProfile">
         <id property="id" column="id"/>
@@ -126,7 +132,7 @@
         </association>
         <association property="student" javaType="com.fmc.edu.model.student.Student" column="studentId">
             <id property="id" column="studentId"/>
-            <result property="name" column="name"/>
+            <result property="name" column="studentName" />
             <result property="male" column="sex"/>
             <result property="birth" column="birth"/>
             <result property="ringNumber" column="ring_number"/>

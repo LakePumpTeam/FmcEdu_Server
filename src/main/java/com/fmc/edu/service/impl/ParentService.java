@@ -58,6 +58,10 @@ public class ParentService {
         return false;
     }
 
+    public boolean updateProfileName(BaseProfile pProfile) {
+        return getParentRepository().updateProfileName(pProfile);
+    }
+
     public boolean initialProfile(BaseProfile baseProfile) {
         return getParentRepository().initialProfile(baseProfile);
     }
