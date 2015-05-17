@@ -15,6 +15,7 @@ import com.fmc.edu.service.impl.ParentService;
 import com.fmc.edu.service.impl.TempParentService;
 import com.fmc.edu.util.RepositoryUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -24,6 +25,7 @@ import javax.annotation.Resource;
  */
 @Service(value = "profileManager")
 public class ProfileManager {
+    private static final Logger LOG = Logger.getLogger(ProfileManager.class);
 
     @Resource(name = "dummyMessageIdentifyService")
     private IMessageIdentifyService mDummyMessageIdentifyService;
@@ -46,6 +48,9 @@ public class ProfileManager {
     @Resource(name = "identityCodeManager")
     private IdentityCodeManager mIdentityCodeManager;
 
+    @Resource(name = "teacherManager")
+    private TeacherManager mTeacherManager;
+
     public boolean verifyTempParentIdentifyingCode(String pPhoneNumber, final String pPassword, String pIdentifyingCode) {
         return getTempParentService().verifyTempParentAuthCode(pPhoneNumber, pPassword, pIdentifyingCode);
     }
@@ -54,9 +59,18 @@ public class ProfileManager {
         if (getIdentityCodeManager().verifyIdentityCode(pPhoneNumber, pIdentifyingCode)) {
             BaseProfile user = getMyAccountManager().findUser(pPhoneNumber);
             if (user != null) {
-                throw new ProfileException("账号已存在.");
+                if (user.getProfileType() == ProfileType.PARENT.getValue()) {
+                    if (!getMyAccountManager().parentBoundStudent(user.getId())) {
+                        LOG.debug("Found parent user which not bound any student, so delete this user to allow re-register.");
+                        getMyAccountManager().deleteProfile(user.getId());
+                    }
+                } else if (user.getProfileType() == ProfileType.TEACHER.getValue()) {
+                    //FIXME add specially logic for teacher user in the future.
+                    throw new ProfileException("账号已存在.");
+                } else {
+                    throw new ProfileException("账号已存在.");
+                }
             }
-
             BaseProfile baseProfile = new BaseProfile();
             baseProfile.setPhone(pPhoneNumber);
             baseProfile.setPassword(pPassword);
@@ -183,5 +197,11 @@ public class ProfileManager {
         this.mMyAccountManager = pMyAccountManager;
     }
 
+    public TeacherManager getTeacherManager() {
+        return mTeacherManager;
+    }
 
+    public void setTeacherManager(TeacherManager pTeacherManager) {
+        this.mTeacherManager = pTeacherManager;
+    }
 }

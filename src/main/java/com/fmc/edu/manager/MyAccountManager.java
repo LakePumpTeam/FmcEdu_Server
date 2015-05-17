@@ -3,6 +3,7 @@ package com.fmc.edu.manager;
 import com.fmc.edu.exception.LoginException;
 import com.fmc.edu.model.profile.BaseProfile;
 import com.fmc.edu.service.impl.MyAccountService;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
@@ -18,68 +19,76 @@ import java.util.Map;
  */
 @Component("myAccountManager")
 public class MyAccountManager {
-	private static final Logger LOG = Logger.getLogger(MyAccountManager.class);
+    private static final Logger LOG = Logger.getLogger(MyAccountManager.class);
 
-	protected String NOT_FIND_USER = "账号不存在.";
+    protected String NOT_FIND_USER = "账号不存在.";
 
-	protected String ACCOUNT_UNAVAILABLE = "账号不可用.";
+    protected String ACCOUNT_UNAVAILABLE = "账号不可用.";
 
-	protected String PASSWORD_IS_INVALID = "密码错误.";
+    protected String PASSWORD_IS_INVALID = "密码错误.";
 
-	@Resource(name = "myAccountService")
-	private MyAccountService mMyAccountService;
+    @Resource(name = "myAccountService")
+    private MyAccountService mMyAccountService;
 
-	public BaseProfile loginUser(final String pAccount, final String pPassword) throws LoginException, UnsupportedEncodingException {
-		BaseProfile user = getMyAccountService().findUser(pAccount);
-		if (user == null) {
-			throw new LoginException(NOT_FIND_USER);
-		}
-		if (!user.isAvailable()) {
-			throw new LoginException(ACCOUNT_UNAVAILABLE);
-		}
-		if (StringUtils.isBlank(pPassword) || !pPassword.equals(user.getPassword())) {
-			throw new LoginException(PASSWORD_IS_INVALID);
-		}
+    public BaseProfile loginUser(final String pAccount, final String pPassword) throws LoginException, UnsupportedEncodingException {
+        BaseProfile user = getMyAccountService().findUser(pAccount);
+        if (user == null) {
+            throw new LoginException(NOT_FIND_USER);
+        }
+        if (!user.isAvailable()) {
+            throw new LoginException(ACCOUNT_UNAVAILABLE);
+        }
+        if (StringUtils.isBlank(pPassword) || !pPassword.equals(user.getPassword())) {
+            throw new LoginException(PASSWORD_IS_INVALID);
+        }
 
-		user.setLastLoginDate(new Timestamp(System.currentTimeMillis()));
-		user.setLastUpdateDate(new Timestamp(System.currentTimeMillis()));
-		if (!getMyAccountService().saveLoginStatus(user)) {
-			LOG.error("Update login status failed.");
-		}
-		return user;
-	}
+        user.setLastLoginDate(new Timestamp(System.currentTimeMillis()));
+        user.setLastUpdateDate(new Timestamp(System.currentTimeMillis()));
+        if (!getMyAccountService().saveLoginStatus(user)) {
+            LOG.error("Update login status failed.");
+        }
+        return user;
+    }
 
-	public BaseProfile findUser(final String pAccount) {
-		return getMyAccountService().findUser(pAccount);
-	}
+    public boolean deleteProfile(int userId) {
+        return getMyAccountService().deleteProfile(userId);
+    }
 
-	public BaseProfile findUserById(String pProfileId) {
-		return getMyAccountService().findUserById(pProfileId);
-	}
+    public boolean parentBoundStudent(int parentId) {
+        return !CollectionUtils.isEmpty(getMyAccountService().queryStudentParentRelationByParentId(parentId));
+    }
 
-	public boolean updateParentAuditStatus(final int pTeacherId, final int[] pParentIds, final boolean pPass) {
-		return getMyAccountService().updateParentAuditStatus(pTeacherId, pParentIds, pPass);
-	}
+    public BaseProfile findUser(final String pAccount) {
+        return getMyAccountService().findUser(pAccount);
+    }
 
-	public boolean updateAllParentAuditStatus(final int pTeacherId, final boolean pPass) {
-		return getMyAccountService().updateAllParentAuditStatus(pTeacherId, pPass);
-	}
+    public BaseProfile findUserById(String pProfileId) {
+        return getMyAccountService().findUserById(pProfileId);
+    }
 
-	public int resetPassword(BaseProfile pUser, String pPassword) {
-		pUser.setPassword(pPassword);
-		pUser.setLastUpdateDate(new Timestamp(System.currentTimeMillis()));
-		return getMyAccountService().resetPassword(pUser);
-	}
+    public boolean updateParentAuditStatus(final int pTeacherId, final int[] pParentIds, final boolean pPass) {
+        return getMyAccountService().updateParentAuditStatus(pTeacherId, pParentIds, pPass);
+    }
 
-	public List<Map<String, Object>> getPendingAuditParents(final int pTeacherId) {
-		return getMyAccountService().getPendingAuditParents(pTeacherId);
-	}
+    public boolean updateAllParentAuditStatus(final int pTeacherId, final boolean pPass) {
+        return getMyAccountService().updateAllParentAuditStatus(pTeacherId, pPass);
+    }
 
-	public MyAccountService getMyAccountService() {
-		return mMyAccountService;
-	}
+    public int resetPassword(BaseProfile pUser, String pPassword) {
+        pUser.setPassword(pPassword);
+        pUser.setLastUpdateDate(new Timestamp(System.currentTimeMillis()));
+        return getMyAccountService().resetPassword(pUser);
+    }
 
-	public void setMyAccountService(MyAccountService pMyAccountService) {
-		mMyAccountService = pMyAccountService;
-	}
+    public List<Map<String, Object>> getPendingAuditParents(final int pTeacherId) {
+        return getMyAccountService().getPendingAuditParents(pTeacherId);
+    }
+
+    public MyAccountService getMyAccountService() {
+        return mMyAccountService;
+    }
+
+    public void setMyAccountService(MyAccountService pMyAccountService) {
+        mMyAccountService = pMyAccountService;
+    }
 }
