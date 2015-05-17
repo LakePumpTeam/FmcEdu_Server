@@ -192,15 +192,15 @@ insert into class (grade, class, school_id, head_teacher_id, last_update_date) v
 insert into class (grade, class, school_id, head_teacher_id, last_update_date) values("2014", "4", 4, 4, now());
 insert into class (grade, class, school_id, head_teacher_id, last_update_date) values("2014", "5", 4, 4, now());
 #teacher profile
-INSERT INTO profile(id, name, phone, last_update_date) values(1, "teacher1", "15888888881", '2015-05-16');
-INSERT INTO profile(id, name, phone, last_update_date) values(2, "teacher2", "15888888882", '2015-05-16');
-INSERT INTO profile(id, name, phone, last_update_date) values(3, "teacher3", "15888888883", '2015-05-16');
-INSERT INTO profile(id, name, phone, last_update_date) values(4, "teacher4", "15888888884", '2015-05-16');
-INSERT INTO profile(id, name, phone, last_update_date) values(5, "teacher5", "15888888885", '2015-05-16');
-INSERT INTO profile(id, name, phone, last_update_date) values(6, "teacher6", "15888888886", '2015-05-16');
-INSERT INTO profile(id, name, phone, last_update_date) values(7, "teacher7", "15888888887", '2015-05-16');
-INSERT INTO profile(id, name, phone, last_update_date) values(8, "teacher8", "15888888888", '2015-05-16');
-INSERT INTO profile(id, name, phone, last_update_date) values(9, "teacher9", "15888888889", '2015-05-16');
+INSERT INTO profile(id, name, phone, password, last_update_date) values(1, "teacher1", "15888888881",'f2989ae3cba57770a8f7993fe4bf473d','2015-05-16');
+INSERT INTO profile(id, name, phone, password, last_update_date) values(2, "teacher2", "15888888882", '3b04265a4865459ebefb2fd981b5b61f','2015-05-16');
+INSERT INTO profile(id, name, phone, password, last_update_date) values(3, "teacher3", "15888888883", '44afe89a6e0b8e23bc1348c83e740caf', '2015-05-16');
+INSERT INTO profile(id, name, phone, password,  last_update_date) values(4, "teacher4", "15888888884", '70dda7f33f252ea837c6b3b9dee7b5eb', '2015-05-16');
+INSERT INTO profile(id, name, phone, password, last_update_date) values(5, "teacher5", "15888888885", '9fb133ccb7debdb6af5850843340835b','2015-05-16');
+INSERT INTO profile(id, name, phone, password,  last_update_date) values(6, "teacher6", "15888888886", '704c0bb230f4e3b9a62fd94da14c7301', '2015-05-16');
+INSERT INTO profile(id, name, phone, password, last_update_date) values(7, "teacher7", "15888888887", '5fd1c2dbef9761e6786af9954537ae67', '2015-05-16');
+INSERT INTO profile(id, name, phone, password, last_update_date) values(8, "teacher8", "15888888888", '69e9e45cc51932eb89b5677d59fd99f2', '2015-05-16');
+INSERT INTO profile(id, name, phone, password, last_update_date) values(9, "teacher9", "15888888889", 'ef8fe225c780f8303a44971bca59cbc4', '2015-05-16');
 #teacher
 INSERT INTO teacher(profile_id, school_id, sex, head_teacher, initialized, resume, birth, course) values(1, 1, 1, 1, 1, 'Good Teacher1', '1970-03-04', 'Math');
 INSERT INTO teacher(profile_id, school_id, sex, head_teacher, initialized, resume, birth, course) values(2, 1, 0, 1, 1, 'Good Teacher2', '1970-03-05', 'Nature');
