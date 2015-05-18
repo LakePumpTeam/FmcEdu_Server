@@ -68,7 +68,7 @@
             </association>
             <association property="parentStudentRelationship"
                          javaType="ParentStudentRelationship"
-                         column="relationship" resultMap="parentStudentRelationship">
+                         column="relationship">
                 <result property="parentId" column="id"/>
                 <result property="studentId" column="studentId"/>
                 <result property="relationship" column="relationship"/>
