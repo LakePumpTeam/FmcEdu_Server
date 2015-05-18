@@ -80,8 +80,8 @@
         WHERE c.head_teacher_id = #{id}
     </select>
 
-    <delete id="deleteDirtyProfileById" parameterType="String">
-        DELETE FROM profile where id =${id}
+    <delete id="deleteDirtyProfileById" parameterType="int">
+        DELETE FROM profile where id = #{id}
     </delete>
 
     <select id="queryStudentParentRelationByParentId" parameterType="int" resultMap="parentStudentRelationship">
