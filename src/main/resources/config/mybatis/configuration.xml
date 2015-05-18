@@ -4,9 +4,20 @@
 <configuration>
     <settings>
         <setting name="cacheEnabled" value="true"/>
+        <setting name="lazyLoadingEnabled" value="true"/>
     </settings>
+    <typeAliases>
+        <typeAlias alias="IdentityCode" type="com.fmc.edu.model.common.IdentityCode"/>
+        <typeAlias alias="BaseProfile" type="com.fmc.edu.model.profile.BaseProfile"/>
+        <typeAlias alias="ParentProfile" type="com.fmc.edu.model.profile.ParentProfile"/>
+        <typeAlias alias="ParentStudentRelationship" type="com.fmc.edu.model.relationship.ParentStudentRelationship"/>
+        <typeAlias alias="Address" type="com.fmc.edu.model.address.Address"/>
+        <typeAlias alias="TeacherProfile" type="com.fmc.edu.model.profile.TeacherProfile"/>
+        <typeAlias alias="FmcClass" type="com.fmc.edu.model.school.FmcClass"/>
+        <typeAlias alias="School" type="com.fmc.edu.model.school.School"/>
+        <typeAlias alias="Student" type="com.fmc.edu.model.student.Student"/>
+    </typeAliases>
     <typeHandlers>
         <typeHandler handler="org.apache.ibatis.type.BlobTypeHandler" javaType="byte[]" jdbcType="BLOB"/>
     </typeHandlers>
-
 </configuration>

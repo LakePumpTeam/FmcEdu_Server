@@ -12,12 +12,12 @@
 		profile_type = 9
 	</sql>
 
-    <insert id="initialProfile" parameterType="com.fmc.edu.model.profile.BaseProfile">
+    <insert id="initialProfile" parameterType="BaseProfile">
         INSERT INTO profile (phone, password,last_update_date, profile_type,creation_date)
         VALUES (#{phone},#{password}, now(), #{profileType}, now())
 	</insert>
 
-    <update id="initialParentProfile" parameterType="com.fmc.edu.model.profile.ParentProfile">
+    <update id="initialParentProfile" parameterType="ParentProfile">
         UPDATE profile
         LEFT JOIN parent ON id = profile_id
         SET `name` = #{name}, last_update_date = #{lastUpdateDate}, free_trial_end_date = #{freeTrialEndDate},
@@ -49,7 +49,7 @@
 	</select>
 
     <insert id="initialParentStudentRelationship"
-            parameterType="com.fmc.edu.model.relationship.ParentStudentRelationship">
+            parameterType="ParentStudentRelationship">
 		INSERT INTO parent_student_map (parent_id, student_id, relationship, creation_date, last_update_date)
 		VALUES (#{parentId}, #{studentId}, #{relationship}, #{creationDate}, #{lastUpdateDate})
 		ON DUPLICATE KEY UPDATE relationship = #{relationship}, approved = 0, last_update_date = #{lastUpdateDate}
@@ -74,7 +74,7 @@
 		WHERE id = #{id}
 	</select>
 
-    <update id="updateParentAddress" parameterType="com.fmc.edu.model.address.Address">
+    <update id="updateParentAddress" parameterType="Address">
 		UPDATE address
 		SET province_id = #{provinceId}, city_id = #{cityId}, full_address = #{address}, last_update_date = #{lastUpdateDate}
 		WHERE id = #{id}
@@ -102,13 +102,13 @@
 		WHERE pro.id = #{id}
 	</select>
 
-    <update id="updateProfileName" parameterType="com.fmc.edu.model.profile.BaseProfile">
+    <update id="updateProfileName" parameterType="BaseProfile">
         UPDATE profile
         SET name = #{name}
         WHERE id = #{id};
     </update>
 
-    <resultMap id="parent" type="com.fmc.edu.model.profile.ParentProfile">
+    <resultMap id="parent" type="ParentProfile">
         <id property="id" column="id"/>
         <result property="name" column="name"/>
         <result property="phone" column="phone"/>
@@ -122,7 +122,7 @@
         <result property="paid" column="paid"/>
         <result property="freeTrial" column="free_trial" jdbcType="TINYINT" javaType="boolean"/>
         <result property="freeTrialEndDate" column="free_trial_end_date"/>
-        <association property="address" javaType="com.fmc.edu.model.address.Address" column="address_id">
+        <association property="address" javaType="Address" column="address_id">
             <id property="id" column="address_id"/>
             <result property="address" column="full_address"/>
             <result property="cityId" column="cityId"/>
@@ -130,18 +130,18 @@
             <result property="provinceId" column="provinceId"/>
             <result property="province" column="province"/>
         </association>
-        <association property="student" javaType="com.fmc.edu.model.student.Student" column="studentId">
+        <association property="student" javaType="Student" column="studentId">
             <id property="id" column="studentId"/>
             <result property="name" column="studentName" />
             <result property="male" column="sex"/>
             <result property="birth" column="birth"/>
             <result property="ringNumber" column="ring_number"/>
             <result property="ringPhone" column="ring_phone"/>
-            <association property="school" javaType="com.fmc.edu.model.school.School" column="schoolId">
+            <association property="school" javaType="School" column="schoolId">
                 <id property="id" column="schoolId"/>
                 <result property="name" column="schoolName"/>
             </association>
-            <association property="fmcClass" javaType="com.fmc.edu.model.school.FmcClass" column="classId">
+            <association property="fmcClass" javaType="FmcClass" column="classId">
                 <id property="id" column="classId"/>
                 <result property="schoolId" column="schoolId"/>
                 <result property="grade" column="grade"/>
@@ -150,7 +150,7 @@
                 <result property="headTeacherName" column="teacherName"/>
             </association>
             <association property="parentStudentRelationship"
-                         javaType="com.fmc.edu.model.relationship.ParentStudentRelationship"
+                         javaType="ParentStudentRelationship"
                          column="relationship">
                 <result property="parentId" column="id"/>
                 <result property="studentId" column="studentId"/>
@@ -159,7 +159,7 @@
         </association>
     </resultMap>
 
-    <resultMap id="address" type="com.fmc.edu.model.address.Address">
+    <resultMap id="address" type="Address">
         <id property="id" column="id"/>
         <result property="provinceId" column="province_id"/>
         <result property="cityId" column="city_id"/>

@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fmc.edu.identitycode">
-    <resultMap id="identityCode" type="com.fmc.edu.model.common.IdentityCode">
+    <resultMap id="identityCode" type="IdentityCode">
         <id column="id" property="id"/>
         <result column="phone" property="phone"/>
         <result column="identifying_code" property="identityCode"/>

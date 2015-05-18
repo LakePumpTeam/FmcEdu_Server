@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fmc.edu.student">
 
-    <resultMap id="parentStudentRelationship" type="com.fmc.edu.model.relationship.ParentStudentRelationship">
+    <resultMap id="parentStudentRelationship" type="ParentStudentRelationship">
         <id property="parentId" column="parent_id"/>
         <result property="studentId" column="student_id"/>
         <result property="relationship" column="relationship"/>
@@ -12,7 +12,7 @@
         <result property="approvedDate" column="approved_date"/>
     </resultMap>
 
-    <resultMap id="fmcClass" type="com.fmc.edu.model.school.FmcClass">
+    <resultMap id="fmcClass" type="FmcClass">
         <id property="id" column="cls_id"/>
         <id property="schoolId" column="school_id"/>
         <result property="grade" column="grade"/>
@@ -22,7 +22,7 @@
     </resultMap>
 
 
-    <resultMap id="school" type="com.fmc.edu.model.school.School">
+    <resultMap id="school" type="School">
         <id property="id" column="scl_id"/>
         <id property="name" column="schoolName"/>
         <result property="provinceId" column="province_id"/>
@@ -31,7 +31,7 @@
     </resultMap>
 
 
-    <resultMap id="student" type="com.fmc.edu.model.student.Student">
+    <resultMap id="student" type="Student">
         <id property="id" column="s_id"/>
         <result property="classId" column="class_id"/>
         <result property="name" column="name"/>

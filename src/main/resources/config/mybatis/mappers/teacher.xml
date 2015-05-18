@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fmc.edu.teacher">
-    <resultMap id="school" type="com.fmc.edu.model.school.School">
+    <resultMap id="school" type="School">
         <id property="id" column="scl_id"/>
         <result property="name" column="schoolName"/>
         <result property="provinceId" column="province_id"/>
@@ -11,7 +11,7 @@
         <result property="addressId" column="address_id"/>
     </resultMap>
 
-    <resultMap id="teacher" type="com.fmc.edu.model.profile.TeacherProfile">
+    <resultMap id="teacher" type="TeacherProfile">
         <id property="id" column="id"/>
         <result property="name" column="name"/>
         <result property="phone" column="phone"/>

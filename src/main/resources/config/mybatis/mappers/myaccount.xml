@@ -88,7 +88,7 @@
       select parent_id, student_id,relationship,approved,approved_date,creation_date, last_update_date from parent_student_map where parent_id=#{parentId}
     </select>
 
-    <resultMap id="profile" type="com.fmc.edu.model.profile.BaseProfile">
+    <resultMap id="profile" type="BaseProfile">
         <id property="id" column="id"/>
         <result property="name" column="name"/>
         <result property="phone" column="phone"/>
@@ -102,7 +102,7 @@
         <result property="profileType" column="profile_type"/>
     </resultMap>
 
-    <resultMap id="parentStudentRelationship" type="com.fmc.edu.model.relationship.ParentStudentRelationship">
+    <resultMap id="parentStudentRelationship" type="ParentStudentRelationship">
         <id property="parentId" column="parent_id"/>
         <result property="studentId" column="student_id"/>
         <result property="relationship" column="relationship"/>

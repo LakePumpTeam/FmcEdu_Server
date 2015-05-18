@@ -102,7 +102,7 @@
         WHERE id = #{id}
     </select>
 
-    <resultMap id="teacher" type="com.fmc.edu.model.profile.TeacherProfile">
+    <resultMap id="teacher" type="TeacherProfile">
         <id property="id" column="id" />
         <result property="name" column="name" />
         <result property="phone" column="phone" />
