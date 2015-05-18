@@ -35,12 +35,12 @@
 	</insert>
 
     <insert id="persistParentAddress" useGeneratedKeys="true" keyProperty="id"
-            parameterType="com.fmc.edu.model.address.Address">
+			parameterType="Address">
 		INSERT INTO address (province_id, city_id, full_address, creation_date, last_update_date)
 		VALUES (#{provinceId}, #{cityId}, #{address}, #{creationDate}, #{lastUpdateDate});
 	</insert>
 
-    <select id="queryParentByPhone" parameterType="string" resultMap="parent">
+	<select id="queryParentByPhone" parameterType="string" resultMap="rm.parent">
 		SELECT id, `name`, phone, app_id, channel_id, creation_date, last_login_date, last_update_date, available, address_id, paid,
 		free_trial, free_trial_end_date
 		FROM profile
@@ -55,7 +55,7 @@
 		ON DUPLICATE KEY UPDATE relationship = #{relationship}, approved = 0, last_update_date = #{lastUpdateDate}
 	</insert>
 
-    <select id="queryAddressByPhone" parameterType="string" resultMap="address">
+	<select id="queryAddressByPhone" parameterType="string" resultMap="rm.address">
 		SELECT a.id, a.province_id, a.city_id, a.full_address, a.creation_date, a.last_update_date,
 		c.name as `city`, prov.name as`province`
 		FROM address a
@@ -66,7 +66,7 @@
 		WHERE pro.phone = #{phone}
 	</select>
 
-    <select id="queryParentById" parameterType="int" resultMap="parent">
+	<select id="queryParentById" parameterType="int" resultMap="rm.parent">
 		SELECT id, `name`, phone, app_id, channel_id, creation_date, last_login_date, last_update_date, available, address_id, paid,
 		free_trial, free_trial_end_date
 		FROM profile
@@ -80,7 +80,7 @@
 		WHERE id = #{id}
 	</update>
 
-    <select id="queryParentDetailById" parameterType="int" resultMap="parent">
+	<select id="queryParentDetailById" parameterType="int" resultMap="rm.parent">
         SELECT pro.id, pro.`name` as `name`, pro.phone, pro.app_id, pro.channel_id, pro.creation_date,
         pro.last_login_date, pro.last_update_date, pro.available, concat(pro.profile_type, '') as profile_type,
 		par.address_id, paid, free_trial, free_trial_end_date,
@@ -108,65 +108,5 @@
         WHERE id = #{id};
     </update>
 
-    <resultMap id="parent" type="ParentProfile">
-        <id property="id" column="id"/>
-        <result property="name" column="name"/>
-        <result property="phone" column="phone"/>
-        <result property="appId" column="app_id"/>
-        <result property="channelId" column="channel_id"/>
-        <result property="creationDate" column="creation_date"/>
-        <result property="lastLoginDate" column="last_login_date"/>
-        <result property="lastUpdateDate" column="last_update_date"/>
-        <result property="available" column="available"/>
-        <result property="addressId" column="address_id"/>
-        <result property="paid" column="paid"/>
-        <result property="freeTrial" column="free_trial" jdbcType="TINYINT" javaType="boolean"/>
-        <result property="freeTrialEndDate" column="free_trial_end_date"/>
-        <association property="address" javaType="Address" column="address_id">
-            <id property="id" column="address_id"/>
-            <result property="address" column="full_address"/>
-            <result property="cityId" column="cityId"/>
-            <result property="city" column="city"/>
-            <result property="provinceId" column="provinceId"/>
-            <result property="province" column="province"/>
-        </association>
-        <association property="student" javaType="Student" column="studentId">
-            <id property="id" column="studentId"/>
-            <result property="name" column="studentName" />
-            <result property="male" column="sex"/>
-            <result property="birth" column="birth"/>
-            <result property="ringNumber" column="ring_number"/>
-            <result property="ringPhone" column="ring_phone"/>
-            <association property="school" javaType="School" column="schoolId">
-                <id property="id" column="schoolId"/>
-                <result property="name" column="schoolName"/>
-            </association>
-            <association property="fmcClass" javaType="FmcClass" column="classId">
-                <id property="id" column="classId"/>
-                <result property="schoolId" column="schoolId"/>
-                <result property="grade" column="grade"/>
-                <result property="realClass" column="class"/>
-                <result property="headTeacherId" column="teacherId"/>
-                <result property="headTeacherName" column="teacherName"/>
-            </association>
-            <association property="parentStudentRelationship"
-                         javaType="ParentStudentRelationship"
-                         column="relationship">
-                <result property="parentId" column="id"/>
-                <result property="studentId" column="studentId"/>
-                <result property="relationship" column="relationship"/>
-            </association>
-        </association>
-    </resultMap>
 
-    <resultMap id="address" type="Address">
-        <id property="id" column="id"/>
-        <result property="provinceId" column="province_id"/>
-        <result property="cityId" column="city_id"/>
-        <result property="address" column="full_address"/>
-        <result property="city" column="city"/>
-        <result property="province" column="province"/>
-        <result property="creationDate" column="creation_date"/>
-        <result property="lastUpdateDate" column="last_update_date"/>
-    </resultMap>
 </mapper>

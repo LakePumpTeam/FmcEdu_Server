@@ -74,26 +74,26 @@
     </select>
 
     <insert id="initialStudent" useGeneratedKeys="true" keyProperty="id"
-            parameterType="com.fmc.edu.model.student.Student">
+            parameterType="Student">
         INSERT INTO student (name, class_id, sex, birth, ring_number, ring_phone, creation_date, last_update_date)
         VALUES (#{name}, #{classId}, #{male}, #{birth}, #{ringNumber}, #{ringPhone}, #{creationDate},
         #{lastUpdateDate})
     </insert>
 
-    <select id="queryStudentIdByFields" parameterType="com.fmc.edu.model.student.Student" resultType="int">
+    <select id="queryStudentIdByFields" parameterType="Student" resultType="int">
         SELECT id
         FROM student
         WHERE NAME = #{name} AND class_id = #{classId}
     </select>
 
-    <update id="updateStudentById" parameterType="com.fmc.edu.model.student.Student">
+    <update id="updateStudentById" parameterType="Student">
         UPDATE student
         SET name = #{name}, class_id = #{classId}, sex = #{male}, birth = #{birth}, ring_number = #{ringNumber},
         ring_phone = #{ringPhone}, last_update_date = #{lastUpdateDate}
         WHERE id = #{id}
     </update>
 
-    <select id="queryTeacherById" parameterType="int" resultMap="teacher">
+    <select id="queryTeacherById" parameterType="int" resultMap="rm.teacher">
         SELECT id, `name`, phone, app_id, channel_id, creation_date, last_login_date, last_update_date, available, concat(profile_type,
         '') as profile_type,
         school_id, sex, head_teacher, initialized, resume, course, birth
@@ -102,21 +102,4 @@
         WHERE id = #{id}
     </select>
 
-    <resultMap id="teacher" type="TeacherProfile">
-        <id property="id" column="id" />
-        <result property="name" column="name" />
-        <result property="phone" column="phone" />
-        <result property="appId" column="app_id" />
-        <result property="channelId" column="channel_id" />
-        <result property="creationDate" column="creation_date" />
-        <result property="lastLoginDate" column="last_login_date" />
-        <result property="lastUpdateDate" column="last_update_date" />
-        <result property="available" column="available" />
-        <result property="male" column="sex" />
-        <result property="headTeacher" column="head_teacher" />
-        <result property="initialized" column="initialized" />
-        <result property="resume" column="resume" />
-        <result property="course" column="course" />
-        <result property="birth" column="birth" />
-    </resultMap>
 </mapper>

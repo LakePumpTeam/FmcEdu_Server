@@ -3,19 +3,13 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fmc.edu.identitycode">
-    <resultMap id="identityCode" type="IdentityCode">
-        <id column="id" property="id"/>
-        <result column="phone" property="phone"/>
-        <result column="identifying_code" property="identityCode"/>
-        <result column="identifying_end_date" property="identityEndDate"/>
-    </resultMap>
 
-    <select id="queryIdentityCodeByProfileId" resultMap="identityCode" parameterType="int">
+    <select id="queryIdentityCodeByProfileId" resultMap="rm.identityCode" parameterType="int">
         select id, phone,identifying_code,identifying_end_date
       from identity_code
         where phone = #{phone} and identifying_end_date &gt;= now() order by identifying_end_date desc limit 0,1
     </select>
-    <insert id="insertIdentityCode" parameterType="com.fmc.edu.model.common.IdentityCode">
+    <insert id="insertIdentityCode" parameterType="IdentityCode">
         insert into identity_code (phone, identifying_code, identifying_end_date)
         VALUES (#{phone},#{identityCode},#{identityEndDate})
     </insert>

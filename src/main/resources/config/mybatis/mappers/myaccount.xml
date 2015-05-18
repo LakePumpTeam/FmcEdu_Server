@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fmc.edu.myaccount">
 
-    <select id="login" parameterType="map" resultMap="profile">
+    <select id="login" parameterType="map" resultMap="rm.profile">
         select
         id,
         name,
@@ -22,7 +22,7 @@
         where phone = #{userAccount}
     </select>
 
-    <select id="findUserById" parameterType="string" resultMap="profile">
+    <select id="findUserById" parameterType="string" resultMap="rm.profile">
         select
         id,
         name,
@@ -40,13 +40,13 @@
         where id = #{profileId}
     </select>
 
-    <update id="updateLoginStatus" parameterType="com.fmc.edu.model.profile.BaseProfile" flushCache="true">
+    <update id="updateLoginStatus" parameterType="BaseProfile" flushCache="true">
         update profile
         set last_login_date = #{lastLoginDate}
         where id = #{id}
     </update>
 
-    <update id="resetPassword" parameterType="com.fmc.edu.model.profile.BaseProfile" flushCache="true">
+    <update id="resetPassword" parameterType="BaseProfile" flushCache="true">
         update profile
         set password = #{password}, last_update_date = #{lastUpdateDate}
         where id = #{id}
@@ -84,32 +84,7 @@
         DELETE FROM profile where id = #{id}
     </delete>
 
-    <select id="queryStudentParentRelationByParentId" parameterType="int" resultMap="parentStudentRelationship">
+    <select id="queryStudentParentRelationByParentId" parameterType="int" resultMap="rm.parentStudentRelationship">
       select parent_id, student_id,relationship,approved,approved_date,creation_date, last_update_date from parent_student_map where parent_id=#{parentId}
     </select>
-
-    <resultMap id="profile" type="BaseProfile">
-        <id property="id" column="id"/>
-        <result property="name" column="name"/>
-        <result property="phone" column="phone"/>
-        <result property="password" column="password"/>
-        <result property="appId" column="app_id"/>
-        <result property="channelId" column="channel_id"/>
-        <result property="creationDate" column="creation_date"/>
-        <result property="lastLoginDate" column="last_login_date"/>
-        <result property="lastUpdateDate" column="last_update_date"/>
-        <result property="available" column="available"/>
-        <result property="profileType" column="profile_type"/>
-    </resultMap>
-
-    <resultMap id="parentStudentRelationship" type="ParentStudentRelationship">
-        <id property="parentId" column="parent_id"/>
-        <result property="studentId" column="student_id"/>
-        <result property="relationship" column="relationship"/>
-        <result property="approved" column="approved"/>
-        <result property="approvedDate" column="approved_date"/>
-        <result property="creationDate" column="creation_date"/>
-        <result property="lastUpdateDate" column="last_update_date"/>
-    </resultMap>
-
 </mapper>

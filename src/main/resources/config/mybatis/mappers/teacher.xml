@@ -3,34 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fmc.edu.teacher">
-    <resultMap id="school" type="School">
-        <id property="id" column="scl_id"/>
-        <result property="name" column="schoolName"/>
-        <result property="provinceId" column="province_id"/>
-        <result property="cityId" column="city_id"/>
-        <result property="addressId" column="address_id"/>
-    </resultMap>
-
-    <resultMap id="teacher" type="TeacherProfile">
-        <id property="id" column="id"/>
-        <result property="name" column="name"/>
-        <result property="phone" column="phone"/>
-        <result property="appId" column="app_id"/>
-        <result property="channelId" column="channel_id"/>
-        <result property="creationDate" column="creation_date"/>
-        <result property="lastLoginDate" column="last_login_date"/>
-        <result property="lastUpdateDate" column="last_update_date"/>
-        <result property="available" column="available"/>
-        <result property="headTeacher" column="head_teacher"/>
-        <result property="initialized" column="initialized"/>
-        <result property="male" column="sex"/>
-        <result property="resume" column="resume"/>
-        <result property="course" column="course"/>
-        <result property="birth" column="birth"/>
-        <collection property="school" resultMap="school"/>
-    </resultMap>
-
-    <select id="queryTeacherById" parameterType="int" resultMap="teacher">
+    <select id="queryTeacherById" parameterType="int" resultMap="rm.teacher">
         select p.id, p.name, p.phone, p.app_id, p.channel_id, p.creation_date, p.last_login_date, p.last_update_date,
         p.available,
         t.head_teacher, t.initialized, t.sex, t.resume, t.course, t.birth,
@@ -73,7 +46,7 @@
         where tcm.teacher_id=#{teacherId};
     </select>
 
-    <update id="updateTeacher" parameterType="com.fmc.edu.model.profile.TeacherProfile">
+    <update id="updateTeacher" parameterType="TeacherProfile">
         UPDATE teacher
         LEFT JOIN profile ON id = profile_id
         SET name = #{name}, phone = #{phone}, sex = #{male}, resume = #{resume}, course = #{course}, birth = #{birth}
