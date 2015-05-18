@@ -15,7 +15,7 @@ public class FmcClass extends BaseBean {
 
 	private String mRealClass;
 
-	private String mHeadTeacherId;
+	private int mHeadTeacherId;
 
 	private String mHeadTeacherName;
 
@@ -54,11 +54,11 @@ public class FmcClass extends BaseBean {
 		mRealClass = pRealClass;
 	}
 
-	public String getHeadTeacherId() {
+	public int getHeadTeacherId() {
 		return mHeadTeacherId;
 	}
 
-	public void setHeadTeacherId(String pHeadTeacherId) {
+	public void setHeadTeacherId(int pHeadTeacherId) {
 		mHeadTeacherId = pHeadTeacherId;
 	}
 
