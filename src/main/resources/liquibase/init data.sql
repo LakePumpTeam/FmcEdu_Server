@@ -152,9 +152,9 @@ insert into school (name, province_id, city_id, last_update_date) values("eastbo
 insert into school (name, province_id, city_id, last_update_date) values("plymouth school", 1, 3, now());
 #class
 insert into class (grade, class, school_id, head_teacher_id, last_update_date) values("2015", "1", 1, 1, now());
-insert into class (grade, class, school_id, head_teacher_id, last_update_date) values("2015", "2", 1, 1, now());
-insert into class (grade, class, school_id, head_teacher_id, last_update_date) values("2015", "3", 1, 1, now());
-insert into class (grade, class, school_id, head_teacher_id, last_update_date) values("2015", "4", 1, 1, now());
+insert into class (grade, class, school_id, head_teacher_id, last_update_date) values("2015", "2", 1, 2, now());
+insert into class (grade, class, school_id, head_teacher_id, last_update_date) values("2015", "3", 1, 3, now());
+insert into class (grade, class, school_id, head_teacher_id, last_update_date) values("2015", "4", 1, 4, now());
 insert into class (grade, class, school_id, head_teacher_id, last_update_date) values("2015", "5", 1, 1, now());
 insert into class (grade, class, school_id, head_teacher_id, last_update_date) values("2014", "1", 1, 1, now());
 insert into class (grade, class, school_id, head_teacher_id, last_update_date) values("2014", "2", 1, 1, now());

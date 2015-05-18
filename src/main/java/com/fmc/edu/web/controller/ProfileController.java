@@ -146,7 +146,8 @@ public class ProfileController extends BaseController {
         TransactionStatus status = ensureTransaction();
         ResponseBean responseBean = new ResponseBean();
         try {
-            ParentProfile parent = getParameterBuilder().buildParent(pRequest);
+
+            ParentProfile parent = getParameterBuilder().buildParent(pRequest, getMyAccountManager());
             Address address = getParameterBuilder().buildAddress(pRequest);
             if (address != null) {
                 getProfileManager().registerParentAddress(parent.getPhone(), address);

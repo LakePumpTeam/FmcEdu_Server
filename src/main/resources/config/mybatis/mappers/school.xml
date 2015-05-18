@@ -62,15 +62,13 @@
     </select>
 
     <select id="queryHeadmaster" parameterType="map" resultType="map">
-        SELECT p.id as headTeacherId, p.name as headTeacherName
-        FROM profile p
-        LEFT JOIN teacher t
-        ON p.id = t.profile_id
-        LEFT JOIN teacher_class_map tcm
-        on t.profile_id = tcm.teacher_Id
-        LEFT JOIN class c
-        ON tcm.class_Id = c.id
-        WHERE c.id = #{classId};
+        select p.id as headTeacherId, p.name as headTeacherName
+        from class cls
+        left join teacher_class_map tcm
+        on tcm.teacher_id = cls.head_teacher_id
+        left join profile p
+        on p.id = tcm.teacher_id
+        where cls.id=#{classId};
     </select>
 
     <insert id="initialStudent" useGeneratedKeys="true" keyProperty="id"
