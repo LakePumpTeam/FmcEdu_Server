@@ -323,12 +323,14 @@ public class ProfileController extends BaseController {
                     .getRealClass()));
             responseBean.addData("teacherId", student.getFmcClass().getHeadTeacherId());
             responseBean.addData("teacherName", student.getFmcClass().getHeadTeacherName());
+            responseBean.addData("studentId", student.getId());
             responseBean.addData("studentName", student.getName());
             responseBean.addData("studentSex", student.isMale());
             responseBean.addData("studentBirth", DateUtils.getStudentBirthString(student.getBirth()));
             responseBean.addData("parentName", parent.getName());
             responseBean.addData("relation", student.getParentStudentRelationship().getRelationship());
             responseBean.addData("address", address.getAddress());
+            responseBean.addData("addressId", address.getId());
             responseBean.addData("braceletCardNumber", student.getRingPhone());
             responseBean.addData("braceletNumber", student.getRingNumber());
         } catch (Exception ex) {
