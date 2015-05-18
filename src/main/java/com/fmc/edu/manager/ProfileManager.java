@@ -51,19 +51,13 @@ public class ProfileManager {
     @Resource(name = "teacherManager")
     private TeacherManager mTeacherManager;
 
-    public boolean verifyTempParentIdentifyingCode(String pPhoneNumber, final String pPassword, String pIdentifyingCode) {
-        return getTempParentService().verifyTempParentAuthCode(pPhoneNumber, pPassword, pIdentifyingCode);
-    }
-
     public boolean verifyIdentityCodeAndRegister(String pPhoneNumber, final String pPassword, String pIdentifyingCode) throws IdentityCodeException, ProfileException {
         if (getIdentityCodeManager().verifyIdentityCode(pPhoneNumber, pIdentifyingCode)) {
             BaseProfile user = getMyAccountManager().findUser(pPhoneNumber);
             if (user != null) {
-                if (user.getProfileType() == ProfileType.PARENT.getValue()) {
-                    if (!getMyAccountManager().parentBoundStudent(user.getId())) {
-                        LOG.debug("Found parent user which not bound any student, so delete this user to allow re-register.");
-                        getMyAccountManager().deleteProfile(user.getId());
-                    }
+                if (user.getProfileType() == ProfileType.PARENT.getValue() && !getMyAccountManager().parentBoundStudent(user.getId())) {
+                    LOG.debug("Found parent user which not bound any student, so delete this user to allow re-register.");
+                    getMyAccountManager().deleteProfile(user.getId());
                 } else if (user.getProfileType() == ProfileType.TEACHER.getValue()) {
                     //FIXME add specially logic for teacher user in the future.
                     throw new ProfileException("账号已存在.");
@@ -86,12 +80,6 @@ public class ProfileManager {
 
     public boolean registerParentAddress(String pPhoneNumber, Address pAddress) {
         return getParentService().registerParentAddress(pPhoneNumber, pAddress);
-    }
-
-    public String registerTempParent(String pPhoneNumber) {
-        String identifyCode = getMessageIdentifyService().sendIdentifyRequest(pPhoneNumber);
-        boolean persistentFailure = getTempParentService().registerTempParent(pPhoneNumber, identifyCode);
-        return identifyCode;
     }
 
     public void registerRelationshipBetweenStudent(final ParentStudentRelationship pParentStudentRelationship, final Student pStudent, final ParentProfile pParent) {
