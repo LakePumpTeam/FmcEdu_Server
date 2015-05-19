@@ -39,7 +39,7 @@
         <result property="paid" column="paid"/>
         <result property="freeTrial" column="free_trial" jdbcType="TINYINT" javaType="boolean"/>
         <result property="freeTrialEndDate" column="free_trial_end_date"/>
-        <association property="address" javaType="Address" column="address_id">
+        <association property="address" javaType="Address" column="address_id" >
             <id property="id" column="address_id"/>
             <result property="address" column="full_address"/>
             <result property="cityId" column="cityId"/>
@@ -47,7 +47,7 @@
             <result property="provinceId" column="provinceId"/>
             <result property="province" column="province"/>
         </association>
-        <association property="student" javaType="Student" column="studentId">
+        <association  property="student" javaType="Student" column="studentId">
             <id property="id" column="studentId"/>
             <result property="name" column="studentName"/>
             <result property="male" column="sex"/>
