@@ -14,6 +14,12 @@ import java.util.Date;
  */
 @Service("identityCodeManager")
 public class IdentityCodeManager {
+    public static final String INVALID_IDENTITY_CODE = "验证码错误.";
+
+    public static final String EXPIRED_IDENTITY_CODE = "验证码过期.";
+
+    public static final String UNKOWN_IDENTITY_CODE = "验证码错误.";
+
     @Resource(name = "identityCodeService")
     private IdentityCodeService mIdentityCodeService;
 

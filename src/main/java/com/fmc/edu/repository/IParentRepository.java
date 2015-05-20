@@ -30,9 +30,13 @@ public interface IParentRepository {
 
 	boolean initialParentStudentRelationship(ParentStudentRelationship pParentStudentRelationship);
 
-	String QUERY_ADDRESS_BY_PHONE = "com.fmc.edu.profile.parent.queryAddressByPhone";
+	String QUERY_PARENTSTUDENTRELATION_BY_PARENTID_STUDENTID = "com.fmc.edu.profile.parent.queryParentStudentRelationship";
 
-	Address queryAddressByPhone(String pPhoneNumber);
+	ParentStudentRelationship queryParentStudentRelationship(final int parentId, final int studentId);
+
+	String QUERY_ADDRESS_BY_PROFILE_ID = "com.fmc.edu.profile.parent.queryAddressByPhone";
+
+	Address queryAddressByProfileId(int pProfileId);
 
 	String UPDATE_PARENT_ADDRESS = "com.fmc.edu.profile.parent.updateParentAddress";
 

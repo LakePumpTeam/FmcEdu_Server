@@ -40,7 +40,7 @@ public class HomePageManager {
             List<Map<String, Object>> headerTeachers = getTeacherManager().queryHeaderTeacherByParentId(baseProfile.getId());
             Map<String, Object> teacher;
             if (CollectionUtils.isEmpty(headerTeachers)) {
-                teacher = new HashMap<>(0);
+                teacher = new HashMap<String, Object>(0);
             } else {
                 teacher = headerTeachers.get(0);
             }
@@ -58,7 +58,7 @@ public class HomePageManager {
             headerTeacher.put("sex", teacher.isMale());
             Map<String, Object> tClass = getTeacherManager().queryClassByTeacherId(baseProfile.getId());
             if (tClass == null) {
-                tClass = new HashMap<>(0);
+                tClass = new HashMap<String, Object>(0);
             }
             headerTeacher.put("className", StringUtils.ifNULLReturn(getSchoolManager().getClassString(String.valueOf(tClass.get("grade")), String.valueOf(tClass.get("class"))), ""));
         }

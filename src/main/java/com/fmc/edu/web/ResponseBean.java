@@ -63,7 +63,7 @@ public class ResponseBean {
         dataMap.putAll(pData);
     }
 
-    public Boolean businessIsSuccess() {
+    public Boolean isSuccess() {
         Map<String, Object> dataMap = (Map<String, Object>) responseData.get(JSONOutputConstant.PARAM_DATA);
         return ((Integer) dataMap.get(JSONOutputConstant.BUSSINESS_IS_SUCCESS) == GlobalConstant.STATUS_SUCCESS) ? true : false;
     }

@@ -123,6 +123,7 @@ CREATE TABLE IF NOT EXISTS `fmc_edu`.`profile` (
   `password` VARCHAR(32) NULL,
   `app_id` VARCHAR(20) NULL,
   `channel_id` DECIMAL(20) NULL,
+  `salt` VARCHAR(20) NULL,
   `creation_date` DATETIME NULL,
   `last_login_date` DATETIME NULL,
   `last_update_date` DATETIME NOT NULL,

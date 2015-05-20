@@ -33,7 +33,7 @@ public class LocationController extends BaseController {
         ResponseBean responseBean = new ResponseBean();
         try {
             preRequestProv(pRequest, responseBean);
-            if (!responseBean.businessIsSuccess()) {
+            if (!responseBean.isSuccess()) {
                 return responseBean.toString();
             }
 
@@ -61,7 +61,7 @@ public class LocationController extends BaseController {
         try {
             preRequestCityPage(pRequest, responseBean);
 
-            if (!responseBean.businessIsSuccess()) {
+            if (!responseBean.isSuccess()) {
                 return responseBean.toString();
             }
 

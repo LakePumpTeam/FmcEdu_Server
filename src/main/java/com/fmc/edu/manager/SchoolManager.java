@@ -4,6 +4,7 @@ import com.fmc.edu.model.profile.TeacherProfile;
 import com.fmc.edu.model.student.Student;
 import com.fmc.edu.service.impl.SchoolService;
 import com.fmc.edu.util.NumberUtils;
+import com.fmc.edu.util.RepositoryUtils;
 import com.fmc.edu.util.pagenation.Pagination;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -58,7 +59,7 @@ public class SchoolManager {
     }
 
     public boolean persistStudent(final Student pStudent) {
-        if (pStudent.getId() > 0) {
+        if (RepositoryUtils.idIsValid(pStudent.getId())) {
             return getSchoolService().updateStudentById(pStudent);
         }
         return getSchoolService().saveOrUpdateStudentByFields(pStudent);

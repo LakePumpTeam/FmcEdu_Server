@@ -21,12 +21,19 @@ import java.util.Map;
 public class MyAccountManager {
     private static final Logger LOG = Logger.getLogger(MyAccountManager.class);
 
-    protected String NOT_FIND_USER = "账号不存在.";
+    public static final String NOT_FIND_USER = "账号不存在.";
 
-    protected String ACCOUNT_UNAVAILABLE = "账号不可用.";
+    public static final String ACCOUNT_UNAVAILABLE = "账号不可用.";
 
-    protected String PASSWORD_IS_INVALID = "密码错误.";
+    public static final String PASSWORD_IS_INVALID = "密码错误.";
 
+    public static final String ERROR_INVALID_PHONE = "电话号码错误.";
+
+    public static final String ERROR_INVALID_EMPTY_AUTHO_CODE = "验证码为空.";
+
+    public static final String ERROR_INVALID_EMTPY_PASSWORD = "密码为空.";
+
+    public static final String ERROR_INVALID_EMPTY_SALT = "salt 为空.";
     @Resource(name = "myAccountService")
     private MyAccountService mMyAccountService;
 

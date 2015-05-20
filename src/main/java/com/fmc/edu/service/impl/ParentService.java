@@ -20,7 +20,7 @@ public class ParentService {
     @Resource(name = "parentRepository")
     private IParentRepository mParentRepository;
 
-    public boolean updateParentProfile(final String pPhoneNumber, final ParentProfile pParent) {
+    public boolean updateParentProfile(final ParentProfile pParent) {
         //parent.setFreeTrialEndDate(DateUtils.getDaysLater(30));
         return getParentRepository().updateParentProfile(pParent);
     }
@@ -29,9 +29,9 @@ public class ParentService {
         return getParentRepository().insertParentProfile(pParent);
     }
 
-    public boolean registerParentAddress(String pPhoneNumber, Address pAddress) {
+    public boolean registerParentAddress(int profileId, Address pAddress) {
         if (pAddress.getId() == 0) {
-            Address address = getParentRepository().queryAddressByPhone(pPhoneNumber);
+            Address address = getParentRepository().queryAddressByProfileId(profileId);
             if (!RepositoryUtils.isItemExist(address)) {
                 // create new address record
                 pAddress.setCreationDate(new Timestamp(System.currentTimeMillis()));
@@ -43,6 +43,9 @@ public class ParentService {
         return getParentRepository().updateParentAddress(pAddress);
     }
 
+    public ParentStudentRelationship queryParentStudentRelationship(final int parentId, final int studentId) {
+        return getParentRepository().queryParentStudentRelationship(parentId, studentId);
+    }
     public boolean registerParentStudentRelationship(final ParentStudentRelationship pParentStudentRelationship) {
         ParentProfile parent = null;
         if (pParentStudentRelationship.getParentId() == 0) {

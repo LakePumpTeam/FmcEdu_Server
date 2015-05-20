@@ -13,7 +13,6 @@ import com.fmc.edu.model.student.Student;
 import com.fmc.edu.service.IMessageIdentifyService;
 import com.fmc.edu.service.impl.ParentService;
 import com.fmc.edu.service.impl.TempParentService;
-import com.fmc.edu.util.RepositoryUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -26,6 +25,8 @@ import javax.annotation.Resource;
 @Service(value = "profileManager")
 public class ProfileManager {
     private static final Logger LOG = Logger.getLogger(ProfileManager.class);
+
+    public static final String ACCOUNT_EXISTS = "账号已存在.";
 
     @Resource(name = "dummyMessageIdentifyService")
     private IMessageIdentifyService mDummyMessageIdentifyService;
@@ -51,7 +52,7 @@ public class ProfileManager {
     @Resource(name = "teacherManager")
     private TeacherManager mTeacherManager;
 
-    public boolean verifyIdentityCodeAndRegister(String pPhoneNumber, final String pPassword, String pIdentifyingCode) throws IdentityCodeException, ProfileException {
+    public boolean verifyIdentityCodeAndRegister(String pPhoneNumber, final String pPassword, String pIdentifyingCode, String pSalt) throws IdentityCodeException, ProfileException {
         if (getIdentityCodeManager().verifyIdentityCode(pPhoneNumber, pIdentifyingCode)) {
             BaseProfile user = getMyAccountManager().findUser(pPhoneNumber);
             if (user != null) {
@@ -60,45 +61,37 @@ public class ProfileManager {
                     getMyAccountManager().deleteProfile(user.getId());
                 } else if (user.getProfileType() == ProfileType.TEACHER.getValue()) {
                     //FIXME add specially logic for teacher user in the future.
-                    throw new ProfileException("账号已存在.");
+                    throw new ProfileException(ProfileManager.ACCOUNT_EXISTS);
                 } else {
-                    throw new ProfileException("账号已存在.");
+                    throw new ProfileException(ProfileManager.ACCOUNT_EXISTS);
                 }
             }
             BaseProfile baseProfile = new BaseProfile();
             baseProfile.setPhone(pPhoneNumber);
             baseProfile.setPassword(pPassword);
+            baseProfile.setSalt(pSalt);
             baseProfile.setProfileType(ProfileType.PARENT.getValue());
             if (getParentService().initialProfile(baseProfile)) {
                 return true;
             }
         } else {
-            throw new IdentityCodeException("验证码无效.");
+            throw new IdentityCodeException(IdentityCodeManager.INVALID_IDENTITY_CODE);
         }
         return false;
     }
 
-    public boolean registerParentAddress(String pPhoneNumber, Address pAddress) {
-        return getParentService().registerParentAddress(pPhoneNumber, pAddress);
+    public boolean registerParentAddress(int profileId, Address pAddress) {
+        return getParentService().registerParentAddress(profileId, pAddress);
     }
 
-    public void registerRelationshipBetweenStudent(final ParentStudentRelationship pParentStudentRelationship, final Student pStudent, final ParentProfile pParent) {
-        boolean persist = getSchoolManager().persistStudent(pStudent);
-        if (persist && pStudent.getId() > 0) {
-            pParentStudentRelationship.setStudentId(pStudent.getId());
-            boolean register = false;
-            if (RepositoryUtils.isItemExist(pParent)) {
-                register = getParentService().updateParentProfile(pParentStudentRelationship.getParentPhone(), pParent);
-            } else {
-                BaseProfile baseProfile = getMyAccountManager().findUser(pParentStudentRelationship.getParentPhone());
-                pParent.setId(baseProfile.getId());
-                register = getParentService().insertParentProfile(pParent);
-                getParentService().updateProfileName(pParent);
-            }
-            if (register) {
-                getParentService().registerParentStudentRelationship(pParentStudentRelationship);
-            }
-        }
+    public void registerRelationshipBetweenStudent(final ParentStudentRelationship pParentStudentRelationship, final Student pStudent, final ParentProfile pParent) throws ProfileException {
+        getSchoolManager().persistStudent(pStudent);
+        pParentStudentRelationship.setStudentId(pStudent.getId());
+        getParentService().registerParentStudentRelationship(pParentStudentRelationship);
+    }
+
+    public boolean updateParentProfile(ParentProfile pParentProfile) {
+        return getParentService().updateParentProfile(pParentProfile);
     }
 
     public boolean verifyIdentityCode(String pPhone, String pAuthoCode) {

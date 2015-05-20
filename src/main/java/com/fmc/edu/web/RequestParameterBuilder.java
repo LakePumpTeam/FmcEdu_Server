@@ -1,6 +1,8 @@
 package com.fmc.edu.web;
 
 import com.fmc.edu.crypto.impl.ReplacementBase64EncryptService;
+import com.fmc.edu.exception.InvalidIdException;
+import com.fmc.edu.exception.ProfileException;
 import com.fmc.edu.manager.MyAccountManager;
 import com.fmc.edu.model.address.Address;
 import com.fmc.edu.model.profile.BaseProfile;
@@ -9,6 +11,7 @@ import com.fmc.edu.model.profile.TeacherProfile;
 import com.fmc.edu.model.relationship.ParentStudentRelationship;
 import com.fmc.edu.model.student.Student;
 import com.fmc.edu.util.DateUtils;
+import com.fmc.edu.util.RepositoryUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -61,11 +64,17 @@ public class RequestParameterBuilder {
         return stu;
     }
 
-    public Address buildAddress(HttpServletRequest pRequest) throws IOException {
+    public Address buildAddress(HttpServletRequest pRequest) throws IOException, InvalidIdException {
         //TODO update after confirmation
         String fullAddress = mBase64EncryptService.decrypt(pRequest.getParameter("address"));
         String provinceId = mBase64EncryptService.decrypt(pRequest.getParameter("provId"));
+        if (!RepositoryUtils.idIsValid(provinceId)) {
+            throw new InvalidIdException(provinceId);
+        }
         String cityId = mBase64EncryptService.decrypt(pRequest.getParameter("cityId"));
+        if (!RepositoryUtils.idIsValid(cityId)) {
+            throw new InvalidIdException(cityId);
+        }
         String addressId = mBase64EncryptService.decrypt(pRequest.getParameter("addressId"));
         Address address = new Address(Integer.valueOf(provinceId), Integer.valueOf(cityId), fullAddress);
         if (StringUtils.isNoneBlank(addressId)) {
@@ -100,20 +109,24 @@ public class RequestParameterBuilder {
         return psr;
     }
 
-    public ParentProfile buildParent(HttpServletRequest pRequest, final MyAccountManager pMyAccountManager) {
+    public ParentProfile buildParent(HttpServletRequest pRequest, final MyAccountManager pMyAccountManager) throws ProfileException {
         ParentProfile parent = new ParentProfile();
         String phone = getBase64EncryptService().decrypt(pRequest.getParameter("cellPhone"));
         String parentName = getBase64EncryptService().decrypt(pRequest.getParameter("parentName"));
         String parentId = getBase64EncryptService().decrypt(pRequest.getParameter("parentId"));
         parent.setPhone(phone);
         parent.setName(parentName);
-        BaseProfile baseProfile = pMyAccountManager.findUser(phone);
-        if (baseProfile != null) {
+        if (!RepositoryUtils.idIsValid(parentId)) {
+            BaseProfile baseProfile = pMyAccountManager.findUser(phone);
+            if (baseProfile == null) {
+                throw new ProfileException(MyAccountManager.NOT_FIND_USER);
+            }
             parent.setId(baseProfile.getId());
+        } else {
+            parent.setId(Integer.getInteger(parentId));
         }
-
-        if (!StringUtils.isBlank(parentId)) {
-            parent.setId(Integer.valueOf(parentId));
+        if (RepositoryUtils.idIsValid(parent.getId())) {
+            throw new ProfileException(MyAccountManager.NOT_FIND_USER);
         }
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("phone:").append(phone)

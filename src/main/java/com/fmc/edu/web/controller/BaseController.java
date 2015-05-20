@@ -27,6 +27,10 @@ public abstract class BaseController {
 	@Resource(name = "replacementBase64EncryptService")
 	private ReplacementBase64EncryptService mBase64EncryptService;
 
+	protected String output(final ResponseBean pResponseBean){
+		LOG.debug("Response message:"+ pResponseBean.toString());
+		return pResponseBean.toString();
+	}
 	protected String decodeInput(final String pParameter) throws IOException {
 		if (!WebConfig.isEncodeBase64InputParam()) {
 			return pParameter;

@@ -32,7 +32,7 @@ public class HomePageController extends BaseController {
         ResponseBean responseBean = new ResponseBean();
         try {
             preRequestHeaderTeacherForHomePage(pRequest, responseBean);
-            if (!responseBean.businessIsSuccess()) {
+            if (!responseBean.isSuccess()) {
                 return responseBean.toString();
             }
             String profileId = decodeInput(pRequest.getParameter("userId"));

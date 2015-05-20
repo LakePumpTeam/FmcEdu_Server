@@ -4,8 +4,10 @@ import com.fmc.edu.configuration.WebConfig;
 import com.fmc.edu.constant.GlobalConstant;
 import com.fmc.edu.constant.SessionConstant;
 import com.fmc.edu.exception.IdentityCodeException;
+import com.fmc.edu.exception.InvalidIdException;
 import com.fmc.edu.exception.LoginException;
 import com.fmc.edu.exception.ProfileException;
+import com.fmc.edu.manager.IdentityCodeManager;
 import com.fmc.edu.manager.MyAccountManager;
 import com.fmc.edu.manager.ProfileManager;
 import com.fmc.edu.manager.SchoolManager;
@@ -44,12 +46,9 @@ public class ProfileController extends BaseController {
 
     private static final Logger LOG = Logger.getLogger(ProfileController.class);
 
-    private static final String ERROR_INVALID_PHONE = "Sorry, the phone number is invalid.";
     private static final String ERROR_SESSION_EXPIRED = "Sorry, the session has expired.";
-    private static final String ERROR_PASSWORD_CONFIRM = "Sorry, the password isn't match the confirmation.";
     private static final String ERROR_NULL_PARENT_ID = "Sorry, the parent id should not be empty.";
     private static final String ERROR_NULL_PARENT_IDS = "Sorry, the parent ids should not be empty.";
-    private static final String ERROR_INVALID_IDENTITY_CODE = "验证码错误.";
 
     @Resource(name = "profileManager")
     private ProfileManager mProfileManager;
@@ -70,18 +69,20 @@ public class ProfileController extends BaseController {
     @RequestMapping(value = ("/requestPhoneIdentify" + GlobalConstant.URL_SUFFIX))
     @ResponseBody
     public String requestPhoneIdentify(final HttpServletRequest pRequest, final HttpServletResponse pResponse, final String cellPhone) throws IOException {
+        ResponseBean responseBean = new ResponseBean();
         String phone = decodeInput(cellPhone);
         LOG.debug("Decoded cellphone:" + phone);
-
+        // output error if phone number is blank
+        if (cellPhone == null || ValidationUtils.isValidPhoneNumber(phone)) {
+            responseBean.addBusinessMsg(MyAccountManager.ERROR_INVALID_PHONE);
+            return output(responseBean);
+        }
         String identifyCode = null;
-        ResponseBean responseBean = new ResponseBean();
         TransactionStatus status = ensureTransaction();
         try {
             identifyCode = getProfileManager().obtainIdentityCode(phone);
-            //registerTempParent(phone);
             pRequest.getSession().setAttribute(SessionConstant.SESSION_KEY_PHONE, phone);
 
-            // request identify failed if identify is blank
             if (WebConfig.isDevelopment()) {
                 responseBean.addData("identifyCode", identifyCode);
                 LOG.debug(String.format("Send identify code: %s to phone: %s", identifyCode, phone));
@@ -96,34 +97,30 @@ public class ProfileController extends BaseController {
         } finally {
             getTransactionManager().commit(status);
         }
-        // output error if phone number is blank
-        if (cellPhone == null || ValidationUtils.isValidPhoneNumber(phone)) {
-            responseBean.addBusinessMsg(ERROR_INVALID_PHONE);
-            return responseBean.toString();
-        }
-        return responseBean.toString();
+
+        return output(responseBean);
     }
 
     @RequestMapping(value = "/requestRegisterConfirm" + GlobalConstant.URL_SUFFIX)
     @ResponseBody
     public String requestRegisterConfirm(final HttpServletRequest pRequest, final HttpServletResponse pResponse, String cellPhone, final String authCode,
-                                         String password, String confirmPassword) throws IOException {
+                                         String password, String pSalt) throws IOException {
         String identifyingCode = decodeInput(authCode);
         String phoneNumber = decodeInput(cellPhone);
         String passwordDecode = decodeInput(password);
+        String salt = decodeInput(pSalt);
 
         ResponseBean responseBean = new ResponseBean();
+        preRequestRegisterConfirm(pRequest, identifyingCode, phoneNumber, passwordDecode, salt, responseBean);
+        if (!responseBean.isSuccess()) {
+            LOG.debug("pre validation failed." + responseBean.toString());
+            return output(responseBean);
+        }
+
         TransactionStatus status = ensureTransaction();
         try {
-            if (StringUtils.isBlank(phoneNumber)) {
-                phoneNumber = (String) pRequest.getSession().getAttribute(SessionConstant.SESSION_KEY_PHONE);
-            }
-            if (StringUtils.isBlank(phoneNumber)) {
-                responseBean.addBusinessMsg(ERROR_SESSION_EXPIRED);
-                return responseBean.toString();
-            }
-            if (!getProfileManager().verifyIdentityCodeAndRegister(phoneNumber, passwordDecode, identifyingCode)) {
-                responseBean.addBusinessMsg(ERROR_INVALID_IDENTITY_CODE);
+            if (!getProfileManager().verifyIdentityCodeAndRegister(phoneNumber, passwordDecode, identifyingCode, salt)) {
+                responseBean.addBusinessMsg(IdentityCodeManager.INVALID_IDENTITY_CODE);
                 return responseBean.toString();
             }
         } catch (IdentityCodeException e) {
@@ -135,8 +132,31 @@ public class ProfileController extends BaseController {
             responseBean.addErrorMsg(e);
         } finally {
             getTransactionManager().commit(status);
+            return output(responseBean);
         }
-        return responseBean.toString();
+    }
+
+    private void preRequestRegisterConfirm(HttpServletRequest pRequest, String cellPhone, final String authCode,
+                                           String password, String pSalt, ResponseBean responseBean) {
+        if (StringUtils.isBlank(cellPhone)) {
+            cellPhone = (String) pRequest.getSession().getAttribute(SessionConstant.SESSION_KEY_PHONE);
+        }
+        if (StringUtils.isBlank(cellPhone)) {
+            responseBean.addBusinessMsg(ERROR_SESSION_EXPIRED);
+            return;
+        }
+        if (StringUtils.isBlank(authCode)) {
+            responseBean.addBusinessMsg(MyAccountManager.ERROR_INVALID_EMPTY_AUTHO_CODE);
+            return;
+        }
+        if (StringUtils.isBlank(password)) {
+            responseBean.addBusinessMsg(MyAccountManager.ERROR_INVALID_EMTPY_PASSWORD);
+            return;
+        }
+        if (StringUtils.isBlank(pSalt)) {
+            responseBean.addBusinessMsg(MyAccountManager.ERROR_INVALID_EMPTY_SALT);
+            return;
+        }
     }
 
     @RequestMapping(value = "/requestRegisterBaseInfo" + GlobalConstant.URL_SUFFIX)
@@ -148,22 +168,54 @@ public class ProfileController extends BaseController {
         try {
 
             ParentProfile parent = getParameterBuilder().buildParent(pRequest, getMyAccountManager());
+
+            getProfileManager().updateParentProfile(parent);
+
             Address address = getParameterBuilder().buildAddress(pRequest);
             if (address != null) {
-                getProfileManager().registerParentAddress(parent.getPhone(), address);
+                getProfileManager().registerParentAddress(parent.getId(), address);
                 parent.setAddressId(address.getId());
             }
+
             Student student = getParameterBuilder().buildStudent(pRequest);
             ParentStudentRelationship relationship = getParameterBuilder().buildParentStudentRelationship(pRequest);
+            relationship.setParentId(parent.getId());
             getProfileManager().registerRelationshipBetweenStudent(relationship, student, parent);
+        } catch (InvalidIdException e) {
+            responseBean.addBusinessMsg(e.getMessage());
+        } catch (ProfileException e) {
+            responseBean.addBusinessMsg(e.getMessage());
         } catch (Exception e) {
             LOG.error(e);
             responseBean.addErrorMsg(e);
             status.setRollbackOnly();
         } finally {
             getTransactionManager().commit(status);
-            return responseBean.toString();
+            return output(responseBean);
         }
+    }
+
+    @RequestMapping(value = "/requestSalt" + GlobalConstant.URL_SUFFIX)
+    @ResponseBody
+    public String requestSalt(HttpServletRequest pRequest, final HttpServletResponse pResponse, final String pUserId) {
+        ResponseBean responseBean = new ResponseBean();
+        try {
+            String userId = decodeInput(pUserId);
+            if (StringUtils.isBlank(userId)) {
+                responseBean.addBusinessMsg("user id is null.");
+                return output(responseBean);
+            }
+            BaseProfile user = getMyAccountManager().findUser(userId);
+            if (user == null) {
+                responseBean.addBusinessMsg(MyAccountManager.NOT_FIND_USER);
+                return output(responseBean);
+            }
+            responseBean.addData("salt", user.getSalt());
+        } catch (IOException e) {
+            responseBean.addErrorMsg(e);
+            LOG.error(e);
+        }
+        return output(responseBean);
     }
 
     @RequestMapping(value = "/requestLogin" + GlobalConstant.URL_SUFFIX)
@@ -182,11 +234,11 @@ public class ProfileController extends BaseController {
             LOG.error(e);
             responseBean.addErrorMsg(e);
         }
-        if (user != null) {
+        if (user != null && responseBean.isSuccess()) {
             getResponseBuilder().buildAuthorizedResponse(responseBean, user);
         }
 
-        return responseBean.toString();
+        return output(responseBean);
     }
 
     @RequestMapping(value = "/requestForgetPwd" + GlobalConstant.URL_SUFFIX)
@@ -194,7 +246,7 @@ public class ProfileController extends BaseController {
     public String requestForgetPwd(HttpServletRequest pRequest, final HttpServletResponse pResponse) {
         ResponseBean responseBean = new ResponseBean();
         preRequestForgetPwd(pRequest, responseBean);
-        if (!responseBean.businessIsSuccess()) {
+        if (!responseBean.isSuccess()) {
             return responseBean.toString();
         }
         TransactionStatus txStatus = ensureTransaction();
@@ -205,16 +257,16 @@ public class ProfileController extends BaseController {
 
             BaseProfile user = getMyAccountManager().findUser(cellPhone);
             if (user == null) {
-                responseBean.addBusinessMsg("用户不存在.");
-                return responseBean.toString();
+                responseBean.addBusinessMsg(MyAccountManager.NOT_FIND_USER);
+                return output(responseBean);
             }
             if (!getProfileManager().verifyIdentityCode(user.getPhone(), authCode)) {
-                responseBean.addBusinessMsg("验证码错误.");
-                return responseBean.toString();
+                responseBean.addBusinessMsg(IdentityCodeManager.INVALID_IDENTITY_CODE);
+                return output(responseBean);
             }
             if (!(getMyAccountManager().resetPassword(user, password) > 0)) {
                 responseBean.addBusinessMsg("密码重置失败.");
-                return responseBean.toString();
+                return output(responseBean);
             }
         } catch (Exception ex) {
             txStatus.setRollbackOnly();
@@ -222,7 +274,7 @@ public class ProfileController extends BaseController {
         } finally {
             getTransactionManager().commit(txStatus);
         }
-        return responseBean.toString();
+        return output(responseBean);
     }
 
     private void preRequestForgetPwd(HttpServletRequest pRequest, ResponseBean pResponseBean) {
@@ -248,8 +300,8 @@ public class ProfileController extends BaseController {
     public String requestAlterPwd(HttpServletRequest pRequest, final HttpServletResponse pResponse) {
         ResponseBean responseBean = new ResponseBean();
         preRequestAlterPwd(pRequest, responseBean);
-        if (!responseBean.businessIsSuccess()) {
-            return responseBean.toString();
+        if (!responseBean.isSuccess()) {
+            return output(responseBean);
         }
         TransactionStatus txStatus = ensureTransaction();
 
@@ -260,12 +312,12 @@ public class ProfileController extends BaseController {
             BaseProfile user = getMyAccountManager().findUserById(userId);
             if (user == null) {
                 responseBean.addBusinessMsg("用户不存在.");
-                return responseBean.toString();
+                return output(responseBean);
             }
 
             if (!user.getPassword().equals(oldPassword)) {
                 responseBean.addBusinessMsg("旧密码不正确.");
-                return responseBean.toString();
+                return output(responseBean);
             }
             getMyAccountManager().resetPassword(user, newPassword);
         } catch (Exception ex) {
@@ -273,8 +325,8 @@ public class ProfileController extends BaseController {
             responseBean.addErrorMsg(ex);
         } finally {
             getTransactionManager().commit(txStatus);
+            return output(responseBean);
         }
-        return responseBean.toString();
     }
 
     private void preRequestAlterPwd(HttpServletRequest pRequest, ResponseBean pResponseBean) {
@@ -303,7 +355,7 @@ public class ProfileController extends BaseController {
         String parentId = decodeInput(pRequest.getParameter("parentId"));
         if (StringUtils.isBlank(parentId)) {
             responseBean.addBusinessMsg(ERROR_NULL_PARENT_ID);
-            return responseBean.toString();
+            return output(responseBean);
         }
         int id = Integer.valueOf(parentId);
         try {
@@ -337,7 +389,7 @@ public class ProfileController extends BaseController {
             responseBean.addErrorMsg(ex);
             LOG.error(ex);
         }
-        return responseBean.toString();
+        return output(responseBean);
     }
 
     @RequestMapping(value = "/requestParentAudit" + GlobalConstant.URL_SUFFIX)
@@ -347,7 +399,7 @@ public class ProfileController extends BaseController {
         ResponseBean responseBean = new ResponseBean();
         if (ArrayUtils.isEmpty(parentIds)) {
             responseBean.addErrorMsg(ERROR_NULL_PARENT_IDS);
-            return responseBean.toString();
+            return output(responseBean);
         }
         TransactionStatus status = ensureTransaction();
         try {
@@ -368,8 +420,8 @@ public class ProfileController extends BaseController {
             responseBean.addErrorMsg(e);
         } finally {
             getTransactionManager().commit(status);
+            return output(responseBean);
         }
-        return responseBean.toString();
     }
 
     @RequestMapping(value = "/requestParentAuditAll" + GlobalConstant.URL_SUFFIX)
@@ -388,7 +440,7 @@ public class ProfileController extends BaseController {
         } finally {
             getTransactionManager().commit(status);
         }
-        return responseBean.toString();
+        return output(responseBean);
     }
 
     @RequestMapping(value = "/requestPendingAuditParentList" + GlobalConstant.URL_SUFFIX)
@@ -399,7 +451,7 @@ public class ProfileController extends BaseController {
         int tid = Integer.valueOf(decodeInput(teacherId));
         List<Map<String, Object>> pendingAuditParents = getMyAccountManager().getPendingAuditParents(tid);
         responseBean.addData("parentsAuditList", pendingAuditParents);
-        return responseBean.toString();
+        return output(responseBean);
     }
 
 

@@ -17,6 +17,10 @@ public class BaseProfile extends BaseBean {
 
 	private String mAppId;
 
+	private String mChannelId;
+
+	private String mSalt;
+
 	private Timestamp mCreationDate;
 
 	private Timestamp mLastLoginDate;
@@ -47,6 +51,22 @@ public class BaseProfile extends BaseBean {
 
 	public void setPassword(final String pPassword) {
 		mPassword = pPassword;
+	}
+
+	public String getSalt() {
+		return mSalt;
+	}
+
+	public void setSalt(String pSalt) {
+		mSalt = pSalt;
+	}
+
+	public String getChannelId() {
+		return mChannelId;
+	}
+
+	public void setChannelId(String pChannelId) {
+		mChannelId = pChannelId;
 	}
 
 	public String getAppId() {
