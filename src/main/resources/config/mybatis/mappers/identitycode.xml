@@ -7,7 +7,7 @@
     <select id="queryIdentityCodeByProfileId" resultMap="rm.identityCode" parameterType="int">
         select id, phone,identifying_code,identifying_end_date
       from identity_code
-        where phone = #{phone} and identifying_end_date &gt;= now() order by identifying_end_date desc limit 0,1
+        where phone = #{phone} order by identifying_end_date desc limit 0,1
     </select>
     <insert id="insertIdentityCode" parameterType="IdentityCode">
         insert into identity_code (phone, identifying_code, identifying_end_date)

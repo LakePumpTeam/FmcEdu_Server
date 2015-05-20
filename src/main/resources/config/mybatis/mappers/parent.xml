@@ -55,6 +55,25 @@
 		ON DUPLICATE KEY UPDATE relationship = #{relationship}, approved = 0, last_update_date = #{lastUpdateDate}
 	</insert>
 
+	<update id="updateParentStudentRelationship"
+			parameterType="ParentStudentRelationship">
+		update from parent_student_map
+		set relationship=#{relationship},
+		approved = #{approved}, approved_date=#{approvedDate}, last_update_date = #{lastUpdateDate}
+		where parent_id=#{parentId} and student_id = #{studentId}
+	</update>
+
+	<select id="queryParentStudentRelationship" parameterType="map" resultMap="rm.parentStudentRelationship">
+		SELECT parent_id,
+		student_id,
+		relationship,
+		approved,
+		approved_date,
+		creation_date,
+		last_update_date
+		FROM parent_student_map where parent_id=#{parentId} and student_id =#{studentId};
+	</select>
+
 	<select id="queryAddressByPhone" parameterType="int" resultMap="rm.address">
 		SELECT a.id, a.province_id, a.city_id, a.full_address, a.creation_date, a.last_update_date,
 		c.name as `city`, prov.name as`province`
@@ -72,18 +91,6 @@
 		FROM profile
 		LEFT JOIN parent ON id = profile_id
 		WHERE id = #{id}
-	</select>
-
-	<select id="queryParentStudentRelationship" parameterType="map" resultMap="ParentStudentRelationship">
-		SELECT parent_id,
-		student_id,
-		relationship ,
-		approved ,
-		approved_date,
-		creation_date,
-		last_update_date
-		from parent_student_map
-		WHERE parent_id = #{parentId} and student_id=#{studentId}
 	</select>
 
     <update id="updateParentAddress" parameterType="Address">
