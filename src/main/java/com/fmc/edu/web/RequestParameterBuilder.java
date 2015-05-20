@@ -12,6 +12,7 @@ import com.fmc.edu.model.relationship.ParentStudentRelationship;
 import com.fmc.edu.model.student.Student;
 import com.fmc.edu.util.DateUtils;
 import com.fmc.edu.util.RepositoryUtils;
+import com.fmc.edu.util.ValidationUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -112,6 +113,9 @@ public class RequestParameterBuilder {
     public ParentProfile buildParent(HttpServletRequest pRequest, final MyAccountManager pMyAccountManager) throws ProfileException {
         ParentProfile parent = new ParentProfile();
         String phone = getBase64EncryptService().decrypt(pRequest.getParameter("cellPhone"));
+        if (phone == null || ValidationUtils.isValidPhoneNumber(phone)) {
+            throw new ProfileException(MyAccountManager.ERROR_INVALID_PHONE);
+        }
         String parentName = getBase64EncryptService().decrypt(pRequest.getParameter("parentName"));
         String parentId = getBase64EncryptService().decrypt(pRequest.getParameter("parentId"));
         parent.setPhone(phone);

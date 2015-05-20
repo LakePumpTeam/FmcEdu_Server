@@ -141,8 +141,8 @@ public class ProfileController extends BaseController {
         if (StringUtils.isBlank(cellPhone)) {
             cellPhone = (String) pRequest.getSession().getAttribute(SessionConstant.SESSION_KEY_PHONE);
         }
-        if (StringUtils.isBlank(cellPhone)) {
-            responseBean.addBusinessMsg(ERROR_SESSION_EXPIRED);
+        if (cellPhone == null || ValidationUtils.isValidPhoneNumber(cellPhone)) {
+            responseBean.addBusinessMsg(MyAccountManager.ERROR_INVALID_PHONE);
             return;
         }
         if (StringUtils.isBlank(authCode)) {
@@ -254,7 +254,10 @@ public class ProfileController extends BaseController {
             String cellPhone = decodeInput(pRequest.getParameter("cellPhone"));
             String authCode = decodeInput(pRequest.getParameter("authCode"));
             String password = decodeInput(pRequest.getParameter("password"));
-
+            if (cellPhone == null || ValidationUtils.isValidPhoneNumber(cellPhone)) {
+                responseBean.addBusinessMsg(MyAccountManager.ERROR_INVALID_PHONE);
+                return output(responseBean);
+            }
             BaseProfile user = getMyAccountManager().findUser(cellPhone);
             if (user == null) {
                 responseBean.addBusinessMsg(MyAccountManager.NOT_FIND_USER);
