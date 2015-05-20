@@ -51,6 +51,9 @@ public class SchoolManager {
         if (month > 7) {
             gradeY++;
         }
+        if (gradeY == 0) {
+            gradeY++;
+        }
         StringBuilder convertedClass = new StringBuilder();
         convertedClass.append(NumberUtils.numberToChineseNumber(gradeY))
                 .append("年级").append(NumberUtils.numberToChineseNumber(Integer.valueOf(cls)))
@@ -63,6 +66,10 @@ public class SchoolManager {
             return getSchoolService().updateStudentById(pStudent);
         }
         return getSchoolService().saveOrUpdateStudentByFields(pStudent);
+    }
+
+    public int queryStudentIdByFields(final Student pStudent) {
+        return getSchoolService().queryStudentIdByFields(pStudent);
     }
 
     public TeacherProfile queryTeacherById(final int pTeacherId) {

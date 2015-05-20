@@ -34,6 +34,9 @@ public class SchoolService {
         return getSchoolRepository().updateStudentById(pStudent);
     }
 
+    public int queryStudentIdByFields(final Student pStudent) {
+        return getSchoolRepository().queryStudentIdByFields(pStudent);
+    }
     public boolean saveOrUpdateStudentByFields(final Student pStudent) {
         int id = getSchoolRepository().queryStudentIdByFields(pStudent);
         if (id > 0) {

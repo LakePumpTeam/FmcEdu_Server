@@ -75,7 +75,7 @@ public class ProfileManager {
                 return true;
             }
         } else {
-            throw new IdentityCodeException(IdentityCodeManager.INVALID_IDENTITY_CODE);
+            throw new IdentityCodeException(IdentityCodeManager.ERROR_INVALID_IDENTITY_CODE);
         }
         return false;
     }
@@ -86,7 +86,9 @@ public class ProfileManager {
 
     public void registerRelationshipBetweenStudent(final ParentStudentRelationship pParentStudentRelationship, final Student pStudent, final ParentProfile pParent) throws ProfileException {
         getSchoolManager().persistStudent(pStudent);
-        pParentStudentRelationship.setStudentId(pStudent.getId());
+        //TODO More than one student have the same name in the same class, here maybe get error data.
+        int id = getSchoolManager().queryStudentIdByFields(pStudent);
+        pParentStudentRelationship.setStudentId(id);
         getParentService().registerParentStudentRelationship(pParentStudentRelationship);
     }
 
@@ -94,7 +96,16 @@ public class ProfileManager {
         return getParentService().updateParentProfile(pParentProfile);
     }
 
-    public boolean verifyIdentityCode(String pPhone, String pAuthoCode) {
+    public boolean insertOrUpdateParentProfile(ParentProfile pParentProfile) {
+        ParentProfile parentProfile = getParentService().queryParentById(pParentProfile.getId());
+        if (parentProfile == null) {
+            return getParentService().insertParentProfile(pParentProfile);
+        } else {
+            return getParentService().updateParentProfile(pParentProfile);
+        }
+    }
+
+    public boolean verifyIdentityCode(String pPhone, String pAuthoCode) throws IdentityCodeException {
         return getIdentityCodeManager().verifyIdentityCode(pPhone, pAuthoCode);
     }
 

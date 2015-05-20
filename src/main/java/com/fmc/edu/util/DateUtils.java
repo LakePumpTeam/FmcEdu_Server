@@ -21,6 +21,9 @@ public class DateUtils {
     }
 
     public static Date getStudentBirth(String pBirthString) throws ParseException {
+        if (StringUtils.isBlank(pBirthString)) {
+            return null;
+        }
         return (new SimpleDateFormat(PATTERN_STUDENT_BIRTH)).parse(pBirthString);
     }
 

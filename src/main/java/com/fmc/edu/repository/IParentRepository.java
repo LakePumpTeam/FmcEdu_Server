@@ -5,6 +5,9 @@ import com.fmc.edu.model.profile.BaseProfile;
 import com.fmc.edu.model.profile.ParentProfile;
 import com.fmc.edu.model.relationship.ParentStudentRelationship;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * Created by Yove on 5/8/2015.
  */
@@ -29,6 +32,15 @@ public interface IParentRepository {
 	String INITIAL_PARENT_STUDENT_RELATIONSHIP = "com.fmc.edu.profile.parent.initialParentStudentRelationship";
 
 	boolean initialParentStudentRelationship(ParentStudentRelationship pParentStudentRelationship);
+
+	String UPATE_PARENT_STUDENT_RELATIONSHIP = "com.fmc.edu.profile.parent.updateParentStudentRelationship";
+
+	boolean updateParentStudentRelationship(ParentStudentRelationship pParentStudentRelationship);
+
+
+	String QUERY_PARENT_STUDENT_RELATIONSHIP = "com.fmc.edu.profile.parent.queryParentStudentRelationship";
+
+	List<ParentStudentRelationship> queryParentStudentRelationship(Map<String, Object> pParentStudentRelationship);
 
 	String QUERY_PARENTSTUDENTRELATION_BY_PARENTID_STUDENTID = "com.fmc.edu.profile.parent.queryParentStudentRelationship";
 

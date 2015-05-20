@@ -32,10 +32,13 @@ public abstract class BaseController {
 		return pResponseBean.toString();
 	}
 	protected String decodeInput(final String pParameter) throws IOException {
+		LOG.debug("Encode input parameter:" + pParameter);
 		if (!WebConfig.isEncodeBase64InputParam()) {
 			return pParameter;
 		}
-		return mBase64EncryptService.decrypt(pParameter);
+		String decodeInput = mBase64EncryptService.decrypt(pParameter);
+		LOG.debug("Decode input parameter:" + decodeInput);
+		return decodeInput;
 	}
 
 	protected TransactionStatus ensureTransaction() {

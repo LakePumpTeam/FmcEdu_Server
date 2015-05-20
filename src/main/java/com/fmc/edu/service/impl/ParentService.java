@@ -1,5 +1,7 @@
 package com.fmc.edu.service.impl;
 
+import com.fmc.edu.exception.ProfileException;
+import com.fmc.edu.manager.MyAccountManager;
 import com.fmc.edu.model.address.Address;
 import com.fmc.edu.model.profile.BaseProfile;
 import com.fmc.edu.model.profile.ParentProfile;
@@ -10,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.sql.Timestamp;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Yove on 5/8/2015.
@@ -46,19 +50,31 @@ public class ParentService {
     public ParentStudentRelationship queryParentStudentRelationship(final int parentId, final int studentId) {
         return getParentRepository().queryParentStudentRelationship(parentId, studentId);
     }
-    public boolean registerParentStudentRelationship(final ParentStudentRelationship pParentStudentRelationship) {
+
+    public boolean registerParentStudentRelationship(final ParentStudentRelationship pParentStudentRelationship) throws ProfileException {
         ParentProfile parent = null;
         if (pParentStudentRelationship.getParentId() == 0) {
             parent = getParentRepository().queryParentByPhone(pParentStudentRelationship.getParentPhone());
-        } else {
-            parent = getParentRepository().queryParentById(pParentStudentRelationship.getParentId());
-        }
-        if (parent != null) {
+            if (parent == null) {
+                throw new ProfileException(MyAccountManager.ERROR_NOT_FIND_USER);
+            }
             pParentStudentRelationship.setParentId(parent.getId());
+        }
+        if (queryParentStudentRelationship(pParentStudentRelationship.getParentId(), pParentStudentRelationship.getStudentId()) != null) {
+            pParentStudentRelationship.setLastUpdateDate(new Timestamp(System.currentTimeMillis()));
+            return updateParentStudentRelationship(pParentStudentRelationship);
+        } else {
             pParentStudentRelationship.setCreationDate(new Timestamp(System.currentTimeMillis()));
             return getParentRepository().initialParentStudentRelationship(pParentStudentRelationship);
         }
-        return false;
+    }
+
+    public boolean updateParentStudentRelationship(ParentStudentRelationship pParentStudentRelationship) {
+        return getParentRepository().updateParentStudentRelationship(pParentStudentRelationship);
+    }
+
+    public List<ParentStudentRelationship> queryParentStudentRelationship(Map<String, Object> pParentStudentRelationship) {
+        return getParentRepository().queryParentStudentRelationship(pParentStudentRelationship);
     }
 
     public boolean updateProfileName(BaseProfile pProfile) {
@@ -71,6 +87,10 @@ public class ParentService {
 
     public ParentProfile queryParentByPhone(String pParentPhone) {
         return getParentRepository().queryParentByPhone(pParentPhone);
+    }
+
+    public ParentProfile queryParentById(int pParentId) {
+        return getParentRepository().queryParentById(pParentId);
     }
 
     public IParentRepository getParentRepository() {

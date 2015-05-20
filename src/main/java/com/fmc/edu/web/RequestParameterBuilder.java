@@ -10,9 +10,11 @@ import com.fmc.edu.model.profile.ParentProfile;
 import com.fmc.edu.model.profile.TeacherProfile;
 import com.fmc.edu.model.relationship.ParentStudentRelationship;
 import com.fmc.edu.model.student.Student;
+import com.fmc.edu.service.impl.ParentService;
 import com.fmc.edu.util.DateUtils;
 import com.fmc.edu.util.RepositoryUtils;
 import com.fmc.edu.util.ValidationUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Yove on 5/8/2015.
@@ -32,6 +37,9 @@ public class RequestParameterBuilder {
 
     @Resource(name = "replacementBase64EncryptService")
     private ReplacementBase64EncryptService mBase64EncryptService;
+
+    @Resource(name = "parentService")
+    private ParentService mParentService;
 
     public Student buildStudent(HttpServletRequest pRequest) throws IOException, ParseException {
         String name = mBase64EncryptService.decrypt(pRequest.getParameter("studentName"));
@@ -96,11 +104,28 @@ public class RequestParameterBuilder {
         String relationship = mBase64EncryptService.decrypt(pRequest.getParameter("relation"));
         String studentId = mBase64EncryptService.decrypt(pRequest.getParameter("studentId"));
         String parentId = mBase64EncryptService.decrypt(pRequest.getParameter("parentId"));
-        ParentStudentRelationship psr = new ParentStudentRelationship(phone, relationship);
+        boolean isAudit = Boolean.valueOf(mBase64EncryptService.decrypt(pRequest.getParameter("isAudit")));
+        List<ParentStudentRelationship> psrs = null;
         if (StringUtils.isNoneBlank(studentId) && StringUtils.isNoneBlank(parentId)) {
+            Map<String, Object> queryParam = new HashMap<String, Object>(2);
+            queryParam.put("parentId", parentId);
+            queryParam.put("studentId", studentId);
+            psrs = getmParentService().queryParentStudentRelationship(queryParam);
+        }
+        ParentStudentRelationship psr;
+        if (!CollectionUtils.isEmpty(psrs)) {
+            psr = psrs.get(0);
+            if (isAudit) {
+                //Need to verify again
+                psr.setApproved(0);
+            }
+        } else {
+            psr = new ParentStudentRelationship(phone, relationship);
+        }
+       /* if (StringUtils.isNoneBlank(studentId) && StringUtils.isNoneBlank(parentId)) {
             psr.setParentId(Integer.valueOf(parentId));
             psr.setStudentId(Integer.valueOf(studentId));
-        }
+        }*/
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("phone:").append(phone)
                 .append("\nrelationship:").append(relationship)
@@ -123,14 +148,14 @@ public class RequestParameterBuilder {
         if (!RepositoryUtils.idIsValid(parentId)) {
             BaseProfile baseProfile = pMyAccountManager.findUser(phone);
             if (baseProfile == null) {
-                throw new ProfileException(MyAccountManager.NOT_FIND_USER);
+                throw new ProfileException(MyAccountManager.ERROR_NOT_FIND_USER);
             }
             parent.setId(baseProfile.getId());
         } else {
-            parent.setId(Integer.getInteger(parentId));
+            parent.setId(Integer.valueOf(parentId));
         }
-        if (RepositoryUtils.idIsValid(parent.getId())) {
-            throw new ProfileException(MyAccountManager.NOT_FIND_USER);
+        if (!RepositoryUtils.idIsValid(parent.getId())) {
+            throw new ProfileException(MyAccountManager.ERROR_NOT_FIND_USER);
         }
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("phone:").append(phone)
@@ -167,5 +192,13 @@ public class RequestParameterBuilder {
 
     public void setBase64EncryptService(final ReplacementBase64EncryptService pBase64EncryptService) {
         mBase64EncryptService = pBase64EncryptService;
+    }
+
+    public ParentService getmParentService() {
+        return mParentService;
+    }
+
+    public void setmParentService(ParentService mParentService) {
+        this.mParentService = mParentService;
     }
 }

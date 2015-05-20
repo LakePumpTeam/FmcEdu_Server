@@ -46,6 +46,16 @@ public class ParentRepository extends BaseRepository implements IParentRepositor
     }
 
     @Override
+    public boolean updateParentStudentRelationship(ParentStudentRelationship pParentStudentRelationship) {
+        return getSqlSession().update(UPATE_PARENT_STUDENT_RELATIONSHIP, pParentStudentRelationship) > 0;
+    }
+
+    @Override
+    public List<ParentStudentRelationship> queryParentStudentRelationship(Map<String, Object> pParentStudentRelationship) {
+        return getSqlSession().selectList(QUERY_PARENT_STUDENT_RELATIONSHIP, pParentStudentRelationship);
+    }
+
+    @Override
     public ParentStudentRelationship queryParentStudentRelationship(int parentId, int studentId) {
         Map<String, Object> params = new HashMap<String, Object>(2);
         params.put("parentId", parentId);

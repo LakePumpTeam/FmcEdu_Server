@@ -44,7 +44,7 @@
 		SELECT id, `name`, phone, app_id, channel_id, creation_date, last_login_date, last_update_date, available, address_id, paid,
 		free_trial, free_trial_end_date
 		FROM profile
-		LEFT JOIN parent ON id = profile_id
+		INNER JOIN parent ON id = profile_id
 		WHERE phone = #{phone}
 	</select>
 
@@ -57,9 +57,9 @@
 
 	<update id="updateParentStudentRelationship"
 			parameterType="ParentStudentRelationship">
-		update from parent_student_map
+		update parent_student_map
 		set relationship=#{relationship},
-		approved = #{approved}, approved_date=#{approvedDate}, last_update_date = #{lastUpdateDate}
+		approved = #{approved}, approved_date= #{approvedDate}, last_update_date = #{lastUpdateDate}
 		where parent_id=#{parentId} and student_id = #{studentId}
 	</update>
 
@@ -89,7 +89,7 @@
 		SELECT id, `name`, phone, app_id, channel_id, creation_date, last_login_date, last_update_date, available, address_id, paid,
 		free_trial, free_trial_end_date
 		FROM profile
-		LEFT JOIN parent ON id = profile_id
+		INNER JOIN parent ON id = profile_id
 		WHERE id = #{id}
 	</select>
 

@@ -1,6 +1,7 @@
 package com.fmc.edu.web.controller;
 
 import com.fmc.edu.constant.GlobalConstant;
+import com.fmc.edu.exception.ProfileException;
 import com.fmc.edu.manager.SchoolManager;
 import com.fmc.edu.manager.TeacherManager;
 import com.fmc.edu.model.profile.TeacherProfile;
@@ -105,7 +106,11 @@ public class SchoolController extends BaseController {
 	public String requestTeacherInfo(final HttpServletRequest pRequest, final HttpServletResponse pResponse, final String teacherId) throws IOException {
 		ResponseBean responseBean = new ResponseBean();
 		int tid = Integer.valueOf(decodeInput(teacherId));
-		TeacherProfile teacher = getTeacherManager().queryTeacherById(tid);//getSchoolManager().queryTeacherById(tid);
+		TeacherProfile teacher = getTeacherManager().queryTeacherById(tid);
+		if (teacher == null) {
+			responseBean.addBusinessMsg(TeacherManager.ERROR_NOT_FOUND_TEACHER);
+			return responseBean.toString();
+		}
 		responseBean.addData("teacherName", teacher.getName());
 		responseBean.addData("teacherBirth", DateUtils.getStudentBirthString(teacher.getBirth()));
 		responseBean.addData("cellPhone", teacher.getPhone());
@@ -124,6 +129,9 @@ public class SchoolController extends BaseController {
 		try {
 			TeacherProfile teacher = getParameterBuilder().buildTeacher(pRequest);
 			getTeacherManager().updateTeacher(teacher);
+		} catch (ProfileException ex) {
+			responseBean.addBusinessMsg(ex.getMessage());
+			status.setRollbackOnly();
 		} catch (Exception e) {
 			LOG.error(e);
 			status.setRollbackOnly();

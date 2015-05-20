@@ -89,11 +89,14 @@ public class ProfileController extends BaseController {
             }
         } catch (ProfileException ex) {
             responseBean.addBusinessMsg(ex.getMessage());
+            status.setRollbackOnly();
         } catch (IdentityCodeException ex) {
             responseBean.addBusinessMsg(ex.getMessage());
+            status.setRollbackOnly();
         } catch (Exception e) {
             LOG.error(e);
             responseBean.addErrorMsg(e);
+            status.setRollbackOnly();
         } finally {
             getTransactionManager().commit(status);
         }
@@ -120,13 +123,15 @@ public class ProfileController extends BaseController {
         TransactionStatus status = ensureTransaction();
         try {
             if (!getProfileManager().verifyIdentityCodeAndRegister(phoneNumber, passwordDecode, identifyingCode, salt)) {
-                responseBean.addBusinessMsg(IdentityCodeManager.INVALID_IDENTITY_CODE);
+                responseBean.addBusinessMsg(IdentityCodeManager.ERROR_INVALID_IDENTITY_CODE);
                 return responseBean.toString();
             }
         } catch (IdentityCodeException e) {
             responseBean.addBusinessMsg(e.getMessage());
+            status.setRollbackOnly();
         } catch (ProfileException e) {
             responseBean.addBusinessMsg(e.getMessage());
+            status.setRollbackOnly();
         } catch (Exception e) {
             LOG.error(e);
             responseBean.addErrorMsg(e);
@@ -146,17 +151,17 @@ public class ProfileController extends BaseController {
             return;
         }
         if (StringUtils.isBlank(authCode)) {
-            responseBean.addBusinessMsg(MyAccountManager.ERROR_INVALID_EMPTY_AUTHO_CODE);
+            responseBean.addBusinessMsg(IdentityCodeManager.ERROR_INVALID_EMPTY_AUTHO_CODE);
             return;
         }
         if (StringUtils.isBlank(password)) {
             responseBean.addBusinessMsg(MyAccountManager.ERROR_INVALID_EMTPY_PASSWORD);
             return;
         }
-        if (StringUtils.isBlank(pSalt)) {
+        /*if (StringUtils.isBlank(pSalt)) {
             responseBean.addBusinessMsg(MyAccountManager.ERROR_INVALID_EMPTY_SALT);
             return;
-        }
+        }*/
     }
 
     @RequestMapping(value = "/requestRegisterBaseInfo" + GlobalConstant.URL_SUFFIX)
@@ -169,22 +174,24 @@ public class ProfileController extends BaseController {
 
             ParentProfile parent = getParameterBuilder().buildParent(pRequest, getMyAccountManager());
 
-            getProfileManager().updateParentProfile(parent);
+            getProfileManager().insertOrUpdateParentProfile(parent);
 
             Address address = getParameterBuilder().buildAddress(pRequest);
             if (address != null) {
                 getProfileManager().registerParentAddress(parent.getId(), address);
                 parent.setAddressId(address.getId());
             }
-
             Student student = getParameterBuilder().buildStudent(pRequest);
             ParentStudentRelationship relationship = getParameterBuilder().buildParentStudentRelationship(pRequest);
             relationship.setParentId(parent.getId());
             getProfileManager().registerRelationshipBetweenStudent(relationship, student, parent);
+            getProfileManager().updateParentProfile(parent);
         } catch (InvalidIdException e) {
             responseBean.addBusinessMsg(e.getMessage());
+            status.setRollbackOnly();
         } catch (ProfileException e) {
             responseBean.addBusinessMsg(e.getMessage());
+            status.setRollbackOnly();
         } catch (Exception e) {
             LOG.error(e);
             responseBean.addErrorMsg(e);
@@ -207,7 +214,7 @@ public class ProfileController extends BaseController {
             }
             BaseProfile user = getMyAccountManager().findUser(userId);
             if (user == null) {
-                responseBean.addBusinessMsg(MyAccountManager.NOT_FIND_USER);
+                responseBean.addBusinessMsg(MyAccountManager.ERROR_NOT_FIND_USER);
                 return output(responseBean);
             }
             responseBean.addData("salt", user.getSalt());
@@ -260,17 +267,20 @@ public class ProfileController extends BaseController {
             }
             BaseProfile user = getMyAccountManager().findUser(cellPhone);
             if (user == null) {
-                responseBean.addBusinessMsg(MyAccountManager.NOT_FIND_USER);
+                responseBean.addBusinessMsg(MyAccountManager.ERROR_NOT_FIND_USER);
                 return output(responseBean);
             }
             if (!getProfileManager().verifyIdentityCode(user.getPhone(), authCode)) {
-                responseBean.addBusinessMsg(IdentityCodeManager.INVALID_IDENTITY_CODE);
+                responseBean.addBusinessMsg(IdentityCodeManager.ERROR_INVALID_IDENTITY_CODE);
                 return output(responseBean);
             }
             if (!(getMyAccountManager().resetPassword(user, password) > 0)) {
-                responseBean.addBusinessMsg("密码重置失败.");
+                responseBean.addBusinessMsg(MyAccountManager.ERROR_RESET_PASSWORD_FAILED);
                 return output(responseBean);
             }
+        } catch (IdentityCodeException e) {
+            responseBean.addBusinessMsg(e.getMessage());
+            txStatus.setRollbackOnly();
         } catch (Exception ex) {
             txStatus.setRollbackOnly();
             responseBean.addErrorMsg(ex);
@@ -283,17 +293,17 @@ public class ProfileController extends BaseController {
     private void preRequestForgetPwd(HttpServletRequest pRequest, ResponseBean pResponseBean) {
         String cellPhone = pRequest.getParameter("cellPhone");
         if (StringUtils.isBlank(cellPhone)) {
-            pResponseBean.addBusinessMsg("电话号码不能为空.");
+            pResponseBean.addBusinessMsg(MyAccountManager.ERROR_PHONE_FILED_IS_EMPTY);
             return;
         }
         String authCode = pRequest.getParameter("authCode");
         if (StringUtils.isBlank(authCode)) {
-            pResponseBean.addBusinessMsg("验证码不能为空.");
+            pResponseBean.addBusinessMsg(IdentityCodeManager.ERROR_INVALID_EMPTY_AUTHO_CODE);
             return;
         }
         String password = pRequest.getParameter("password");
         if (StringUtils.isBlank(password)) {
-            pResponseBean.addBusinessMsg("密码不能为空.");
+            pResponseBean.addBusinessMsg(MyAccountManager.ERROR_INVALID_EMTPY_PASSWORD);
             return;
         }
     }
@@ -314,12 +324,12 @@ public class ProfileController extends BaseController {
             String newPassword = decodeInput(pRequest.getParameter("newPassword"));
             BaseProfile user = getMyAccountManager().findUserById(userId);
             if (user == null) {
-                responseBean.addBusinessMsg("用户不存在.");
+                responseBean.addBusinessMsg(MyAccountManager.ERROR_NOT_FIND_USER);
                 return output(responseBean);
             }
 
             if (!user.getPassword().equals(oldPassword)) {
-                responseBean.addBusinessMsg("旧密码不正确.");
+                responseBean.addBusinessMsg(MyAccountManager.ERROR_OLD_PASSWORD_INVALID);
                 return output(responseBean);
             }
             getMyAccountManager().resetPassword(user, newPassword);
@@ -340,12 +350,12 @@ public class ProfileController extends BaseController {
         }
         String oldPassword = pRequest.getParameter("oldPassword");
         if (StringUtils.isBlank(oldPassword)) {
-            pResponseBean.addBusinessMsg("当前密码不能为空.");
+            pResponseBean.addBusinessMsg(MyAccountManager.ERROR_INVALID_EMTPY_PASSWORD);
             return;
         }
         String newPassword = pRequest.getParameter("newPassword");
         if (StringUtils.isBlank(newPassword)) {
-            pResponseBean.addBusinessMsg("新密码不能为空.");
+            pResponseBean.addBusinessMsg(MyAccountManager.ERROR_NEW_PASSWORD_IS_MEPTY);
             return;
         }
     }
@@ -421,6 +431,7 @@ public class ProfileController extends BaseController {
         } catch (Exception e) {
             LOG.error(e);
             responseBean.addErrorMsg(e);
+            status.setRollbackOnly();
         } finally {
             getTransactionManager().commit(status);
             return output(responseBean);
@@ -440,6 +451,7 @@ public class ProfileController extends BaseController {
         } catch (Exception e) {
             LOG.error(e);
             responseBean.addErrorMsg(e);
+            status.setRollbackOnly();
         } finally {
             getTransactionManager().commit(status);
         }

@@ -21,32 +21,39 @@ import java.util.Map;
 public class MyAccountManager {
     private static final Logger LOG = Logger.getLogger(MyAccountManager.class);
 
-    public static final String NOT_FIND_USER = "账号不存在.";
+    public static final String ERROR_NOT_FIND_USER = "账号不存在.";
 
-    public static final String ACCOUNT_UNAVAILABLE = "账号不可用.";
+    public static final String ERROR_ACCOUNT_UNAVAILABLE = "账号不可用.";
 
-    public static final String PASSWORD_IS_INVALID = "密码错误.";
+    public static final String ERROR_PASSWORD_IS_INVALID = "密码错误.";
 
     public static final String ERROR_INVALID_PHONE = "电话号码错误.";
-
-    public static final String ERROR_INVALID_EMPTY_AUTHO_CODE = "验证码为空.";
 
     public static final String ERROR_INVALID_EMTPY_PASSWORD = "密码为空.";
 
     public static final String ERROR_INVALID_EMPTY_SALT = "salt 为空.";
+
+    public static final String ERROR_RESET_PASSWORD_FAILED = "密码重置失败.";
+
+    public static final String ERROR_PHONE_FILED_IS_EMPTY = "电话号码不能为空.";
+
+    public static final String ERROR_OLD_PASSWORD_INVALID = "旧密码不正确.";
+
+    public static final String ERROR_NEW_PASSWORD_IS_MEPTY = "新密码不能为空.";
+
     @Resource(name = "myAccountService")
     private MyAccountService mMyAccountService;
 
     public BaseProfile loginUser(final String pAccount, final String pPassword) throws LoginException, UnsupportedEncodingException {
         BaseProfile user = getMyAccountService().findUser(pAccount);
         if (user == null) {
-            throw new LoginException(NOT_FIND_USER);
+            throw new LoginException(ERROR_NOT_FIND_USER);
         }
         if (!user.isAvailable()) {
-            throw new LoginException(ACCOUNT_UNAVAILABLE);
+            throw new LoginException(ERROR_ACCOUNT_UNAVAILABLE);
         }
         if (StringUtils.isBlank(pPassword) || !pPassword.equals(user.getPassword())) {
-            throw new LoginException(PASSWORD_IS_INVALID);
+            throw new LoginException(ERROR_PASSWORD_IS_INVALID);
         }
 
         user.setLastLoginDate(new Timestamp(System.currentTimeMillis()));
