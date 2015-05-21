@@ -204,15 +204,15 @@ public class ProfileController extends BaseController {
 
     @RequestMapping(value = "/requestSalt" + GlobalConstant.URL_SUFFIX)
     @ResponseBody
-    public String requestSalt(HttpServletRequest pRequest, final HttpServletResponse pResponse, final String pUserId) {
+    public String requestSalt(HttpServletRequest pRequest, final HttpServletResponse pResponse, final String cellPhone) {
         ResponseBean responseBean = new ResponseBean();
         try {
-            String userId = decodeInput(pUserId);
-            if (StringUtils.isBlank(userId)) {
-                responseBean.addBusinessMsg("user id is null.");
+            String phone = decodeInput(cellPhone);
+            if (StringUtils.isBlank(phone)) {
+                responseBean.addBusinessMsg("phone is null.");
                 return output(responseBean);
             }
-            BaseProfile user = getMyAccountManager().findUser(userId);
+            BaseProfile user = getMyAccountManager().findUser(phone);
             if (user == null) {
                 responseBean.addBusinessMsg(MyAccountManager.ERROR_NOT_FIND_USER);
                 return output(responseBean);
