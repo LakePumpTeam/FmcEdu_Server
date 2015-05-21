@@ -1,7 +1,10 @@
 package com.fmc.edu.util;
 
 import com.fmc.edu.model.BaseBean;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.List;
 
 /**
  * Created by Yove on 5/4/2015.
@@ -28,5 +31,12 @@ public class RepositoryUtils {
             return false;
         }
         return StringUtils.isNumeric(pId);
+    }
+
+    public static boolean isLastPageFlag(List<?> pResult, final int pPageSize) {
+        if (pResult == null) {
+            return true;
+        }
+        return (CollectionUtils.isEmpty(pResult) || pResult.size() < pPageSize);
     }
 }

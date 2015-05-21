@@ -14,4 +14,6 @@ public interface JSONOutputConstant {
 	String BUSSINESS_IS_SUCCESS = "isSuccess";
 
 	String BUSSINESS_MESSAGE = "businessMsg";
+
+	String IS_LAST_PAGE = "isLastPage";
 }

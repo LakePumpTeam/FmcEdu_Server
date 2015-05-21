@@ -216,3 +216,37 @@ INSERT INTO teacher_class_map(teacher_id, class_id, sub_title, head_teacher, las
 INSERT INTO teacher_class_map(teacher_id, class_id, sub_title, head_teacher, last_update_date) values(2, 2, "Nature",  1, '2015-05-16');
 INSERT INTO teacher_class_map(teacher_id, class_id, sub_title, head_teacher, last_update_date) values(3, 3, "Chinese", 1, '2015-05-16');
 INSERT INTO teacher_class_map(teacher_id, class_id, sub_title, head_teacher, last_update_date) values(4, 4, "English", 1, '2015-05-16');
+
+--news
+INSERT INTO `fmc_edu`.`news` (`author`,`subject`,`content`,`news_type`,`ref_id`,`approved`,`approved_by`,`approve_date`,`like`,`publish_date`,`creation_date`,`last_update_date`) VALUES (1,'test2','test content',1,1,1,1,now(),10,now(),now(),now());
+INSERT INTO `fmc_edu`.`news` (`author`,`subject`,`content`,`news_type`,`ref_id`,`approved`,`approved_by`,`approve_date`,`like`,`publish_date`,`creation_date`,`last_update_date`) VALUES (1,'test3','test content',1,1,1,1,now(),10,now(),now(),now());
+INSERT INTO `fmc_edu`.`news` (`author`,`subject`,`content`,`news_type`,`ref_id`,`approved`,`approved_by`,`approve_date`,`like`,`publish_date`,`creation_date`,`last_update_date`) VALUES (1,'test4','test content',2,1,1,1,now(),10,now(),now(),now());
+INSERT INTO `fmc_edu`.`news` (`author`,`subject`,`content`,`news_type`,`ref_id`,`approved`,`approved_by`,`approve_date`,`like`,`publish_date`,`creation_date`,`last_update_date`) VALUES (1,'test5','test content',1,1,1,1,now(),10,now(),now(),now());
+INSERT INTO `fmc_edu`.`news` (`author`,`subject`,`content`,`news_type`,`ref_id`,`approved`,`approved_by`,`approve_date`,`like`,`publish_date`,`creation_date`,`last_update_date`) VALUES (1,'test6','test content',2,1,1,1,now(),10,now(),now(),now());
+INSERT INTO `fmc_edu`.`news` (`author`,`subject`,`content`,`news_type`,`ref_id`,`approved`,`approved_by`,`approve_date`,`like`,`publish_date`,`creation_date`,`last_update_date`) VALUES (1,'test7','test content',1,1,1,1,now(),10,now(),now(),now());
+INSERT INTO `fmc_edu`.`news` (`author`,`subject`,`content`,`news_type`,`ref_id`,`approved`,`approved_by`,`approve_date`,`like`,`publish_date`,`creation_date`,`last_update_date`) VALUES (1,'test8','test content',3,1,1,1,now(),10,now(),now(),now());
+INSERT INTO `fmc_edu`.`news` (`author`,`subject`,`content`,`news_type`,`ref_id`,`approved`,`approved_by`,`approve_date`,`like`,`publish_date`,`creation_date`,`last_update_date`) VALUES (1,'test9','test content',1,1,1,1,now(),10,now(),now(),now());
+INSERT INTO `fmc_edu`.`news` (`author`,`subject`,`content`,`news_type`,`ref_id`,`approved`,`approved_by`,`approve_date`,`like`,`publish_date`,`creation_date`,`last_update_date`) VALUES (1,'test10','test content',3,1,1,1,now(),10,now(),now(),now());
+INSERT INTO `fmc_edu`.`news` (`author`,`subject`,`content`,`news_type`,`ref_id`,`approved`,`approved_by`,`approve_date`,`like`,`publish_date`,`creation_date`,`last_update_date`) VALUES (1,'test11','test content',1,1,1,1,now(),10,now(),now(),now());
+INSERT INTO `fmc_edu`.`news` (`author`,`subject`,`content`,`news_type`,`ref_id`,`approved`,`approved_by`,`approve_date`,`like`,`publish_date`,`creation_date`,`last_update_date`) VALUES (1,'test12','test content',4,1,1,1,now(),10,now(),now(),now());
+INSERT INTO `fmc_edu`.`news` (`author`,`subject`,`content`,`news_type`,`ref_id`,`approved`,`approved_by`,`approve_date`,`like`,`publish_date`,`creation_date`,`last_update_date`) VALUES (1,'test13','test content',1,1,1,1,now(),10,now(),now(),now());
+INSERT INTO `fmc_edu`.`news` (`author`,`subject`,`content`,`news_type`,`ref_id`,`approved`,`approved_by`,`approve_date`,`like`,`publish_date`,`creation_date`,`last_update_date`) VALUES (1,'test14','test content',4,1,1,1,now(),10,now(),now(),now());
+INSERT INTO `fmc_edu`.`news` (`author`,`subject`,`content`,`news_type`,`ref_id`,`approved`,`approved_by`,`approve_date`,`like`,`publish_date`,`creation_date`,`last_update_date`) VALUES (1,'test15','test content',1,1,1,1,now(),10,now(),now(),now());
+INSERT INTO `fmc_edu`.`news` (`author`,`subject`,`content`,`news_type`,`ref_id`,`approved`,`approved_by`,`approve_date`,`like`,`publish_date`,`creation_date`,`last_update_date`) VALUES (1,'test16','test content',3,1,1,1,now(),10,now(),now(),now());
+INSERT INTO `fmc_edu`.`news` (`author`,`subject`,`content`,`news_type`,`ref_id`,`approved`,`approved_by`,`approve_date`,`like`,`publish_date`,`creation_date`,`last_update_date`) VALUES (1,'test17','test content',2,1,1,1,now(),10,now(),now(),now());
+INSERT INTO `fmc_edu`.`news` (`author`,`subject`,`content`,`news_type`,`ref_id`,`approved`,`approved_by`,`approve_date`,`like`,`publish_date`,`creation_date`,`last_update_date`) VALUES (1,'test18','test content',4,1,1,1,now(),10,now(),now(),now());
+INSERT INTO `fmc_edu`.`news` (`author`,`subject`,`content`,`news_type`,`ref_id`,`approved`,`approved_by`,`approve_date`,`like`,`publish_date`,`creation_date`,`last_update_date`) VALUES (1,'test19','test content',1,1,1,1,now(),10,now(),now(),now());
+
+INSERT INTO `fmc_edu`.`image` (`news_id`,`img_name`,`img_path`,`creation_date`,`last_update_date`) VALUES (1,'/test1.png','/image/path/1',now(),now());
+INSERT INTO `fmc_edu`.`image` (`news_id`,`img_name`,`img_path`,`creation_date`,`last_update_date`) VALUES (2,'/test2.png','/image/path/2',now(),now());
+INSERT INTO `fmc_edu`.`image` (`news_id`,`img_name`,`img_path`,`creation_date`,`last_update_date`) VALUES (3,'/test3.png','/image/path/3',now(),now());
+INSERT INTO `fmc_edu`.`image` (`news_id`,`img_name`,`img_path`,`creation_date`,`last_update_date`) VALUES (3,'/test4.png','/image/path/3',now(),now());
+INSERT INTO `fmc_edu`.`image` (`news_id`,`img_name`,`img_path`,`creation_date`,`last_update_date`) VALUES (5,'/test5.png','/image/path/5',now(),now());
+INSERT INTO `fmc_edu`.`image` (`news_id`,`img_name`,`img_path`,`creation_date`,`last_update_date`) VALUES (3,'/test6.png','/image/path/3',now(),now());
+INSERT INTO `fmc_edu`.`image` (`news_id`,`img_name`,`img_path`,`creation_date`,`last_update_date`) VALUES (7,'/test7.png','/image/path/7',now(),now());
+INSERT INTO `fmc_edu`.`image` (`news_id`,`img_name`,`img_path`,`creation_date`,`last_update_date`) VALUES (8,'/test8.png','/image/path/8',now(),now());
+INSERT INTO `fmc_edu`.`image` (`news_id`,`img_name`,`img_path`,`creation_date`,`last_update_date`) VALUES (9,'/test9.png','/image/path/9',now(),now());
+INSERT INTO `fmc_edu`.`image` (`news_id`,`img_name`,`img_path`,`creation_date`,`last_update_date`) VALUES (10,'/test0.png','/image/path/10',now(),now());
+INSERT INTO `fmc_edu`.`image` (`news_id`,`img_name`,`img_path`,`creation_date`,`last_update_date`) VALUES (9,'/test11.png','/image/path/9',now(),now());
+INSERT INTO `fmc_edu`.`image` (`news_id`,`img_name`,`img_path`,`creation_date`,`last_update_date`) VALUES (12,'/test12.png','/image/path/13',now(),now());
+INSERT INTO `fmc_edu`.`image` (`news_id`,`img_name`,`img_path`,`creation_date`,`last_update_date`) VALUES (13,'/test13.png','/image/path/14',now(),now());

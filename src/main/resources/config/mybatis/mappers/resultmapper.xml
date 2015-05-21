@@ -168,6 +168,17 @@
         <result property="lastUpdateDate" column="last_update_date"/>
     </resultMap>
 
+    <select id="queryImageByNewsId" parameterType="int" resultMap="image">
+        SELECT id,
+        news_id,
+        img_name,
+        img_path,
+        creation_date,
+        last_update_date
+        FROM image
+        WHERE news_id = #{id}
+    </select>
+
     <resultMap id="news" type="News">
         <id property="id" column="id"/>
         <result property="author" column="author"/>
@@ -182,8 +193,8 @@
         <result property="publishDate" column="publish_date"/>
         <result property="creationDate" column="creation_date"/>
         <result property="lastUpdateDate" column="last_update_date"/>
+        <collection property="imageUrls" column="id" ofType="Image" select="queryImageByNewsId"/>
     </resultMap>
-
     <resultMap id="slide" type="Slide">
         <id property="id" column="id"/>
         <result property="subject" column="subject"/>

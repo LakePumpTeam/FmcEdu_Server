@@ -3,6 +3,7 @@ package com.fmc.edu.model.news;
 import com.fmc.edu.model.BaseBean;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * Created by Yu on 2015/5/21.
@@ -11,13 +12,16 @@ public class News extends BaseBean {
     private int mAuthor;
     private String mSubject;
     private String mContent;
-    private NewsType mNewType;
+    private int mNewType;
     private int mRefId;
     private boolean mApproved;
     private int mApprovedBy;
     private Timestamp mApprovedDate;
     private int mLike;
     private Timestamp mPublishDate;
+    private Timestamp mCreationDate;
+
+    private List<Image> mImageUrls;
 
     public int getAuthor() {
         return mAuthor;
@@ -43,11 +47,11 @@ public class News extends BaseBean {
         mContent = pContent;
     }
 
-    public NewsType getNewType() {
+    public int getNewType() {
         return mNewType;
     }
 
-    public void setNewType(NewsType pNewType) {
+    public void setNewType(int pNewType) {
         mNewType = pNewType;
     }
 
@@ -97,5 +101,21 @@ public class News extends BaseBean {
 
     public void setPublishDate(Timestamp pPublishDate) {
         mPublishDate = pPublishDate;
+    }
+
+    public List<Image> getImageUrls() {
+        return mImageUrls;
+    }
+
+    public void setImageUrls(List<Image> pImageUrls) {
+        mImageUrls = pImageUrls;
+    }
+
+    public Timestamp getCreationDate() {
+        return mCreationDate;
+    }
+
+    public void setCreationDate(Timestamp pCreationDate) {
+        mCreationDate = pCreationDate;
     }
 }

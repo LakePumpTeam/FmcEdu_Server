@@ -112,7 +112,7 @@ public class SchoolController extends BaseController {
 			return responseBean.toString();
 		}
 		responseBean.addData("teacherName", teacher.getName());
-		responseBean.addData("teacherBirth", DateUtils.getStudentBirthString(teacher.getBirth()));
+		responseBean.addData("teacherBirth", DateUtils.ConvertDateToString(teacher.getBirth()));
 		responseBean.addData("cellPhone", teacher.getPhone());
 		responseBean.addData("course", teacher.getCourse());
 		responseBean.addData("resume", teacher.getResume());

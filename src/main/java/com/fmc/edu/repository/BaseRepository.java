@@ -2,6 +2,7 @@ package com.fmc.edu.repository;
 
 
 import com.fmc.edu.constant.GlobalConstant;
+import com.fmc.edu.constant.JSONOutputConstant;
 import com.fmc.edu.util.pagenation.Pagination;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.ibatis.session.SqlSession;
@@ -15,7 +16,6 @@ public abstract class BaseRepository {
 
 	protected static final String START_INDEX = "start";
 	protected static final String SIZE = "size";
-	protected static final String IS_LAST_PAGE = "isLastPage";
 	@Resource(name = "sqlSession")
 	private SqlSession sqlSession;
 
@@ -33,16 +33,16 @@ public abstract class BaseRepository {
 		return parameters;
 	}
 
-	protected void addIsLastPageFlag(Map<String,Object> pDataMap, List<Map<String, String>> pResult, final int pPageSize){
+	protected void addIsLastPageFlag(Map<String,Object> pDataMap, List<?> pResult, final int pPageSize){
 		if(pResult == null){
-			pDataMap.put(IS_LAST_PAGE, GlobalConstant.TRUE);
+			pDataMap.put(JSONOutputConstant.IS_LAST_PAGE, GlobalConstant.TRUE);
 			return;
 		}
 
 		if(CollectionUtils.isEmpty(pResult) || pResult.size() < pPageSize){
-			pDataMap.put(IS_LAST_PAGE, GlobalConstant.TRUE);
+			pDataMap.put(JSONOutputConstant.IS_LAST_PAGE, GlobalConstant.TRUE);
 		}else{
-			pDataMap.put(IS_LAST_PAGE, GlobalConstant.FALSE);
+			pDataMap.put(JSONOutputConstant.IS_LAST_PAGE, GlobalConstant.FALSE);
 		}
 	}
 
