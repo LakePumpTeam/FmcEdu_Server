@@ -1,8 +1,10 @@
 package com.fmc.edu.service.auth;
 
+import com.fmc.edu.manager.MyAccountManager;
 import com.fmc.edu.manager.PermissionManager;
-import com.fmc.edu.model.autho.User;
+import com.fmc.edu.model.profile.BaseProfile;
 import org.apache.shiro.authc.*;
+import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
@@ -19,6 +21,8 @@ import java.util.Set;
 public class FCMAuthorizingRealm extends AuthorizingRealm {
 	@Resource(name = "permissionManager")
 	private PermissionManager mPermissionManager;
+	@Resource(name = "myAccountManager")
+	private MyAccountManager mMyAccountManager;
 
 	/**
 	 * Do the permission authorize.
@@ -28,7 +32,10 @@ public class FCMAuthorizingRealm extends AuthorizingRealm {
 	 */
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-
+		if (principalCollection == null) {
+			throw new AuthorizationException("Principal can not be null");
+		}
+		//int userId = (int) principalCollection.iterator().next();
 		SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
 		//TODO Should input real user id
 		Set<String> role = getPermissionManager().getRolesForUser(0);
@@ -49,23 +56,16 @@ public class FCMAuthorizingRealm extends AuthorizingRealm {
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
 
-		String loginUser = (String) authenticationToken.getPrincipal();
+		String phone = (String) authenticationToken.getPrincipal();
 
-		User user = new User();//userService.findByUsername(username);
-		user.setId(1);
-		user.setUsername("test");
-		user.setPassword("123");
+		BaseProfile user = getMyAccountManager().findUser(phone);
 
 		if (user == null) {
-			throw new UnknownAccountException();
-		}
-
-		if (Boolean.TRUE.equals(user.getLocked())) {
-			throw new LockedAccountException();
+			throw new UnknownAccountException(MyAccountManager.ERROR_NOT_FIND_USER);
 		}
 
 		SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
-				user.getUsername(),
+				user.getPhone(),
 				user.getPassword(),
 				getName()
 		);
@@ -106,5 +106,13 @@ public class FCMAuthorizingRealm extends AuthorizingRealm {
 
 	public void setPermissionManager(PermissionManager pPermissionManager) {
 		mPermissionManager = pPermissionManager;
+	}
+
+	public MyAccountManager getMyAccountManager() {
+		return mMyAccountManager;
+	}
+
+	public void setMyAccountManager(MyAccountManager pMyAccountManager) {
+		mMyAccountManager = pMyAccountManager;
 	}
 }
