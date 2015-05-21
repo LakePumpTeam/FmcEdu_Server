@@ -21,6 +21,10 @@ public class NewsManager {
         return getNewsService().queryNewsListByNewType(pPagination, pNewsType);
     }
 
+    public int queryNewsMaxIdByNewsType(int pNewsType) {
+        return getNewsService().queryNewsMaxIdByNewsType(pNewsType);
+    }
+
     public NewsService getNewsService() {
         return mNewsService;
     }

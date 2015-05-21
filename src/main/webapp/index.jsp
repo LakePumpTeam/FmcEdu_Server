@@ -74,7 +74,7 @@
                         <td><input type="text" class="ipt_value" id="authCode" value=""/></td>
                     </tr>
                     <tr>
-                        <td align="right"><label for="salt" title="salt">password</label></td>
+                        <td align="right"><label for="salt" title="salt">salt</label></td>
                         <td><input type="text" class="ipt_value" id="salt" value=""/></td>
                     </tr>
                     <tr>

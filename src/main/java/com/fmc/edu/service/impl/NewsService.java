@@ -20,6 +20,10 @@ public class NewsService {
         return getNewsRepository().queryNewsListByNewType(pPagination, pNewsType);
     }
 
+    public int queryNewsMaxIdByNewsType(int pNewsType) {
+        return getNewsRepository().queryNewsMaxIdByNewsType(pNewsType);
+    }
+
     public NewsRepository getNewsRepository() {
         return mNewsRepository;
     }

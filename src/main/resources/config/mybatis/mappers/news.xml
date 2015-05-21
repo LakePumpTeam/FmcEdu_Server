@@ -23,8 +23,11 @@
         creation_date,
         last_update_date
         FROM news
-        WHERE news_type = #{newType} and approved=1 order by publish_date DESC
+        WHERE news_type = #{newsType} and approved=1 order by publish_date DESC
         <include refid="limit-split-page"/>
     </select>
 
+    <select id="queryNewsMaxIdByNewsType" parameterType="int" resultType="int">
+        select id from news where news_type=#{newsType} order by id desc limit 1,1;
+    </select>
 </mapper>

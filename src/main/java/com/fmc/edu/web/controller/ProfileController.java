@@ -122,7 +122,7 @@ public class ProfileController extends BaseController {
 
         TransactionStatus status = ensureTransaction();
         try {
-            if (!getProfileManager().verifyIdentityCodeAndRegister(phoneNumber, passwordDecode, identifyingCode, salt)) {
+            if (!getProfileManager().verifyIdentityCodeAndRegister(phoneNumber, passwordDecode, identifyingCode, saltDecode)) {
                 responseBean.addBusinessMsg(IdentityCodeManager.ERROR_INVALID_IDENTITY_CODE);
                 return responseBean.toString();
             }

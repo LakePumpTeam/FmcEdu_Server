@@ -1,7 +1,6 @@
 package com.fmc.edu.repository;
 
 import com.fmc.edu.model.news.News;
-import com.fmc.edu.model.news.NewsType;
 import com.fmc.edu.util.pagenation.Pagination;
 
 import java.util.List;
@@ -14,5 +13,7 @@ public interface INewsRepository {
 
     List<News> queryNewsListByNewType(Pagination pPagination, int pNewsType);
 
-    boolean markeNewAsRead(int pUserId, NewsType pNewsType);
+    String QUERY_NEWS_MAX_ID_BY_NEWS_TYPE = "com.fmc.edu.news.queryNewsMaxIdByNewsType";
+
+    int queryNewsMaxIdByNewsType(int pNewsType);
 }
