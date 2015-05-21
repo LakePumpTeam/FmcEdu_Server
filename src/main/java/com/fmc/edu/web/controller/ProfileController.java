@@ -107,14 +107,14 @@ public class ProfileController extends BaseController {
     @RequestMapping(value = "/requestRegisterConfirm" + GlobalConstant.URL_SUFFIX)
     @ResponseBody
     public String requestRegisterConfirm(final HttpServletRequest pRequest, final HttpServletResponse pResponse, String cellPhone, final String authCode,
-                                         String password, String pSalt) throws IOException {
+                                         String password, String salt) throws IOException {
         String identifyingCode = decodeInput(authCode);
         String phoneNumber = decodeInput(cellPhone);
         String passwordDecode = decodeInput(password);
-        String salt = decodeInput(pSalt);
+        String saltDecode = decodeInput(salt);
 
         ResponseBean responseBean = new ResponseBean();
-        preRequestRegisterConfirm(pRequest, identifyingCode, phoneNumber, passwordDecode, salt, responseBean);
+        preRequestRegisterConfirm(pRequest, identifyingCode, phoneNumber, passwordDecode, saltDecode, responseBean);
         if (!responseBean.isSuccess()) {
             LOG.debug("pre validation failed." + responseBean.toString());
             return output(responseBean);
