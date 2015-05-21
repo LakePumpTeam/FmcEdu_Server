@@ -4,7 +4,7 @@ import com.fmc.edu.model.BaseBean;
 
 import java.io.Serializable;
 
-public class RolePermssion extends BaseBean implements Serializable {
+public class RolePermission extends BaseBean implements Serializable {
 
 	private int mRoleId;
 	private int mPermissionId;
