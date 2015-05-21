@@ -74,11 +74,15 @@
                         <td><input type="text" class="ipt_value" id="authCode" value=""/></td>
                     </tr>
                     <tr>
-                        <td align="right"><label for="cellPhone" title="cellPhone">password</label></td>
+                        <td align="right"><label for="salt" title="salt">password</label></td>
+                        <td><input type="text" class="ipt_value" id="salt" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="password" title="cellPhone">password</label></td>
                         <td><input type="text" class="ipt_value" id="password" value=""/></td>
                     </tr>
                     <tr>
-                        <td align="right"><label for="cellPhone" title="cellPhone">confirmPassword</label></td>
+                        <td align="right"><label for="confirmPassword" title="cellPhone">confirmPassword</label></td>
                         <td><input type="text" class="ipt_value" id="confirmPassword" value=""/></td>
                     </tr>
                 </table>
@@ -304,6 +308,22 @@
                     <tr>
                         <td align="right"><label for="teacherId" title="teacherId">teacherId</label></td>
                         <td><input type="text" class="ipt_value" id="teacherId" value=""/></td>
+                    </tr>
+                </table>
+            </td>
+            <td><input type="button" class="btn_request" value="Request"/></td>
+            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td class="result"></td>
+        </tr>
+        <tr>
+            <td>#11</td>
+            <td class="function">获取salt</td>
+            <td class="baseUrl">${ctx}/profile/requestSalt</td>
+            <td class="parameters">
+                <table>
+                    <tr>
+                        <td align="right"><label for="cellPhone" title="cellPhone">cellPhone</label></td>
+                        <td><input type="text" class="ipt_value" id="cellPhone" value=""/></td>
                     </tr>
                 </table>
             </td>
