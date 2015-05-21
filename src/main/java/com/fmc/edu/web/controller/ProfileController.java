@@ -158,10 +158,10 @@ public class ProfileController extends BaseController {
             responseBean.addBusinessMsg(MyAccountManager.ERROR_INVALID_EMTPY_PASSWORD);
             return;
         }
-        /*if (StringUtils.isBlank(pSalt)) {
+        if (StringUtils.isBlank(pSalt)) {
             responseBean.addBusinessMsg(MyAccountManager.ERROR_INVALID_EMPTY_SALT);
             return;
-        }*/
+        }
     }
 
     @RequestMapping(value = "/requestRegisterBaseInfo" + GlobalConstant.URL_SUFFIX)
