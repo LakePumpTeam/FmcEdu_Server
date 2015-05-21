@@ -19,6 +19,13 @@
         <typeAlias alias="Role" type="com.fmc.edu.model.autho.Role"/>
         <typeAlias alias="RolePermission" type="com.fmc.edu.model.autho.RolePermission"/>
         <typeAlias alias="UserRole" type="com.fmc.edu.model.autho.UserRole"/>
+        <typeAlias alias="Image" type="com.fmc.edu.model.news.Image"/>
+        <typeAlias alias="Slide" type="com.fmc.edu.model.news.Slide"/>
+        <typeAlias alias="Comments" type="com.fmc.edu.model.news.Comments"/>
+        <typeAlias alias="News" type="com.fmc.edu.model.news.News"/>
+        <typeAlias alias="UserMessage" type="com.fmc.edu.model.news.UserMessage"/>
+        <typeAlias alias="Course" type="com.fmc.edu.model.course.Course"/>
+        <typeAlias alias="TimeTable" type="com.fmc.edu.model.course.TimeTable"/>
     </typeAliases>
     <typeHandlers>
         <typeHandler handler="org.apache.ibatis.type.BlobTypeHandler" javaType="byte[]" jdbcType="BLOB"/>

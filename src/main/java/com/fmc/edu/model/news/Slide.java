@@ -16,7 +16,7 @@ public class Slide extends BaseBean {
     private int mOrder;
     private Timestamp mStartDate;
     private Timestamp mEndDate;
-    private boolean mAvaliable;
+    private boolean mAvailable;
 
     public String getSubject() {
         return mSubject;
@@ -82,11 +82,11 @@ public class Slide extends BaseBean {
         mEndDate = pEndDate;
     }
 
-    public boolean isAvaliable() {
-        return mAvaliable;
+    public boolean isAvailable() {
+        return mAvailable;
     }
 
-    public void setAvaliable(boolean pAvaliable) {
-        mAvaliable = pAvaliable;
+    public void setAvailable(boolean pAvailable) {
+        mAvailable = pAvailable;
     }
 }

@@ -11,7 +11,7 @@ public class News extends BaseBean {
     private int mAuthor;
     private String mSubject;
     private String mContent;
-    private int mNewType;
+    private NewsType mNewType;
     private int mRefId;
     private boolean mApproved;
     private int mApprovedBy;
@@ -43,11 +43,11 @@ public class News extends BaseBean {
         mContent = pContent;
     }
 
-    public int getNewType() {
+    public NewsType getNewType() {
         return mNewType;
     }
 
-    public void setNewType(int pNewType) {
+    public void setNewType(NewsType pNewType) {
         mNewType = pNewType;
     }
 

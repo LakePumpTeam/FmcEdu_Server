@@ -149,4 +149,93 @@
         <result property="creationDate" column="creation_date"/>
         <result property="lastUpdateDate" column="last_update_date"/>
     </resultMap>
+
+    <resultMap id="Comments" type="Comments">
+        <id property="id" column="id"/>
+        <result property="newsId" column="news_id"/>
+        <result property="profileId" column="profile_id"/>
+        <result property="comment" column="comment"/>
+        <result property="creationDate" column="creation_date"/>
+        <result property="lastUpdateDate" column="last_update_date"/>
+    </resultMap>
+
+    <resultMap id="image" type="Image">
+        <id property="id" column="id"/>
+        <result property="newsId" column="news_id"/>
+        <result property="imgName" column="img_name"/>
+        <result property="imgPath" column="img_path"/>
+        <result property="creationDate" column="creation_date"/>
+        <result property="lastUpdateDate" column="last_update_date"/>
+    </resultMap>
+
+    <resultMap id="news" type="News">
+        <id property="id" column="id"/>
+        <result property="author" column="author"/>
+        <result property="subject" column="subject"/>
+        <result property="content" column="content"/>
+        <result property="newType" column="news_type"/>
+        <result property="refId" column="ref_id"/>
+        <result property="approved" column="approved"/>
+        <result property="approvedBy" column="approved_by"/>
+        <result property="approvedDate" column="approve_date"/>
+        <result property="like" column="like"/>
+        <result property="publishDate" column="publish_date"/>
+        <result property="creationDate" column="creation_date"/>
+        <result property="lastUpdateDate" column="last_update_date"/>
+    </resultMap>
+
+    <resultMap id="slide" type="Slide">
+        <id property="id" column="id"/>
+        <result property="subject" column="subject"/>
+        <result property="newsId" column="news_id"/>
+        <result property="profileId" column="profile_id"/>
+        <result property="imgName" column="img_name"/>
+        <result property="imgPath" column="img_path"/>
+        <result property="order" column="order"/>
+        <result property="startDate" column="start_date"/>
+        <result property="endDate" column="end_date"/>
+        <result property="available" column="available"/>
+        <result property="creationDate" column="creation_date"/>
+        <result property="lastUpdateDate" column="last_update_date"/>
+    </resultMap>
+
+    <resultMap id="userMessage" type="UserMessage">
+        <id property="id" column="id"/>
+        <result property="messageType" column="message_type"/>
+        <result property="content" column="content"/>
+        <result property="refId" column="ref_id"/>
+        <result property="reading" column="reading"/>
+        <result property="province" column="province"/>
+        <result property="creationDate" column="creation_date"/>
+        <result property="lastUpdateDate" column="last_update_date"/>
+    </resultMap>
+
+    <resultMap id="course" type="Course">
+        <id property="id" column="id"/>
+        <result property="timeTableId" column="timetable_id"/>
+        <result property="day" column="day"/>
+        <result property="course1" column="course1"/>
+        <result property="course2" column="course2"/>
+        <result property="course3" column="course3"/>
+        <result property="course4" column="course4"/>
+        <result property="course5" column="course5"/>
+        <result property="course6" column="course6"/>
+        <result property="course7" column="course7"/>
+        <result property="course8" column="course8"/>
+        <result property="course9" column="course9"/>
+        <result property="course10" column="course10"/>
+        <result property="course11" column="course11"/>
+        <result property="course12" column="course12"/>
+        <result property="available" column="available"/>
+        <result property="creationDate" column="creation_date"/>
+        <result property="lastUpdateDate" column="last_update_date"/>
+    </resultMap>
+
+    <resultMap id="timeTable" type="TimeTable">
+        <id property="id" column="id"/>
+        <result property="classId" column="class_id"/>
+        <result property="available" column="available"/>
+        <result property="creationDate" column="creation_date"/>
+        <result property="lastUpdateDate" column="last_update_date"/>
+    </resultMap>
 </mapper>
