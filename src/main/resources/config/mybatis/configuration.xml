@@ -15,6 +15,10 @@
         <typeAlias alias="FmcClass" type="com.fmc.edu.model.school.FmcClass"/>
         <typeAlias alias="School" type="com.fmc.edu.model.school.School"/>
         <typeAlias alias="Student" type="com.fmc.edu.model.student.Student"/>
+        <typeAlias alias="Permission" type="com.fmc.edu.model.autho.Permission"/>
+        <typeAlias alias="Role" type="com.fmc.edu.model.autho.Role"/>
+        <typeAlias alias="RolePermission" type="com.fmc.edu.model.autho.RolePermission"/>
+        <typeAlias alias="UserRole" type="com.fmc.edu.model.autho.UserRole"/>
     </typeAliases>
     <typeHandlers>
         <typeHandler handler="org.apache.ibatis.type.BlobTypeHandler" javaType="byte[]" jdbcType="BLOB"/>
