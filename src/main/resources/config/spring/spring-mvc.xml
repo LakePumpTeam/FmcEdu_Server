@@ -46,7 +46,7 @@
 
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" id="viewResolver">
 		<property name="order" value="2" />
-		<property name="prefix" value="/jsp/" />
+		<property name="prefix" value="/WEB-INF/jsp/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
 
@@ -55,5 +55,7 @@
 	<mvc:resources location="/js/" mapping="/js/**" />
 	<mvc:resources location="/style/" mapping="/style/**" />
 	<mvc:resources location="/img/" mapping="/img/**" />
-
+	<mvc:resources location="/bower_components/" mapping="/bower_components/**" />
+	<mvc:resources location="/dist/" mapping="/dist/**" />
+	<mvc:resources location="/pages/" mapping="/pages/**" />
 </beans>
