@@ -29,6 +29,12 @@ public class BaseProfile extends BaseBean {
 
 	private int mProfileType;
 
+	private int mLastPCId;
+
+	private int mLastCLId;
+
+	private int mLastSCId;
+
 	public String getName() {
 		return mName;
 	}
@@ -107,5 +113,29 @@ public class BaseProfile extends BaseBean {
 
 	public void setProfileType(final int pProfileType) {
 		mProfileType = pProfileType;
+	}
+
+	public int getLastCLId() {
+		return mLastCLId;
+	}
+
+	public void setLastCLId(int pLastCLId) {
+		mLastCLId = pLastCLId;
+	}
+
+	public int getLastPCId() {
+		return mLastPCId;
+	}
+
+	public void setLastPCId(int pLastPCId) {
+		mLastPCId = pLastPCId;
+	}
+
+	public int getLastSCId() {
+		return mLastSCId;
+	}
+
+	public void setLastSCId(int pLastSCId) {
+		mLastSCId = pLastSCId;
 	}
 }
