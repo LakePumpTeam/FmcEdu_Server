@@ -4,4 +4,30 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fmc.edu.news">
 
+    <sql id="limit-split-page">
+             LIMIT #{start}, #{size}
+        </sql>
+
+    <select id="queryNewsListByNewType" parameterType="map" resultMap="rm.news">
+        SELECT id,
+        author,
+        subject,
+        content,
+        news_type,
+        ref_id,
+        approved,
+        approved_by,
+        approve_date,
+        `like`,
+        publish_date,
+        creation_date,
+        last_update_date
+        FROM news
+        WHERE news_type = #{newsType} and approved=1 order by publish_date DESC
+        <include refid="limit-split-page"/>
+    </select>
+
+    <select id="queryNewsMaxIdByNewsType" parameterType="int" resultType="int">
+        select id from news where news_type=#{newsType} order by id desc limit 1,1;
+    </select>
 </mapper>

@@ -74,11 +74,15 @@
                         <td><input type="text" class="ipt_value" id="authCode" value=""/></td>
                     </tr>
                     <tr>
-                        <td align="right"><label for="cellPhone" title="cellPhone">password</label></td>
+                        <td align="right"><label for="salt" title="salt">salt</label></td>
+                        <td><input type="text" class="ipt_value" id="salt" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="password" title="cellPhone">password</label></td>
                         <td><input type="text" class="ipt_value" id="password" value=""/></td>
                     </tr>
                     <tr>
-                        <td align="right"><label for="cellPhone" title="cellPhone">confirmPassword</label></td>
+                        <td align="right"><label for="confirmPassword" title="cellPhone">confirmPassword</label></td>
                         <td><input type="text" class="ipt_value" id="confirmPassword" value=""/></td>
                     </tr>
                 </table>
@@ -304,6 +308,22 @@
                     <tr>
                         <td align="right"><label for="teacherId" title="teacherId">teacherId</label></td>
                         <td><input type="text" class="ipt_value" id="teacherId" value=""/></td>
+                    </tr>
+                </table>
+            </td>
+            <td><input type="button" class="btn_request" value="Request"/></td>
+            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td class="result"></td>
+        </tr>
+        <tr>
+            <td>#11</td>
+            <td class="function">获取salt</td>
+            <td class="baseUrl">${ctx}/profile/requestSalt</td>
+            <td class="parameters">
+                <table>
+                    <tr>
+                        <td align="right"><label for="cellPhone" title="cellPhone">cellPhone</label></td>
+                        <td><input type="text" class="ipt_value" id="cellPhone" value=""/></td>
                     </tr>
                 </table>
             </td>
@@ -547,6 +567,49 @@
                     <tr>
                         <td align="right"><label for="userId" title="userId">userId</label></td>
                         <td><input type="text" class="ipt_value" id="userId" value=""/></td>
+                    </tr>
+                </table>
+            </td>
+            <td><input type="button" class="btn_request" value="Request"/></td>
+            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td class="result"></td>
+        </tr>
+    </table>
+</fieldset>
+
+<fieldset>
+    <legend>新闻动态</legend>
+    <table border="1">
+        <tr>
+            <th width="5%">Index#</th>
+            <th>Function</th>
+            <th>BaseURL</th>
+            <th>Parameters</th>
+            <th>Request</th>
+            <th>Reset</th>
+            <th width="56%">Result</th>
+        </tr>
+        <tr>
+            <td>#1</td>
+            <td class="function">获取新闻列表</td>
+            <td class="baseUrl">${ctx}/news/requestNewsList</td>
+            <td class="parameters">
+                <table>
+                    <tr>
+                        <td align="right"><label for="userId" title="userId">userId</label></td>
+                        <td><input type="text" class="ipt_value" id="userId" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="type" title="type">type</label></td>
+                        <td><input type="text" class="ipt_value" id="type" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="pageIndex" title="pageIndex">pageIndex(从1开始)</label></td>
+                        <td><input type="text" class="ipt_value" id="pageIndex" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="pageSize" title="pageSize">pageSize</label></td>
+                        <td><input type="text" class="ipt_value" id="pageSize" value=""/></td>
                     </tr>
                 </table>
             </td>

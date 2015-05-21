@@ -122,7 +122,7 @@ public class ProfileController extends BaseController {
 
         TransactionStatus status = ensureTransaction();
         try {
-            if (!getProfileManager().verifyIdentityCodeAndRegister(phoneNumber, passwordDecode, identifyingCode, salt)) {
+            if (!getProfileManager().verifyIdentityCodeAndRegister(phoneNumber, passwordDecode, identifyingCode, saltDecode)) {
                 responseBean.addBusinessMsg(IdentityCodeManager.ERROR_INVALID_IDENTITY_CODE);
                 return responseBean.toString();
             }
@@ -391,7 +391,7 @@ public class ProfileController extends BaseController {
             responseBean.addData("studentId", student.getId());
             responseBean.addData("studentName", student.getName());
             responseBean.addData("studentSex", student.isMale());
-            responseBean.addData("studentBirth", DateUtils.getStudentBirthString(student.getBirth()));
+            responseBean.addData("studentBirth", DateUtils.ConvertDateToString(student.getBirth()));
             responseBean.addData("parentName", parent.getName());
             responseBean.addData("relation", student.getParentStudentRelationship().getRelationship());
             responseBean.addData("address", address.getAddress());

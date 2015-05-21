@@ -20,15 +20,15 @@ public class DateUtils {
         return new Timestamp(calendar.getTimeInMillis());
     }
 
-    public static Date getStudentBirth(String pBirthString) throws ParseException {
+    public static Date convertStringToDate(String pBirthString) throws ParseException {
         if (StringUtils.isBlank(pBirthString)) {
             return null;
         }
         return (new SimpleDateFormat(PATTERN_STUDENT_BIRTH)).parse(pBirthString);
     }
 
-	public static String getStudentBirthString(Date pBirth) {
-		return (new SimpleDateFormat(PATTERN_STUDENT_BIRTH)).format(pBirth);
+    public static String ConvertDateToString(Date pBirth) {
+        return (new SimpleDateFormat(PATTERN_STUDENT_BIRTH)).format(pBirth);
 	}
 
 	public static Date addSeconds(final int pSeconds, Date pDate) {

@@ -52,7 +52,7 @@ public class RequestParameterBuilder {
         Student stu = new Student(Integer.valueOf(classId), name);
         //TODO update after confirmation
         stu.setMale(Boolean.valueOf(sexString));
-        stu.setBirth(DateUtils.getStudentBirth(birthString));
+        stu.setBirth(DateUtils.convertStringToDate(birthString));
         stu.setRingNumber(ringNum);
         stu.setRingPhone(ringPhone);
         stu.setAvailable(Boolean.TRUE);
@@ -173,7 +173,7 @@ public class RequestParameterBuilder {
         String name = getBase64EncryptService().decrypt(pRequest.getParameter("teacherName"));
         boolean male = Boolean.valueOf(getBase64EncryptService().decrypt(pRequest.getParameter("teacherSex")));
         String phone = getBase64EncryptService().decrypt(pRequest.getParameter("cellPhone"));
-        Date birth = DateUtils.getStudentBirth(getBase64EncryptService().decrypt(pRequest.getParameter("teacherBirth")));
+        Date birth = DateUtils.convertStringToDate(getBase64EncryptService().decrypt(pRequest.getParameter("teacherBirth")));
         String resume = getBase64EncryptService().decrypt(pRequest.getParameter("resume"));
         String course = getBase64EncryptService().decrypt(pRequest.getParameter("course"));
         teacher.setId(id);
