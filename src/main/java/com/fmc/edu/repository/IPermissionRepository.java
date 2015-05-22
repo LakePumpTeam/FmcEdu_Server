@@ -13,7 +13,7 @@ public interface IPermissionRepository {
 	String FINED_ROLE_BY_IDENTITY = "com.fmc.edu.permission.findRoleByIdentity";
 	String FIND_PERMISSION_BY_ROLE_ID = "com.fmc.edu.permission.findPermissionByRoleId";
 
-	List<Role> findRoleByIdentity(final int pIdentity);
+	List<Role> findRoleByUserId(final int pUserId);
 
 	List<Permission> findPermissionByRoleId(final int pRoleId);
 }

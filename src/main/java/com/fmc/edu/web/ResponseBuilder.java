@@ -5,6 +5,7 @@ import com.fmc.edu.manager.StudentManager;
 import com.fmc.edu.manager.TeacherManager;
 import com.fmc.edu.model.news.Image;
 import com.fmc.edu.model.news.News;
+import com.fmc.edu.model.news.Slide;
 import com.fmc.edu.model.profile.BaseProfile;
 import com.fmc.edu.model.profile.ParentProfile;
 import com.fmc.edu.model.profile.ProfileType;
@@ -24,6 +25,7 @@ import java.util.*;
 public class ResponseBuilder {
     protected static final String ORIGINAL_IMAGE_PATH_PREFIX = "/high";
     protected static final String THUMBNAIL_IMAGE_PATH_PREFIX = "/low";
+    protected static final String SLIDE_IMAGE_PATH_PREFIX = "/slide";
     @Resource(name = "profileManager")
     private ProfileManager mProfileManager;
 
@@ -94,6 +96,22 @@ public class ResponseBuilder {
             imageList.add(imgMap);
         }
         return imageList;
+    }
+
+    public void buildSlideListResponse(ResponseBean pResponseBean, final List<Slide> pSlideList) {
+        if (CollectionUtils.isEmpty(pSlideList)) {
+            return;
+        }
+        List<Map<String, Object>> slideList = new ArrayList<Map<String, Object>>(pSlideList.size());
+        Map<String, Object> slideMap;
+        for (Slide slide : pSlideList) {
+            slideMap = new HashMap<String, Object>(3);
+            slideMap.put("newsId", slide.getNewsId());
+            slideMap.put("order", slide.getOrder());
+            slideMap.put("imageUrl", SLIDE_IMAGE_PATH_PREFIX + slide.getImgPath() + slide.getImgName());
+            slideList.add(slideMap);
+        }
+        pResponseBean.addData("slideList", slideList);
     }
 
     public ProfileManager getProfileManager() {

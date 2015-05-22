@@ -30,6 +30,8 @@ public class WebConfig {
 
     private static final String IDENTITY_CODE_SURVIVOR_PERIOD = "identifyCodeSurvivalPeriod";
 
+    private static final String UPLOAD_FILE_ROOT_PATH = "uploadFileRootPath";
+
     private static Properties props;
 
     static {
@@ -105,5 +107,13 @@ public class WebConfig {
         }
         String identifyCodeSurvivalPeriod = props.getProperty(WebConfig.IDENTITY_CODE_SURVIVOR_PERIOD);
         return Integer.valueOf(identifyCodeSurvivalPeriod);
+    }
+
+    public static String getUploadFileRootPath() {
+        if (props == null) {
+            return "/var/upload";
+        }
+        String uploadFileRootPath = props.getProperty(WebConfig.UPLOAD_FILE_ROOT_PATH);
+        return uploadFileRootPath;
     }
 }

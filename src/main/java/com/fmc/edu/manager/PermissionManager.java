@@ -20,7 +20,7 @@ public class PermissionManager {
 	private IPermissionRepository mPermissionRepository;
 
 	public Set<String> getRolesForUser(final int pUserId) {
-		List<Role> roleList = getPermissionRepository().findRoleByIdentity(pUserId);
+		List<Role> roleList = getPermissionRepository().findRoleByUserId(pUserId);
 		Set<String> roleNames = new HashSet<String>();
 		for (Role role : roleList) {
 			roleNames.add(role.getRole());
@@ -28,7 +28,7 @@ public class PermissionManager {
 		return roleNames;
 	}
 
-	public List<String> getPermissonsByRoleId(final int pRoleId) {
+	public List<String> getPermissionsByRoleId(final int pRoleId) {
 		List<Permission> permissions = getPermissionRepository().findPermissionByRoleId(pRoleId);
 		List<String> permissionNames = new ArrayList<String>(permissions.size());
 		for (Permission permission : permissions) {
@@ -37,12 +37,12 @@ public class PermissionManager {
 		return permissionNames;
 	}
 
-	public Set<String> getPermissonsByUserId(final int pUserId) {
-		List<Role> roleList = getPermissionRepository().findRoleByIdentity(pUserId);
+	public Set<String> getPermissionsByUserId(final int pUserId) {
+		List<Role> roleList = getPermissionRepository().findRoleByUserId(pUserId);
 		Set<String> roleNames = new HashSet<String>();
 		Set<String> grantPermissions = new HashSet<String>();
 		for (Role role : roleList) {
-			grantPermissions.addAll(getPermissonsByRoleId(role.getId()));
+			grantPermissions.addAll(getPermissionsByRoleId(role.getId()));
 		}
 		return grantPermissions;
 	}

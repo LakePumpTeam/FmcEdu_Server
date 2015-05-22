@@ -1,11 +1,14 @@
 package com.fmc.edu.repository.impl;
 
+import com.fmc.edu.model.news.Comments;
 import com.fmc.edu.model.news.News;
+import com.fmc.edu.model.news.Slide;
 import com.fmc.edu.repository.BaseRepository;
 import com.fmc.edu.repository.INewsRepository;
 import com.fmc.edu.util.pagenation.Pagination;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +30,24 @@ public class NewsRepository extends BaseRepository implements INewsRepository {
         Map<String, Object> params = new HashMap<String, Object>(1);
         params.put("newsType", pNewsType);
         return getSqlSession().selectOne(QUERY_NEWS_MAX_ID_BY_NEWS_TYPE, params);
+    }
+
+    @Override
+    public List<Slide> querySlideList(Timestamp pStartDate, Timestamp pEndDate) {
+        Map<String, Object> params = new HashMap<String, Object>(2);
+        params.put("startDate", pStartDate);
+        params.put("endDate", pEndDate);
+        return getSqlSession().selectList(QUERY_NEWS_SLIDE_LIST, params);
+    }
+
+    @Override
+    public List<Slide> queryNewsDetail(int pUserId, int pNewsId) {
+        return null;
+    }
+
+    @Override
+    public boolean insertComment(Comments pComments) {
+        return getSqlSession().insert(INSERT_COMMENTS, pComments) > 0;
     }
 
 }

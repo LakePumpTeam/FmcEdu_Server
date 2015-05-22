@@ -21,13 +21,16 @@
 	</bean>
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 		<property name="securityManager" ref="securityManager" />
-		<property name="loginUrl" value="/profile/login" />
+		<property name="loginUrl" value="/admin/login"/>
 		<property name="filterChainDefinitions">
 			<value>
-				/profile/login=anon
-				/profile/logout=anon
-				/profile/requestPhoneIdentify=anon
 				/profile/**=anon
+				/news/**=anon
+				/school/**=anon
+				/admin/login=anon
+				/admin/logout=anon
+				/admin/requestPhoneIdentify=anon
+				/admin/**=anon
 				/main**=authc
 				/user/info**=authc
 				/test/**=authc,perms[test:update]

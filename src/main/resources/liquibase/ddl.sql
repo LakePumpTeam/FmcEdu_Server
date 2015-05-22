@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS `fmc_edu`.`school` (
   `address_id` INT NULL,
   `last_update_date` DATETIME NOT NULL,
   PRIMARY KEY (`id`))
-ENGINE = InnoDB;
+ENGINE = MyISAM;
 
 
 -- -----------------------------------------------------
@@ -88,7 +88,7 @@ CREATE TABLE IF NOT EXISTS `fmc_edu`.`class` (
   `head_teacher_id` INT NULL,
   `last_update_date` DATETIME NOT NULL,
   PRIMARY KEY (`id`))
-ENGINE = InnoDB;
+ENGINE = MyISAM;
 
 
 -- -----------------------------------------------------

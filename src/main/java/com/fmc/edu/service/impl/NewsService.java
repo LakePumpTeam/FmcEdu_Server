@@ -1,11 +1,14 @@
 package com.fmc.edu.service.impl;
 
+import com.fmc.edu.model.news.Comments;
 import com.fmc.edu.model.news.News;
+import com.fmc.edu.model.news.Slide;
 import com.fmc.edu.repository.impl.NewsRepository;
 import com.fmc.edu.util.pagenation.Pagination;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -24,10 +27,18 @@ public class NewsService {
         return getNewsRepository().queryNewsMaxIdByNewsType(pNewsType);
     }
 
+    public List<Slide> querySlideList(Timestamp pStartDate, Timestamp pEndDate) {
+        return getNewsRepository().querySlideList(pStartDate, pEndDate);
+    }
+
     public NewsRepository getNewsRepository() {
         return mNewsRepository;
     }
 
+    public boolean insertComment(Comments pComments) {
+
+        return getNewsRepository().insertComment(pComments);
+    }
     public void setNewsRepository(NewsRepository pNewsRepository) {
         mNewsRepository = pNewsRepository;
     }

@@ -11,51 +11,52 @@
     http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
 
-	<context:component-scan base-package="com.fmc.edu">
-		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
-	</context:component-scan>
+    <context:component-scan base-package="com.fmc.edu">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
 
-	<mvc:annotation-driven />
+    <mvc:annotation-driven/>
 
-	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-		<!--   <property name="basename" value="classpath:messages"/>-->
-		<property name="defaultEncoding" value="UTF-8" />
-	</bean>
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <!--   <property name="basename" value="classpath:messages"/>-->
+        <property name="defaultEncoding" value="UTF-8"/>
+    </bean>
 
-	<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" id="localeChangeInterceptor">
-		<property name="paramName" value="local" />
-	</bean>
+    <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" id="localeChangeInterceptor">
+        <property name="paramName" value="local"/>
+    </bean>
 
-	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" id="handlerMapping">
-		<property name="interceptors">
-			<ref bean="localeChangeInterceptor" />
-		</property>
-	</bean>
+    <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" id="handlerMapping">
+        <property name="interceptors">
+            <ref bean="localeChangeInterceptor"/>
+        </property>
+    </bean>
 
-	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
-		<property name="synchronizeOnSession" value="true" />
-	</bean>
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+        <property name="synchronizeOnSession" value="true"/>
+    </bean>
 
-	<mvc:annotation-driven />
+    <mvc:annotation-driven/>
 
-	<bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver">
-		<property name="defaultEncoding">
-			<value>UTF-8</value>
-		</property>
-	</bean>
+    <bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver">
+        <property name="defaultEncoding">
+            <value>UTF-8</value>
+        </property>
+        <property name="maxUploadSize" value="100000"/>
+    </bean>
 
-	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" id="viewResolver">
-		<property name="order" value="2" />
-		<property name="prefix" value="/WEB-INF/jsp/" />
-		<property name="suffix" value=".jsp" />
-	</bean>
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" id="viewResolver">
+        <property name="order" value="2"/>
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
 
-	<bean class="com.fmc.edu.executor.processor.InstantiationTracingBeanPostProcessor" />
+    <bean class="com.fmc.edu.executor.processor.InstantiationTracingBeanPostProcessor"/>
 
-	<mvc:resources location="/js/" mapping="/js/**" />
-	<mvc:resources location="/style/" mapping="/style/**" />
-	<mvc:resources location="/img/" mapping="/img/**" />
-	<mvc:resources location="/bower_components/" mapping="/bower_components/**" />
-	<mvc:resources location="/dist/" mapping="/dist/**" />
-	<mvc:resources location="/pages/" mapping="/pages/**" />
+    <mvc:resources location="/js/" mapping="/js/**"/>
+    <mvc:resources location="/style/" mapping="/style/**"/>
+    <mvc:resources location="/img/" mapping="/img/**"/>
+    <mvc:resources location="/bower_components/" mapping="/bower_components/**"/>
+    <mvc:resources location="/dist/" mapping="/dist/**"/>
+    <mvc:resources location="/pages/" mapping="/pages/**"/>
 </beans>

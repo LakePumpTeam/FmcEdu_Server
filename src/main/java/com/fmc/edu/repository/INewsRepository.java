@@ -1,8 +1,11 @@
 package com.fmc.edu.repository;
 
+import com.fmc.edu.model.news.Comments;
 import com.fmc.edu.model.news.News;
+import com.fmc.edu.model.news.Slide;
 import com.fmc.edu.util.pagenation.Pagination;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -16,4 +19,16 @@ public interface INewsRepository {
     String QUERY_NEWS_MAX_ID_BY_NEWS_TYPE = "com.fmc.edu.news.queryNewsMaxIdByNewsType";
 
     int queryNewsMaxIdByNewsType(int pNewsType);
+
+    String QUERY_NEWS_SLIDE_LIST = "com.fmc.edu.news.queryNewsListByNewType";
+
+    List<Slide> querySlideList(Timestamp pStartDate, Timestamp pEndDate);
+
+    String QUERY_NEWS_DETAIL = "com.fmc.edu.news.queryNewsDetail";
+
+    List<Slide> queryNewsDetail(int pUserId, int pNewsId);
+
+    String INSERT_COMMENTS = "com.fmc.edu.news.insertComment";
+
+    boolean insertComment(Comments pComments);
 }

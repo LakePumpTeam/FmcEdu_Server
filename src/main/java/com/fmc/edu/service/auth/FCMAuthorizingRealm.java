@@ -35,13 +35,13 @@ public class FCMAuthorizingRealm extends AuthorizingRealm {
 		if (principalCollection == null) {
 			throw new AuthorizationException("Principal can not be null");
 		}
-		//int userId = (int) principalCollection.iterator().next();
+		String loginName = (String) principalCollection.getPrimaryPrincipal();
+		BaseProfile baseProfile = getMyAccountManager().findUser(loginName);
+
 		SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-		//TODO Should input real user id
-		Set<String> role = getPermissionManager().getRolesForUser(0);
+		Set<String> role = getPermissionManager().getRolesForUser(baseProfile.getId());
 		authorizationInfo.setRoles(role);
-		//TODO Should input real user id
-		authorizationInfo.setStringPermissions(getPermissionManager().getPermissonsByUserId(0));
+		authorizationInfo.setStringPermissions(getPermissionManager().getPermissionsByUserId(baseProfile.getId()));
 
 		return authorizationInfo;
 	}

@@ -5,8 +5,8 @@
 <mapper namespace="com.fmc.edu.news">
 
     <sql id="limit-split-page">
-             LIMIT #{start}, #{size}
-        </sql>
+        LIMIT #{start}, #{size}
+    </sql>
 
     <select id="queryNewsListByNewType" parameterType="map" resultMap="rm.news">
         SELECT id,
@@ -30,4 +30,20 @@
     <select id="queryNewsMaxIdByNewsType" parameterType="int" resultType="int">
         select id from news where news_type=#{newsType} order by id desc limit 1,1;
     </select>
+
+    <select id="queryNewsListByNewType" resultMap="slide">
+        SELECT id,
+        subject,
+        news_id,
+        img_name,
+        img_path,
+        order
+        WHERE
+        available = 1 AND start_date &gt;= #{startDate} AND end_date &lt;= #{endDate}
+    </select>
+
+    <insert id="insertComment" parameterMap="Comments">
+        INSERT INTO comments (news_id,profile_id,comment,creation_date,last_update_date)
+        VALUES (#{NewsId}, #{ProfileId}, #{comment}, now(), now())
+    </insert>
 </mapper>
