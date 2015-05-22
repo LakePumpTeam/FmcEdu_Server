@@ -49,5 +49,5 @@ public interface IMyAccountRepository {
 
 	String LIKE_NEWS = "com.fmc.edu.myaccount.likeNews";
 
-	boolean likeNews(int pUserId, int pNewsId);
+	boolean likeNews(int pProfileId, int pNewsId);
 }

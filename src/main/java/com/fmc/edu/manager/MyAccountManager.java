@@ -98,8 +98,8 @@ public class MyAccountManager {
         return getMyAccountService().getPendingAuditParents(pTeacherId);
     }
 
-    public boolean likeNews(final int pUserId, final int pNewsId) {
-        return getMyAccountService().likeNews(pUserId, pNewsId);
+    public boolean likeNews(final int pProfileId, final int pNewsId) {
+        return getMyAccountService().likeNews(pProfileId, pNewsId);
     }
 
     public MyAccountService getMyAccountService() {

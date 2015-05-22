@@ -80,9 +80,9 @@ public class MyAccountRepository extends BaseRepository implements IMyAccountRep
 	}
 
 	@Override
-	public boolean likeNews(final int pUserId, final int pNewsId) {
+	public boolean likeNews(final int pProfileId, final int pNewsId) {
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("profileId", pUserId);
+		params.put("profileId", pProfileId);
 		params.put("newsId", pNewsId);
 		params.put("now", new Timestamp(System.currentTimeMillis()));
 		return getSqlSession().insert(LIKE_NEWS, params) > 0;

@@ -182,9 +182,10 @@ public class NewsActivityControler extends BaseController {
 				responseBean.addBusinessMsg("News id is invalid: " + newsIdStr);
 				return output(responseBean);
 			}
-			int userId = Integer.valueOf(userIdStr);
+			int profileId = Integer.valueOf(userIdStr);
 			int newsId = Integer.valueOf(newsIdStr);
-			getMyAccountManager().likeNews(userId, newsId);
+			getMyAccountManager().likeNews(profileId, newsId);
+			//TODO integration with memory cache for like numbers
 			return output(responseBean);
 		} catch (Exception e) {
 			responseBean.addErrorMsg(e);
