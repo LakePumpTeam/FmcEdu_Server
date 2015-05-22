@@ -89,4 +89,9 @@
     <select id="queryStudentParentRelationByParentId" parameterType="int" resultMap="rm.parentStudentRelationship">
       select parent_id, student_id,relationship,approved,approved_date,creation_date, last_update_date from parent_student_map where parent_id=#{parentId}
     </select>
+
+    <insert id="likeNews" parameterType="map">
+        INSERT INTO profile_like_map (profile_id, news_id, creation_date)
+        VALUES (#{profileId}, #{newsId}, #{now})
+    </insert>
 </mapper>

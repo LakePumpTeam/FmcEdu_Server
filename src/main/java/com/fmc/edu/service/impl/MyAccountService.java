@@ -58,6 +58,10 @@ public class MyAccountService {
         return getMyAccountRepository().queryStudentParentRelationByParentId(parentId);
     }
 
+    public boolean likeNews(final int pUserId, final int pNewsId) {
+        return getMyAccountRepository().likeNews(pUserId, pNewsId);
+    }
+
     public IMyAccountRepository getMyAccountRepository() {
         return mMyAccountRepository;
     }

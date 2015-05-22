@@ -31,7 +31,7 @@
         select id from news where news_type=#{newsType} order by id desc limit 1,1;
     </select>
 
-    <select id="queryNewsListByNewType" resultMap="slide">
+    <select id="querySlideListByNewType" parameterType="map" resultMap="rm.slide">
         SELECT id,
         subject,
         news_id,
