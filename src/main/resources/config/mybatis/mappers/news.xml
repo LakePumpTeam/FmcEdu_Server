@@ -42,7 +42,7 @@
         available = 1 AND start_date &gt;= #{startDate} AND end_date &lt;= #{endDate}
     </select>
 
-    <insert id="insertComment" parameterMap="Comments">
+    <insert id="insertComment" parameterType="comments">
         INSERT INTO comments (news_id,profile_id,comment,creation_date,last_update_date)
         VALUES (#{NewsId}, #{ProfileId}, #{comment}, now(), now())
     </insert>
