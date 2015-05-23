@@ -14,7 +14,6 @@
     <context:component-scan base-package="com.fmc.edu">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
-
     <mvc:annotation-driven/>
 
     <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
@@ -56,8 +55,8 @@
     <mvc:resources location="/js/" mapping="/js/**"/>
     <mvc:resources location="/style/" mapping="/style/**"/>
     <mvc:resources location="/img/" mapping="/img/**"/>
-    <mvc:resources location="/low/" mapping="/test_img/**"/>
-    <mvc:resources location="/high/" mapping="/test_img/**"/>
+    <mvc:resources location="high/" mapping="/high/**"/>
+    <mvc:resources location="low/" mapping="/low/**"/>
     <mvc:resources location="/bower_components/" mapping="/bower_components/**"/>
     <mvc:resources location="/dist/" mapping="/dist/**"/>
     <mvc:resources location="/pages/" mapping="/pages/**"/>
