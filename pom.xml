@@ -271,7 +271,7 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
-                <!-- dev -->
+                <!-- local -->
                 <mybatis.db.url>jdbc:mysql://127.0.0.1/fmc_edu?useUnicode=true&amp;amp;characterEncoding=UTF-8
                 </mybatis.db.url>
                 <mybatis.db.username>root</mybatis.db.username>
@@ -286,7 +286,7 @@
                 <activeByDefault>false</activeByDefault>
             </activation>
             <properties>
-                <!-- production -->
+                <!-- dev -->
                 <mybatis.db.url>jdbc:mysql://127.0.0.1/dev_fmc_edu?useUnicode=true&amp;amp;characterEncoding=UTF-8
                 </mybatis.db.url>
                 <mybatis.db.username>root</mybatis.db.username>
