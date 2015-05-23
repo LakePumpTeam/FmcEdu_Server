@@ -266,7 +266,7 @@
     </dependencies>
     <profiles>
         <profile>
-            <id>dev</id>
+            <id>local</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
@@ -278,6 +278,21 @@
                 <mybatis.db.password>968345</mybatis.db.password>
                 <cache.disk.store.path>d:/ehcache/</cache.disk.store.path>
                 <webXmlPath>${project.basedir}/src/main/webapp/web-config/dev-web.xml</webXmlPath>
+            </properties>
+        </profile>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <!-- production -->
+                <mybatis.db.url>jdbc:mysql://127.0.0.1/dev_fmc_edu?useUnicode=true&amp;amp;characterEncoding=UTF-8
+                </mybatis.db.url>
+                <mybatis.db.username>root</mybatis.db.username>
+                <mybatis.db.password>123abcABC</mybatis.db.password>
+                <cache.disk.store.path>/mnt/xvdb/var/ehcache</cache.disk.store.path>
+                <webXmlPath>${project.basedir}/src/main/webapp/web-config/prod-web.xml</webXmlPath>
             </properties>
         </profile>
         <profile>
