@@ -651,7 +651,7 @@
            <td><input type="button" class="btn_reset" value="Reset"/></td>
            <td class="result"></td>
          </tr>
-        <!--  <tr>
+        <tr>
              <td>#4</td>
              <td class="function">class comment</td>
              <td class="baseUrl">${ctx}/news/postClassNews</td>
@@ -661,38 +661,38 @@
                        <table>
                             <tr>
                                 <td align="right"><label for="userId" title="userId">userId</label></td>
-                                <td><input type="text" class="ipt_value" id="userId" value=""/></td>
+                                <td><input type="text" class="ipt_value" name="userId" id="userId" value=""/></td>
                             </tr>
                             <tr>
                                 <td align="right"><label for="subject" title="subject">subject</label></td>
-                                <td><input type="text" class="ipt_value" id="subject" value=""/></td>
+                                <td><input type="text" class="ipt_value" name="subject" id="subject" value=""/></td>
                             </tr>
                             <tr>
                                 <td align="right"><label for="content" title="content">content</label></td>
-                                <td><input type="text" class="ipt_value" id="content" value=""/></td>
+                                <td><input type="text" class="ipt_value" name="content" id="content" value=""/></td>
                             </tr>
                              <tr>
                                   <td align="right"><label for="img1" title="img1">img1</label></td>
-                                  <td><input type="file" class="img1" id="img1"/></td>
+                                 <td><input type="file" name="img1" class="img1" id="img1"/></td>
                               </tr>
                               <tr>
                                   <td align="right"><label for="img2" title="img2">img2</label></td>
-                                  <td><input type="file" class="img2" id="img2"/></td>
+                                  <td><input type="file" name="img2" class="img2" id="img2"/></td>
                               </tr>
                               <tr>
                                   <td align="right"><label for="img3" title="img3">img3</label></td>
-                                  <td><input type="file" class="img3" id="img3"/></td>
+                                  <td><input type="file" name="img3" class="img3" id="img3"/></td>
                              </tr>
                               <tr>
                                   <td align="right"><label for="img4" title="img4">img4</label></td>
-                                  <td><input type="file" class="img4" id="img4"/></td>
+                                  <td><input type="file" name="img4" class="img4" id="img4"/></td>
                               </tr>
                         </table>
                       	<input type="submit" value="Upload">
                       </form>
                    </table>
                </td>
-          </tr>--!>
+        </tr>
     </table>
 </fieldset>
 </body>

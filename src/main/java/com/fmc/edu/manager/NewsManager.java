@@ -1,6 +1,7 @@
 package com.fmc.edu.manager;
 
 import com.fmc.edu.model.news.Comments;
+import com.fmc.edu.model.news.Image;
 import com.fmc.edu.model.news.News;
 import com.fmc.edu.model.news.Slide;
 import com.fmc.edu.service.impl.NewsService;
@@ -33,8 +34,20 @@ public class NewsManager {
         return getNewsService().insertComment(pComments);
     }
 
+    public boolean insertNews(News pNews) {
+        return getNewsService().insertNews(pNews);
+    }
+
+    public int queryLastInsertNewsTypeNewsIdByAuthor(int pUserId, int pNewsType) {
+        return getNewsService().queryLastInsertNewsTypeNewsIdByAuthor(pUserId, pNewsType);
+    }
+
     public int queryNewsMaxIdByNewsType(int pNewsType) {
         return getNewsService().queryNewsMaxIdByNewsType(pNewsType);
+    }
+
+    public boolean insertImage(Image pImage) {
+        return getNewsService().insertImage(pImage);
     }
 
     public NewsService getNewsService() {

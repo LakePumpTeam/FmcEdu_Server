@@ -40,11 +40,54 @@
         `order`
         FROM slide
         WHERE
-        available = 1 AND start_date &gt;= #{startDate} AND end_date &lt;= #{endDate}
+        available = 1 AND start_date &gt;= #{startDate} AND end_date &lt;= #{endDate} ORDER BY 'order' ASC
     </select>
 
-    <insert id="insertComment" parameterType="comments">
+    <insert id="insertComment" parameterType="Comments">
         INSERT INTO comments (news_id,profile_id,comment,creation_date,last_update_date)
         VALUES (#{NewsId}, #{ProfileId}, #{comment}, now(), now())
+    </insert>
+
+    <insert id="insertNews" parameterType="News">
+        INSERT INTO `news`
+        (`author`,
+        `subject`,
+        `content`,
+        `news_type`,
+        `approved`,
+        `like`,
+        `publish_date`,
+        `creation_date`,
+        `last_update_date`)
+        VALUES
+        ( #{author},
+        #{subject},
+        #{content},
+        #{newsType},
+        0,
+        0,
+        now(),
+        now(),
+        now()
+        )
+    </insert>
+    <select id="queryLastInsertNewsTypeNewsIdByAuthor" parameterType="int" resultType="int">
+        select max(id) from news where news_type = #{newsType} and author = #{userId};
+    </select>
+    <insert id="insertImage" parameterType="Image">
+        INSERT INTO `image`
+        ( `news_id`,
+        `img_name`,
+        `img_path`,
+        `creation_date`,
+        `last_update_date`
+        )
+        VALUES
+        ( #{newsId},
+        #{imgName},
+        #{imgPath},
+        now(),
+        now()
+        );
     </insert>
 </mapper>

@@ -1,6 +1,7 @@
 package com.fmc.edu.repository.impl;
 
 import com.fmc.edu.model.news.Comments;
+import com.fmc.edu.model.news.Image;
 import com.fmc.edu.model.news.News;
 import com.fmc.edu.model.news.Slide;
 import com.fmc.edu.repository.BaseRepository;
@@ -48,6 +49,24 @@ public class NewsRepository extends BaseRepository implements INewsRepository {
     @Override
     public boolean insertComment(Comments pComments) {
         return getSqlSession().insert(INSERT_COMMENTS, pComments) > 0;
+    }
+
+    @Override
+    public boolean insertNews(News pNews) {
+        return getSqlSession().insert(INSERT_NEWS, pNews) > 0;
+    }
+
+    @Override
+    public int queryLastInsertNewsTypeNewsIdByAuthor(int pUserId, int pNewsType) {
+        Map<String, Object> params = new HashMap<String, Object>(1);
+        params.put("userId", pUserId);
+        params.put("newsType", pNewsType);
+        return getSqlSession().selectOne(QUERY_LAST_INSERT_NEWS_ID_BY_AUTHOR, params);
+    }
+
+    @Override
+    public boolean insertImage(Image pImage) {
+        return getSqlSession().insert(INSERT_IMAGE, pImage) > 0;
     }
 
 }

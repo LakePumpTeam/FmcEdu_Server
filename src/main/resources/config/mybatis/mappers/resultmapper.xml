@@ -150,7 +150,7 @@
         <result property="lastUpdateDate" column="last_update_date"/>
     </resultMap>
 
-    <resultMap id="Comments" type="Comments">
+    <resultMap id="comments" type="Comments">
         <id property="id" column="id"/>
         <result property="newsId" column="news_id"/>
         <result property="profileId" column="profile_id"/>
@@ -184,7 +184,7 @@
         <result property="author" column="author"/>
         <result property="subject" column="subject"/>
         <result property="content" column="content"/>
-        <result property="newType" column="news_type"/>
+        <result property="newsType" column="news_type"/>
         <result property="refId" column="ref_id"/>
         <result property="approved" column="approved"/>
         <result property="approvedBy" column="approved_by"/>
