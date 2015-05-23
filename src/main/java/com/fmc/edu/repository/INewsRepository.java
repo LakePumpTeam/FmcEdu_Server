@@ -1,6 +1,7 @@
 package com.fmc.edu.repository;
 
 import com.fmc.edu.model.news.Comments;
+import com.fmc.edu.model.news.Image;
 import com.fmc.edu.model.news.News;
 import com.fmc.edu.model.news.Slide;
 import com.fmc.edu.util.pagenation.Pagination;
@@ -31,4 +32,16 @@ public interface INewsRepository {
     String INSERT_COMMENTS = "com.fmc.edu.news.insertComment";
 
     boolean insertComment(Comments pComments);
+
+    String INSERT_NEWS = "com.fmc.edu.news.insertNews";
+
+    boolean insertNews(News pNews);
+
+    String QUERY_LAST_INSERT_NEWS_ID_BY_AUTHOR = "com.fmc.edu.news.queryLastInsertNewsTypeNewsIdByAuthor";
+
+    int queryLastInsertNewsTypeNewsIdByAuthor(int pUserId, int pNewsType);
+
+    String INSERT_IMAGE = "com.fmc.edu.news.insertImage";
+
+    boolean insertImage(Image pImage);
 }
