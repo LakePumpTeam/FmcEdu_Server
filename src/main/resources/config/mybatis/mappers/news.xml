@@ -37,7 +37,8 @@
         news_id,
         img_name,
         img_path,
-        order
+        `order`
+        FROM slide
         WHERE
         available = 1 AND start_date &gt;= #{startDate} AND end_date &lt;= #{endDate}
     </select>

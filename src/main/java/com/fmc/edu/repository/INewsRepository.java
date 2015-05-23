@@ -20,7 +20,7 @@ public interface INewsRepository {
 
     int queryNewsMaxIdByNewsType(int pNewsType);
 
-    String QUERY_NEWS_SLIDE_LIST = "com.fmc.edu.news.queryNewsListByNewType";
+    String QUERY_NEWS_SLIDE_LIST = "com.fmc.edu.news.querySlideListByNewType";
 
     List<Slide> querySlideList(Timestamp pStartDate, Timestamp pEndDate);
 

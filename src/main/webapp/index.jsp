@@ -621,13 +621,15 @@
              <td>#2</td>
              <td class="function">获取幻灯片</td>
              <td class="baseUrl">${ctx}/news/requestSlides</td>
+            <td class="parameters">
+            </td>
              <td><input type="button" class="btn_request" value="Request"/></td>
              <td><input type="button" class="btn_reset" value="Reset"/></td>
              <td class="result"></td>
         </tr>
          <tr>
            <td>#3</td>
-           <td class="function">评论</td>
+             <td class="function">发表评论</td>
            <td class="baseUrl">${ctx}/news/postComment</td>
              <td class="parameters">
                  <table>

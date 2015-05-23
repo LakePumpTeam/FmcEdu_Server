@@ -99,7 +99,7 @@ public class NewsActivityControler extends BaseController {
 		ResponseBean responseBean = new ResponseBean();
 		try {
 			//TODO need to confirm the date period
-			List<Slide> slideList = getNewsManager().querySlideList(DateUtils.getDaysLater(-1), DateUtils.getDaysLater(1));
+			List<Slide> slideList = getNewsManager().querySlideList(DateUtils.getDaysLater(-1), DateUtils.getDaysLater(30));
 			getResponseBuilder().buildSlideListResponse(responseBean, slideList);
 			return output(responseBean);
 		} catch (Exception e) {
