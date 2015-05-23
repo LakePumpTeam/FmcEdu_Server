@@ -1,5 +1,6 @@
 package com.fmc.edu.executor.processor;
 
+import com.fmc.edu.executor.IInitializationHandler;
 import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
@@ -14,10 +15,13 @@ import java.util.Date;
  * Created by Yove on 5/1/2015.
  */
 public class InstantiationTracingBeanPostProcessor implements ApplicationListener<ContextRefreshedEvent> {
+
 	private static final Logger LOG = Logger.getLogger(InstantiationTracingBeanPostProcessor.class);
 
-	private static final String ROOT_WEB_APPLICATIONCONTEXT = "Root WebApplicationContext";
-	private static final String GENERIC_APPICATION_CONTEXT = "GenericApplicationContext";
+	private static final String ROOT_WEB_APPLICATION_CONTEXT = "Root WebApplicationContext";
+	private static final String GENERIC_APPLICATION_CONTEXT = "GenericApplicationContext";
+
+	private IInitializationHandler[] mInitializationHandlers;
 
 	/**
 	 * @see ApplicationListener#onApplicationEvent(org.springframework.context.ApplicationEvent)
@@ -27,16 +31,16 @@ public class InstantiationTracingBeanPostProcessor implements ApplicationListene
 
 		ApplicationContext applicationContext = pEvent
 				.getApplicationContext();
-		if (applicationContext.getDisplayName().contains(GENERIC_APPICATION_CONTEXT)) {
-			LOG.debug("**********************Spring test framework initialized application context*****************");
+		if (applicationContext.getDisplayName().contains(GENERIC_APPLICATION_CONTEXT)) {
+			LOG.debug("===================== SpringTestFramework initialized ApplicationContext ===============");
 			return;
 		}
-		if (ROOT_WEB_APPLICATIONCONTEXT.equals(applicationContext.getDisplayName())) {
+		if (ROOT_WEB_APPLICATION_CONTEXT.equals(applicationContext.getDisplayName())) {
 			//Spring Context initialized
-			LOG.debug("**********************Root ApplicationContext Loaded Completed*****************");
+			LOG.debug("===================== RootApplicationContext Loaded Completed ===============");
 		} else {
 			//Web context initialized.
-			LOG.debug("**********************WebApplicationContext Loaded Completed*****************");
+			LOG.debug("===================== WebApplicationContext Loaded Completed ===============");
 
 			// get the parent context
 			WebApplicationContext webApplicationContext = ContextLoader.getCurrentWebApplicationContext();
@@ -45,5 +49,13 @@ public class InstantiationTracingBeanPostProcessor implements ApplicationListene
 			servletContext.setAttribute("launchDate", new Date());
 		}
 
+	}
+
+	public IInitializationHandler[] getInitializationHandlers() {
+		return mInitializationHandlers;
+	}
+
+	public void setInitializationHandlers(final IInitializationHandler[] pInitializationHandlers) {
+		mInitializationHandlers = pInitializationHandlers;
 	}
 }
