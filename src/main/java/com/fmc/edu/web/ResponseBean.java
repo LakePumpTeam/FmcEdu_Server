@@ -55,7 +55,7 @@ public class ResponseBean {
         dataMap.put(pKey, pData);
     }
 
-    public void addData(final Map<String, Object> pData) {
+    public void addData(final Map<String, ?> pData) {
         if (CollectionUtils.isEmpty(pData)) {
             return;
         }

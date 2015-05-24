@@ -9,133 +9,173 @@ import java.sql.Timestamp;
  */
 public class BaseProfile extends BaseBean {
 
-	private String mName;
+    private String mName;
 
-	private String mPhone;
+    private String mPhone;
 
-	private String mPassword;
+    private String mPassword;
 
-	private String mAppId;
+    private String mAppId;
 
-	private String mChannelId;
+    private String mChannelId;
 
-	private String mSalt;
+    private String mSalt;
 
-	private Timestamp mCreationDate;
+    private Timestamp mCreationDate;
 
-	private Timestamp mLastLoginDate;
+    private Timestamp mLastLoginDate;
 
-	private boolean mAvailable;
+    private Boolean mAvailable;
 
-	private int mProfileType;
+    private Integer mProfileType;
 
-	private int mLastPCId;
+    private int mLastPCId;
 
-	private int mLastCLId;
+    private int mLastCLId;
 
-	private int mLastSCId;
+    private int mLastSCId;
 
-	public String getName() {
-		return mName;
-	}
+    private int mLastSDActivity;
 
-	public void setName(final String pName) {
-		mName = pName;
-	}
+    private int mLastSDNews;
 
-	public String getPhone() {
-		return mPhone;
-	}
+    private int mLastSDNotify;
 
-	public void setPhone(final String pPhone) {
-		mPhone = pPhone;
-	}
+    private int mLastPCDId;
 
-	public String getPassword() {
-		return mPassword;
-	}
+    public String getName() {
+        return mName;
+    }
 
-	public void setPassword(final String pPassword) {
-		mPassword = pPassword;
-	}
+    public void setName(final String pName) {
+        mName = pName;
+    }
 
-	public String getSalt() {
-		return mSalt;
-	}
+    public String getPhone() {
+        return mPhone;
+    }
 
-	public void setSalt(String pSalt) {
-		mSalt = pSalt;
-	}
+    public void setPhone(final String pPhone) {
+        mPhone = pPhone;
+    }
 
-	public String getChannelId() {
-		return mChannelId;
-	}
+    public String getPassword() {
+        return mPassword;
+    }
 
-	public void setChannelId(String pChannelId) {
-		mChannelId = pChannelId;
-	}
+    public void setPassword(final String pPassword) {
+        mPassword = pPassword;
+    }
 
-	public String getAppId() {
-		return mAppId;
-	}
+    public String getSalt() {
+        return mSalt;
+    }
 
-	public void setAppId(final String pAppId) {
-		mAppId = pAppId;
-	}
+    public void setSalt(String pSalt) {
+        mSalt = pSalt;
+    }
 
-	public Timestamp getCreationDate() {
-		return mCreationDate;
-	}
+    public String getChannelId() {
+        return mChannelId;
+    }
 
-	public void setCreationDate(final Timestamp pCreationDate) {
-		mCreationDate = pCreationDate;
-	}
+    public void setChannelId(String pChannelId) {
+        mChannelId = pChannelId;
+    }
 
-	public Timestamp getLastLoginDate() {
-		return mLastLoginDate;
-	}
+    public String getAppId() {
+        return mAppId;
+    }
 
-	public void setLastLoginDate(final Timestamp pLastLoginDate) {
-		mLastLoginDate = pLastLoginDate;
-	}
+    public void setAppId(final String pAppId) {
+        mAppId = pAppId;
+    }
 
-	public boolean isAvailable() {
-		return mAvailable;
-	}
+    public Timestamp getCreationDate() {
+        return mCreationDate;
+    }
 
-	public void setAvailable(final boolean pAvailable) {
-		mAvailable = pAvailable;
-	}
+    public void setCreationDate(final Timestamp pCreationDate) {
+        mCreationDate = pCreationDate;
+    }
 
-	public int getProfileType() {
-		return mProfileType;
-	}
+    public Timestamp getLastLoginDate() {
+        return mLastLoginDate;
+    }
 
-	public void setProfileType(final int pProfileType) {
-		mProfileType = pProfileType;
-	}
+    public void setLastLoginDate(final Timestamp pLastLoginDate) {
+        mLastLoginDate = pLastLoginDate;
+    }
 
-	public int getLastCLId() {
-		return mLastCLId;
-	}
+    public Boolean isAvailable() {
+        return mAvailable;
+    }
 
-	public void setLastCLId(int pLastCLId) {
-		mLastCLId = pLastCLId;
-	}
+    public void setAvailable(final Boolean pAvailable) {
+        mAvailable = pAvailable;
+    }
 
-	public int getLastPCId() {
-		return mLastPCId;
-	}
+    public Integer getProfileType() {
+        return mProfileType;
+    }
 
-	public void setLastPCId(int pLastPCId) {
-		mLastPCId = pLastPCId;
-	}
+    public void setProfileType(final Integer pProfileType) {
+        mProfileType = pProfileType;
+    }
 
-	public int getLastSCId() {
-		return mLastSCId;
-	}
+    public int getLastCLId() {
+        return mLastCLId;
+    }
 
-	public void setLastSCId(int pLastSCId) {
-		mLastSCId = pLastSCId;
-	}
+    public void setLastCLId(int pLastCLId) {
+        mLastCLId = pLastCLId;
+    }
+
+    public int getLastPCId() {
+        return mLastPCId;
+    }
+
+    public void setLastPCId(int pLastPCId) {
+        mLastPCId = pLastPCId;
+    }
+
+    public int getLastSCId() {
+        return mLastSCId;
+    }
+
+    public void setLastSCId(int pLastSCId) {
+        mLastSCId = pLastSCId;
+    }
+
+    public int getLastSDActivity() {
+        return mLastSDActivity;
+    }
+
+    public void setLastSDActivity(int pLastSDActivity) {
+        mLastSDActivity = pLastSDActivity;
+    }
+
+    public int getLastSDNews() {
+        return mLastSDNews;
+    }
+
+    public void setLastSDNews(int pLastSDNews) {
+        mLastSDNews = pLastSDNews;
+    }
+
+    public int getLastSDNotify() {
+        return mLastSDNotify;
+    }
+
+    public void setLastSDNotify(int pLastSDNotify) {
+        mLastSDNotify = pLastSDNotify;
+    }
+
+    public int getLastPCDId() {
+        return mLastPCDId;
+    }
+
+    public void setLastPCDId(int pLastPCDId) {
+        mLastPCDId = pLastPCDId;
+    }
 }

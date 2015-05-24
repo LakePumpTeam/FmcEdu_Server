@@ -1,8 +1,10 @@
 package com.fmc.edu.web;
 
+import com.fmc.edu.manager.NewsManager;
 import com.fmc.edu.manager.ProfileManager;
 import com.fmc.edu.manager.StudentManager;
 import com.fmc.edu.manager.TeacherManager;
+import com.fmc.edu.model.news.Comments;
 import com.fmc.edu.model.news.Image;
 import com.fmc.edu.model.news.News;
 import com.fmc.edu.model.news.Slide;
@@ -34,6 +36,9 @@ public class ResponseBuilder {
 
     @Resource(name = "teacherManager")
     private TeacherManager mTeacherManager;
+
+    @Resource(name = "newsManager")
+    private NewsManager mNewsManager;
 
     public void buildAuthorizedResponse(ResponseBean pResponseBean, final BaseProfile pProfile) {
         pResponseBean.addData("userId", pProfile.getId());
@@ -75,6 +80,7 @@ public class ResponseBuilder {
             newsMap.put("newsId", news.getId());
             newsMap.put("subject", news.getSubject());
             newsMap.put("content", news.getContent());
+            newsMap.put("like", news.getLike());
             newsMap.put("createDate", DateUtils.ConvertDateToString(news.getPublishDate()));
             if (CollectionUtils.isEmpty(news.getImageUrls())) {
                 newsMap.put("imageUrls", Collections.EMPTY_LIST);
@@ -114,6 +120,36 @@ public class ResponseBuilder {
         pResponseBean.addData("slideList", slideList);
     }
 
+    public void buildNewsDetailResponse(ResponseBean pResponseBean, News pNews, List<Comments> pCommentsList, int pCurrentUserId) {
+        if (pNews == null) {
+            return;
+        }
+        Map<String, Object> newsMap = new HashMap<String, Object>(5);
+        newsMap.put("newsId", pNews.getId());
+        newsMap.put("subject", pNews.getSubject());
+        newsMap.put("content", pNews.getContent());
+        newsMap.put("imageUrl", "");
+        newsMap.put("like", pNews.getLike());
+        newsMap.put("liked", getNewsManager().isLikedNews(pCurrentUserId, pNews.getId()));
+        newsMap.put("createDate", DateUtils.ConvertDateToString(pNews.getPublishDate()));
+        List<Map<String, Object>> commnetList = new ArrayList<Map<String, Object>>(pCommentsList.size());
+        newsMap.put("commentList", commnetList);
+        if (!CollectionUtils.isEmpty(pCommentsList)) {
+            Map<String, Object> commentMap;
+            for (Comments comments : pCommentsList) {
+                commentMap = new HashMap<String, Object>(3);
+                commentMap.put("userId", comments.getProfileId());
+                BaseProfile baseProfile = getProfileManager().getMyAccountManager().findUser(String.valueOf(comments.getProfileId()));
+                if (baseProfile != null) {
+                    commentMap.put("userName", baseProfile.getName());
+                }
+                commentMap.put("comment", comments.getComment());
+                commnetList.add(commentMap);
+            }
+        }
+        pResponseBean.addData(newsMap);
+    }
+
     public ProfileManager getProfileManager() {
         return mProfileManager;
     }
@@ -136,5 +172,13 @@ public class ResponseBuilder {
 
     public void setTeacherManager(TeacherManager pTeacherManager) {
         mTeacherManager = pTeacherManager;
+    }
+
+    public NewsManager getNewsManager() {
+        return mNewsManager;
+    }
+
+    public void setNewsManager(NewsManager pNewsManager) {
+        mNewsManager = pNewsManager;
     }
 }

@@ -1,6 +1,7 @@
 package com.fmc.edu.web.controller;
 
 import com.fmc.edu.constant.JSONOutputConstant;
+import com.fmc.edu.exception.ProfileException;
 import com.fmc.edu.manager.MyAccountManager;
 import com.fmc.edu.manager.NewsManager;
 import com.fmc.edu.model.news.*;
@@ -51,6 +52,8 @@ public class NewsActivityControler extends BaseController {
     @ResponseBody
     public String requestNewsList(final HttpServletRequest pRequest, final HttpServletResponse pResponse) {
         ResponseBean responseBean = new ResponseBean();
+
+        TransactionStatus txStatus = ensureTransaction();
         try {
             Pagination pagination = buildPagination(pRequest);
             String userIdStr = decodeInput(pRequest.getParameter("userId"));
@@ -70,27 +73,61 @@ public class NewsActivityControler extends BaseController {
                 return output(responseBean);
             }
 
-            int newType = Integer.valueOf(typeStr);
-            List<News> newsList = getNewsManager().queryNewsListByNewType(pagination, newType);
+            int newsType = Integer.valueOf(typeStr);
+            List<News> newsList = getNewsManager().queryNewsListByNewType(pagination, newsType);
             responseBean.addData(JSONOutputConstant.IS_LAST_PAGE, RepositoryUtils.isLastPageFlag(newsList, pagination.getPageSize()));
 
             if (CollectionUtils.isEmpty(newsList)) {
                 return output(responseBean);
             }
-            if (newType == NewsType.SCHOOL_DYNAMICS_ACTIVITY.getValue() || newType == NewsType.SCHOOL_DYNAMICS_NEWS.getValue() || newType == NewsType.SCHOOL_DYNAMICS_NOTIFY.getValue()) {
-                currentUser.setLastSCId(getNewsManager().queryNewsMaxIdByNewsType(newType));
-            } else if (newType == NewsType.CLASS_DYNAMICS.getValue()) {
-                currentUser.setLastCLId(getNewsManager().queryNewsMaxIdByNewsType(newType));
-            } else if (newType == NewsType.PARENTING_CLASS.getValue()) {
-                currentUser.setLastPCId(getNewsManager().queryNewsMaxIdByNewsType(newType));
+            BaseProfile updateProfile = new BaseProfile();
+            updateProfile.setId(currentUser.getId());
+            int maxTypeNewsId = getNewsManager().queryNewsMaxIdByNewsType(newsType);
+            switch (newsType) {
+                case NewsType.SCHOOL_DYNAMICS_ACTIVITY: {
+                    break;
+                }
+                case NewsType.SCHOOL_DYNAMICS_NEWS: {
+                    break;
+                }
+                case NewsType.SCHOOL_DYNAMICS_NOTIFY: {
+                    break;
+                }
+                case NewsType.CLASS_DYNAMICS: {
+                    updateProfile.setLastCLId(maxTypeNewsId);
+                    break;
+                }
+                case NewsType.PARENTING_CLASS: {
+                    updateProfile.setLastPCId(maxTypeNewsId);
+                    break;
+                }
+                case NewsType.PARENT_CHILD_EDU: {
+                    updateProfile.setLastPCDId(maxTypeNewsId);
+                    break;
+                }
+                case NewsType.SCHOOL_BBS: {
+                    //No requirement
+                    break;
+                }
             }
-            //TODO update base profile
-            //getMyAccountManager().
+            if (newsType == NewsType.SCHOOL_DYNAMICS_ACTIVITY || newsType == NewsType.SCHOOL_DYNAMICS_NEWS || newsType == NewsType.SCHOOL_DYNAMICS_NOTIFY) {
+                updateProfile.setLastSCId(maxTypeNewsId);
+            } else if (newsType == NewsType.CLASS_DYNAMICS) {
+                updateProfile.setLastCLId(maxTypeNewsId);
+            } else if (newsType == NewsType.PARENTING_CLASS) {
+                updateProfile.setLastPCId(maxTypeNewsId);
+            }
+
+            getMyAccountManager().updateBaseProfile(updateProfile);
+
             getResponseBuilder().buildNewsListResponse(responseBean, newsList);
 
         } catch (Exception e) {
+            txStatus.setRollbackOnly();
             responseBean.addErrorMsg(e);
             LOG.error(e);
+        } finally {
+            getTransactionManager().commit(txStatus);
         }
         return output(responseBean);
     }
@@ -119,14 +156,23 @@ public class NewsActivityControler extends BaseController {
             String newsIdStr = decodeInput(pRequest.getParameter("newsId"));
             String userIdStr = decodeInput(pRequest.getParameter("userId"));
             if (!RepositoryUtils.idIsValid(userIdStr)) {
-                responseBean.addBusinessMsg("User id .");
+                responseBean.addBusinessMsg("用户Id错误.");
                 return output(responseBean);
             }
-            if (!StringUtils.isNumeric(newsIdStr)) {
-                responseBean.addBusinessMsg("" + newsIdStr);
+            if (!RepositoryUtils.idIsValid(newsIdStr)) {
+                responseBean.addBusinessMsg("新闻ID错误:" + newsIdStr);
                 return output(responseBean);
             }
-            //TODO .....
+            int userId = Integer.valueOf(userIdStr);
+            int newsId = Integer.valueOf(newsIdStr);
+
+            News newsDetail = getNewsManager().queryNewsDetail(newsId);
+            if (newsDetail == null) {
+                LOG.debug("Can not find any news detail for news id:" + newsIdStr);
+                return output(responseBean);
+            }
+            List<Comments> commentsList = getNewsManager().queryCommentsByNewsIdAndProfileId(userId, newsId);
+            getResponseBuilder().buildNewsDetailResponse(responseBean, newsDetail, commentsList, userId);
             return output(responseBean);
         } catch (Exception e) {
             responseBean.addErrorMsg(e);
@@ -206,8 +252,10 @@ public class NewsActivityControler extends BaseController {
                 responseBean.addBusinessMsg("User id .");
                 return output(responseBean);
             }
-            //TODO need to implement
+            responseBean.addData(getNewsManager().getReadNewsStatus(Integer.valueOf(userIdStr)));
             return output(responseBean);
+        } catch (ProfileException e) {
+            responseBean.addBusinessMsg(e.getMessage());
         } catch (Exception e) {
             responseBean.addErrorMsg(e);
             LOG.error(e);
@@ -250,13 +298,13 @@ public class NewsActivityControler extends BaseController {
             News classNews = new News();
             classNews.setAuthor(userIdInt);
             classNews.setContent(contentStrStr);
-            classNews.setNewsType(NewsType.CLASS_DYNAMICS.getValue());
+            classNews.setNewsType(NewsType.CLASS_DYNAMICS);
             classNews.setSubject(StringUtils.EMPTY);
             if (!getNewsManager().insertNews(classNews)) {
                 responseBean.addBusinessMsg("发布班级动态失败.");
                 throw new Exception("发布班级动态失败.");
             }
-            int newsId = getNewsManager().queryLastInsertNewsTypeNewsIdByAuthor(userIdInt, NewsType.CLASS_DYNAMICS.getValue());
+            int newsId = getNewsManager().queryLastInsertNewsTypeNewsIdByAuthor(userIdInt, NewsType.CLASS_DYNAMICS);
 
             synchronized (WRITE_FILE_LOCK) {
                 if (img1 != null) {

@@ -50,4 +50,8 @@ public interface IMyAccountRepository {
 	String LIKE_NEWS = "com.fmc.edu.myaccount.likeNews";
 
 	boolean likeNews(int pProfileId, int pNewsId);
+
+	String UPDATE_BASEPROFILE = "com.fmc.edu.myaccount.updateBaseProfile";
+
+	boolean updateBaseProfile(BaseProfile pBaseProfile);
 }

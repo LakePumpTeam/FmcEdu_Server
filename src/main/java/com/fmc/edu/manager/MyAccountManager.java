@@ -102,6 +102,10 @@ public class MyAccountManager {
         return getMyAccountService().likeNews(pProfileId, pNewsId);
     }
 
+    public boolean updateBaseProfile(BaseProfile pBaseProfile) {
+        return getMyAccountService().updateBaseProfile(pBaseProfile);
+    }
+
     public MyAccountService getMyAccountService() {
         return mMyAccountService;
     }

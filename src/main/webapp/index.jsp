@@ -653,6 +653,42 @@
          </tr>
         <tr>
              <td>#4</td>
+            <td class="function">获取新闻详情</td>
+            <td class="baseUrl">${ctx}/news/requestNewsDetail</td>
+            <td class="parameters">
+                <table>
+                    <tr>
+                        <td align="right"><label for="userId" title="newsId">userId</label></td>
+                        <td><input type="text" class="ipt_value" id="userId" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="newsId" title="newsId">newsId</label></td>
+                        <td><input type="text" class="ipt_value" id="newsId" value=""/></td>
+                    </tr>
+                </table>
+            </td>
+            <td><input type="button" class="btn_request" value="Request"/></td>
+            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td class="result"></td>
+        </tr>
+        <tr>
+            <td>#5</td>
+            <td class="function">首页：是否有新消息</td>
+            <td class="baseUrl">${ctx}/news/checkNewNews</td>
+            <td class="parameters">
+                <table>
+                    <tr>
+                        <td align="right"><label for="userId" title="newsId">userId</label></td>
+                        <td><input type="text" class="ipt_value" id="userId" value=""/></td>
+                    </tr>
+                </table>
+            </td>
+            <td><input type="button" class="btn_request" value="Request"/></td>
+            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td class="result"></td>
+        </tr>
+        <tr>
+            <td>#6</td>
              <td class="function">class comment</td>
              <td class="baseUrl">${ctx}/news/postClassNews</td>
                <td class="parameters">

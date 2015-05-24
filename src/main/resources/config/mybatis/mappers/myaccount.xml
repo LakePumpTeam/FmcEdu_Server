@@ -94,4 +94,46 @@
         INSERT INTO profile_like_map (profile_id, news_id, creation_date)
         VALUES (#{profileId}, #{newsId}, #{now})
     </insert>
+
+    <update id="updateBaseProfile" parameterType="BaseProfile">
+        UPDATE profile
+        <trim prefix="set" suffixOverrides=",">
+            <if test="name !=null ">
+                name = #{name},
+            </if>
+            <if test="phone != null ">
+                phone = #{phone},
+            </if>
+            <if test="password != null ">
+                password = #{password},
+            </if>
+            <if test="salt!= null ">
+                salt = #{salt},
+            </if>
+            <if test="appId != null ">
+                app_id = #{appId},
+            </if>
+            <if test="channelId != null ">
+                channel_id = #{channelId},
+            </if>
+            <if test="available != null ">
+                available = #{available},
+            </if>
+            <if test="profileType != null ">
+                profile_type = #{profileType},
+            </if>
+            <if test="lastPCId != 0 ">
+                last_pc_id = #{lastPCId},
+            </if>
+            <if test="lastCLId != 0 ">
+                last_cl_id = #{lastCLId},
+            </if>
+            <if test="lastSCId !=0 ">
+                last_sc_id = #{lastSCId},
+            </if>
+
+        </trim>
+
+        WHERE id = #{id};
+    </update>
 </mapper>

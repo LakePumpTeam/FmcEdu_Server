@@ -120,12 +120,4 @@
 		LEFT JOIN profile tpro ON t.profile_id = tpro.id
 		WHERE pro.id = #{id}
 	</select>
-
-    <update id="updateProfileName" parameterType="BaseProfile">
-        UPDATE profile
-        SET name = #{name}
-        WHERE id = #{id};
-    </update>
-
-
 </mapper>

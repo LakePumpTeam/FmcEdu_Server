@@ -71,9 +71,11 @@
         now()
         )
     </insert>
+
     <select id="queryLastInsertNewsTypeNewsIdByAuthor" parameterType="int" resultType="int">
         select max(id) from news where news_type = #{newsType} and author = #{userId};
     </select>
+
     <insert id="insertImage" parameterType="Image">
         INSERT INTO `image`
         ( `news_id`,
@@ -90,4 +92,47 @@
         now()
         );
     </insert>
+
+    <select id="queryNewsDetail" parameterType="int" resultMap="rm.news">
+        SELECT id,
+        author,
+        subject,
+        content,
+        news_type,
+        ref_id,
+        approved,
+        approved_by,
+        approve_date,
+        `like`,
+        publish_date,
+        creation_date,
+        last_update_date
+        FROM news
+        WHERE id = #{newsId}
+    </select>
+
+    <select id="queryCommentsByNewsIdAndProfileId" parameterType="map" resultMap="rm.comments">
+        SELECT `id`,
+        `news_id`,
+        `profile_id`,
+        `comment`,
+        `creation_date`,
+        `last_update_date`
+        FROM `comments`
+        WHERE news_id = #{newsId} and profile_id = #{userId};
+    </select>
+
+    <select id="isLikedNews" parameterType="map" resultType="int">
+        SELECT count(1)
+        FROM `profile_like_map`
+        WHERE profile_id =#{userId} AND news_id = #{newsId} ;
+
+    </select>
+
+    <select id="getAllNewsMaxNewsId" resultType="map">
+        SELECT CAST(news_type AS SIGNED) as newsType, max(id) as maxId
+        FROM news
+        where approved = 1
+        GROUP BY news_type
+    </select>
 </mapper>

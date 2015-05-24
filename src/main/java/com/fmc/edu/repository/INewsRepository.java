@@ -8,6 +8,7 @@ import com.fmc.edu.util.pagenation.Pagination;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Yu on 2015/5/21.
@@ -27,7 +28,7 @@ public interface INewsRepository {
 
     String QUERY_NEWS_DETAIL = "com.fmc.edu.news.queryNewsDetail";
 
-    List<Slide> queryNewsDetail(int pUserId, int pNewsId);
+    News queryNewsDetail(int pNewsId);
 
     String INSERT_COMMENTS = "com.fmc.edu.news.insertComment";
 
@@ -44,4 +45,16 @@ public interface INewsRepository {
     String INSERT_IMAGE = "com.fmc.edu.news.insertImage";
 
     boolean insertImage(Image pImage);
+
+    String QUERY_COMMENTS_BY_NEWSID_AND_PROFILEID = "com.fmc.edu.news.queryCommentsByNewsIdAndProfileId";
+
+    List<Comments> queryCommentsByNewsIdAndProfileId(int pUserId, int pNewsId);
+
+    String IS_LIKED_NEWS = "com.fmc.edu.news.isLikedNews";
+
+    boolean isLikedNews(int pUserId, int pNewsId);
+
+    String QUERY_ALL_NEWS_MAX_ID = "com.fmc.edu.news.getAllNewsMaxNewsId";
+
+    List<Map<Integer, Integer>> getAllNewsMaxNewsId();
 }

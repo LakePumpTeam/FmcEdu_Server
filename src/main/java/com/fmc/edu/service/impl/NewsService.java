@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Yu on 2015/5/21.
@@ -41,12 +42,28 @@ public class NewsService {
         return getNewsRepository().insertComment(pComments);
     }
 
+    public News queryNewsDetail(int pNewsId) {
+        return getNewsRepository().queryNewsDetail(pNewsId);
+    }
+
     public boolean insertNews(News pNews) {
         return getNewsRepository().insertNews(pNews);
     }
 
+    public List<Comments> queryCommentsByNewsIdAndProfileId(int pUserId, int pNewsId) {
+        return getNewsRepository().queryCommentsByNewsIdAndProfileId(pUserId, pNewsId);
+    }
+
     public int queryLastInsertNewsTypeNewsIdByAuthor(int pUserId, int pNewsType) {
         return getNewsRepository().queryLastInsertNewsTypeNewsIdByAuthor(pUserId, pNewsType);
+    }
+
+    public boolean isLikedNews(int pUserId, int pNewsId) {
+        return getNewsRepository().isLikedNews(pUserId, pNewsId);
+    }
+
+    public List<Map<Integer, Integer>> getAllNewsMaxNewsId() {
+        return getNewsRepository().getAllNewsMaxNewsId();
     }
 
     public boolean insertImage(Image pImage) {

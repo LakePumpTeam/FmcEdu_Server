@@ -91,9 +91,4 @@ public class ParentRepository extends BaseRepository implements IParentRepositor
     public boolean initialProfile(BaseProfile pBaseProfile) {
         return getSqlSession().insert(INITIAL_PROFILE, pBaseProfile) > 0;
     }
-
-    @Override
-    public boolean updateProfileName(final BaseProfile pBaseProfile) {
-        return getSqlSession().update(UPDATE_PROFILE_NAME, pBaseProfile) > 0;
-    }
 }
