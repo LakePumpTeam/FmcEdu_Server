@@ -346,7 +346,9 @@ public class NewsActivityControler extends BaseController {
 
             synchronized (WRITE_FILE_LOCK) {
                 if (imgs != null && imgs.length > 0) {
-                    saveNewsImage(imgs[0], userIdStr, newsId);
+                    for (MultipartFile img : imgs) {
+                        saveNewsImage(img, userIdStr, newsId);
+                    }
                 }
               /*  if (img1 != null) {
                     saveNewsImage(img1, userIdStr, newsId);
