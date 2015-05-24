@@ -1,6 +1,7 @@
 package com.fmc.edu.util;
 
 import com.fmc.edu.configuration.WebConfig;
+import com.fmc.edu.img.ImgCompress;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.BufferedOutputStream;
@@ -13,7 +14,7 @@ import java.io.IOException;
  */
 public class ImageUtils {
 
-    public static boolean writeFileToDisk(MultipartFile pFile, String userId) throws IOException {
+    public static boolean writeFileToDisk(MultipartFile pFile, String userId, String fileName) throws IOException {
         String highImagePath = ImageUtils.getHighBaseImagePath(userId);
         String lowImagePath = ImageUtils.getLowBaseImagePath(userId);
         File highBaseDir = new File(highImagePath);
@@ -26,15 +27,15 @@ public class ImageUtils {
         }
 
         //write the original image
-        File highFile = new File(getHighImagePath(userId, pFile.getOriginalFilename()));
+        File highFile = new File(getHighImagePath(userId, fileName));
         byte[] bytes = pFile.getBytes();
         BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(highFile));
         stream.write(bytes);
         stream.close();
 
         //write the compressed image
-        File lowFile = new File(getLowImagePath(userId, pFile.getOriginalFilename()));
-        byte[] lowBytes = pFile.getBytes();//new ImgCompress(pFile.getBytes()).resize(200, 200);
+        File lowFile = new File(getLowImagePath(userId, fileName));
+        byte[] lowBytes = new ImgCompress(pFile.getBytes()).resize(200, 200);
         stream = new BufferedOutputStream(new FileOutputStream(lowFile));
         stream.write(lowBytes);
         stream.close();
@@ -81,5 +82,16 @@ public class ImageUtils {
         StringBuilder relativePath = new StringBuilder();
         relativePath.append(userId).append(File.separator);
         return relativePath.toString();
+    }
+
+    public static String getSuffixFromFileName(String pFileName) {
+        if (StringUtils.isBlank(pFileName)) {
+            return "";
+        }
+        int lastDot = pFileName.lastIndexOf(".");
+        if (lastDot == -1) {
+            return "";
+        }
+        return pFileName.substring(lastDot);
     }
 }

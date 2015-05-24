@@ -372,12 +372,13 @@ public class NewsActivityControler extends BaseController {
     }
 
     private void saveNewsImage(MultipartFile pImage, String pUserId, int pNewsId) throws IOException {
-        ImageUtils.writeFileToDisk(pImage, pUserId);
+        String fileName = System.currentTimeMillis() + ImageUtils.getSuffixFromFileName(pImage.getOriginalFilename());
+        ImageUtils.writeFileToDisk(pImage, pUserId, fileName);
         Image image;
         String highImgPath;
         highImgPath = ImageUtils.getRelativePath(pUserId);
         image = new Image();
-        image.setImgName(pImage.getOriginalFilename());
+        image.setImgName(fileName);
         image.setImgPath(highImgPath);
         image.setNewsId(pNewsId);
         getNewsManager().insertImage(image);
