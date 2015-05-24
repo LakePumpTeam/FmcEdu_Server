@@ -9,11 +9,15 @@ public class Cache {
 
 	private Object mValue;
 
-	private long mLastUpdateTime;
+	private long mLastUpdateTime = System.currentTimeMillis();
 
 	public Cache(final String pKey, final Object pValue) {
 		mKey = pKey;
 		mValue = pValue;
+		mLastUpdateTime = System.currentTimeMillis();
+	}
+
+	public void updateLastUpdateTime() {
 		mLastUpdateTime = System.currentTimeMillis();
 	}
 

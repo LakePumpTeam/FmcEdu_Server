@@ -47,7 +47,9 @@ public class ResponseBuilder {
 
         if (pProfile.getProfileType() == ProfileType.PARENT.getValue()) {
             ParentProfile parentProfile = getProfileManager().queryParentByPhone(pProfile.getPhone());
-            //TODO need to modify.
+            if (parentProfile == null) {
+                return;
+            }
             List<Student> studentList = getStudentManager().queryStudentByParentId(parentProfile.getId());
             if (!CollectionUtils.isEmpty(studentList)) {
                 Student student = studentList.get(0);

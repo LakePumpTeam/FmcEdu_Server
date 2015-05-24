@@ -1,4 +1,4 @@
-package com.fmc.edu.cache.impl;
+package com.fmc.edu.cache.impl.newslike;
 
 import com.fmc.edu.cache.ICacheExpiredHandler;
 import com.fmc.edu.manager.NewsManager;

@@ -1,6 +1,7 @@
 package com.fmc.edu.executor.processor;
 
 import com.fmc.edu.executor.IInitializationHandler;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
@@ -47,12 +48,19 @@ public class InstantiationTracingBeanPostProcessor implements ApplicationListene
 			ServletContext servletContext = webApplicationContext.getServletContext();
 			// TODO load init attributes to application context
 			servletContext.setAttribute("launchDate", new Date());
+
+			invokeInitializationHandlers(webApplicationContext);
 		}
 
 	}
 
-	public IInitializationHandler[] getInitializationHandlers() {
-		return mInitializationHandlers;
+	protected void invokeInitializationHandlers(WebApplicationContext pWebApplicationContext) {
+		if (ArrayUtils.isEmpty(mInitializationHandlers)) {
+			return;
+		}
+		for (IInitializationHandler handler : mInitializationHandlers) {
+			handler.initialize(pWebApplicationContext);
+		}
 	}
 
 	public void setInitializationHandlers(final IInitializationHandler[] pInitializationHandlers) {

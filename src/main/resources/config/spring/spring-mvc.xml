@@ -49,8 +49,6 @@
         <property name="suffix" value=".jsp"/>
     </bean>
 
-    <bean class="com.fmc.edu.executor.processor.InstantiationTracingBeanPostProcessor"/>
-
     <mvc:resources location="/js/" mapping="/js/**"/>
     <mvc:resources location="/style/" mapping="/style/**"/>
     <mvc:resources location="/img/" mapping="/img/**"/>

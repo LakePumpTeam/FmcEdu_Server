@@ -78,8 +78,8 @@
         FROM parent_student_map m
         INNER JOIN student s ON m.student_id = s.id
         INNER JOIN class c ON s.class_id = c.id
-        INNER JOIN profile p ON p.id = m.parent_id
-        WHERE c.head_teacher_id = #{id}
+        INNER JOIN profile p ON p.id = m.parent_id and profile_type != 1
+        WHERE c.head_teacher_id = #{id} order by m.approved asc
     </select>
 
     <delete id="deleteDirtyProfileById" parameterType="int">
@@ -99,11 +99,13 @@
     <delete id="deleteLikeNewsRelation" parameterType="map">
         DELETE FROM profile_like_map WHERE profile_id = #{profileId} AND news_id = #{newsId}
     </delete>
+
     <select id="queryLikeNewsRelation" parameterType="map" resultType="map">
       SELECT profile_id as profileId, news_id as newsId, creation_date as creationDate
       FROM profile_like_map
       WHERE profile_id = #{profileId} AND news_id = #{newsId} LIMIT 1
     </select>
+
     <update id="updateBaseProfile" parameterType="BaseProfile">
         UPDATE profile
         <trim prefix="set" suffixOverrides=",">

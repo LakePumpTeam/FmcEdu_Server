@@ -1,5 +1,6 @@
 package com.fmc.edu.cache;
 
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -7,15 +8,37 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class CacheContent {
 
-	private ConcurrentHashMap<String, Cache> mCache = new ConcurrentHashMap<>();
+	public static final String UPDATE_TYPE = "updateType";
 
-	private long mLastRefreshTime = System.currentTimeMillis();
+	public static final String VALUE = "value";
 
-	private long mCacheExpiredTime;
+	public boolean updateCache(String pCacheKey, Map<String, Object> pParams) {
+		return true;
+	}
 
-	private ICacheExpiredHandler mExpiredHandler;
+	private ICacheExpiredHandler mCacheExpiredHandler;
+
+	protected ConcurrentHashMap<String, Cache> mCache = new ConcurrentHashMap<>();
+
+	protected long mLastRefreshTime = System.currentTimeMillis();
+
+	protected long mCacheExpiredTime;
+
+	protected ICacheExpiredHandler mExpiredHandler;
 
 	public long getNextRefreshTime() {
 		return mLastRefreshTime + mCacheExpiredTime;
+	}
+
+	public void cache(Cache pCache) {
+		mCache.putIfAbsent(pCache.getKey(), pCache);
+	}
+
+	public ICacheExpiredHandler getCacheExpiredHandler() {
+		return mCacheExpiredHandler;
+	}
+
+	public void setCacheExpiredHandler(final ICacheExpiredHandler pCacheExpiredHandler) {
+		mCacheExpiredHandler = pCacheExpiredHandler;
 	}
 }

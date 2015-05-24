@@ -1,6 +1,8 @@
 package com.fmc.edu.web.controller;
 
+import com.fmc.edu.cache.CacheManager;
 import com.fmc.edu.configuration.WebConfig;
+import com.fmc.edu.constant.SessionConstant;
 import com.fmc.edu.crypto.impl.ReplacementBase64EncryptService;
 import com.fmc.edu.util.pagenation.Pagination;
 import com.fmc.edu.web.ResponseBean;
@@ -11,6 +13,8 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
+import org.springframework.web.context.ContextLoader;
+import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -20,17 +24,25 @@ import java.io.IOException;
  * Created by Yove on 5/4/2015.
  */
 public abstract class BaseController {
-    private static final Logger LOG = Logger.getLogger(BaseController.class);
-    @Autowired
+
+	private static final Logger LOG = Logger.getLogger(BaseController.class);
+
+	@Autowired
 	private DataSourceTransactionManager mTransactionManager;
 
 	@Resource(name = "replacementBase64EncryptService")
 	private ReplacementBase64EncryptService mBase64EncryptService;
 
-	protected String output(final ResponseBean pResponseBean){
-		LOG.debug("Response message:"+ pResponseBean.toString());
+	@Resource(name = "cacheManager")
+	private CacheManager mCacheManager;
+
+	private WebApplicationContext mWebApplicationContext = ContextLoader.getCurrentWebApplicationContext();
+
+	protected String output(final ResponseBean pResponseBean) {
+		LOG.debug("Response message:" + pResponseBean.toString());
 		return pResponseBean.toString();
 	}
+
 	protected String decodeInput(final String pParameter) throws IOException {
 		LOG.debug("Encode input parameter:" + pParameter);
 		if (!WebConfig.isEncodeBase64InputParam()) {
@@ -69,11 +81,16 @@ public abstract class BaseController {
 		return new Pagination(Integer.valueOf(pageIndex), Integer.valueOf(pageSize));
 	}
 
+	protected int getProfileIdFromSession(HttpServletRequest pRequest) {
+		Object profileId = pRequest.getSession().getAttribute(SessionConstant.SESSION_KEY_PROFILE_ID);
+		return profileId != null ? (int) profileId : 0;
+	}
+
 	protected int[] decodeInputIds(final String[] pInputIds) throws IOException {
 		int[] ids = new int[pInputIds.length];
 		for (int i = 0; i < pInputIds.length; i++) {
-            LOG.debug("decodeInputIds:" + pInputIds[i]);
-            ids[i] = Integer.valueOf(decodeInput(pInputIds[i]));
+			LOG.debug("decodeInputIds:" + pInputIds[i]);
+			ids[i] = Integer.valueOf(decodeInput(pInputIds[i]));
 		}
 		return ids;
 	}
@@ -92,5 +109,21 @@ public abstract class BaseController {
 
 	public void setBase64EncryptService(final ReplacementBase64EncryptService pBase64EncryptService) {
 		mBase64EncryptService = pBase64EncryptService;
+	}
+
+	public WebApplicationContext getWebApplicationContext() {
+		return mWebApplicationContext;
+	}
+
+	public void setWebApplicationContext(final WebApplicationContext pWebApplicationContext) {
+		mWebApplicationContext = pWebApplicationContext;
+	}
+
+	public CacheManager getCacheManager() {
+		return mCacheManager;
+	}
+
+	public void setCacheManager(final CacheManager pCacheManager) {
+		mCacheManager = pCacheManager;
 	}
 }

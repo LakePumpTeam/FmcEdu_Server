@@ -71,7 +71,7 @@
 		approved_date,
 		creation_date,
 		last_update_date
-		FROM parent_student_map where parent_id=#{parentId} and student_id =#{studentId};
+		FROM parent_student_map where parent_id = #{parentId} and student_id = #{studentId};
 	</select>
 
 	<select id="queryAddressByPhone" parameterType="int" resultMap="rm.address">
