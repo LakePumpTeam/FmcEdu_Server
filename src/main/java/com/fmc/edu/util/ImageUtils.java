@@ -1,7 +1,6 @@
 package com.fmc.edu.util;
 
 import com.fmc.edu.configuration.WebConfig;
-import com.fmc.edu.img.ImgCompress;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.BufferedOutputStream;
@@ -35,7 +34,7 @@ public class ImageUtils {
 
         //write the compressed image
         File lowFile = new File(getLowImagePath(userId, pFile.getOriginalFilename()));
-        byte[] lowBytes = new ImgCompress(pFile.getBytes()).resize(200, 200);
+        byte[] lowBytes = pFile.getBytes();//new ImgCompress(pFile.getBytes()).resize(200, 200);
         stream = new BufferedOutputStream(new FileOutputStream(lowFile));
         stream.write(lowBytes);
         stream.close();
