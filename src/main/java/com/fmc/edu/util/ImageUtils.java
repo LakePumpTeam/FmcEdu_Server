@@ -38,7 +38,7 @@ public class ImageUtils {
         LOG.debug("Writing image completed.");
         //write the compressed image
         File lowFile = new File(getLowImagePath(userId, fileName));
-        LOG.debug("Writing compressed image to:" + getHighImagePath(userId, fileName));
+        LOG.debug("Writing compressed image to:" + getLowImagePath(userId, fileName));
         byte[] lowBytes = new ImgCompress(pFile.getBytes()).resize(200, 200);
         stream = new BufferedOutputStream(new FileOutputStream(lowFile));
         stream.write(lowBytes);
