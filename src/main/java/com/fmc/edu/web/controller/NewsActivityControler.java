@@ -122,7 +122,7 @@ public class NewsActivityControler extends BaseController {
 
             getMyAccountManager().updateBaseProfile(updateProfile);
 
-            getResponseBuilder().buildNewsListResponse(responseBean, newsList, currentUser);
+            getResponseBuilder().buildNewsListResponse(responseBean, newsList);
 
         } catch (Exception e) {
             txStatus.setRollbackOnly();

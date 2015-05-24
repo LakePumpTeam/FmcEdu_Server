@@ -25,9 +25,9 @@ import java.util.*;
  */
 @Service(value = "responseBuilder")
 public class ResponseBuilder {
-    protected static final String ORIGINAL_IMAGE_PATH_PREFIX = "/high/";
-    protected static final String THUMBNAIL_IMAGE_PATH_PREFIX = "/low/";
-    protected static final String SLIDE_IMAGE_PATH_PREFIX = "/slide/";
+    protected static final String ORIGINAL_IMAGE_PATH_PREFIX = "high";
+    protected static final String THUMBNAIL_IMAGE_PATH_PREFIX = "low";
+    protected static final String SLIDE_IMAGE_PATH_PREFIX = "slide";
     @Resource(name = "profileManager")
     private ProfileManager mProfileManager;
 
@@ -72,7 +72,7 @@ public class ResponseBuilder {
 
     }
 
-    public void buildNewsListResponse(ResponseBean pResponseBean, final List<News> pNewsList, BaseProfile currentUser) {
+    public void buildNewsListResponse(ResponseBean pResponseBean, final List<News> pNewsList) {
         if (CollectionUtils.isEmpty(pNewsList)) {
             return;
         }
@@ -89,26 +89,26 @@ public class ResponseBuilder {
             if (CollectionUtils.isEmpty(news.getImageUrls())) {
                 newsMap.put("imageUrls", Collections.EMPTY_LIST);
             } else {
-                newsMap.put("imageUrls", buildImageList(news.getImageUrls(), currentUser));
+                newsMap.put("imageUrls", buildImageList(news.getImageUrls()));
             }
             newsList.add(newsMap);
         }
         pResponseBean.addData("newsList", newsList);
     }
 
-    private List<Map<String, String>> buildImageList(List<Image> pImageList, BaseProfile currentUser) {
+    private List<Map<String, String>> buildImageList(List<Image> pImageList) {
         List<Map<String, String>> imageList = new ArrayList<Map<String, String>>(pImageList.size());
         Map<String, String> imgMap;
         for (Image img : pImageList) {
             imgMap = new HashMap<String, String>(2);
-            imgMap.put("origUrl", getImageUrl("high", currentUser.getId(), img.getImgPath(), img.getImgName()));
-            imgMap.put("thumbUrl", getImageUrl("low", currentUser.getId(), img.getImgPath(), img.getImgName()));
+            imgMap.put("origUrl", getImageUrl(ORIGINAL_IMAGE_PATH_PREFIX, img.getImgPath(), img.getImgName()));
+            imgMap.put("thumbUrl", getImageUrl(THUMBNAIL_IMAGE_PATH_PREFIX, img.getImgPath(), img.getImgName()));
             imageList.add(imgMap);
         }
         return imageList;
     }
 
-    private String getImageUrl(String size, int userId, String path, String fileName) {
+    private String getImageUrl(String size, String path, String fileName) {
         StringBuffer url = new StringBuffer();
         url.append("/")
                 .append(size)
@@ -129,7 +129,7 @@ public class ResponseBuilder {
             slideMap = new HashMap<String, Object>(3);
             slideMap.put("newsId", slide.getNewsId());
             slideMap.put("order", slide.getOrder());
-            slideMap.put("imageUrl", SLIDE_IMAGE_PATH_PREFIX + slide.getImgPath() + "/" + slide.getImgName());
+            slideMap.put("imageUrl", getImageUrl(SLIDE_IMAGE_PATH_PREFIX, slide.getImgPath(), slide.getImgName()));
             slideList.add(slideMap);
         }
         pResponseBean.addData("slideList", slideList);

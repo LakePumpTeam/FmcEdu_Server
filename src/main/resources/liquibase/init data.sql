@@ -237,20 +237,21 @@ INSERT INTO `fmc_edu`.`news` (`author`,`subject`,`content`,`news_type`,`ref_id`,
 INSERT INTO `fmc_edu`.`news` (`author`,`subject`,`content`,`news_type`,`ref_id`,`approved`,`approved_by`,`approve_date`,`like`,`publish_date`,`creation_date`,`last_update_date`) VALUES (1,'test18','test content',4,1,1,1,now(),10,now(),now(),now());
 INSERT INTO `fmc_edu`.`news` (`author`,`subject`,`content`,`news_type`,`ref_id`,`approved`,`approved_by`,`approve_date`,`like`,`publish_date`,`creation_date`,`last_update_date`) VALUES (1,'test19','test content',1,1,1,1,now(),10,now(),now(),now());
 
-INSERT INTO `fmc_edu`.`image` (`news_id`,`img_name`,`img_path`,`creation_date`,`last_update_date`) VALUES (1,'1.jpg','1/',now(),now());
-INSERT INTO `fmc_edu`.`image` (`news_id`,`img_name`,`img_path`,`creation_date`,`last_update_date`) VALUES (2,'1.jpg','2/',now(),now());
-INSERT INTO `fmc_edu`.`image` (`news_id`,`img_name`,`img_path`,`creation_date`,`last_update_date`) VALUES (3,'2.jpg','1/',now(),now());
-INSERT INTO `fmc_edu`.`image` (`news_id`,`img_name`,`img_path`,`creation_date`,`last_update_date`) VALUES (3,'1.jpg','2/',now(),now());
-INSERT INTO `fmc_edu`.`image` (`news_id`,`img_name`,`img_path`,`creation_date`,`last_update_date`) VALUES (5,'2.jpg','1/',now(),now());
-INSERT INTO `fmc_edu`.`image` (`news_id`,`img_name`,`img_path`,`creation_date`,`last_update_date`) VALUES (3,'1.jpg','2/',now(),now());
-INSERT INTO `fmc_edu`.`image` (`news_id`,`img_name`,`img_path`,`creation_date`,`last_update_date`) VALUES (7,'2.jpg','1/',now(),now());
-INSERT INTO `fmc_edu`.`image` (`news_id`,`img_name`,`img_path`,`creation_date`,`last_update_date`) VALUES (8,'1.jpg','2/',now(),now());
-INSERT INTO `fmc_edu`.`image` (`news_id`,`img_name`,`img_path`,`creation_date`,`last_update_date`) VALUES (9,'2.jpg','1/',now(),now());
-INSERT INTO `fmc_edu`.`image` (`news_id`,`img_name`,`img_path`,`creation_date`,`last_update_date`) VALUES (10,'1.jpg','2/',now(),now());
-INSERT INTO `fmc_edu`.`image` (`news_id`,`img_name`,`img_path`,`creation_date`,`last_update_date`) VALUES (9,'1.jpg','1/',now(),now());
-INSERT INTO `fmc_edu`.`image` (`news_id`,`img_name`,`img_path`,`creation_date`,`last_update_date`) VALUES (12,'2.jpg','2/',now(),now());
-INSERT INTO `fmc_edu`.`image` (`news_id`,`img_name`,`img_path`,`creation_date`,`last_update_date`) VALUES (13,'1.jpg','1/',now(),now());
+INSERT INTO `fmc_edu`.`image` (`news_id`,`img_name`,`img_path`,`creation_date`,`last_update_date`) VALUES (1,'1432457741730.jpg','1/',now(),now());
+INSERT INTO `fmc_edu`.`image` (`news_id`,`img_name`,`img_path`,`creation_date`,`last_update_date`) VALUES (2,'1432464255300.jpg','1/',now(),now());
+INSERT INTO `fmc_edu`.`image` (`news_id`,`img_name`,`img_path`,`creation_date`,`last_update_date`) VALUES (3,'1432457741730.jpg','1/',now(),now());
+INSERT INTO `fmc_edu`.`image` (`news_id`,`img_name`,`img_path`,`creation_date`,`last_update_date`) VALUES (3,'1432464255300.jpg','1/',now(),now());
+INSERT INTO `fmc_edu`.`image` (`news_id`,`img_name`,`img_path`,`creation_date`,`last_update_date`) VALUES (5,'1432457741730.jpg','1/',now(),now());
+INSERT INTO `fmc_edu`.`image` (`news_id`,`img_name`,`img_path`,`creation_date`,`last_update_date`) VALUES (3,'1432460250312.jpg','1/',now(),now());
+INSERT INTO `fmc_edu`.`image` (`news_id`,`img_name`,`img_path`,`creation_date`,`last_update_date`) VALUES (7,'1432457741730.jpg','1/',now(),now());
+INSERT INTO `fmc_edu`.`image` (`news_id`,`img_name`,`img_path`,`creation_date`,`last_update_date`) VALUES (8,'1432460250312.jpg','1/',now(),now());
+INSERT INTO `fmc_edu`.`image` (`news_id`,`img_name`,`img_path`,`creation_date`,`last_update_date`) VALUES (9,'1432457741730.jpg','1/',now(),now());
+INSERT INTO `fmc_edu`.`image` (`news_id`,`img_name`,`img_path`,`creation_date`,`last_update_date`) VALUES (10,'1432460250287.jpg','1/',now(),now());
+INSERT INTO `fmc_edu`.`image` (`news_id`,`img_name`,`img_path`,`creation_date`,`last_update_date`) VALUES (9,'1432457741730.jpg','1/',now(),now());
+INSERT INTO `fmc_edu`.`image` (`news_id`,`img_name`,`img_path`,`creation_date`,`last_update_date`) VALUES (12,'1432460250287.jpg','1/',now(),now());
+INSERT INTO `fmc_edu`.`image` (`news_id`,`img_name`,`img_path`,`creation_date`,`last_update_date`) VALUES (13,'1432457741730.jpg','1/',now(),now());
 
-INSERT INTO `slide` (`subject`,`news_id`,`profile_id`,`img_name`,`img_path`,`order`,`start_date`,`end_date`,`available`,`creation_date`,`last_update_date`) VALUES ('slide subject 1',1,1,'1.jpg','',0,now(),now(),1,now(),now());
-INSERT INTO `slide` (`subject`,`news_id`,`profile_id`,`img_name`,`img_path`,`order`,`start_date`,`end_date`,`available`,`creation_date`,`last_update_date`) VALUES ('slide subject 2',2,1,'2.jpg','',0,now(),now(),1,now(),now());
-INSERT INTO `slide` (`subject`,`news_id`,`profile_id`,`img_name`,`img_path`,`order`,`start_date`,`end_date`,`available`,`creation_date`,`last_update_date`) VALUES ('slide subject 3',3,1,'3.jpg','',0,now(),now(),1,now(),now());
+INSERT INTO `slide` (`subject`,`news_id`,`profile_id`,`img_name`,`img_path`,`order`,`start_date`,`end_date`,`available`,`creation_date`,`last_update_date`) VALUES ('slide subject 1',1,1,'1432460250272.jpg','',0,now(),now(),1,now(),now());
+INSERT INTO `slide` (`subject`,`news_id`,`profile_id`,`img_name`,`img_path`,`order`,`start_date`,`end_date`,`available`,`creation_date`,`last_update_date`) VALUES ('slide subject 2',2,1,'1432460250287.jpg','',0,now(),now(),1,now(),now());
+INSERT INTO `slide` (`subject`,`news_id`,`profile_id`,`img_name`,`img_path`,`order`,`start_date`,`end_date`,`available`,`creation_date`,`last_update_date`) VALUES ('slide subject 3',3,1,'1432464255300.jpg','',0,now(),now(),1,now(),now());
+INSERT INTO `slide` (`subject`,`news_id`,`profile_id`,`img_name`,`img_path`,`order`,`start_date`,`end_date`,`available`,`creation_date`,`last_update_date`) VALUES ('slide subject 4',3,1,'1432464713028.jpg','',0,now(),now(),1,now(),now());
