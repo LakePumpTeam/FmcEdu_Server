@@ -711,45 +711,45 @@
             <td><input type="button" class="btn_reset" value="Reset"/></td>
             <td class="result"></td>
         </tr>
-        <tr>
+        <span>
             <td>#7</td>
             <td class="function">发布班级动态</td>
              <td class="baseUrl">${ctx}/news/postClassNews</td>
                <td class="parameters">
-                   <table>
                       <form method="POST" enctype="multipart/form-data"	action="/news/postClassNews">
-                       <table>
-                            <tr>
-                                <td align="right"><label for="userId" title="userId">userId</label></td>
-                                <td><input type="text" class="ipt_value" name="userId" id="userId" value=""/></td>
-                            </tr>
-                            <tr>
-                                <td align="right"><label for="subject" title="subject">subject</label></td>
-                                <td><input type="text" class="ipt_value" name="subject" id="subject" value=""/></td>
-                            </tr>
-                            <tr>
-                                <td align="right"><label for="content" title="content">content</label></td>
-                                <td><input type="text" class="ipt_value" name="content" id="content" value=""/></td>
-                            </tr>
-                             <tr>
-                                  <td align="right"><label for="img1" title="img1">img1</label></td>
-                                 <td><input type="file" name="img1" class="img1" id="img1"/></td>
-                              </tr>
-                              <tr>
-                                  <td align="right"><label for="img2" title="img2">img2</label></td>
-                                  <td><input type="file" name="img2" class="img2" id="img2"/></td>
-                              </tr>
-                              <tr>
-                                  <td align="right"><label for="img3" title="img3">img3</label></td>
-                                  <td><input type="file" name="img3" class="img3" id="img3"/></td>
-                             </tr>
-                              <tr>
-                                  <td align="right"><label for="img4" title="img4">img4</label></td>
-                                  <td><input type="file" name="img4" class="img4" id="img4"/></td>
-                              </tr>
-                        </table>
-                      	<input type="submit" value="Upload">
+
+                          <div>
+                              <label for="userId" title="userId">userId</label>
+                              <input type="text" class="ipt_value" name="userId" id="userId" value=""/>
+                          </div>
+                          <div>
+                              <label for="subject" title="subject">subject</label>
+                              <input type="text" class="ipt_value" name="subject" id="subject" value=""/>
+                          </div>
+                          <div>
+                              <label for="content" title="content">content</label>
+                              <input type="text" class="ipt_value" name="content" id="content" value=""/>
+                          </div>
+                          <div>
+                              <label for="img1" title="img1">img1</label>
+                              <input type="file" name="img1" class="img1" id="img1"/>
+                          </div>
+                          <div>
+                              <label for="img2" title="img2">img2</label>
+                              <input type="file" name="img2" class="img2" id="img2"/>
+                          </div>
+                          <div>
+                              <label for="img3" title="img3">img3</label>
+                              <input type="file" name="img3" class="img3" id="img3"/>
+                          </div>
+                          <div>
+                              <label for="img4" title="img4">img4</label>
+                              <input type="file" name="img4" class="img4" id="img4"/>
+                          </div>
+
+                          <input type="submit" value="Upload">
                       </form>
+    </table>
                    </table>
                </td>
         </tr>
