@@ -372,6 +372,8 @@ public class NewsActivityControler extends BaseController {
     }
 
     private void saveNewsImage(MultipartFile pImage, String pUserId, int pNewsId) throws IOException {
+        LOG.debug("Processing image, size:" + pImage.getSize() + "image original name:" + pImage.getOriginalFilename());
+
         String fileName = System.currentTimeMillis() + ImageUtils.getSuffixFromFileName(pImage.getOriginalFilename());
         ImageUtils.writeFileToDisk(pImage, pUserId, fileName);
         Image image;
