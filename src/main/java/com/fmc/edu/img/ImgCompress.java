@@ -51,8 +51,7 @@ public class ImgCompress {
 
     public byte[] resize(int w, int h) throws IOException {
         BufferedImage image = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
-        image.getGraphics().drawImage(img, 0, 0, w, h, null); // 绘制缩小后的图
-        File destFile = new File("C:\\temp\\456.jpg");
+        image.getGraphics().drawImage(img, 0, 0, w, h, null); 
         ByteArrayOutputStream tempImage = new ByteArrayOutputStream();
         JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(tempImage);
         encoder.encode(image);
