@@ -35,7 +35,7 @@ public class ImageUtils {
         BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(highFile));
         stream.write(bytes);
         stream.close();
-
+        LOG.debug("Writing image completed.");
         //write the compressed image
         File lowFile = new File(getLowImagePath(userId, fileName));
         LOG.debug("Writing compressed image to:" + getHighImagePath(userId, fileName));
@@ -43,6 +43,7 @@ public class ImageUtils {
         stream = new BufferedOutputStream(new FileOutputStream(lowFile));
         stream.write(lowBytes);
         stream.close();
+        LOG.debug("Writing compressed image completed.");
         return true;
     }
 
