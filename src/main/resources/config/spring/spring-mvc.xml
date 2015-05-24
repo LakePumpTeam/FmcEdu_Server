@@ -54,8 +54,8 @@
     <mvc:resources location="/js/" mapping="/js/**"/>
     <mvc:resources location="/style/" mapping="/style/**"/>
     <mvc:resources location="/img/" mapping="/img/**"/>
-    <mvc:resources location="high/" mapping="D:/upload/high/**"/>
-    <mvc:resources location="low/" mapping="D:/upload/low/**"/>
+    <mvc:resources location="high/" mapping="/high/**"/>
+    <mvc:resources location="low/" mapping="/low/**"/>
     <mvc:resources location="slide/" mapping="/slide/**"/>
     <mvc:resources location="/bower_components/" mapping="/bower_components/**"/>
     <mvc:resources location="/dist/" mapping="/dist/**"/>
