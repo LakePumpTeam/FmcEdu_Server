@@ -310,10 +310,7 @@ public class NewsActivityControler extends BaseController {
                                 @RequestParam(value = "userId", required = true) String userId,
                                 @RequestParam(value = "subject", required = false) String subject,
                                 @RequestParam(value = "content", required = true) String content,
-                                @RequestParam("img1") MultipartFile img1,
-                                @RequestParam("img2") MultipartFile img2,
-                                @RequestParam("img3") MultipartFile img3,
-                                @RequestParam("img4") MultipartFile img4
+                                @RequestParam("imgs") MultipartFile[] imgs
     ) {
         ResponseBean responseBean = new ResponseBean();
 
@@ -348,7 +345,10 @@ public class NewsActivityControler extends BaseController {
             int newsId = getNewsManager().queryLastInsertNewsTypeNewsIdByAuthor(userIdInt, NewsType.CLASS_DYNAMICS);
 
             synchronized (WRITE_FILE_LOCK) {
-                if (img1 != null) {
+                if (imgs != null && imgs.length > 0) {
+                    saveNewsImage(imgs[0], userIdStr, newsId);
+                }
+              /*  if (img1 != null) {
                     saveNewsImage(img1, userIdStr, newsId);
                 }
                 if (img2 != null) {
@@ -359,7 +359,7 @@ public class NewsActivityControler extends BaseController {
                 }
                 if (img4 != null) {
                     saveNewsImage(img4, userIdStr, newsId);
-                }
+                }*/
             }
             return output(responseBean);
         } catch (Exception e) {
