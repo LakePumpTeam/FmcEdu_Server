@@ -25,9 +25,9 @@ import java.util.*;
  */
 @Service(value = "responseBuilder")
 public class ResponseBuilder {
-    protected static final String ORIGINAL_IMAGE_PATH_PREFIX = "/high";
-    protected static final String THUMBNAIL_IMAGE_PATH_PREFIX = "/low";
-    protected static final String SLIDE_IMAGE_PATH_PREFIX = "/slide";
+    protected static final String ORIGINAL_IMAGE_PATH_PREFIX = "/high/";
+    protected static final String THUMBNAIL_IMAGE_PATH_PREFIX = "/low/";
+    protected static final String SLIDE_IMAGE_PATH_PREFIX = "/slide/";
     @Resource(name = "profileManager")
     private ProfileManager mProfileManager;
 
@@ -97,8 +97,8 @@ public class ResponseBuilder {
         Map<String, String> imgMap;
         for (Image img : pImageList) {
             imgMap = new HashMap<String, String>(2);
-            imgMap.put("origUrl", ORIGINAL_IMAGE_PATH_PREFIX + img.getImgPath() + img.getImgName());
-            imgMap.put("thumbUrl", THUMBNAIL_IMAGE_PATH_PREFIX + img.getImgPath() + img.getImgName());
+            imgMap.put("origUrl", ORIGINAL_IMAGE_PATH_PREFIX + img.getImgPath() + "/" + img.getImgName());
+            imgMap.put("thumbUrl", THUMBNAIL_IMAGE_PATH_PREFIX + img.getImgPath() + "/" + img.getImgName());
             imageList.add(imgMap);
         }
         return imageList;
@@ -114,7 +114,7 @@ public class ResponseBuilder {
             slideMap = new HashMap<String, Object>(3);
             slideMap.put("newsId", slide.getNewsId());
             slideMap.put("order", slide.getOrder());
-            slideMap.put("imageUrl", SLIDE_IMAGE_PATH_PREFIX + slide.getImgPath() + slide.getImgName());
+            slideMap.put("imageUrl", SLIDE_IMAGE_PATH_PREFIX + slide.getImgPath() + "/" + slide.getImgName());
             slideList.add(slideMap);
         }
         pResponseBean.addData("slideList", slideList);

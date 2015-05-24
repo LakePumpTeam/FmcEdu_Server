@@ -716,7 +716,7 @@
             <td class="function">发布班级动态</td>
              <td class="baseUrl">${ctx}/news/postClassNews</td>
                <td class="parameters">
-                      <form method="POST" enctype="multipart/form-data"	action="/news/postClassNews">
+                   <form method="POST" enctype="multipart/form-data" action="${ctx}/news/postClassNews">
 
                           <div>
                               <label for="userId" title="userId">userId</label>
