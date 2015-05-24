@@ -48,8 +48,10 @@ public class ResponseBuilder {
         if (pProfile.getProfileType() == ProfileType.PARENT.getValue()) {
             ParentProfile parentProfile = getProfileManager().queryParentByPhone(pProfile.getPhone());
             if (parentProfile == null) {
+                pResponseBean.addBusinessMsg("家长不存在.");
                 return;
             }
+
             List<Student> studentList = getStudentManager().queryStudentByParentId(parentProfile.getId());
             if (!CollectionUtils.isEmpty(studentList)) {
                 Student student = studentList.get(0);
@@ -70,7 +72,7 @@ public class ResponseBuilder {
 
     }
 
-    public void buildNewsListResponse(ResponseBean pResponseBean, final List<News> pNewsList) {
+    public void buildNewsListResponse(ResponseBean pResponseBean, final List<News> pNewsList, BaseProfile currentUser) {
         if (CollectionUtils.isEmpty(pNewsList)) {
             return;
         }
@@ -87,23 +89,36 @@ public class ResponseBuilder {
             if (CollectionUtils.isEmpty(news.getImageUrls())) {
                 newsMap.put("imageUrls", Collections.EMPTY_LIST);
             } else {
-                newsMap.put("imageUrls", buildImageList(news.getImageUrls()));
+                newsMap.put("imageUrls", buildImageList(news.getImageUrls(), currentUser));
             }
             newsList.add(newsMap);
         }
         pResponseBean.addData("newsList", newsList);
     }
 
-    private List<Map<String, String>> buildImageList(List<Image> pImageList) {
+    private List<Map<String, String>> buildImageList(List<Image> pImageList, BaseProfile currentUser) {
         List<Map<String, String>> imageList = new ArrayList<Map<String, String>>(pImageList.size());
         Map<String, String> imgMap;
         for (Image img : pImageList) {
             imgMap = new HashMap<String, String>(2);
-            imgMap.put("origUrl", ORIGINAL_IMAGE_PATH_PREFIX + img.getImgPath() + "/" + img.getImgName());
-            imgMap.put("thumbUrl", THUMBNAIL_IMAGE_PATH_PREFIX + img.getImgPath() + "/" + img.getImgName());
+            imgMap.put("origUrl", getImageUrl("high", currentUser.getId(), img.getImgPath(), img.getImgName()));
+            imgMap.put("thumbUrl", getImageUrl("low", currentUser.getId(), img.getImgPath(), img.getImgName()));
             imageList.add(imgMap);
         }
         return imageList;
+    }
+
+    private String getImageUrl(String size, int userId, String path, String fileName) {
+        StringBuffer url = new StringBuffer();
+        url.append("/")
+                .append(size)
+                .append("/")
+                .append(path)
+                .append("/")
+                .append(userId)
+                .append("/")
+                .append(fileName);
+        return url.toString().replace("//", "/");
     }
 
     public void buildSlideListResponse(ResponseBean pResponseBean, final List<Slide> pSlideList) {

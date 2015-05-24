@@ -85,7 +85,7 @@ public class NewsActivityControler extends BaseController {
             BaseProfile updateProfile = new BaseProfile();
             updateProfile.setId(currentUser.getId());
             int maxTypeNewsId = getNewsManager().queryNewsMaxIdByNewsType(newsType);
-            switch (newsType) {
+           /* switch (newsType) {
                 case NewsType.SCHOOL_DYNAMICS_ACTIVITY: {
                     break;
                 }
@@ -111,7 +111,7 @@ public class NewsActivityControler extends BaseController {
                     //No requirement
                     break;
                 }
-            }
+            }*/
             if (newsType == NewsType.SCHOOL_DYNAMICS_ACTIVITY || newsType == NewsType.SCHOOL_DYNAMICS_NEWS || newsType == NewsType.SCHOOL_DYNAMICS_NOTIFY) {
                 updateProfile.setLastSCId(maxTypeNewsId);
             } else if (newsType == NewsType.CLASS_DYNAMICS) {
@@ -122,7 +122,7 @@ public class NewsActivityControler extends BaseController {
 
             getMyAccountManager().updateBaseProfile(updateProfile);
 
-            getResponseBuilder().buildNewsListResponse(responseBean, newsList);
+            getResponseBuilder().buildNewsListResponse(responseBean, newsList, currentUser);
 
         } catch (Exception e) {
             txStatus.setRollbackOnly();
@@ -350,18 +350,6 @@ public class NewsActivityControler extends BaseController {
                         saveNewsImage(img, userIdStr, newsId);
                     }
                 }
-              /*  if (img1 != null) {
-                    saveNewsImage(img1, userIdStr, newsId);
-                }
-                if (img2 != null) {
-                    saveNewsImage(img2, userIdStr, newsId);
-                }
-                if (img3 != null) {
-                    saveNewsImage(img3, userIdStr, newsId);
-                }
-                if (img4 != null) {
-                    saveNewsImage(img4, userIdStr, newsId);
-                }*/
             }
             return output(responseBean);
         } catch (Exception e) {
