@@ -135,4 +135,47 @@
         where approved = 1
         GROUP BY news_type
     </select>
+
+    <update id="updateNews" parameterType="News">
+        UPDATE news
+        <trim prefix="set" suffixOverrides=",">
+            <if test="author != 0 ">
+                author = #{author},
+            </if>
+            <if test="subject != null ">
+                subject = #{subject},
+            </if>
+            <if test="content != null ">
+                content = #{content},
+            </if>
+            <if test="newsType!= null ">
+                news_type = #{newsType},
+            </if>
+            <if test="refId != 0 ">
+                ref_id = #{refId},
+            </if>
+            <if test="approved != null ">
+                approved = #{approved},
+            </if>
+            <if test="approvedBy != null ">
+                approved_by = #{approvedBy},
+            </if>
+            <if test="approvedDate != null ">
+                approve_date = #{approvedDate},
+            </if>
+            <if test="like != 0 ">
+                `like` = #{like},
+            </if>
+            <if test="publishDate != null ">
+                publish_date = #{publishDate},
+            </if>
+            <if test="creationDate !=null ">
+                creation_date = #{creationDate},
+            </if>
+            <if test="lastUpdateDate !=null ">
+                last_update_date = #{lastUpdateDate},
+            </if>
+        </trim>
+        WHERE id = #{id}
+    </update>
 </mapper>

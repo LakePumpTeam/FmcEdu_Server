@@ -80,12 +80,28 @@ public class MyAccountRepository extends BaseRepository implements IMyAccountRep
     }
 
     @Override
-    public boolean likeNews(final int pProfileId, final int pNewsId) {
+    public boolean addLikeNewsRelation(final int pProfileId, final int pNewsId) {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("profileId", pProfileId);
         params.put("newsId", pNewsId);
         params.put("now", new Timestamp(System.currentTimeMillis()));
-        return getSqlSession().insert(LIKE_NEWS, params) > 0;
+        return getSqlSession().insert(ADD_LIKE_NEWS, params) > 0;
+    }
+
+    @Override
+    public boolean deleteLikeNewsRelation(int pProfileId, int pNewsId) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("profileId", pProfileId);
+        params.put("newsId", pNewsId);
+        return getSqlSession().delete(DELETE_LIKE_NEWS, params) > 0;
+    }
+
+    @Override
+    public Map<String, Object> queryLikeNewsRelation(int pProfileId, int pNewsId) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("profileId", pProfileId);
+        params.put("newsId", pNewsId);
+        return getSqlSession().selectOne(QUERY_LIKE_NEWS_RELATION, params);
     }
 
     @Override

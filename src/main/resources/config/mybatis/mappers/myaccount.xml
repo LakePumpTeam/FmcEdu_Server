@@ -87,14 +87,23 @@
     </delete>
 
     <select id="queryStudentParentRelationByParentId" parameterType="int" resultMap="rm.parentStudentRelationship">
-      select parent_id, student_id,relationship,approved,approved_date,creation_date, last_update_date from parent_student_map where parent_id=#{parentId}
+        SELECT parent_id, student_id,relationship,approved,approved_date,creation_date, last_update_date from
+        parent_student_map where parent_id=#{parentId}
     </select>
 
-    <insert id="likeNews" parameterType="map">
+    <insert id="addLikeNewsRelation" parameterType="map">
         INSERT INTO profile_like_map (profile_id, news_id, creation_date)
         VALUES (#{profileId}, #{newsId}, #{now})
     </insert>
 
+    <delete id="deleteLikeNewsRelation" parameterType="map">
+        DELETE FROM profile_like_map WHERE profile_id = #{profileId} AND news_id = #{newsId}
+    </delete>
+    <select id="queryLikeNewsRelation" parameterType="map" resultType="map">
+      SELECT profile_id as profileId, news_id as newsId, creation_date as creationDate
+      FROM profile_like_map
+      WHERE profile_id = #{profileId} AND news_id = #{newsId} LIMIT 1
+    </select>
     <update id="updateBaseProfile" parameterType="BaseProfile">
         UPDATE profile
         <trim prefix="set" suffixOverrides=",">

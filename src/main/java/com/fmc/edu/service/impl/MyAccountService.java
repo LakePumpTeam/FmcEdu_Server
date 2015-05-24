@@ -62,8 +62,16 @@ public class MyAccountService {
         return getMyAccountRepository().updateBaseProfile(pBaseProfile);
     }
 
-    public boolean likeNews(final int pProfileId, final int pNewsId) {
-        return getMyAccountRepository().likeNews(pProfileId, pNewsId);
+    public boolean addLikeNewsRelation(final int pProfileId, final int pNewsId) {
+        return getMyAccountRepository().addLikeNewsRelation(pProfileId, pNewsId);
+    }
+
+    public boolean deleteLikeNewsRelation(int pProfileId, int pNewsId) {
+        return getMyAccountRepository().deleteLikeNewsRelation(pProfileId, pNewsId);
+    }
+
+    public Map<String, Object> queryLikeNewsRelation(int pProfileId, int pNewsId) {
+        return getMyAccountRepository().queryLikeNewsRelation(pProfileId, pNewsId);
     }
 
     public IMyAccountRepository getMyAccountRepository() {

@@ -93,4 +93,9 @@ public class NewsRepository extends BaseRepository implements INewsRepository {
         return getSqlSession().selectList(QUERY_ALL_NEWS_MAX_ID);
     }
 
+    @Override
+    public boolean updateNews(News pNews) {
+        return getSqlSession().update(UPDATE_NEWS, pNews) > 0;
+    }
+
 }

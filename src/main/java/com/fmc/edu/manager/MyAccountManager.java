@@ -98,12 +98,20 @@ public class MyAccountManager {
         return getMyAccountService().getPendingAuditParents(pTeacherId);
     }
 
-    public boolean likeNews(final int pProfileId, final int pNewsId) {
-        return getMyAccountService().likeNews(pProfileId, pNewsId);
+    public boolean addLikeNewsRelation(final int pProfileId, final int pNewsId) {
+        return getMyAccountService().addLikeNewsRelation(pProfileId, pNewsId);
+    }
+
+    public boolean deleteLikeNewsRelation(int pProfileId, int pNewsId) {
+        return getMyAccountService().deleteLikeNewsRelation(pProfileId, pNewsId);
     }
 
     public boolean updateBaseProfile(BaseProfile pBaseProfile) {
         return getMyAccountService().updateBaseProfile(pBaseProfile);
+    }
+
+    public Map<String, Object> queryLikeNewsRelation(int pProfileId, int pNewsId) {
+        return getMyAccountService().queryLikeNewsRelation(pProfileId, pNewsId);
     }
 
     public MyAccountService getMyAccountService() {

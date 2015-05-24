@@ -1,6 +1,7 @@
 package com.fmc.edu.web.controller;
 
 import com.fmc.edu.constant.JSONOutputConstant;
+import com.fmc.edu.exception.NewsException;
 import com.fmc.edu.exception.ProfileException;
 import com.fmc.edu.manager.MyAccountManager;
 import com.fmc.edu.manager.NewsManager;
@@ -28,6 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Yu on 2015/5/21.
@@ -219,25 +221,63 @@ public class NewsActivityControler extends BaseController {
     @ResponseBody
     public String likeNews(final HttpServletRequest pRequest, final HttpServletResponse pResponse) {
         ResponseBean responseBean = new ResponseBean();
+        TransactionStatus txStatus = ensureTransaction();
         try {
             String userIdStr = decodeInput(pRequest.getParameter("userId"));
             String newsIdStr = decodeInput(pRequest.getParameter("newsId"));
+            String isLikeStr = decodeInput(pRequest.getParameter("isLike"));
             if (!RepositoryUtils.idIsValid(userIdStr)) {
-                responseBean.addBusinessMsg("User id is invalid: " + userIdStr);
-                return output(responseBean);
+                throw new NewsException("用户ID错误:" + userIdStr);
             }
             if (!StringUtils.isNumeric(newsIdStr)) {
-                responseBean.addBusinessMsg("News id is invalid: " + newsIdStr);
-                return output(responseBean);
+                throw new NewsException("文章ID错误:" + newsIdStr);
+            }
+            boolean isLike = true;
+            if (!StringUtils.isBlank(isLikeStr)) {
+                isLike = Boolean.valueOf(isLikeStr);
             }
             int profileId = Integer.valueOf(userIdStr);
             int newsId = Integer.valueOf(newsIdStr);
-            getMyAccountManager().likeNews(profileId, newsId);
+            News newsDetail = getNewsManager().queryNewsDetail(newsId);
+            if (newsDetail == null) {
+                throw new NewsException("文章不存在:" + newsIdStr);
+            }
+            News news = new News();
+            news.setId(newsId);
+
+            Map<String, Object> profileNewsRelation = getMyAccountManager().queryLikeNewsRelation(profileId, newsId);
+            if (isLike) {
+                news.setLike(newsDetail.getLike() + 1);
+            } else if (profileNewsRelation != null && newsDetail.getLike() > 0) {
+                news.setLike(newsDetail.getLike() - 1);
+            } else {
+                throw new NewsException("状态错误.");
+            }
+            if (getNewsManager().updateNews(news)) {
+                if (isLike) {
+                    //relation is not exist in database, then insert the relation for like request
+                    if (profileNewsRelation == null || profileNewsRelation.size() == 0) {
+                        getMyAccountManager().addLikeNewsRelation(profileId, newsId);
+                    }
+                } else {
+                    //delete relation for unlike request
+                    getMyAccountManager().deleteLikeNewsRelation(profileId, newsId);
+                }
+            } else {
+                throw new NewsException("操作失败.");
+            }
             //TODO integration with memory cache for like numbers
             return output(responseBean);
+        } catch (NewsException ex) {
+            responseBean.addBusinessMsg(ex.getMessage());
+            txStatus.setRollbackOnly();
+            LOG.error(ex);
         } catch (Exception e) {
+            txStatus.setRollbackOnly();
             responseBean.addErrorMsg(e);
             LOG.error(e);
+        } finally {
+            getTransactionManager().commit(txStatus);
         }
         return output(responseBean);
     }

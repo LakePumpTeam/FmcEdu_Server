@@ -689,6 +689,30 @@
         </tr>
         <tr>
             <td>#6</td>
+            <td class="function">点赞</td>
+            <td class="baseUrl">${ctx}/news/likeNews</td>
+            <td class="parameters">
+                <table>
+                    <tr>
+                        <td align="right"><label for="userId" title="newsId">userId</label></td>
+                        <td><input type="text" class="ipt_value" id="userId" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="newsId" title="newsId">newsId</label></td>
+                        <td><input type="text" class="ipt_value" id="newsId" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="isLike" title="isLike">isLike</label></td>
+                        <td><input type="checkbox" class="ipt_value" id="isLike" value="checked"/></td>
+                    </tr>
+                </table>
+            </td>
+            <td><input type="button" class="btn_request" value="Request"/></td>
+            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td class="result"></td>
+        </tr>
+        <tr>
+            <td>#7</td>
              <td class="function">class comment</td>
              <td class="baseUrl">${ctx}/news/postClassNews</td>
                <td class="parameters">

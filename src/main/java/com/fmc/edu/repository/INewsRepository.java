@@ -57,4 +57,8 @@ public interface INewsRepository {
     String QUERY_ALL_NEWS_MAX_ID = "com.fmc.edu.news.getAllNewsMaxNewsId";
 
     List<Map<Integer, Integer>> getAllNewsMaxNewsId();
+
+    String UPDATE_NEWS = "com.fmc.edu.news.updateNews";
+
+    boolean updateNews(News pNews);
 }

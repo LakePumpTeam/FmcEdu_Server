@@ -147,6 +147,9 @@ public class NewsManager {
         return getNewsService().getAllNewsMaxNewsId();
     }
 
+    public boolean updateNews(News pNews) {
+        return getNewsService().updateNews(pNews);
+    }
     public NewsService getNewsService() {
         return mNewsService;
     }

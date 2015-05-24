@@ -66,6 +66,10 @@ public class NewsService {
         return getNewsRepository().getAllNewsMaxNewsId();
     }
 
+    public boolean updateNews(News pNews) {
+        return getNewsRepository().updateNews(pNews);
+    }
+
     public boolean insertImage(Image pImage) {
         return getNewsRepository().insertImage(pImage);
     }

@@ -11,47 +11,55 @@ import java.util.Map;
  */
 public interface IMyAccountRepository {
 
-	String QUER_USER_BY_PHONE = "com.fmc.edu.myaccount.login";
+    String QUER_USER_BY_PHONE = "com.fmc.edu.myaccount.login";
 
-	BaseProfile findUser(final String pPhone);
+    BaseProfile findUser(final String pPhone);
 
-	String QUER_USER_BY_PROFILE_ID = "com.fmc.edu.myaccount.findUserById";
+    String QUER_USER_BY_PROFILE_ID = "com.fmc.edu.myaccount.findUserById";
 
-	BaseProfile findUserById(final String pProfileId);
+    BaseProfile findUserById(final String pProfileId);
 
-	String UPDATE_LOGIN_STATUS = "com.fmc.edu.myaccount.updateLoginStatus";
+    String UPDATE_LOGIN_STATUS = "com.fmc.edu.myaccount.updateLoginStatus";
 
-	int saveLoginStatus(final BaseProfile pLoginedUser);
+    int saveLoginStatus(final BaseProfile pLoginedUser);
 
-	String RESET_PASSWORD = "com.fmc.edu.myaccount.resetPassword";
+    String RESET_PASSWORD = "com.fmc.edu.myaccount.resetPassword";
 
-	int resetPassword(final BaseProfile pLoginedUser);
+    int resetPassword(final BaseProfile pLoginedUser);
 
-	String UPDATE_PARENT_AUDIT_STATUS = "com.fmc.edu.myaccount.updateParentAuditStatus";
+    String UPDATE_PARENT_AUDIT_STATUS = "com.fmc.edu.myaccount.updateParentAuditStatus";
 
-	boolean updateParentAuditStatus(int pTeacherId, int[] pParentIds, int pPass);
+    boolean updateParentAuditStatus(int pTeacherId, int[] pParentIds, int pPass);
 
-	String UPDATE_ALL_PARENT_AUDIT_STATUS = "com.fmc.edu.myaccount.updateAllParentAuditStatus";
+    String UPDATE_ALL_PARENT_AUDIT_STATUS = "com.fmc.edu.myaccount.updateAllParentAuditStatus";
 
-	boolean updateAllParentAuditStatus(int pTeacherId, int pPass);
+    boolean updateAllParentAuditStatus(int pTeacherId, int pPass);
 
-	String QUERY_PENDING_AUDIT_PARENTS = "com.fmc.edu.myaccount.queryPendingAuditParents";
+    String QUERY_PENDING_AUDIT_PARENTS = "com.fmc.edu.myaccount.queryPendingAuditParents";
 
-	List<Map<String, Object>> queryPendingAuditParents(int pTeacherId);
+    List<Map<String, Object>> queryPendingAuditParents(int pTeacherId);
 
-	String DELETE_DIRTY_PROFILE_BY_ID = "com.fmc.edu.myaccount.deleteDirtyProfileById";
+    String DELETE_DIRTY_PROFILE_BY_ID = "com.fmc.edu.myaccount.deleteDirtyProfileById";
 
-	boolean deleteProfile(int userId);
+    boolean deleteProfile(int userId);
 
-	String QUERY_STUDENT_PARENT_RELATION_BY_PARENTID = "com.fmc.edu.myaccount.queryStudentParentRelationByParentId";
+    String QUERY_STUDENT_PARENT_RELATION_BY_PARENTID = "com.fmc.edu.myaccount.queryStudentParentRelationByParentId";
 
-	List<ParentStudentRelationship> queryStudentParentRelationByParentId(int parentId);
+    List<ParentStudentRelationship> queryStudentParentRelationByParentId(int parentId);
 
-	String LIKE_NEWS = "com.fmc.edu.myaccount.likeNews";
+    String ADD_LIKE_NEWS = "com.fmc.edu.myaccount.addLikeNewsRelation";
 
-	boolean likeNews(int pProfileId, int pNewsId);
+    boolean addLikeNewsRelation(int pProfileId, int pNewsId);
 
-	String UPDATE_BASEPROFILE = "com.fmc.edu.myaccount.updateBaseProfile";
+    String DELETE_LIKE_NEWS = "com.fmc.edu.myaccount.deleteLikeNewsRelation";
 
-	boolean updateBaseProfile(BaseProfile pBaseProfile);
+    boolean deleteLikeNewsRelation(int pProfileId, int pNewsId);
+
+    String QUERY_LIKE_NEWS_RELATION = "com.fmc.edu.myaccount.queryLikeNewsRelation";
+
+    Map<String, Object> queryLikeNewsRelation(int pProfileId, int pNewsId);
+
+    String UPDATE_BASEPROFILE = "com.fmc.edu.myaccount.updateBaseProfile";
+
+    boolean updateBaseProfile(BaseProfile pBaseProfile);
 }

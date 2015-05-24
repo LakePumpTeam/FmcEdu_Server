@@ -12,9 +12,9 @@ public class News extends BaseBean {
     private int mAuthor;
     private String mSubject;
     private String mContent;
-    private int mNewsType;
+    private Integer mNewsType;
     private int mRefId;
-    private boolean mApproved;
+    private Boolean mApproved;
     private int mApprovedBy;
     private Timestamp mApprovedDate;
     private int mLike;
@@ -47,11 +47,11 @@ public class News extends BaseBean {
         mContent = pContent;
     }
 
-    public int getNewsType() {
+    public Integer getNewsType() {
         return mNewsType;
     }
 
-    public void setNewsType(int pNewsType) {
+    public void setNewsType(Integer pNewsType) {
         mNewsType = pNewsType;
     }
 
@@ -63,11 +63,11 @@ public class News extends BaseBean {
         mRefId = pRefId;
     }
 
-    public boolean isApproved() {
+    public Boolean isApproved() {
         return mApproved;
     }
 
-    public void setApproved(boolean pApproved) {
+    public void setApproved(Boolean pApproved) {
         mApproved = pApproved;
     }
 
