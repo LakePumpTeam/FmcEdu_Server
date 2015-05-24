@@ -2,6 +2,7 @@ package com.fmc.edu.util;
 
 import com.fmc.edu.configuration.WebConfig;
 import com.fmc.edu.img.ImgCompress;
+import org.apache.log4j.Logger;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.BufferedOutputStream;
@@ -13,6 +14,7 @@ import java.io.IOException;
  * Created by Yu on 5/22/2015.
  */
 public class ImageUtils {
+    private static final Logger LOG = Logger.getLogger(ImageUtils.class);
 
     public static boolean writeFileToDisk(MultipartFile pFile, String userId, String fileName) throws IOException {
         String highImagePath = ImageUtils.getHighBaseImagePath(userId);
@@ -28,6 +30,7 @@ public class ImageUtils {
 
         //write the original image
         File highFile = new File(getHighImagePath(userId, fileName));
+        LOG.debug("Writing image to:" + getHighImagePath(userId, fileName));
         byte[] bytes = pFile.getBytes();
         BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(highFile));
         stream.write(bytes);
@@ -35,6 +38,7 @@ public class ImageUtils {
 
         //write the compressed image
         File lowFile = new File(getLowImagePath(userId, fileName));
+        LOG.debug("Writing compressed image to:" + getHighImagePath(userId, fileName));
         byte[] lowBytes = new ImgCompress(pFile.getBytes()).resize(200, 200);
         stream = new BufferedOutputStream(new FileOutputStream(lowFile));
         stream.write(lowBytes);
