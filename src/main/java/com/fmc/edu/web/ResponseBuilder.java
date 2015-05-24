@@ -115,8 +115,6 @@ public class ResponseBuilder {
                 .append("/")
                 .append(path)
                 .append("/")
-                .append(userId)
-                .append("/")
                 .append(fileName);
         return url.toString().replace("//", "/");
     }
