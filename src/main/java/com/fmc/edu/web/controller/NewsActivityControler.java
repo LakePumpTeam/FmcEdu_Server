@@ -363,7 +363,7 @@ public class NewsActivityControler extends BaseController {
             return output(responseBean);
         } catch (Exception e) {
             responseBean.addErrorMsg(e);
-            LOG.error(e);
+            LOG.error(e.fillInStackTrace());
             txStatus.setRollbackOnly();
         } finally {
             getTransactionManager().commit(txStatus);
