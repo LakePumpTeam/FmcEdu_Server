@@ -713,7 +713,7 @@
         </tr>
         <tr>
             <td>#7</td>
-             <td class="function">class comment</td>
+            <td class="function">发布班级动态</td>
              <td class="baseUrl">${ctx}/news/postClassNews</td>
                <td class="parameters">
                    <table>
