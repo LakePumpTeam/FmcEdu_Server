@@ -340,6 +340,7 @@ public class NewsActivityControler extends BaseController {
             classNews.setContent(contentStrStr);
             classNews.setNewsType(NewsType.CLASS_DYNAMICS);
             classNews.setSubject(StringUtils.EMPTY);
+            classNews.setApproved(true);
             if (!getNewsManager().insertNews(classNews)) {
                 responseBean.addBusinessMsg("发布班级动态失败.");
                 throw new Exception("发布班级动态失败.");

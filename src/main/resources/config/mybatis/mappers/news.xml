@@ -64,7 +64,7 @@
         #{subject},
         #{content},
         #{newsType},
-        0,
+        #{approved},
         0,
         now(),
         now(),
