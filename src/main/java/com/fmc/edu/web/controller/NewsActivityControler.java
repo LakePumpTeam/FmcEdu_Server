@@ -1,5 +1,8 @@
 package com.fmc.edu.web.controller;
 
+import com.fmc.edu.cache.CacheContent;
+import com.fmc.edu.cache.CacheManager;
+import com.fmc.edu.cache.impl.newslike.NewsLikeCacheContent;
 import com.fmc.edu.constant.JSONOutputConstant;
 import com.fmc.edu.exception.NewsException;
 import com.fmc.edu.exception.ProfileException;
@@ -28,6 +31,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -239,13 +243,11 @@ public class NewsActivityControler extends BaseController {
 
             Map<String, Object> profileNewsRelation = getMyAccountManager().queryLikeNewsRelation(profileId, newsId);
             if (isLike) {
-                news.setLike(newsDetail.getLike() + 1);
                 //relation is not exist in database, then insert the relation for like request
                 if (profileNewsRelation == null || profileNewsRelation.size() == 0) {
                     getMyAccountManager().addLikeNewsRelation(profileId, newsId);
                 }
-            } else if (profileNewsRelation != null && newsDetail.getLike() > 0) {
-                news.setLike(newsDetail.getLike() - 1);
+            } else if (profileNewsRelation != null) {
                 getMyAccountManager().deleteLikeNewsRelation(profileId, newsId);
             } else {
                 throw new NewsException("状态错误.");
@@ -254,7 +256,6 @@ public class NewsActivityControler extends BaseController {
             // handle cache
             NewsLikeCacheContent cacheContent = (NewsLikeCacheContent) getCacheManager().getCacheContent(CacheManager.CACHE_CONTENT_NEWS_LIKE);
             Map<String, Object> params = new HashMap<>();
-            params.put(CacheContent.VALUE, news.getLike());
             params.put(CacheContent.UPDATE_TYPE, isLike ? NewsLikeCacheContent.PLUS_ONE : NewsLikeCacheContent.MINUS_ONE);
             cacheContent.updateCache(String.valueOf(newsId), params);
 
