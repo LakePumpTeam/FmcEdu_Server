@@ -2,7 +2,6 @@ package com.fmc.edu.crypto.impl;
 
 import com.fmc.edu.constant.GlobalConstant;
 import com.fmc.edu.crypto.IEncryptService;
-import com.fmc.edu.exception.EncryptException;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -32,12 +31,13 @@ public class ReplacementBase64EncryptService implements IEncryptService {
         return org.apache.commons.codec.binary.StringUtils.getBytesUtf8(encrypt(new String(pSrc, Charset.forName(GlobalConstant.CHARSET_UTF8))));
     }
 
-    public String decrypt(String pParameter) throws EncryptException {
+    public String decrypt(String pParameter) {
         if (StringUtils.isBlank(pParameter)) {
             return StringUtils.EMPTY;
         }
         if (!Base64.isBase64(pParameter)) {
-            throw new EncryptException("Input source is invalid base64 format.");
+            //throw new EncryptException("Input source is invalid base64 format.");
+            return "";
         }
         String parameter = pParameter.replaceAll(RELACEMENT, EQUAL_MARK);
         return new String(Base64.decodeBase64(parameter), Charset.forName(GlobalConstant.CHARSET_UTF8));
@@ -45,9 +45,10 @@ public class ReplacementBase64EncryptService implements IEncryptService {
 
 
     @Override
-    public byte[] decrypt(byte[] pSrc) throws EncryptException {
+    public byte[] decrypt(byte[] pSrc) {
         if (!Base64.isBase64(pSrc)) {
-            throw new EncryptException("Input source is invalid base64 format.");
+            // throw new EncryptException("Input source is invalid base64 format.");
+            return new byte[0];
         }
         try {
             return decrypt(new String(pSrc, Charset.forName(GlobalConstant.CHARSET_UTF8))).getBytes(GlobalConstant.CHARSET_UTF8);

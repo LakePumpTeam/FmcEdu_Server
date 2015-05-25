@@ -4,7 +4,6 @@ import com.fmc.edu.cache.CacheManager;
 import com.fmc.edu.configuration.WebConfig;
 import com.fmc.edu.constant.SessionConstant;
 import com.fmc.edu.crypto.impl.ReplacementBase64EncryptService;
-import com.fmc.edu.exception.EncryptException;
 import com.fmc.edu.util.pagenation.Pagination;
 import com.fmc.edu.web.ResponseBean;
 import org.apache.commons.lang3.StringUtils;
@@ -50,12 +49,7 @@ public abstract class BaseController {
             return pParameter;
         }
         String decodeInput = null;
-        try {
-            decodeInput = mBase64EncryptService.decrypt(pParameter);
-        } catch (EncryptException e) {
-            e.printStackTrace();
-            LOG.error(e);
-        }
+        decodeInput = mBase64EncryptService.decrypt(pParameter);
         LOG.debug("Decode input parameter:" + decodeInput);
         return decodeInput;
     }
