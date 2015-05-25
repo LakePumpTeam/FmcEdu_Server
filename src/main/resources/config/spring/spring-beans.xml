@@ -17,10 +17,11 @@
 
 	<bean id="pcNewsCacheInitHandler" class="com.fmc.edu.executor.handler.NewsCacheInitHandler">
 		<property name="newsType" value="1" />
-		<property name="initializeNewsCacheCount" value="5" />
+		<property name="initializeNewsCacheCount" value="30" />
 	</bean>
 
 	<task:scheduled-tasks>
-		<task:scheduled ref="newsLikeCacheContent" method="handleCacheExpiration" fixed-delay="30000" />
+		<!-- every 10 mins -->
+		<task:scheduled ref="newsLikeCacheContent" method="handleCacheExpiration" fixed-delay="600000" />
 	</task:scheduled-tasks>
 </beans>
