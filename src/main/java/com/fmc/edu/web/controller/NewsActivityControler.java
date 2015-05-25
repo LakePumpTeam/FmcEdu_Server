@@ -38,6 +38,7 @@ import java.util.Map;
 @RequestMapping("/news")
 public class NewsActivityControler extends BaseController {
     public static Object WRITE_FILE_LOCK = "writeFileLock";
+    public static Object LIKE_NEWS_LOCK = "likeNewsLock";
 
     private static final Logger LOG = Logger.getLogger(NewsActivityControler.class);
 
@@ -76,23 +77,29 @@ public class NewsActivityControler extends BaseController {
             }
 
             int newsType = Integer.valueOf(typeStr);
+            responseBean.addData("type", newsType);
             List<News> newsList = getNewsManager().queryNewsListByNewType(pagination, newsType);
             responseBean.addData(JSONOutputConstant.IS_LAST_PAGE, RepositoryUtils.isLastPageFlag(newsList, pagination.getPageSize()));
 
             if (CollectionUtils.isEmpty(newsList)) {
                 return output(responseBean);
             }
+
+            //Should create a new BaseProfile instance, otherwise maybe update error data to database
             BaseProfile updateProfile = new BaseProfile();
             updateProfile.setId(currentUser.getId());
             int maxTypeNewsId = getNewsManager().queryNewsMaxIdByNewsType(newsType);
-           /* switch (newsType) {
+            switch (newsType) {
                 case NewsType.SCHOOL_DYNAMICS_ACTIVITY: {
+                    updateProfile.setLastSDATId(maxTypeNewsId);
                     break;
                 }
                 case NewsType.SCHOOL_DYNAMICS_NEWS: {
+                    updateProfile.setLastSDNWId(maxTypeNewsId);
                     break;
                 }
-                case NewsType.SCHOOL_DYNAMICS_NOTIFY: {
+                case NewsType.SCHOOL_DYNAMICS_NOTIFICATION: {
+                    updateProfile.setLastSDNFId(maxTypeNewsId);
                     break;
                 }
                 case NewsType.CLASS_DYNAMICS: {
@@ -104,25 +111,16 @@ public class NewsActivityControler extends BaseController {
                     break;
                 }
                 case NewsType.PARENT_CHILD_EDU: {
-                    updateProfile.setLastPCDId(maxTypeNewsId);
+                    updateProfile.setLastPCEId(maxTypeNewsId);
                     break;
                 }
                 case NewsType.SCHOOL_BBS: {
-                    //No requirement
+                    updateProfile.setLastBBSId(maxTypeNewsId);
                     break;
                 }
-            }*/
-            if (newsType == NewsType.SCHOOL_DYNAMICS_ACTIVITY || newsType == NewsType.SCHOOL_DYNAMICS_NEWS || newsType == NewsType.SCHOOL_DYNAMICS_NOTIFY) {
-                updateProfile.setLastSCId(maxTypeNewsId);
-            } else if (newsType == NewsType.CLASS_DYNAMICS) {
-                updateProfile.setLastCLId(maxTypeNewsId);
-            } else if (newsType == NewsType.PARENTING_CLASS) {
-                updateProfile.setLastPCId(maxTypeNewsId);
             }
-
             getMyAccountManager().updateBaseProfile(updateProfile);
-
-            getResponseBuilder().buildNewsListResponse(responseBean, newsList);
+            getResponseBuilder().buildNewsListResponse(responseBean, newsList, currentUser);
 
         } catch (Exception e) {
             txStatus.setRollbackOnly();
@@ -238,33 +236,37 @@ public class NewsActivityControler extends BaseController {
             }
             int profileId = Integer.valueOf(userIdStr);
             int newsId = Integer.valueOf(newsIdStr);
-            News newsDetail = getNewsManager().queryNewsDetail(newsId);
-            if (newsDetail == null) {
-                throw new NewsException("文章不存在:" + newsIdStr);
-            }
-            News news = new News();
-            news.setId(newsId);
 
-            Map<String, Object> profileNewsRelation = getMyAccountManager().queryLikeNewsRelation(profileId, newsId);
-            if (isLike) {
-                news.setLike(newsDetail.getLike() + 1);
-            } else if (profileNewsRelation != null && newsDetail.getLike() > 0) {
-                news.setLike(newsDetail.getLike() - 1);
-            } else {
-                throw new NewsException("状态错误.");
-            }
-            if (getNewsManager().updateNews(news)) {
+
+            synchronized (LIKE_NEWS_LOCK) {
+                News newsDetail = getNewsManager().queryNewsDetail(newsId);
+                if (newsDetail == null) {
+                    throw new NewsException("文章不存在:" + newsIdStr);
+                }
+                LOG.debug("current like count:" + newsDetail.getLike());
+                News news = new News();
+                news.setId(newsId);
+                Map<String, Object> profileNewsRelation = getMyAccountManager().queryLikeNewsRelation(profileId, newsId);
                 if (isLike) {
-                    //relation is not exist in database, then insert the relation for like request
-                    if (profileNewsRelation == null || profileNewsRelation.size() == 0) {
-                        getMyAccountManager().addLikeNewsRelation(profileId, newsId);
+                    news.setLike(newsDetail.getLike() + 1);
+                } else if (profileNewsRelation != null && newsDetail.getLike() > 0) {
+                    news.setLike(newsDetail.getLike() - 1);
+                } else {
+                    throw new NewsException("状态错误.");
+                }
+                if (getNewsManager().updateNews(news)) {
+                    if (isLike) {
+                        //relation is not exist in database, then insert the relation for like request
+                        if (profileNewsRelation == null || profileNewsRelation.size() == 0) {
+                            getMyAccountManager().addLikeNewsRelation(profileId, newsId);
+                        }
+                    } else {
+                        //delete relation for unlike request
+                        getMyAccountManager().deleteLikeNewsRelation(profileId, newsId);
                     }
                 } else {
-                    //delete relation for unlike request
-                    getMyAccountManager().deleteLikeNewsRelation(profileId, newsId);
+                    throw new NewsException("操作失败.");
                 }
-            } else {
-                throw new NewsException("操作失败.");
             }
             //TODO integration with memory cache for like numbers
             return output(responseBean);
@@ -368,11 +370,11 @@ public class NewsActivityControler extends BaseController {
         String fileName = System.currentTimeMillis() + ImageUtils.getSuffixFromFileName(pImage.getOriginalFilename());
         ImageUtils.writeFileToDisk(pImage, pUserId, fileName);
         Image image;
-        String highImgPath;
-        highImgPath = ImageUtils.getRelativePath(pUserId);
+        String relativePath;
+        relativePath = ImageUtils.getRelativePath(pUserId);
         image = new Image();
         image.setImgName(fileName);
-        image.setImgPath(highImgPath);
+        image.setImgPath(StringUtils.normalizeUrlNoEndSeparator(relativePath));
         image.setNewsId(pNewsId);
         getNewsManager().insertImage(image);
     }

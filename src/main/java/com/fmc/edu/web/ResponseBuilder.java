@@ -14,7 +14,7 @@ import com.fmc.edu.model.profile.ProfileType;
 import com.fmc.edu.model.profile.TeacherProfile;
 import com.fmc.edu.model.student.Student;
 import com.fmc.edu.util.DateUtils;
-import org.apache.commons.io.FilenameUtils;
+import com.fmc.edu.util.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -73,7 +73,7 @@ public class ResponseBuilder {
 
     }
 
-    public void buildNewsListResponse(ResponseBean pResponseBean, final List<News> pNewsList) {
+    public void buildNewsListResponse(ResponseBean pResponseBean, final List<News> pNewsList, BaseProfile pBaseProfile) {
         if (CollectionUtils.isEmpty(pNewsList)) {
             return;
         }
@@ -91,6 +91,14 @@ public class ResponseBuilder {
                 newsMap.put("imageUrls", Collections.EMPTY_LIST);
             } else {
                 newsMap.put("imageUrls", buildImageList(news.getImageUrls()));
+            }
+            List<Comments> commentList = getNewsManager().queryCommentsByNewsIdAndProfileId(pBaseProfile.getId(), news.getId());
+            if (CollectionUtils.isEmpty(commentList)) {
+                newsMap.put("commentCount", 0);
+                newsMap.put("commentList", Collections.EMPTY_LIST);
+            } else {
+                newsMap.put("commentCount", commentList.size());
+                newsMap.put("commentList", getCommentMapForNews(commentList));
             }
             newsList.add(newsMap);
         }
@@ -117,7 +125,7 @@ public class ResponseBuilder {
                 .append(path)
                 .append("/")
                 .append(fileName);
-        return FilenameUtils.normalizeNoEndSeparator(url.toString());
+        return StringUtils.normalizeUrlNoEndSeparator(url.toString());
     }
 
     public void buildSlideListResponse(ResponseBean pResponseBean, final List<Slide> pSlideList) {
@@ -148,8 +156,24 @@ public class ResponseBuilder {
         newsMap.put("like", pNews.getLike());
         newsMap.put("liked", getNewsManager().isLikedNews(pCurrentUserId, pNews.getId()));
         newsMap.put("createDate", DateUtils.ConvertDateToString(pNews.getPublishDate()));
+        newsMap.put("commentList", getCommentMapForNews(pCommentsList));
+        newsMap.put("imageUrls", getImagePathListOfNews(pNews));
+        pResponseBean.addData(newsMap);
+    }
+
+    private List<String> getImagePathListOfNews(News pNews) {
+        if (CollectionUtils.isEmpty(pNews.getImageUrls())) {
+            return Collections.EMPTY_LIST;
+        }
+        List<String> imagePathList = new ArrayList<String>(pNews.getImageUrls().size());
+        for (Image img : pNews.getImageUrls()) {
+            imagePathList.add(getImageUrl(ORIGINAL_IMAGE_PATH_PREFIX, img.getImgPath(), img.getImgName()));
+        }
+        return imagePathList;
+    }
+
+    private List<Map<String, Object>> getCommentMapForNews(List<Comments> pCommentsList) {
         List<Map<String, Object>> commentList = new ArrayList<Map<String, Object>>(pCommentsList.size());
-        newsMap.put("commentList", commentList);
         if (!CollectionUtils.isEmpty(pCommentsList)) {
             Map<String, Object> commentMap;
             for (Comments comments : pCommentsList) {
@@ -163,7 +187,7 @@ public class ResponseBuilder {
                 commentList.add(commentMap);
             }
         }
-        pResponseBean.addData(newsMap);
+        return commentList;
     }
 
     public ProfileManager getProfileManager() {

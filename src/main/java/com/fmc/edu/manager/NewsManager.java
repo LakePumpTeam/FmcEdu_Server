@@ -81,56 +81,45 @@ public class NewsManager {
         }
         for (Map<Integer, Integer> maxNewsId : maxNewsIdList) {
             Integer maxId = maxNewsId.get("maxId");
+            if (maxId == null) {
+                continue;
+            }
             switch (maxNewsId.get("newsType")) {
                 case NewsType.CLASS_DYNAMICS: {
-                    if (maxId != null) {
-                        readNewsStatus.put("classNews", maxId > currentUser.getLastCLId());
-                    }
+                    readNewsStatus.put("classNews", maxId > currentUser.getLastCLId());
                     break;
                 }
                 case NewsType.PARENT_CHILD_EDU: {
-                    if (maxId != null) {
-                        readNewsStatus.put("pcdNews", false);//maxNewsIdMap.get(NewsType.PARENT_CHILD_EDU) > currentUser.getLastCLId());
-                    }
+                    readNewsStatus.put("pcdNews", maxId > currentUser.getLastPCEId());//maxNewsIdMap.get(NewsType.PARENT_CHILD_EDU) > currentUser.getLastCLId());
                     break;
                 }
                 case NewsType.PARENTING_CLASS: {
-                    if (maxId != null) {
-                        readNewsStatus.put("parentingClassNews", maxId > currentUser.getLastPCId());
-                    }
+                    readNewsStatus.put("parentingClassNews", maxId > currentUser.getLastPCId());
                     break;
                 }
                 case NewsType.SCHOOL_BBS: {
-                    if (maxId != null) {
-                        readNewsStatus.put("bbsNews", false);
-                    }
+                    readNewsStatus.put("bbsNews", maxId > currentUser.getLastBBSId());
                     break;
                 }
                 case NewsType.SCHOOL_DYNAMICS_ACTIVITY: {
-                    if (maxId != null) {
-                        if (readNewsStatus.get("schoolNews") != null && readNewsStatus.get("schoolNews")) {
-                            break;
-                        }
-                        readNewsStatus.put("schoolNews", maxId > currentUser.getLastSDActivity());
+                    if (readNewsStatus.get("schoolNews") != null && readNewsStatus.get("schoolNews")) {
+                        break;
                     }
+                    readNewsStatus.put("schoolNews", maxId > currentUser.getLastSDATId());
                     break;
                 }
                 case NewsType.SCHOOL_DYNAMICS_NEWS: {
-                    if (maxId != null) {
-                        if (readNewsStatus.get("schoolNews") != null && readNewsStatus.get("schoolNews")) {
-                            break;
-                        }
-                        readNewsStatus.put("schoolNews", maxId > currentUser.getLastSDNews());
+                    if (readNewsStatus.get("schoolNews") != null && readNewsStatus.get("schoolNews")) {
+                        break;
                     }
+                    readNewsStatus.put("schoolNews", maxId > currentUser.getLastSDNWId());
                     break;
                 }
-                case NewsType.SCHOOL_DYNAMICS_NOTIFY: {
-                    if (maxId != null) {
-                        if (readNewsStatus.get("schoolNews") != null && readNewsStatus.get("schoolNews")) {
-                            break;
-                        }
-                        readNewsStatus.put("schoolNews", maxId > currentUser.getLastSDNotify());
+                case NewsType.SCHOOL_DYNAMICS_NOTIFICATION: {
+                    if (readNewsStatus.get("schoolNews") != null && readNewsStatus.get("schoolNews")) {
+                        break;
                     }
+                    readNewsStatus.put("schoolNews", maxId > currentUser.getLastSDNFId());
                     break;
                 }
 
@@ -150,6 +139,7 @@ public class NewsManager {
     public boolean updateNews(News pNews) {
         return getNewsService().updateNews(pNews);
     }
+
     public NewsService getNewsService() {
         return mNewsService;
     }

@@ -31,17 +31,17 @@ public class BaseProfile extends BaseBean {
 
     private int mLastPCId;
 
+    private int mLastSDATId;
+
+    private int mLastSDNFId;
+
+    private int mLastSDNWId;
+
     private int mLastCLId;
 
-    private int mLastSCId;
+    private int mLastPCEId;
 
-    private int mLastSDActivity;
-
-    private int mLastSDNews;
-
-    private int mLastSDNotify;
-
-    private int mLastPCDId;
+    private int mLastBBSId;
 
     public String getName() {
         return mName;
@@ -139,43 +139,43 @@ public class BaseProfile extends BaseBean {
         mLastPCId = pLastPCId;
     }
 
-    public int getLastSCId() {
-        return mLastSCId;
+    public int getLastSDATId() {
+        return mLastSDATId;
     }
 
-    public void setLastSCId(int pLastSCId) {
-        mLastSCId = pLastSCId;
+    public void setLastSDATId(int pLastSDATId) {
+        mLastSDATId = pLastSDATId;
     }
 
-    public int getLastSDActivity() {
-        return mLastSDActivity;
+    public int getLastSDNFId() {
+        return mLastSDNFId;
     }
 
-    public void setLastSDActivity(int pLastSDActivity) {
-        mLastSDActivity = pLastSDActivity;
+    public void setLastSDNFId(int pLastSDNFId) {
+        mLastSDNFId = pLastSDNFId;
     }
 
-    public int getLastSDNews() {
-        return mLastSDNews;
+    public int getLastSDNWId() {
+        return mLastSDNWId;
     }
 
-    public void setLastSDNews(int pLastSDNews) {
-        mLastSDNews = pLastSDNews;
+    public void setLastSDNWId(int pLastSDNWId) {
+        mLastSDNWId = pLastSDNWId;
     }
 
-    public int getLastSDNotify() {
-        return mLastSDNotify;
+    public int getLastPCEId() {
+        return mLastPCEId;
     }
 
-    public void setLastSDNotify(int pLastSDNotify) {
-        mLastSDNotify = pLastSDNotify;
+    public void setLastPCEId(int pLastPCEId) {
+        mLastPCEId = pLastPCEId;
     }
 
-    public int getLastPCDId() {
-        return mLastPCDId;
+    public int getLastBBSId() {
+        return mLastBBSId;
     }
 
-    public void setLastPCDId(int pLastPCDId) {
-        mLastPCDId = pLastPCDId;
+    public void setLastBBSId(int pLastBBSId) {
+        mLastBBSId = pLastBBSId;
     }
 }

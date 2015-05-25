@@ -24,6 +24,13 @@
         <result property="lastUpdateDate" column="last_update_date"/>
         <result property="available" column="available"/>
         <result property="profileType" column="profile_type"/>
+        <result property="lastPCId" column="last_pc_id"/>
+        <result property="lastSDATId" column="last_sdat_id"/>
+        <result property="lastSDNFId" column="last_sdnf_id"/>
+        <result property="lastSDNWId" column="last_sdnw_id"/>
+        <result property="lastCLId" column="last_cl_id"/>
+        <result property="lastPCEId" column="last_pce_id"/>
+        <result property="lastBBSId" column="last_bbs_id"/>
     </resultMap>
 
     <resultMap id="parent" type="ParentProfile">
