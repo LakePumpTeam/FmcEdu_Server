@@ -1,13 +1,10 @@
 package com.fmc.edu.cache;
 
-import org.springframework.stereotype.Service;
-
 import java.util.LinkedHashMap;
 
 /**
  * Created by Yove on 5/23/2015.
  */
-@Service(value = "cacheManager")
 public class CacheManager {
 
 	public static final String CACHE_CONTENT_NEWS_LIKE = "news_like";
@@ -16,10 +13,17 @@ public class CacheManager {
 
 	private LinkedHashMap<String, CacheContent> mCacheContentMap;
 
+
+	/**
+	 * protected constructor
+	 */
 	protected CacheManager() {
 		mCacheContentMap = new LinkedHashMap<>();
 	}
 
+	/**
+	 * @return singleton mode to make sure only one cache manager in application scope
+	 */
 	public static CacheManager getInstance() {
 		return INSTANCE;
 	}

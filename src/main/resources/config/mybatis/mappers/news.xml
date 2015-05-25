@@ -178,4 +178,14 @@
         </trim>
         WHERE id = #{id}
     </update>
+
+    <update id="updateNewsCacheBatch" parameterType="list">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE news
+            <set>
+                `like` = #{item.value}, last_update_date = #{item.lastUpdateTimestamp}
+            </set>
+            where id = ${item.key}
+        </foreach>
+    </update>
 </mapper>

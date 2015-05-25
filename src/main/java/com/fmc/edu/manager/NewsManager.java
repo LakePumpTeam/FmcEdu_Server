@@ -124,7 +124,7 @@ public class NewsManager {
                     }
                     break;
                 }
-                case NewsType.SCHOOL_DYNAMICS_NOTIFY: {
+                case NewsType.SCHOOL_DYNAMICS_NOTIFICATION: {
                     if (maxId != null) {
                         if (readNewsStatus.get("schoolNews") != null && readNewsStatus.get("schoolNews")) {
                             break;

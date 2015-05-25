@@ -1,5 +1,6 @@
 package com.fmc.edu.service.impl;
 
+import com.fmc.edu.cache.Cache;
 import com.fmc.edu.model.news.Comments;
 import com.fmc.edu.model.news.Image;
 import com.fmc.edu.model.news.News;
@@ -56,6 +57,10 @@ public class NewsService {
 
     public int queryLastInsertNewsTypeNewsIdByAuthor(int pUserId, int pNewsType) {
         return getNewsRepository().queryLastInsertNewsTypeNewsIdByAuthor(pUserId, pNewsType);
+    }
+
+    public boolean updateNewsCacheBatch(final List<Cache> pCacheList) {
+        return getNewsRepository().updateNewsCacheBatch(pCacheList);
     }
 
     public boolean isLikedNews(int pUserId, int pNewsId) {

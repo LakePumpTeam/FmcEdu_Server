@@ -33,8 +33,7 @@ public abstract class BaseController {
     @Resource(name = "replacementBase64EncryptService")
     private ReplacementBase64EncryptService mBase64EncryptService;
 
-    @Resource(name = "cacheManager")
-    private CacheManager mCacheManager;
+    private CacheManager mCacheManager = CacheManager.getInstance();
 
     private WebApplicationContext mWebApplicationContext = ContextLoader.getCurrentWebApplicationContext();
 

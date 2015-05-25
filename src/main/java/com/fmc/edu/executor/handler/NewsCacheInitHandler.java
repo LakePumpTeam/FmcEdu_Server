@@ -3,7 +3,6 @@ package com.fmc.edu.executor.handler;
 import com.fmc.edu.cache.Cache;
 import com.fmc.edu.cache.CacheContent;
 import com.fmc.edu.cache.CacheManager;
-import com.fmc.edu.cache.impl.newslike.NewsLikeCacheContent;
 import com.fmc.edu.executor.IInitializationHandler;
 import com.fmc.edu.model.news.News;
 import com.fmc.edu.service.impl.NewsService;
@@ -21,6 +20,9 @@ public class NewsCacheInitHandler implements IInitializationHandler {
 	@Resource(name = "newsService")
 	private NewsService mNewsService;
 
+	@Resource(name = "newsLikeCacheContent")
+	private CacheContent mCacheContent;
+
 	private int mInitializeNewsCacheCount;
 
 	private int mNewsType;
@@ -28,14 +30,14 @@ public class NewsCacheInitHandler implements IInitializationHandler {
 	private CacheManager mCacheManager = CacheManager.getInstance();
 
 	@Override
-	public void initialize(final WebApplicationContext pWebApplicationContext) {
-		CacheContent newsCacheContent = new NewsLikeCacheContent();
+	public synchronized void initialize(final WebApplicationContext pWebApplicationContext) {
+		mCacheContent.clear();
 		List<News> initNewsList = getNewsService().queryNewsListByNewType(buildPagination(), getNewsType());
 		for (News news : initNewsList) {
 			Cache cache = initCache(news.getId(), news.getLike());
-			newsCacheContent.cache(cache);
+			mCacheContent.cache(cache);
 		}
-		mCacheManager.addCacheContent(CacheManager.CACHE_CONTENT_NEWS_LIKE, newsCacheContent);
+		mCacheManager.addCacheContent(CacheManager.CACHE_CONTENT_NEWS_LIKE, mCacheContent);
 	}
 
 	public Cache initCache(int pNewsId, int pLikeCount) {
@@ -76,5 +78,13 @@ public class NewsCacheInitHandler implements IInitializationHandler {
 
 	public void setCacheManager(final CacheManager pCacheManager) {
 		mCacheManager = pCacheManager;
+	}
+
+	public CacheContent getCacheContent() {
+		return mCacheContent;
+	}
+
+	public void setCacheContent(final CacheContent pCacheContent) {
+		mCacheContent = pCacheContent;
 	}
 }

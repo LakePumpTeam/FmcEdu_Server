@@ -1,10 +1,16 @@
 package com.fmc.edu.cache;
 
+import java.sql.Timestamp;
+
 /**
  * Created by Yove on 5/23/2015.
  */
 public class Cache {
 
+
+	/**
+	 * always be id
+	 */
 	private String mKey;
 
 	private Object mValue;
@@ -19,6 +25,10 @@ public class Cache {
 
 	public void updateLastUpdateTime() {
 		mLastUpdateTime = System.currentTimeMillis();
+	}
+
+	public Timestamp getLastUpdateTimestamp() {
+		return new Timestamp(mLastUpdateTime);
 	}
 
 	public String getKey() {

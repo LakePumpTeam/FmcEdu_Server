@@ -45,5 +45,4 @@ public abstract class BaseRepository {
 			pDataMap.put(JSONOutputConstant.IS_LAST_PAGE, GlobalConstant.FALSE);
 		}
 	}
-
 }

@@ -7,5 +7,10 @@ import org.springframework.web.context.WebApplicationContext;
  */
 public interface IInitializationHandler {
 
+	/**
+	 * Initialize method to deal with business
+	 *
+	 * @param pWebApplicationContext
+	 */
 	void initialize(WebApplicationContext pWebApplicationContext);
 }

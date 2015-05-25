@@ -1,5 +1,8 @@
 package com.fmc.edu.web.controller;
 
+import com.fmc.edu.cache.CacheContent;
+import com.fmc.edu.cache.CacheManager;
+import com.fmc.edu.cache.impl.newslike.NewsLikeCacheContent;
 import com.fmc.edu.constant.JSONOutputConstant;
 import com.fmc.edu.exception.NewsException;
 import com.fmc.edu.exception.ProfileException;
@@ -28,6 +31,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,6 +41,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/news")
 public class NewsActivityControler extends BaseController {
+
     public static Object WRITE_FILE_LOCK = "writeFileLock";
 
     private static final Logger LOG = Logger.getLogger(NewsActivityControler.class);
@@ -92,7 +97,7 @@ public class NewsActivityControler extends BaseController {
                 case NewsType.SCHOOL_DYNAMICS_NEWS: {
                     break;
                 }
-                case NewsType.SCHOOL_DYNAMICS_NOTIFY: {
+                case NewsType.SCHOOL_DYNAMICS_NOTIFICATION: {
                     break;
                 }
                 case NewsType.CLASS_DYNAMICS: {
@@ -112,7 +117,7 @@ public class NewsActivityControler extends BaseController {
                     break;
                 }
             }*/
-            if (newsType == NewsType.SCHOOL_DYNAMICS_ACTIVITY || newsType == NewsType.SCHOOL_DYNAMICS_NEWS || newsType == NewsType.SCHOOL_DYNAMICS_NOTIFY) {
+            if (newsType == NewsType.SCHOOL_DYNAMICS_ACTIVITY || newsType == NewsType.SCHOOL_DYNAMICS_NEWS || newsType == NewsType.SCHOOL_DYNAMICS_NOTIFICATION) {
                 updateProfile.setLastSCId(maxTypeNewsId);
             } else if (newsType == NewsType.CLASS_DYNAMICS) {
                 updateProfile.setLastCLId(maxTypeNewsId);
@@ -248,24 +253,24 @@ public class NewsActivityControler extends BaseController {
             Map<String, Object> profileNewsRelation = getMyAccountManager().queryLikeNewsRelation(profileId, newsId);
             if (isLike) {
                 news.setLike(newsDetail.getLike() + 1);
+                //relation is not exist in database, then insert the relation for like request
+                if (profileNewsRelation == null || profileNewsRelation.size() == 0) {
+                    getMyAccountManager().addLikeNewsRelation(profileId, newsId);
+                }
             } else if (profileNewsRelation != null && newsDetail.getLike() > 0) {
                 news.setLike(newsDetail.getLike() - 1);
+                getMyAccountManager().deleteLikeNewsRelation(profileId, newsId);
             } else {
                 throw new NewsException("状态错误.");
             }
-            if (getNewsManager().updateNews(news)) {
-                if (isLike) {
-                    //relation is not exist in database, then insert the relation for like request
-                    if (profileNewsRelation == null || profileNewsRelation.size() == 0) {
-                        getMyAccountManager().addLikeNewsRelation(profileId, newsId);
-                    }
-                } else {
-                    //delete relation for unlike request
-                    getMyAccountManager().deleteLikeNewsRelation(profileId, newsId);
-                }
-            } else {
-                throw new NewsException("操作失败.");
-            }
+
+            // handle cache
+            NewsLikeCacheContent cacheContent = (NewsLikeCacheContent) getCacheManager().getCacheContent(CacheManager.CACHE_CONTENT_NEWS_LIKE);
+            Map<String, Object> params = new HashMap<>();
+            params.put(CacheContent.VALUE, news.getLike());
+            params.put(CacheContent.UPDATE_TYPE, isLike ? NewsLikeCacheContent.PLUS_ONE : NewsLikeCacheContent.MINUS_ONE);
+            cacheContent.updateCache(String.valueOf(newsId), params);
+
             //TODO integration with memory cache for like numbers
             return output(responseBean);
         } catch (NewsException ex) {
