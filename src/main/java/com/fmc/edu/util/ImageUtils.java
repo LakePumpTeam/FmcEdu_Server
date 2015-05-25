@@ -2,6 +2,8 @@ package com.fmc.edu.util;
 
 import com.fmc.edu.configuration.WebConfig;
 import com.fmc.edu.img.ImgCompress;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -34,16 +36,16 @@ public class ImageUtils {
         byte[] bytes = pFile.getBytes();
         BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(highFile));
         stream.write(bytes);
-        stream.close();
+        IOUtils.closeQuietly(stream);
 
         LOG.debug("Writing image completed.");
         //write the compressed image
         File lowFile = new File(getLowImagePath(userId, fileName));
         LOG.debug("Writing compressed image to:" + getLowImagePath(userId, fileName));
-        byte[] lowBytes = new ImgCompress(pFile.getBytes()).resize(200, 200);
+        byte[] lowBytes = new ImgCompress(pFile.getBytes()).resize(WebConfig.getCompressedImageWidth(), WebConfig.getCompressedImageHight());
         stream = new BufferedOutputStream(new FileOutputStream(lowFile));
         stream.write(lowBytes);
-        stream.close();
+        IOUtils.closeQuietly(stream);
         LOG.debug("Writing compressed image completed.");
         return true;
     }
@@ -55,7 +57,7 @@ public class ImageUtils {
                 .append("high")
                 .append(File.separator)
                 .append(getRelativePath(userId));
-        return stringBuilder.toString();
+        return FilenameUtils.normalizeNoEndSeparator(stringBuilder.toString());
     }
 
     public static String getLowBaseImagePath(final String userId) {
@@ -65,7 +67,7 @@ public class ImageUtils {
                 .append("low")
                 .append(File.separator)
                 .append(getRelativePath(userId));
-        return stringBuilder.toString();
+        return FilenameUtils.normalizeNoEndSeparator(stringBuilder.toString());
     }
 
     public static String getHighImagePath(String userId, String fileName) {
@@ -73,7 +75,7 @@ public class ImageUtils {
         path.append(getHighBaseImagePath(userId))
                 .append(File.separator)
                 .append(fileName);
-        return path.toString().replace(File.separator + File.separator, File.separator);
+        return FilenameUtils.normalizeNoEndSeparator(fileName);
     }
 
     public static String getLowImagePath(String userId, String fileName) {
@@ -81,7 +83,7 @@ public class ImageUtils {
         path.append(getLowBaseImagePath(userId))
                 .append(File.separator)
                 .append(fileName);
-        return path.toString().replace(File.separator + File.separator, File.separator);
+        return FilenameUtils.normalizeNoEndSeparator(path.toString());
     }
 
     public static String getRelativePath(String userId) {

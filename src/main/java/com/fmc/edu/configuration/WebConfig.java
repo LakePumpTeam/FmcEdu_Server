@@ -32,6 +32,9 @@ public class WebConfig {
 
     private static final String UPLOAD_FILE_ROOT_PATH = "uploadFileRootPath";
 
+    private static final String COMPRESS_IMAGE_HIGHT = "compressedImageHight";
+
+    private static final String COMPRESS_IMAGE_WIDTH = "compressedImageWidth";
     private static Properties props;
 
     static {
@@ -115,5 +118,21 @@ public class WebConfig {
         }
         String uploadFileRootPath = props.getProperty(WebConfig.UPLOAD_FILE_ROOT_PATH);
         return uploadFileRootPath;
+    }
+
+    public static int getCompressedImageHight() {
+        if (props == null) {
+            return 60;
+        }
+        String compressedImageHight = props.getProperty(WebConfig.COMPRESS_IMAGE_HIGHT);
+        return Integer.valueOf(compressedImageHight);
+    }
+
+    public static int getCompressedImageWidth() {
+        if (props == null) {
+            return 60;
+        }
+        String compressedImageWidth = props.getProperty(WebConfig.COMPRESS_IMAGE_WIDTH);
+        return Integer.valueOf(compressedImageWidth);
     }
 }

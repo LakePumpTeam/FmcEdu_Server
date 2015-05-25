@@ -2,12 +2,11 @@ package com.fmc.edu.crypto.impl;
 
 import com.fmc.edu.constant.GlobalConstant;
 import com.fmc.edu.crypto.IEncryptService;
+import com.fmc.edu.exception.EncryptException;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 
@@ -17,48 +16,44 @@ import java.nio.charset.Charset;
 @Service("replacementBase64EncryptService")
 public class ReplacementBase64EncryptService implements IEncryptService {
 
-	public static final String RELACEMENT = "~";
+    public static final String RELACEMENT = "~";
 
-	public static final String EQUAL_MARK = "=";
+    public static final String EQUAL_MARK = "=";
 
-	public String encrypt(final String pMessage) {
-		if (pMessage == null) {
-			return StringUtils.EMPTY;
-		}
-		return (new BASE64Encoder()).encode(pMessage.getBytes(Charset.forName(GlobalConstant.CHARSET_UTF8)));
-	}
+    public String encrypt(final String pMessage) {
+        if (pMessage == null) {
+            return StringUtils.EMPTY;
+        }
+        return new String(Base64.encodeBase64(pMessage.getBytes(Charset.forName(GlobalConstant.CHARSET_UTF8))), Charset.forName(GlobalConstant.CHARSET_UTF8));
+    }
 
-	@Override
-	public byte[] encrypt(byte[] pSrc) {
-		try {
-			return encrypt(new String(pSrc, Charset.forName(GlobalConstant.CHARSET_UTF8))).getBytes(GlobalConstant.CHARSET_UTF8);
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
+    @Override
+    public byte[] encrypt(byte[] pSrc) {
+        return org.apache.commons.codec.binary.StringUtils.getBytesUtf8(encrypt(new String(pSrc, Charset.forName(GlobalConstant.CHARSET_UTF8))));
+    }
 
-	public String decrypt(String pParameter) {
-		if (StringUtils.isBlank(pParameter)) {
-			return StringUtils.EMPTY;
-		}
-		String parameter = pParameter.replaceAll(RELACEMENT, EQUAL_MARK);
-		try {
-			return new String((new BASE64Decoder()).decodeBuffer(parameter), Charset.forName(GlobalConstant.CHARSET_UTF8));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return parameter;
-	}
+    public String decrypt(String pParameter) throws EncryptException {
+        if (StringUtils.isBlank(pParameter)) {
+            return StringUtils.EMPTY;
+        }
+        if (!Base64.isBase64(pParameter)) {
+            throw new EncryptException("Input source is invalid base64 format.");
+        }
+        String parameter = pParameter.replaceAll(RELACEMENT, EQUAL_MARK);
+        return new String(Base64.decodeBase64(parameter), Charset.forName(GlobalConstant.CHARSET_UTF8));
+    }
 
 
-	@Override
-	public byte[] decrypt(byte[] pSrc) {
-		try {
-			return decrypt(new String(pSrc, Charset.forName(GlobalConstant.CHARSET_UTF8))).getBytes(GlobalConstant.CHARSET_UTF8);
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
+    @Override
+    public byte[] decrypt(byte[] pSrc) throws EncryptException {
+        if (!Base64.isBase64(pSrc)) {
+            throw new EncryptException("Input source is invalid base64 format.");
+        }
+        try {
+            return decrypt(new String(pSrc, Charset.forName(GlobalConstant.CHARSET_UTF8))).getBytes(GlobalConstant.CHARSET_UTF8);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
