@@ -703,7 +703,7 @@
                     </tr>
                     <tr>
                         <td align="right"><label for="isLike" title="isLike">isLike</label></td>
-                        <td><input type="text" class="ipt_value" id="isLike" value="true"/></td>
+                        <td><input type="text" class="ipt_value" id="isLike" value="true" /></td>
                     </tr>
                 </table>
             </td>
