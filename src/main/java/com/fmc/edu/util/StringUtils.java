@@ -10,4 +10,19 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
         }
         return pStr;
     }
+
+    public static String normalizeUrlNoEndSeparator(String url) {
+        if (isBlank(url)) {
+            return EMPTY;
+        }
+        url = url.replace("\\", "/");
+        return url.replace("//", "/");
+    }
+
+    public static void main(String[] args) {
+        String path = "\\test\\sdt\\ds";
+        String path1 = "/sds//sds/asd//asdw//wesds";
+        System.out.println(normalizeUrlNoEndSeparator(path));
+        System.out.println(normalizeUrlNoEndSeparator(path1));
+    }
 }

@@ -17,7 +17,14 @@
         last_login_date,
         last_update_date,
         profile_type,
-        available
+        available,
+        last_pc_id,
+        last_sdat_id,
+        last_sdnf_id,
+        last_sdnw_id,
+        last_cl_id,
+        last_pce_id,
+        last_bbs_id
         from
         profile
         where phone = #{userAccount}
@@ -36,7 +43,14 @@
         last_login_date,
         last_update_date,
         profile_type,
-        available
+        available,
+        last_pc_id,
+        last_sdat_id,
+        last_sdnf_id,
+        last_sdnw_id,
+        last_cl_id,
+        last_pce_id,
+        last_bbs_id
         from
         profile
         where id = #{profileId}
@@ -133,16 +147,28 @@
             <if test="profileType != null ">
                 profile_type = #{profileType},
             </if>
-            <if test="lastPCId != 0 ">
+            <if test="lastPCId !=0 ">
                 last_pc_id = #{lastPCId},
+            </if>
+            <if test="lastSDATId != 0 ">
+                last_sdat_id = #{lastSDATId},
+            </if>
+            <if test="lastSDNFId != 0 ">
+                last_sdnf_id = #{lastSDNFId},
+            </if>
+            <if test="lastSDNWId !=0 ">
+                last_sdnw_id = #{lastSDNWId},
             </if>
             <if test="lastCLId != 0 ">
                 last_cl_id = #{lastCLId},
             </if>
-            <if test="lastSCId !=0 ">
-                last_sc_id = #{lastSCId},
+            <if test="lastPCEId != 0 ">
+                last_pce_id = #{lastPCEId},
             </if>
-
+            <if test="lastBBSId !=0 ">
+                last_bbs_id = #{lastBBSId},
+            </if>
+            last_update_date = now()
         </trim>
 
         WHERE id = #{id};

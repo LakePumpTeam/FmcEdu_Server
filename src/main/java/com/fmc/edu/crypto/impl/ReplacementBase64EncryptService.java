@@ -35,11 +35,11 @@ public class ReplacementBase64EncryptService implements IEncryptService {
         if (StringUtils.isBlank(pParameter)) {
             return StringUtils.EMPTY;
         }
-        //        if (!Base64.isBase64(pParameter)) {
-        //            //throw new EncryptException("Input source is invalid base64 format.");
-        //            return "";
-        //        }
         String parameter = pParameter.replaceAll(RELACEMENT, EQUAL_MARK);
+        if (!Base64.isBase64(parameter)) {
+            //throw new EncryptException("Input source is invalid base64 format.");
+            return "";
+        }
         return new String(Base64.decodeBase64(parameter), Charset.forName(GlobalConstant.CHARSET_UTF8));
     }
 

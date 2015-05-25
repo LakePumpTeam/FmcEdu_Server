@@ -1,8 +1,5 @@
 package com.fmc.edu.web.controller;
 
-import com.fmc.edu.cache.CacheContent;
-import com.fmc.edu.cache.CacheManager;
-import com.fmc.edu.cache.impl.newslike.NewsLikeCacheContent;
 import com.fmc.edu.constant.JSONOutputConstant;
 import com.fmc.edu.exception.NewsException;
 import com.fmc.edu.exception.ProfileException;
@@ -31,7 +28,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -41,8 +37,8 @@ import java.util.Map;
 @Controller
 @RequestMapping("/news")
 public class NewsActivityControler extends BaseController {
-
     public static Object WRITE_FILE_LOCK = "writeFileLock";
+    public static Object LIKE_NEWS_LOCK = "likeNewsLock";
 
     private static final Logger LOG = Logger.getLogger(NewsActivityControler.class);
 
@@ -81,23 +77,29 @@ public class NewsActivityControler extends BaseController {
             }
 
             int newsType = Integer.valueOf(typeStr);
+            responseBean.addData("type", newsType);
             List<News> newsList = getNewsManager().queryNewsListByNewType(pagination, newsType);
             responseBean.addData(JSONOutputConstant.IS_LAST_PAGE, RepositoryUtils.isLastPageFlag(newsList, pagination.getPageSize()));
 
             if (CollectionUtils.isEmpty(newsList)) {
                 return output(responseBean);
             }
+
+            //Should create a new BaseProfile instance, otherwise maybe update error data to database
             BaseProfile updateProfile = new BaseProfile();
             updateProfile.setId(currentUser.getId());
             int maxTypeNewsId = getNewsManager().queryNewsMaxIdByNewsType(newsType);
-           /* switch (newsType) {
+            switch (newsType) {
                 case NewsType.SCHOOL_DYNAMICS_ACTIVITY: {
+                    updateProfile.setLastSDATId(maxTypeNewsId);
                     break;
                 }
                 case NewsType.SCHOOL_DYNAMICS_NEWS: {
+                    updateProfile.setLastSDNWId(maxTypeNewsId);
                     break;
                 }
                 case NewsType.SCHOOL_DYNAMICS_NOTIFICATION: {
+                    updateProfile.setLastSDNFId(maxTypeNewsId);
                     break;
                 }
                 case NewsType.CLASS_DYNAMICS: {
@@ -109,25 +111,16 @@ public class NewsActivityControler extends BaseController {
                     break;
                 }
                 case NewsType.PARENT_CHILD_EDU: {
-                    updateProfile.setLastPCDId(maxTypeNewsId);
+                    updateProfile.setLastPCEId(maxTypeNewsId);
                     break;
                 }
                 case NewsType.SCHOOL_BBS: {
-                    //No requirement
+                    updateProfile.setLastBBSId(maxTypeNewsId);
                     break;
                 }
-            }*/
-            if (newsType == NewsType.SCHOOL_DYNAMICS_ACTIVITY || newsType == NewsType.SCHOOL_DYNAMICS_NEWS || newsType == NewsType.SCHOOL_DYNAMICS_NOTIFICATION) {
-                updateProfile.setLastSCId(maxTypeNewsId);
-            } else if (newsType == NewsType.CLASS_DYNAMICS) {
-                updateProfile.setLastCLId(maxTypeNewsId);
-            } else if (newsType == NewsType.PARENTING_CLASS) {
-                updateProfile.setLastPCId(maxTypeNewsId);
             }
-
             getMyAccountManager().updateBaseProfile(updateProfile);
-
-            getResponseBuilder().buildNewsListResponse(responseBean, newsList);
+            getResponseBuilder().buildNewsListResponse(responseBean, newsList, currentUser);
 
         } catch (Exception e) {
             txStatus.setRollbackOnly();
@@ -243,12 +236,6 @@ public class NewsActivityControler extends BaseController {
             }
             int profileId = Integer.valueOf(userIdStr);
             int newsId = Integer.valueOf(newsIdStr);
-            News newsDetail = getNewsManager().queryNewsDetail(newsId);
-            if (newsDetail == null) {
-                throw new NewsException("文章不存在:" + newsIdStr);
-            }
-            News news = new News();
-            news.setId(newsId);
 
             Map<String, Object> profileNewsRelation = getMyAccountManager().queryLikeNewsRelation(profileId, newsId);
             if (isLike) {
@@ -373,11 +360,11 @@ public class NewsActivityControler extends BaseController {
         String fileName = System.currentTimeMillis() + ImageUtils.getSuffixFromFileName(pImage.getOriginalFilename());
         ImageUtils.writeFileToDisk(pImage, pUserId, fileName);
         Image image;
-        String highImgPath;
-        highImgPath = ImageUtils.getRelativePath(pUserId);
+        String relativePath;
+        relativePath = ImageUtils.getRelativePath(pUserId);
         image = new Image();
         image.setImgName(fileName);
-        image.setImgPath(highImgPath);
+        image.setImgPath(StringUtils.normalizeUrlNoEndSeparator(relativePath));
         image.setNewsId(pNewsId);
         getNewsManager().insertImage(image);
     }

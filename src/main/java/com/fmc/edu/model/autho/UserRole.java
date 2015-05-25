@@ -6,15 +6,15 @@ import java.io.Serializable;
 
 public class UserRole extends BaseBean implements Serializable {
 
-	private int mUserId;
+	private int mProfileId;
 	private int mRoleId;
 
-	public int getUserId() {
-		return mUserId;
+	public int getProfileId() {
+		return mProfileId;
 	}
 
-	public void setUserId(int pUserId) {
-		mUserId = pUserId;
+	public void setProfileId(int pProfileId) {
+		mProfileId = pProfileId;
 	}
 
 	public int getRoleId() {
