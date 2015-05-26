@@ -45,6 +45,7 @@ public class ResponseBuilder {
         pResponseBean.addData("userId", pProfile.getId());
         pResponseBean.addData("userRole", pProfile.getProfileType());
         pResponseBean.addData("salt", pProfile.getSalt());
+        pResponseBean.addData("userName", pProfile.getName());
 
         if (pProfile.getProfileType() == ProfileType.PARENT.getValue()) {
             ParentProfile parentProfile = getProfileManager().queryParentByPhone(pProfile.getPhone());
@@ -179,9 +180,11 @@ public class ResponseBuilder {
             for (Comments comments : pCommentsList) {
                 commentMap = new HashMap<String, Object>(3);
                 commentMap.put("userId", comments.getProfileId());
-                BaseProfile baseProfile = getProfileManager().getMyAccountManager().findUser(String.valueOf(comments.getProfileId()));
+                BaseProfile baseProfile = getProfileManager().getMyAccountManager().findUserById(String.valueOf(comments.getProfileId()));
                 if (baseProfile != null) {
                     commentMap.put("userName", baseProfile.getName());
+                } else {
+                    commentMap.put("userName", "N/A");
                 }
                 commentMap.put("comment", comments.getComment());
                 commentList.add(commentMap);
