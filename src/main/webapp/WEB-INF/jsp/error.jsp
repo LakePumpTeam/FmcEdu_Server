@@ -1,7 +1,7 @@
 <html>
 <body>
 <%
-    response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+    response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 %>
 Some error happens....
 </body>
