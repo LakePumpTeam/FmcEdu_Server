@@ -30,9 +30,7 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <%
-        String ctx = request.getContextPath();
-    %>
+    <c:set var="ctx" value="${pageContext.request.contextPath}"/>
     <script>
         var ctx = "<%=ctx%>";
     </script>
@@ -291,16 +289,16 @@
                         <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Interfaces<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level ${template == 'interface' ? 'collapse in' : ''}">
                             <li>
-                                <a href="/admin/interface?i=profile">Profile Interfaces</a>
+                                <a href="${ctx}/admin/interface?i=profile">Profile Interfaces</a>
                             </li>
                             <li>
-                                <a href="/admin/interface?i=location">Location Interfaces</a>
+                                <a href="${ctx}/admin/interface?i=location">Location Interfaces</a>
                             </li>
                             <li>
-                                <a href="/admin/interface?i=school">School Interfaces</a>
+                                <a href="${ctx}/admin/interface?i=school">School Interfaces</a>
                             </li>
                             <li>
-                                <a href="/admin/interface?i=home">Home Interfaces</a>
+                                <a href="${ctx}/admin/interface?i=home">Home Interfaces</a>
                             </li>
                         </ul>
                     </li>
@@ -308,13 +306,13 @@
                         <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> 校园动态<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="/admin/news?i=sdat">活动</a>
+                                <a href="${ctx}/admin/news?i=sdat">活动</a>
                             </li>
                             <li>
-                                <a href="/admin/news?i=sdnf">通知</a>
+                                <a href="${ctx}/admin/news?i=sdnf">通知</a>
                             </li>
                             <li>
-                                <a href="/admin/news?i=sdnw">新闻</a>
+                                <a href="${ctx}/admin/news?i=sdnw">新闻</a>
                             </li>
                         </ul>
                         <!-- /.nav-second-level -->
