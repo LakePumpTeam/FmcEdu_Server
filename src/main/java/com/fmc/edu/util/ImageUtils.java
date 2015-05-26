@@ -75,7 +75,7 @@ public class ImageUtils {
         path.append(getHighBaseImagePath(userId))
                 .append(File.separator)
                 .append(fileName);
-        return FilenameUtils.normalizeNoEndSeparator(fileName);
+        return FilenameUtils.normalizeNoEndSeparator(path.toString());
     }
 
     public static String getLowImagePath(String userId, String fileName) {
