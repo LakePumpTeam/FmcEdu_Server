@@ -92,6 +92,7 @@ public class NewsActivityControler extends BaseController {
             BaseProfile updateProfile = new BaseProfile();
             updateProfile.setId(currentUser.getId());
             int maxTypeNewsId = getNewsManager().queryNewsMaxIdByNewsType(newsType);
+            LOG.debug("Got the max id:" + maxTypeNewsId + " of news:" + newsType);
             switch (newsType) {
                 case NewsType.SCHOOL_DYNAMICS_ACTIVITY: {
                     updateProfile.setLastSDATId(maxTypeNewsId);
