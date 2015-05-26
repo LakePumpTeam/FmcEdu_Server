@@ -40,11 +40,12 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/news")
-public class NewsActivityControler extends BaseController {
+public class NewsActivityController extends BaseController {
+
     public static Object WRITE_FILE_LOCK = "writeFileLock";
     public static Object LIKE_NEWS_LOCK = "likeNewsLock";
 
-    private static final Logger LOG = Logger.getLogger(NewsActivityControler.class);
+    private static final Logger LOG = Logger.getLogger(NewsActivityController.class);
 
     @Resource(name = "responseBuilder")
     private ResponseBuilder mResponseBuilder;
@@ -124,8 +125,16 @@ public class NewsActivityControler extends BaseController {
                 }
             }
             getMyAccountManager().updateBaseProfile(updateProfile);
-            getResponseBuilder().buildNewsListResponse(responseBean, newsList, currentUser);
 
+            // update like number from cache
+            if (CollectionUtils.isNotEmpty(newsList)) {
+                NewsLikeCacheContent cacheContent = (NewsLikeCacheContent) getCacheManager().getCacheContent(CacheManager.CACHE_CONTENT_NEWS_LIKE);
+                for (News news : newsList) {
+                    int cachedNewsLike = (int) cacheContent.getCachedValue(String.valueOf(news.getId()), news.getLike());
+                    news.setLike(cachedNewsLike);
+                }
+            }
+            getResponseBuilder().buildNewsListResponse(responseBean, newsList, currentUser);
         } catch (Exception e) {
             txStatus.setRollbackOnly();
             responseBean.addErrorMsg(e);
@@ -170,14 +179,18 @@ public class NewsActivityControler extends BaseController {
             int userId = Integer.valueOf(userIdStr);
             int newsId = Integer.valueOf(newsIdStr);
 
-            News newsDetail = getNewsManager().queryNewsDetail(newsId);
-            if (newsDetail == null) {
+            News news = getNewsManager().queryNewsDetail(newsId);
+            if (news == null) {
                 LOG.debug("Can not find any news detail for news id:" + newsIdStr);
                 return output(responseBean);
             }
+            // update like number from cache
+            NewsLikeCacheContent cacheContent = (NewsLikeCacheContent) getCacheManager().getCacheContent(CacheManager.CACHE_CONTENT_NEWS_LIKE);
+            int cachedNewsLike = (int) cacheContent.getCachedValue(String.valueOf(news.getId()), news.getLike());
+            news.setLike(cachedNewsLike);
+
             List<Comments> commentsList = getNewsManager().queryCommentsByNewsIdAndProfileId(userId, newsId);
-            getResponseBuilder().buildNewsDetailResponse(responseBean, newsDetail, commentsList, userId);
-            return output(responseBean);
+            getResponseBuilder().buildNewsDetailResponse(responseBean, news, commentsList, userId);
         } catch (Exception e) {
             responseBean.addErrorMsg(e);
             LOG.error(e);
