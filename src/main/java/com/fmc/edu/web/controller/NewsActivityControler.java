@@ -302,7 +302,7 @@ public class NewsActivityControler extends BaseController {
                                 @RequestParam(value = "userId", required = true) String userId,
                                 @RequestParam(value = "subject", required = false) String subject,
                                 @RequestParam(value = "content", required = true) String content,
-                                @RequestParam("imgs") MultipartFile[] imgs
+                                @RequestParam(value = "imgs", required = false) MultipartFile[] imgs
     ) {
         ResponseBean responseBean = new ResponseBean();
 
