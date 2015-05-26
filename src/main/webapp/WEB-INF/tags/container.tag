@@ -305,6 +305,21 @@
                         </ul>
                     </li>
                     <li>
+                        <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> 校园动态<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="/admin/news?i=sdat">活动</a>
+                            </li>
+                            <li>
+                                <a href="/admin/news?i=sdnf">通知</a>
+                            </li>
+                            <li>
+                                <a href="/admin/news?i=sdnw">新闻</a>
+                            </li>
+                        </ul>
+                        <!-- /.nav-second-level -->
+                    </li>
+                    <li>
                         <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
