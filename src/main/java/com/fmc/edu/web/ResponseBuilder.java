@@ -153,7 +153,6 @@ public class ResponseBuilder {
         newsMap.put("newsId", pNews.getId());
         newsMap.put("subject", pNews.getSubject());
         newsMap.put("content", pNews.getContent());
-        newsMap.put("imageUrl", "");
         newsMap.put("like", pNews.getLike());
         newsMap.put("liked", getNewsManager().isLikedNews(pCurrentUserId, pNews.getId()));
         newsMap.put("createDate", DateUtils.ConvertDateToString(pNews.getPublishDate()));
