@@ -197,11 +197,11 @@ public class NewsActivityControler extends BaseController {
                 return output(responseBean);
             }
             if (!RepositoryUtils.idIsValid(newsIdStr)) {
-                responseBean.addBusinessMsg("News id is invalid." + newsIdStr);
+                responseBean.addBusinessMsg("News id is invalid:" + newsIdStr);
                 return output(responseBean);
             }
-            if (!StringUtils.isBlank(contentStr)) {
-                responseBean.addBusinessMsg("" + newsIdStr);
+            if (StringUtils.isBlank(contentStr)) {
+                responseBean.addBusinessMsg("News id is invalid:" + contentStr);
                 return output(responseBean);
             }
             Comments comments = new Comments();
@@ -355,7 +355,7 @@ public class NewsActivityControler extends BaseController {
     }
 
     private void saveNewsImage(MultipartFile pImage, String pUserId, int pNewsId) throws IOException {
-        LOG.debug("Processing image, size:" + pImage.getSize() + "image original name:" + pImage.getOriginalFilename());
+        LOG.debug("Processing image, size:" + pImage.getSize() + " >>> image original name:" + pImage.getOriginalFilename());
 
         String fileName = System.currentTimeMillis() + ImageUtils.getSuffixFromFileName(pImage.getOriginalFilename());
         ImageUtils.writeFileToDisk(pImage, pUserId, fileName);
