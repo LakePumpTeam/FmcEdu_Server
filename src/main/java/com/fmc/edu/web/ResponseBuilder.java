@@ -45,6 +45,7 @@ public class ResponseBuilder {
         pResponseBean.addData("userId", pProfile.getId());
         pResponseBean.addData("userRole", pProfile.getProfileType());
         pResponseBean.addData("salt", pProfile.getSalt());
+        pResponseBean.addData("userName", pProfile.getName());
 
         if (pProfile.getProfileType() == ProfileType.PARENT.getValue()) {
             ParentProfile parentProfile = getProfileManager().queryParentByPhone(pProfile.getPhone());
