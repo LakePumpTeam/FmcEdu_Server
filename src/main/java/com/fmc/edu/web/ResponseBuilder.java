@@ -87,6 +87,7 @@ public class ResponseBuilder {
             newsMap.put("content", news.getContent());
             newsMap.put("like", news.getLike());
             newsMap.put("createDate", DateUtils.ConvertDateToString(news.getPublishDate()));
+            newsMap.put("type", news.getNewsType());
             if (CollectionUtils.isEmpty(news.getImageUrls())) {
                 newsMap.put("imageUrls", Collections.EMPTY_LIST);
             } else {

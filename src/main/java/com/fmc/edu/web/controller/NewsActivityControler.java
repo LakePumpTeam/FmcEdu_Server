@@ -81,7 +81,6 @@ public class NewsActivityControler extends BaseController {
             }
 
             int newsType = Integer.valueOf(typeStr);
-            responseBean.addData("type", newsType);
             List<News> newsList = getNewsManager().queryNewsListByNewType(pagination, newsType);
             responseBean.addData(JSONOutputConstant.IS_LAST_PAGE, RepositoryUtils.isLastPageFlag(newsList, pagination.getPageSize()));
 
