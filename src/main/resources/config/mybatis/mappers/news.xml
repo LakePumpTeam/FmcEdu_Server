@@ -45,7 +45,7 @@
 
     <insert id="insertComment" parameterType="Comments">
         INSERT INTO comments (news_id,profile_id,comment,creation_date,last_update_date)
-        VALUES (#{NewsId}, #{ProfileId}, #{comment}, now(), now())
+        VALUES (#{newsId}, #{profileId}, #{comment}, now(), now())
     </insert>
 
     <insert id="insertNews" parameterType="News">
