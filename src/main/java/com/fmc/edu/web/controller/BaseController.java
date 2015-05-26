@@ -43,13 +43,13 @@ public abstract class BaseController {
     }
 
     protected String decodeInput(final String pParameter) throws IOException {
-        LOG.debug("Encode input parameter:" + pParameter);
+        LOG.debug("Encoded input parameter:" + pParameter);
         if (!WebConfig.isEncodeBase64InputParam()) {
             return pParameter;
         }
         String decodeInput = null;
         decodeInput = mBase64EncryptService.decrypt(pParameter);
-        LOG.debug("Decode input parameter:" + decodeInput);
+        LOG.debug("Decoded input parameter:" + decodeInput);
         return decodeInput;
     }
 

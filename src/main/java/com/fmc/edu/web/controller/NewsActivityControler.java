@@ -196,8 +196,8 @@ public class NewsActivityControler extends BaseController {
                 responseBean.addBusinessMsg("User id is invalid.");
                 return output(responseBean);
             }
-            if (!StringUtils.isNumeric(newsIdStr)) {
-                responseBean.addBusinessMsg("" + newsIdStr);
+            if (!RepositoryUtils.idIsValid(newsIdStr)) {
+                responseBean.addBusinessMsg("News id is invalid." + newsIdStr);
                 return output(responseBean);
             }
             if (!StringUtils.isBlank(contentStr)) {
