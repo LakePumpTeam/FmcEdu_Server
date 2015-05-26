@@ -193,7 +193,7 @@ public class NewsActivityControler extends BaseController {
             String userIdStr = decodeInput(pRequest.getParameter("userId"));
             String contentStr = decodeInput(pRequest.getParameter("content"));
             if (!RepositoryUtils.idIsValid(userIdStr)) {
-                responseBean.addBusinessMsg("User id .");
+                responseBean.addBusinessMsg("User id is invalid.");
                 return output(responseBean);
             }
             if (!StringUtils.isNumeric(newsIdStr)) {
