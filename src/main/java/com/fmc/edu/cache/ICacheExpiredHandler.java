@@ -9,6 +9,7 @@ public interface ICacheExpiredHandler {
 	 * Sync expiration cache to database
 	 *
 	 * @param pCacheContent
+	 * @param pForceInitialize
 	 */
-	void synchronizeExpiredCache(CacheContent pCacheContent);
+	void synchronizeExpiredCache(CacheContent pCacheContent, final boolean pForceInitialize);
 }

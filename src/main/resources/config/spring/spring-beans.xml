@@ -16,7 +16,6 @@
 	</bean>
 
 	<bean id="pcNewsCacheInitHandler" class="com.fmc.edu.executor.handler.NewsCacheInitHandler">
-		<property name="newsType" value="1" />
 		<property name="initializeNewsCacheCount" value="30" />
 	</bean>
 

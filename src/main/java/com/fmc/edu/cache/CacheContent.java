@@ -1,5 +1,8 @@
 package com.fmc.edu.cache;
 
+import org.apache.log4j.Logger;
+
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -8,6 +11,8 @@ import java.util.concurrent.ConcurrentHashMap;
  * Created by Yove on 5/23/2015.
  */
 public class CacheContent {
+
+	private static final Logger LOG = Logger.getLogger(CacheContent.class);
 
 	public static final String UPDATE_TYPE = "updateType";
 
@@ -24,8 +29,20 @@ public class CacheContent {
 
 	protected ICacheExpiredHandler mExpiredHandler;
 
+	private int mMaxCapacity = 100;
+
 	public boolean updateCache(String pCacheKey, Map<String, Object> pParams) {
 		throw new UnsupportedOperationException();
+	}
+
+	protected void ensureCacheCapacity() {
+		synchronized (this) {
+			if (mCache.size() >= getMaxCapacity()) {
+				LOG.debug(String.format("=========== Process cache expiration for max capacity at %s===========", new Date()));
+				getCacheExpiredHandler().synchronizeExpiredCache(this, true);
+				LOG.debug(String.format("=========== End cache expiration for max capacity at %s===============", new Date()));
+			}
+		}
 	}
 
 	/**
@@ -35,11 +52,20 @@ public class CacheContent {
 		return new HashMap<>(mCache);
 	}
 
+	public Object getCachedValue(String pCacheKey) {
+		return getCachedValue(pCacheKey, null);
+	}
+
+	public Object getCachedValue(String pCacheKey, Object pDefaultValue) {
+		Cache cache = mCache.get(pCacheKey);
+		return cache != null ? cache.getValue() : pDefaultValue;
+	}
+
 	/**
 	 * invoke ICacheExpiredHandler#synchronizeExpiredCache to sync expiration cache to database
 	 */
 	public void handleCacheExpiration() {
-		getCacheExpiredHandler().synchronizeExpiredCache(this);
+		getCacheExpiredHandler().synchronizeExpiredCache(this, false);
 	}
 
 	/**
@@ -71,5 +97,13 @@ public class CacheContent {
 
 	public void setLastUpdateTime(final long pLastUpdateTime) {
 		mLastUpdateTime = pLastUpdateTime;
+	}
+
+	public int getMaxCapacity() {
+		return mMaxCapacity;
+	}
+
+	public void setMaxCapacity(final int pMaxCapacity) {
+		mMaxCapacity = pMaxCapacity;
 	}
 }

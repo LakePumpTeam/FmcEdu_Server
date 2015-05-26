@@ -32,6 +32,7 @@ public class NewsLikeCacheContent extends CacheContent {
 
 	@Override
 	public boolean updateCache(final String pCacheKey, final Map<String, Object> pParams) {
+		ensureCacheCapacity();
 		Cache cache = mCache.get(pCacheKey);
 		String updateType = (String) pParams.get(UPDATE_TYPE);
 		if (cache == null) {
@@ -44,6 +45,7 @@ public class NewsLikeCacheContent extends CacheContent {
 					cache = new Cache(pCacheKey, news.getLike() - 1);
 				}
 				// cache record
+				cache.setChanged(true);
 				mCache.putIfAbsent(pCacheKey, cache);
 			}
 		} else {
@@ -55,6 +57,7 @@ public class NewsLikeCacheContent extends CacheContent {
 					cache.setValue((int) cache.getValue() - 1);
 				}
 				cache.updateLastUpdateTime();
+				cache.setChanged(true);
 			}
 		}
 		return true;
@@ -62,9 +65,9 @@ public class NewsLikeCacheContent extends CacheContent {
 
 	@Override
 	public void handleCacheExpiration() {
-		LOG.debug("=========== Process cache expiration for News-Like at " + new Date() + " ===========");
+		LOG.debug(String.format("=========== Process cache expiration for scheduled at %s===========", new Date()));
 		super.handleCacheExpiration();
-		LOG.debug("=========== End cache expiration for News-Like at " + new Date() + " ===========");
+		LOG.debug(String.format("=========== End cache expiration for scheduled at %s===============", new Date()));
 	}
 
 	public NewsService getNewsService() {
@@ -90,4 +93,5 @@ public class NewsLikeCacheContent extends CacheContent {
 		}
 		return super.getCacheExpiredHandler();
 	}
+
 }

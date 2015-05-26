@@ -17,6 +17,8 @@ public class Cache {
 
 	private long mLastUpdateTime = System.currentTimeMillis();
 
+	private boolean mChanged = false;
+
 	public Cache(final String pKey, final Object pValue) {
 		mKey = pKey;
 		mValue = pValue;
@@ -53,5 +55,13 @@ public class Cache {
 
 	public void setLastUpdateTime(final long pLastUpdateTime) {
 		mLastUpdateTime = pLastUpdateTime;
+	}
+
+	public boolean isChanged() {
+		return mChanged;
+	}
+
+	public void setChanged(final boolean pChanged) {
+		mChanged = pChanged;
 	}
 }
