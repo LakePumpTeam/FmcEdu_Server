@@ -8,22 +8,26 @@
 <script type="text/javascript" charset="utf-8" src="../../../../js/editor_api.js"></script>
 <script type="text/javascript" src="../../../../js/lang/zh-cn/zh-cn.js"></script>
 
-<fmc:container template="news" subject="校园动态">
+<c:choose>
+    <c:when test="${param.i eq 'sdat'}">
+        <c:set var="includeJspURL" value="includes/news-school-activity.jsp" />
+        <c:set var="subheading" value="活动" />
+    </c:when>
+    <c:when test="${param.i eq 'sdnf'}">
+        <c:set var="includeJspURL" value="includes/news-school-notification.jsp" />
+        <c:set var="subheading" value="通知" />
+    </c:when>
+    <c:when test="${param.i eq 'sdnw'}">
+        <c:set var="includeJspURL" value="includes/news-school-news.jsp" />
+        <c:set var="subheading" value="新闻" />
+    </c:when>
+</c:choose>
+<fmc:container template="news" subject="校园动态 - ${subheading}">
 
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default" style="align-content: center;">
-                <c:choose>
-                    <c:when test="${param.i eq 'sdat'}">
-                        <jsp:include page="includes/news-school-activity.jsp"/>
-                    </c:when>
-                    <c:when test="${param.i eq 'sdnf'}">
-                        <jsp:include page="includes/news-school-notification.jsp"/>
-                    </c:when>
-                    <c:when test="${param.i eq 'sdnw'}">
-                        <jsp:include page="includes/news-school-news.jsp"/>
-                    </c:when>
-                </c:choose>
+                <jsp:include page="${includeJspURL}" />
             </div>
         </div>
     </div>

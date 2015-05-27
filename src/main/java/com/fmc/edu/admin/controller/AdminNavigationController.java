@@ -27,6 +27,6 @@ public class AdminNavigationController {
 	@RequestMapping(value = "/news" + GlobalConstant.URL_SUFFIX)
 	public String toSchoolDynamic(HttpServletRequest pRequest, HttpServletResponse pResponse) {
 		pResponse.setContentType("text/html;charset=UTF-8");
-		return "admin/interface/news";
+		return "admin/news/news";
 	}
 }
