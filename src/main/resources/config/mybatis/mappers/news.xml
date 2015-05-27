@@ -3,12 +3,18 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fmc.edu.news">
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache"
+           eviction="FIFO"
+           flushInterval="60000"
+           size="512"
+           readOnly="true"
+            />
 
     <sql id="limit-split-page">
         LIMIT #{start}, #{size}
     </sql>
 
-    <select id="queryNewsListByNewType" parameterType="map" resultMap="rm.news">
+    <select id="queryNewsListByNewType" parameterType="map" useCache="true" resultMap="rm.news">
         SELECT id,
         author,
         subject,
@@ -29,11 +35,11 @@
         <include refid="limit-split-page"/>
     </select>
 
-    <select id="queryNewsMaxIdByNewsType" parameterType="int" resultType="int">
+    <select id="queryNewsMaxIdByNewsType" useCache="false" parameterType="int" resultType="int">
         select id from news where news_type=#{newsType} order by id desc limit 0,1;
     </select>
 
-    <select id="querySlideListByNewType" parameterType="map" resultMap="rm.slide">
+    <select id="querySlideListByNewType" useCache="true" parameterType="map" resultMap="rm.slide">
         SELECT id,
         subject,
         news_id,
@@ -45,12 +51,12 @@
         available = 1 AND start_date &gt;= #{startDate} AND end_date &lt;= #{endDate} ORDER BY 'order' ASC
     </select>
 
-    <insert id="insertComment" parameterType="Comments">
+    <insert id="insertComment" parameterType="Comments" flushCache="true">
         INSERT INTO comments (news_id,profile_id,comment,creation_date,last_update_date)
         VALUES (#{newsId}, #{profileId}, #{comment}, now(), now())
     </insert>
 
-    <insert id="insertNews" parameterType="News">
+    <insert id="insertNews" parameterType="News" flushCache="true">
         INSERT INTO `news`
         (`author`,
         `subject`,
@@ -74,11 +80,11 @@
         )
     </insert>
 
-    <select id="queryLastInsertNewsTypeNewsIdByAuthor" parameterType="int" resultType="int">
+    <select id="queryLastInsertNewsTypeNewsIdByAuthor" useCache="false" parameterType="int" resultType="int">
         select max(id) from news where news_type = #{newsType} and author = #{userId};
     </select>
 
-    <insert id="insertImage" parameterType="Image">
+    <insert id="insertImage" parameterType="Image" flushCache="true">
         INSERT INTO `image`
         ( `news_id`,
         `img_name`,
@@ -95,7 +101,7 @@
         );
     </insert>
 
-    <select id="queryNewsDetail" parameterType="int" resultMap="rm.news">
+    <select id="queryNewsDetail" parameterType="int" resultMap="rm.news" useCache="true">
         SELECT id,
         author,
         subject,
@@ -113,7 +119,7 @@
         WHERE id = #{newsId}
     </select>
 
-    <select id="queryCommentsByNewsIdAndProfileId" parameterType="map" resultMap="rm.comments">
+    <select id="queryCommentsByNewsIdAndProfileId" parameterType="map" useCache="false" resultMap="rm.comments">
         SELECT `id`,
         `news_id`,
         `profile_id`,
@@ -124,21 +130,21 @@
         WHERE news_id = #{newsId} and profile_id = #{userId};
     </select>
 
-    <select id="isLikedNews" parameterType="map" resultType="int">
+    <select id="isLikedNews" parameterType="map" useCache="false" resultType="int">
         SELECT count(1)
         FROM `profile_like_map`
         WHERE profile_id =#{userId} AND news_id = #{newsId} ;
 
     </select>
 
-    <select id="getAllNewsMaxNewsId" resultType="map">
+    <select id="getAllNewsMaxNewsId" resultType="map" useCache="false">
         SELECT CAST(news_type AS SIGNED) as newsType, max(id) as maxId
         FROM news
         where approved = 1
         GROUP BY news_type
     </select>
 
-    <update id="updateNews" parameterType="News">
+    <update id="updateNews" parameterType="News" flushCache="true">
         UPDATE news
         <trim prefix="set" suffixOverrides=",">
             <if test="author != 0 ">
@@ -181,7 +187,7 @@
         WHERE id = #{id}
     </update>
 
-    <update id="updateNewsCacheBatch" parameterType="list">
+    <update id="updateNewsCacheBatch" parameterType="list" flushCache="true">
         <foreach collection="list" item="item" index="index" open="" close="" separator=";">
             UPDATE news
             <set>
