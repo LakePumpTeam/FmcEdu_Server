@@ -1,6 +1,10 @@
 <html>
 <head>
-    <title></title>
+    <title>Login</title>
+    <%
+        String ctx = request.getContextPath();
+        request.setAttribute("ctx", ctx);
+    %>
 </head>
 <body>
 <form action="${ctx}/admin/login" method="post" enctype="multipart/form-data" id="login_form">
