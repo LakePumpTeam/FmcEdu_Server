@@ -1,12 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<link href="../../../../css/umeditor.css" type="text/css" rel="stylesheet">
+<link href="../css/umeditor.css" type="text/css" rel="stylesheet">
 <!-- jQuery -->
 <script src="../bower_components/jquery/dist/jquery.min.js"></script>
 
-<script type="text/javascript" charset="utf-8" src="../../../../js/umeditor.config.js"></script>
-<script type="text/javascript" charset="utf-8" src="../../../../js/editor_api.js"></script>
-<script type="text/javascript" src="../../../../js/lang/zh-cn/zh-cn.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/umeditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/editor_api.js"></script>
+<script type="text/javascript" src="../js/lang/zh-cn/zh-cn.js"></script>
 
 <c:choose>
     <c:when test="${param.i eq 'sdat'}">
