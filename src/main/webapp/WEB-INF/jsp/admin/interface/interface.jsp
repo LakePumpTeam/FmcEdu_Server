@@ -75,6 +75,10 @@
         td.parameters table {
             float: right;
         }
+
+        .ipt_value {
+            width: 390px !important;
+        }
     </style>
 </fmc:container>
 
