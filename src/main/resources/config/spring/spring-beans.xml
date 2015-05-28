@@ -10,14 +10,12 @@
 	<bean class="com.fmc.edu.executor.processor.InstantiationTracingBeanPostProcessor">
 		<property name="initializationHandlers">
 			<array>
-				<ref bean="pcNewsCacheInitHandler" />
+				<ref bean="newsCacheInitHandler" />
 			</array>
 		</property>
 	</bean>
 
-	<bean id="pcNewsCacheInitHandler" class="com.fmc.edu.executor.handler.NewsCacheInitHandler">
-		<property name="initializeNewsCacheCount" value="30" />
-	</bean>
+	<bean id="newsCacheInitHandler" class="com.fmc.edu.executor.handler.NewsCacheInitHandler" />
 
 	<task:scheduled-tasks>
 		<!-- every 10 mins -->

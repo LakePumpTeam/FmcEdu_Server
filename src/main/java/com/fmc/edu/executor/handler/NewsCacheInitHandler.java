@@ -4,13 +4,11 @@ import com.fmc.edu.cache.Cache;
 import com.fmc.edu.cache.CacheContent;
 import com.fmc.edu.cache.CacheManager;
 import com.fmc.edu.executor.IInitializationHandler;
-import com.fmc.edu.model.news.News;
 import com.fmc.edu.service.impl.NewsService;
 import com.fmc.edu.util.pagenation.Pagination;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * Created by Yove on 5/24/2015.
@@ -31,12 +29,12 @@ public class NewsCacheInitHandler implements IInitializationHandler {
 
 	@Override
 	public synchronized void initialize(final WebApplicationContext pWebApplicationContext) {
-		mCacheContent.clear();
-		List<News> initNewsList = getNewsService().queryNewsListByNewType(buildPagination(), getNewsType());
-		for (News news : initNewsList) {
-			Cache cache = initCache(news.getId(), news.getLike());
-			mCacheContent.cache(cache);
-		}
+		//		mCacheContent.clear();
+		//		List<News> initNewsList = getNewsService().queryNewsListByNewType(buildPagination(), getNewsType());
+		//		for (News news : initNewsList) {
+		//			Cache cache = initCache(news.getId(), news.getLike());
+		//			mCacheContent.cache(cache);
+		//		}
 		mCacheManager.addCacheContent(CacheManager.CACHE_CONTENT_NEWS_LIKE, mCacheContent);
 	}
 

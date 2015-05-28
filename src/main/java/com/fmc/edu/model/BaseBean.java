@@ -1,11 +1,12 @@
 package com.fmc.edu.model;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
  * Created by Yove on 5/3/2015.
  */
-public class BaseBean {
+public class BaseBean implements Serializable {
 
 	private int mId;
 

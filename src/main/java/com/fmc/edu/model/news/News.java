@@ -9,6 +9,7 @@ import java.util.List;
  * Created by Yu on 2015/5/21.
  */
 public class News extends BaseBean {
+
     private int mAuthor;
     private String mSubject;
     private String mContent;
