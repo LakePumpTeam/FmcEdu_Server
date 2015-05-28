@@ -354,3 +354,8 @@ table.dataTable thead .sorting:after {
 .panel-yellow a:hover {
     color: #df8a13;
 }
+
+.form-group .file-img-upload-label {
+    float: left;
+    margin-right: 10px;
+}

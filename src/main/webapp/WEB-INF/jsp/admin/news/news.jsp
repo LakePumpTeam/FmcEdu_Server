@@ -22,12 +22,16 @@
         <c:set var="subheading" value="新闻" />
     </c:when>
 </c:choose>
-<fmc:container template="news" subject="校园动态 - ${subheading}">
 
+<fmc:container template="news" subject="校园动态发布 - ${subheading}">
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default" style="align-content: center;">
-                <jsp:include page="${includeJspURL}" />
+                <div class="panel-heading">&nbsp;</div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <jsp:include page="${includeJspURL}" />
+                </div>
             </div>
         </div>
     </div>
