@@ -4,11 +4,16 @@ import com.fmc.edu.exception.ProfileException;
 import com.fmc.edu.model.news.*;
 import com.fmc.edu.model.profile.BaseProfile;
 import com.fmc.edu.service.impl.NewsService;
+import com.fmc.edu.util.ImageUtils;
+import com.fmc.edu.util.StringUtils;
 import com.fmc.edu.util.pagenation.Pagination;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +24,9 @@ import java.util.Map;
  */
 @Service("newsManager")
 public class NewsManager {
+    private static final Logger LOG = Logger.getLogger(NewsManager.class);
+    public static Object WRITE_FILE_LOCK = "writeFileLock";
+
     @Resource(name = "newsService")
     private NewsService mNewsService;
 
@@ -126,6 +134,32 @@ public class NewsManager {
             }
         }
         return readNewsStatus;
+    }
+
+    public void saveNewsImage(MultipartFile[] pImages, String pUserId, int pNewsId) throws IOException {
+        if (pImages == null || pImages.length == 0) {
+            return;
+        }
+        for (MultipartFile img : pImages) {
+            LOG.debug("Processing image, size:" + img.getSize() + " >>> image original name:" + img.getOriginalFilename());
+            if (img.getSize() == 0) {
+                return;
+            }
+            synchronized (NewsManager.WRITE_FILE_LOCK) {
+                String fileName = System.currentTimeMillis() + ImageUtils.getSuffixFromFileName(img.getOriginalFilename());
+                ImageUtils.writeFileToDisk(img, pUserId, fileName);
+                Image image;
+                String relativePath;
+                relativePath = ImageUtils.getRelativePath(pUserId);
+                image = new Image();
+                image.setImgName(fileName);
+                image.setImgPath(StringUtils.normalizeUrlNoEndSeparator(relativePath));
+                image.setNewsId(pNewsId);
+
+                insertImage(image);
+            }
+        }
+
     }
 
     public boolean insertImage(Image pImage) {

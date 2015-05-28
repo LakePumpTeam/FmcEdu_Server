@@ -8,10 +8,12 @@ import com.fmc.edu.exception.NewsException;
 import com.fmc.edu.exception.ProfileException;
 import com.fmc.edu.manager.MyAccountManager;
 import com.fmc.edu.manager.NewsManager;
-import com.fmc.edu.model.news.*;
+import com.fmc.edu.model.news.Comments;
+import com.fmc.edu.model.news.News;
+import com.fmc.edu.model.news.NewsType;
+import com.fmc.edu.model.news.Slide;
 import com.fmc.edu.model.profile.BaseProfile;
 import com.fmc.edu.util.DateUtils;
-import com.fmc.edu.util.ImageUtils;
 import com.fmc.edu.util.RepositoryUtils;
 import com.fmc.edu.util.StringUtils;
 import com.fmc.edu.util.pagenation.Pagination;
@@ -30,7 +32,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -348,15 +349,10 @@ public class NewsActivityController extends BaseController {
                 responseBean.addBusinessMsg("发布班级动态失败.");
                 throw new Exception("发布班级动态失败.");
             }
-            int newsId = getNewsManager().queryLastInsertNewsTypeNewsIdByAuthor(userIdInt, NewsType.CLASS_DYNAMICS);
+            // int newsId = getNewsManager().queryLastInsertNewsTypeNewsIdByAuthor(userIdInt, NewsType.CLASS_DYNAMICS);
 
-            synchronized (WRITE_FILE_LOCK) {
-                if (imgs != null && imgs.length > 0) {
-                    for (MultipartFile img : imgs) {
-                        saveNewsImage(img, userIdStr, newsId);
-                    }
-                }
-            }
+            getNewsManager().saveNewsImage(imgs, userIdStr, classNews.getId());
+
             return output(responseBean);
         } catch (Exception e) {
             responseBean.addErrorMsg(e);
@@ -368,20 +364,6 @@ public class NewsActivityController extends BaseController {
         return output(responseBean);
     }
 
-    private void saveNewsImage(MultipartFile pImage, String pUserId, int pNewsId) throws IOException {
-        LOG.debug("Processing image, size:" + pImage.getSize() + " >>> image original name:" + pImage.getOriginalFilename());
-
-        String fileName = System.currentTimeMillis() + ImageUtils.getSuffixFromFileName(pImage.getOriginalFilename());
-        ImageUtils.writeFileToDisk(pImage, pUserId, fileName);
-        Image image;
-        String relativePath;
-        relativePath = ImageUtils.getRelativePath(pUserId);
-        image = new Image();
-        image.setImgName(fileName);
-        image.setImgPath(StringUtils.normalizeUrlNoEndSeparator(relativePath));
-        image.setNewsId(pNewsId);
-        getNewsManager().insertImage(image);
-    }
 
     public NewsManager getNewsManager() {
         return mNewsManager;

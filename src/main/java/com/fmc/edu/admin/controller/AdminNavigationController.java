@@ -14,19 +14,23 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/admin")
 public class AdminNavigationController {
 
-	@RequestMapping(value = "/home" + GlobalConstant.URL_SUFFIX)
-	public String toHome(HttpServletRequest pRequest, HttpServletResponse pResponse) {
-		return "admin/index";
-	}
+    @RequestMapping(value = "/home" + GlobalConstant.URL_SUFFIX)
+    public String toHome(HttpServletRequest pRequest, HttpServletResponse pResponse) {
+        return "admin/index";
+    }
 
-	@RequestMapping(value = "/interface" + GlobalConstant.URL_SUFFIX)
-	public String toInterface(HttpServletRequest pRequest, HttpServletResponse pResponse) {
-		return "admin/interface/interface";
-	}
+    @RequestMapping(value = "/interface" + GlobalConstant.URL_SUFFIX)
+    public String toInterface(HttpServletRequest pRequest, HttpServletResponse pResponse) {
+        return "admin/interface/interface";
+    }
 
-	@RequestMapping(value = "/news" + GlobalConstant.URL_SUFFIX)
-	public String toSchoolDynamic(HttpServletRequest pRequest, HttpServletResponse pResponse) {
-		pResponse.setContentType("text/html;charset=UTF-8");
-		return "admin/news/news";
-	}
+    @RequestMapping(value = "/news" + GlobalConstant.URL_SUFFIX)
+    public String toSchoolDynamic(HttpServletRequest pRequest, HttpServletResponse pResponse) {
+        return "admin/news/news";
+    }
+
+    @RequestMapping(value = "/toLogin" + GlobalConstant.URL_SUFFIX)
+    public String toLogin(HttpServletRequest pRequest, HttpServletResponse pResponse) {
+        return "admin/login";
+    }
 }

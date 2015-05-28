@@ -21,6 +21,8 @@ import java.util.Map;
 public class MyAccountManager {
     private static final Logger LOG = Logger.getLogger(MyAccountManager.class);
 
+    public static final String CURRENT_SESSION_USER_KEY = "com.fmc.edu.session.currentUser";
+
     public static final String ERROR_NOT_FIND_USER = "账号不存在.";
 
     public static final String ERROR_ACCOUNT_UNAVAILABLE = "账号不可用.";

@@ -56,7 +56,7 @@
         VALUES (#{newsId}, #{profileId}, #{comment}, now(), now())
     </insert>
 
-    <insert id="insertNews" parameterType="News" flushCache="true">
+    <insert id="insertNews" keyProperty="id" useGeneratedKeys="true" parameterType="News" flushCache="true">
         INSERT INTO `news`
         (`author`,
         `subject`,
