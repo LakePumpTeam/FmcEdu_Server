@@ -179,7 +179,7 @@
 
         //,textarea:'editorValue' // 提交表单时，服务器获取编辑器提交内容的所用的参数，多实例时可以给容器name属性，会将name给定的值最为每个实例的键值，不用每次实例化的时候都设置这个值
 
-        //,focus:false //初始化时，是否让编辑器获得焦点true或false
+        , focus: true //初始化时，是否让编辑器获得焦点true或false
 
         //,autoClearEmptyNode : true //getContent时，是否删除空的inlineElement节点（包括嵌套的情况）
 
@@ -197,7 +197,7 @@
 
         //,emotionLocalization:false //是否开启表情本地化，默认关闭。若要开启请确保emotion文件夹下包含官网提供的images表情文件夹
 
-        //,allHtmlEnabled:false //提交到后台的数据是否包含整个html字符串
+        , allHtmlEnabled: false //提交到后台的数据是否包含整个html字符串
 
         //fontfamily
         //字体设置

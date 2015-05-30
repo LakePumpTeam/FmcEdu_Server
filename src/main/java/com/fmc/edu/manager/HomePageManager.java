@@ -4,6 +4,7 @@ import com.fmc.edu.exception.ProfileException;
 import com.fmc.edu.model.profile.BaseProfile;
 import com.fmc.edu.model.profile.ProfileType;
 import com.fmc.edu.model.profile.TeacherProfile;
+import com.fmc.edu.model.student.Student;
 import com.fmc.edu.util.StringUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,9 @@ public class HomePageManager {
     @Resource(name = "schoolManager")
     private SchoolManager mSchoolManager;
 
+    @Resource(name = "studentManager")
+    private StudentManager mStudentManager;
+
     public Map<String, Object> obtainHeaderTeacher(final String pProfileId) throws ProfileException {
         BaseProfile baseProfile = getMyAccountManager().findUserById(pProfileId);
         if (baseProfile == null) {
@@ -44,9 +48,12 @@ public class HomePageManager {
             } else {
                 teacher = headerTeachers.get(0);
             }
+            List<Student> students = getStudentManager().queryStudentByParentId(baseProfile.getId());
+            if (!CollectionUtils.isEmpty(students)) {
+                headerTeacher.put("sex", students.get(0).isMale());
+            }
             headerTeacher.put("teacherId", teacher.get("teacherId"));
             headerTeacher.put("teacherName", StringUtils.ifNULLReturn(teacher.get("teacherName"), ""));
-            headerTeacher.put("sex", teacher.get("sex"));
             headerTeacher.put("className", StringUtils.ifNULLReturn(getSchoolManager().getClassString(String.valueOf(teacher.get("grade")), String.valueOf(teacher.get("class"))), ""));
         } else if (baseProfile.getProfileType() == ProfileType.TEACHER.getValue()) {
             headerTeacher.put("teacherId", baseProfile.getId());
@@ -87,5 +94,13 @@ public class HomePageManager {
 
     public void setSchoolManager(SchoolManager pSchoolManager) {
         this.mSchoolManager = pSchoolManager;
+    }
+
+    public StudentManager getStudentManager() {
+        return mStudentManager;
+    }
+
+    public void setStudentManager(StudentManager pStudentManager) {
+        mStudentManager = pStudentManager;
     }
 }
