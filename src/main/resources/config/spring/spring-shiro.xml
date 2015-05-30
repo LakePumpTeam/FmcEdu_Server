@@ -29,10 +29,8 @@
 				/school/**=anon
 				/admin/login=anon
 				/admin/logout=anon
-				/admin/requestPhoneIdentify=anon
-				/admin/**=anon
-				/main**=authc
-				/user/info**=authc
+				/admin/authorize=anon
+				/admin/**=authc
 				/test/**=authc,perms[test:update]
 			</value>
 		</property>

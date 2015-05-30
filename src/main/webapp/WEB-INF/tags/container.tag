@@ -266,7 +266,7 @@
                     <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                     </li>
                     <li class="divider"></li>
-                    <li><a href="login.jsp"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                    <li><a href="${ctx}/admin/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                     </li>
                 </ul>
                 <!-- /.dropdown-user -->
@@ -313,13 +313,25 @@
                         <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> 校园动态<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="${ctx}/admin/news?i=sdat">活动</a>
+                                <a href="${ctx}/admin/news?m=s&i=sdat">活动</a>
                             </li>
                             <li>
-                                <a href="${ctx}/admin/news?i=sdnf">通知</a>
+                                <a href="${ctx}/admin/news?m=s&i=sdnf">通知</a>
                             </li>
                             <li>
-                                <a href="${ctx}/admin/news?i=sdnw">新闻</a>
+                                <a href="${ctx}/admin/news?m=s&i=sdnw">新闻</a>
+                            </li>
+                        </ul>
+                        <!-- /.nav-second-level -->
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> 育儿学堂<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="${ctx}/admin/news?m=y&i=yexttj">推荐</a>
+                            </li>
+                            <li>
+                                <a href="${ctx}/admin/news?m=y&i=yext">发布</a>
                             </li>
                         </ul>
                         <!-- /.nav-second-level -->

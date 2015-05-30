@@ -1,6 +1,10 @@
 <div id="news_content">
     <form action="${ctx}/admin/news/publishNews" method="post" enctype="multipart/form-data" id="news_form">
         <input type="hidden" id="newsType" name="newsType" value="4" />
+
+        <div class="form-group"><label for="subject">标题:</label>
+            <input type="text" id="subject" name="subject" style="width:100%"/>
+        </div>
         <script type="text/plain" id="myEditor" name="content" style="width:100%;height:240px;"><p>输入校园活动信息...</p></script>
         <br />
 
