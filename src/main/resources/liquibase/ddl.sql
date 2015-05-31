@@ -251,6 +251,7 @@ CREATE TABLE IF NOT EXISTS `fmc_edu`.`comments` (
   `comment` VARCHAR(500) NOT NULL,
   `creation_date` DATETIME NULL,
   `last_update_date` DATETIME NULL,
+  `available` TINYINT(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -351,6 +352,49 @@ CREATE TABLE IF NOT EXISTS `fmc_edu`.`slide` (
   PRIMARY KEY (`id`))
 ENGINE = MyISAM;
 
+-- -----------------------------------------------------
+-- Table `fmc_edu`.`task`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `fmc_edu`.`task` ;
+
+CREATE TABLE IF NOT EXISTS `fmc_edu`.`task` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `title` VARCHAR(150) NOT NULL,
+  `task` VARCHAR(360) NOT NULL,
+  `deadline` DATETIME NOT NULL,
+  `creation_date` DATETIME NOT NULL,
+  `last_update_date` DATETIME NULL,
+  `publish_user_id` INT NOT NULL,
+  `available` TINYINT(1) NOT NULL DEFAULT 1,
+  PRIMARY KEY (`id`))
+ENGINE = MyISAM
+
+-- -----------------------------------------------------
+-- Table `fmc_edu`.`task_student_map`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `fmc_edu`.`task_student_map` ;
+
+CREATE TABLE IF NOT EXISTS `fmc_edu`.`task_student_map` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `task_id` INT NOT NULL,
+  `student_id` INT NOT NULL,
+  `is_complete` TINYINT(1) NOT NULL DEFAULT 0,
+  `creation_date` DATETIME NULL,
+  `last_update_date` DATETIME NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_task_student_map_idx` (`student_id` ASC),
+  INDEX `fk_task_task_map_idx` (`task_id` ASC),
+  CONSTRAINT `fk_task_student_map`
+    FOREIGN KEY (`student_id`)
+    REFERENCES `fmc_edu`.`student` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_task_task_map`
+    FOREIGN KEY (`task_id`)
+    REFERENCES `fmc_edu`.`task` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = MyISAM
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
