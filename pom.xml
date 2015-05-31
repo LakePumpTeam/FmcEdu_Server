@@ -286,7 +286,7 @@
 				<mybatis.db.url>jdbc:mysql://127.0.0.1/fmc_edu?useUnicode=true&amp;amp;characterEncoding=UTF-8&amp;amp;allowMultiQueries=true
 				</mybatis.db.url>
 				<mybatis.db.username>root</mybatis.db.username>
-				<mybatis.db.password>968345</mybatis.db.password>
+				<mybatis.db.password>root</mybatis.db.password>
 				<cache.disk.store.path>d:/ehcache/</cache.disk.store.path>
 				<uploadFileRootPath>d:/upload</uploadFileRootPath>
 				<webXmlPath>${project.basedir}/src/main/webapp/web-config/dev-web.xml</webXmlPath>
@@ -337,8 +337,6 @@
 					<exclude>liquibase/*.xml</exclude>
 					<exclude>liquibase/*.sql</exclude>
 					<exclude>liquibase/*.ddl</exclude>
-					<exclude>config/mybatis/mappers/*.xml</exclude>
-					<exclude>config/mybatis/configuration.xml</exclude>
 				</excludes>
 			</resource>
 		</resources>
