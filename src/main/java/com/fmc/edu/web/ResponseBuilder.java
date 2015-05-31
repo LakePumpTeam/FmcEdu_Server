@@ -1,9 +1,6 @@
 package com.fmc.edu.web;
 
-import com.fmc.edu.manager.NewsManager;
-import com.fmc.edu.manager.ProfileManager;
-import com.fmc.edu.manager.StudentManager;
-import com.fmc.edu.manager.TeacherManager;
+import com.fmc.edu.manager.*;
 import com.fmc.edu.model.news.Comments;
 import com.fmc.edu.model.news.Image;
 import com.fmc.edu.model.news.News;
@@ -12,7 +9,9 @@ import com.fmc.edu.model.profile.BaseProfile;
 import com.fmc.edu.model.profile.ParentProfile;
 import com.fmc.edu.model.profile.ProfileType;
 import com.fmc.edu.model.profile.TeacherProfile;
+import com.fmc.edu.model.relationship.ParentStudentRelationship;
 import com.fmc.edu.model.student.Student;
+import com.fmc.edu.model.task.Task;
 import com.fmc.edu.util.DateUtils;
 import com.fmc.edu.util.StringUtils;
 import org.springframework.stereotype.Service;
@@ -40,6 +39,9 @@ public class ResponseBuilder {
 
     @Resource(name = "newsManager")
     private NewsManager mNewsManager;
+
+    @Resource(name = "taskManager")
+    private TaskManager mTaskManager;
 
     public void buildAuthorizedResponse(ResponseBean pResponseBean, final BaseProfile pProfile) {
         pResponseBean.addData("userId", pProfile.getId());
@@ -193,6 +195,62 @@ public class ResponseBuilder {
         return commentList;
     }
 
+    public void buildTaskDetail(Task pTask, String pStudentId, ResponseBean pResponseBean) {
+        pResponseBean.addData("taskId", pTask.getId());
+        pResponseBean.addData("title", pTask.getTitle());
+        pResponseBean.addData("task", pTask.getTask());
+        pResponseBean.addData("deadline", DateUtils.ConvertDateToString(pTask.getDeadline()));
+        Student student = getStudentManager().queryStudentById(Integer.valueOf(pStudentId));
+        if (student != null) {
+            pResponseBean.addData("studentName", student.getName());
+        }
+        List<Comments> comments = getNewsManager().queryCommentsByNewsIdAndProfileId(0, pTask.getId());
+        List<Map<String, Object>> commentList = new ArrayList<Map<String, Object>>();
+        pResponseBean.addData("commentList", commentList);
+        if (!CollectionUtils.isEmpty(comments)) {
+            for (Comments comment : comments) {
+                commentList.add(buildComment(comment, student));
+            }
+        }
+    }
+
+    public Map<String, Object> buildComment(Comments comment, Student student) {
+        Map<String, Object> commentMap = new HashMap<String, Object>(7);
+        BaseProfile baseProfile = getProfileManager().getMyAccountManager().findUserById(String.valueOf(comment.getProfileId()));
+        commentMap.put("commentId", comment.getId());
+        commentMap.put("userId", comment.getProfileId());
+
+        if (baseProfile.getProfileType() == ProfileType.PARENT.getValue()) {
+            if (student == null) {
+                List<Student> students = getStudentManager().queryStudentByParentId(comment.getProfileId());
+                if (!CollectionUtils.isEmpty(students)) {
+                    student = students.get(0);
+                }
+            }
+            if (student != null) {
+                ParentStudentRelationship parentStudentRelationship = getProfileManager().queryParentStudentRelationship(baseProfile.getId(), student.getId());
+                if (parentStudentRelationship != null) {
+                    commentMap.put("relationship", parentStudentRelationship.getRelationship());
+                }
+                commentMap.put("sex", student.isMale());
+            }
+        } else if (baseProfile.getProfileType() == ProfileType.TEACHER.getValue()) {
+            commentMap.put("relationship", "师生");
+            TeacherProfile teacher = getTeacherManager().queryTeacherById(baseProfile.getId());
+            if (teacher != null) {
+                commentMap.put("sex", teacher.isMale());
+            }
+        } else {
+            //commentMap.put("sex", 0);
+        }
+        commentMap.put("comment", comment.getComment());
+        commentMap.put("date", DateUtils.ConvertDateToString(comment.getCreationDate()));
+        if (baseProfile == null) {
+            commentMap.put("userName", baseProfile.getName());
+        }
+        return commentMap;
+    }
+
     public ProfileManager getProfileManager() {
         return mProfileManager;
     }
@@ -223,5 +281,13 @@ public class ResponseBuilder {
 
     public void setNewsManager(NewsManager pNewsManager) {
         mNewsManager = pNewsManager;
+    }
+
+    public TaskManager getTaskManager() {
+        return mTaskManager;
+    }
+
+    public void setTaskManager(TaskManager pTaskManager) {
+        mTaskManager = pTaskManager;
     }
 }

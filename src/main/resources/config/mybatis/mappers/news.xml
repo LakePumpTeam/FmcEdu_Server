@@ -51,10 +51,14 @@
         available = 1 AND start_date &gt;= #{startDate} AND end_date &lt;= #{endDate} ORDER BY 'order' ASC
     </select>
 
-    <insert id="insertComment" parameterType="Comments" flushCache="true">
-        INSERT INTO comments (news_id,profile_id,comment,creation_date,last_update_date)
-        VALUES (#{newsId}, #{profileId}, #{comment}, now(), now())
+    <insert id="insertComment" parameterType="Comments" flushCache="true" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO comments (ref_id,profile_id,comment,creation_date,last_update_date, available)
+        VALUES (#{refId}, #{profileId}, #{comment}, now(), now(), 1)
     </insert>
+
+    <update id="deleteComment" flushCache="true" parameterType="int">
+        UPDATE comments SET available = 0 WHERE id = #{commentId}
+    </update>
 
     <insert id="insertNews" keyProperty="id" useGeneratedKeys="true" parameterType="News" flushCache="true">
         INSERT INTO `news`
@@ -121,13 +125,16 @@
 
     <select id="queryCommentsByNewsIdAndProfileId" parameterType="map" useCache="false" resultMap="rm.comments">
         SELECT `id`,
-        `news_id`,
+        `ref_id`,
         `profile_id`,
         `comment`,
         `creation_date`,
         `last_update_date`
         FROM `comments`
-        WHERE news_id = #{newsId} and profile_id = #{userId};
+        WHERE ref_id = #{newsId} AND available = 1
+        <if test="userId != null and  userId != 0">
+            and profile_id = #{userId}
+        </if>
     </select>
 
     <select id="isLikedNews" parameterType="map" useCache="false" resultType="int">

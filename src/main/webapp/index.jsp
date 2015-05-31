@@ -146,7 +146,8 @@
                         <td><input type="text" class="ipt_value" id="address" value=""/></td>
                     </tr>
                     <tr>
-                        <td align="right"><label for="braceletCardNumber" title="braceletCardNumber">braceletCardNumber</label></td>
+                        <td align="right"><label for="braceletCardNumber"
+                                                 title="braceletCardNumber">braceletCardNumber</label></td>
                         <td><input type="text" class="ipt_value" id="braceletCardNumber" value=""/></td>
                     </tr>
                     <tr>
@@ -618,41 +619,41 @@
             <td class="result"></td>
         </tr>
         <tr>
-             <td>#2</td>
-             <td class="function">获取幻灯片</td>
-             <td class="baseUrl">${ctx}/news/requestSlides</td>
+            <td>#2</td>
+            <td class="function">获取幻灯片</td>
+            <td class="baseUrl">${ctx}/news/requestSlides</td>
             <td class="parameters">
             </td>
-             <td><input type="button" class="btn_request" value="Request"/></td>
-             <td><input type="button" class="btn_reset" value="Reset"/></td>
-             <td class="result"></td>
+            <td><input type="button" class="btn_request" value="Request"/></td>
+            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td class="result"></td>
         </tr>
-         <tr>
-           <td>#3</td>
-             <td class="function">发表评论</td>
-           <td class="baseUrl">${ctx}/news/postComment</td>
-             <td class="parameters">
-                 <table>
-                     <tr>
-                         <td align="right"><label for="userId" title="userId">userId</label></td>
-                         <td><input type="text" class="ipt_value" id="userId" value=""/></td>
-                     </tr>
-                     <tr>
-                         <td align="right"><label for="newsId" title="newsId">newsId</label></td>
-                         <td><input type="text" class="ipt_value" id="newsId" value=""/></td>
-                     </tr>
-                     <tr>
-                         <td align="right"><label for="content" title="content">content</label></td>
-                         <td><input type="text" class="ipt_value" id="content" value=""/></td>
-                     </tr>
-                 </table>
-             </td>
-           <td><input type="button" class="btn_request" value="Request"/></td>
-           <td><input type="button" class="btn_reset" value="Reset"/></td>
-           <td class="result"></td>
-         </tr>
         <tr>
-             <td>#4</td>
+            <td>#3</td>
+            <td class="function">发表评论</td>
+            <td class="baseUrl">${ctx}/news/postComment</td>
+            <td class="parameters">
+                <table>
+                    <tr>
+                        <td align="right"><label for="userId" title="userId">userId</label></td>
+                        <td><input type="text" class="ipt_value" id="userId" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="newsId" title="newsId">newsId</label></td>
+                        <td><input type="text" class="ipt_value" id="newsId" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="content" title="content">content</label></td>
+                        <td><input type="text" class="ipt_value" id="content" value=""/></td>
+                    </tr>
+                </table>
+            </td>
+            <td><input type="button" class="btn_request" value="Request"/></td>
+            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td class="result"></td>
+        </tr>
+        <tr>
+            <td>#4</td>
             <td class="function">获取新闻详情</td>
             <td class="baseUrl">${ctx}/news/requestNewsDetail</td>
             <td class="parameters">
@@ -703,7 +704,7 @@
                     </tr>
                     <tr>
                         <td align="right"><label for="isLike" title="isLike">isLike</label></td>
-                        <td><input type="text" class="ipt_value" id="isLike" value="true" /></td>
+                        <td><input type="text" class="ipt_value" id="isLike" value="true"/></td>
                     </tr>
                 </table>
             </td>
@@ -718,40 +719,262 @@
                <td class="parameters">
                    <form method="POST" enctype="multipart/form-data" action="${ctx}/news/postClassNews">
 
-                          <div>
-                              <label for="userId" title="userId">userId</label>
-                              <input type="text" class="ipt_value" name="userId" id="userId" value=""/>
-                          </div>
-                          <div>
-                              <label for="subject" title="subject">subject</label>
-                              <input type="text" class="ipt_value" name="subject" id="subject" value=""/>
-                          </div>
-                          <div>
-                              <label for="content" title="content">content</label>
-                              <input type="text" class="ipt_value" name="content" id="content" value=""/>
-                          </div>
-                          <div>
-                              <label for="img1" title="img1">img1</label>
-                              <input type="file" name="img1" class="img1" id="img1"/>
-                          </div>
-                          <div>
-                              <label for="img2" title="img2">img2</label>
-                              <input type="file" name="img2" class="img2" id="img2"/>
-                          </div>
-                          <div>
-                              <label for="img3" title="img3">img3</label>
-                              <input type="file" name="img3" class="img3" id="img3"/>
-                          </div>
-                          <div>
-                              <label for="img4" title="img4">img4</label>
-                              <input type="file" name="img4" class="img4" id="img4"/>
-                          </div>
+                       <div>
+                           <label for="userId" title="userId">userId</label>
+                           <input type="text" class="ipt_value" name="userId" id="userId" value=""/>
+                       </div>
+                       <div>
+                           <label for="subject" title="subject">subject</label>
+                           <input type="text" class="ipt_value" name="subject" id="subject" value=""/>
+                       </div>
+                       <div>
+                           <label for="content" title="content">content</label>
+                           <input type="text" class="ipt_value" name="content" id="content" value=""/>
+                       </div>
+                       <div>
+                           <label for="img1" title="img1">img1</label>
+                           <input type="file" name="img1" class="img1" id="img1"/>
+                       </div>
+                       <div>
+                           <label for="img2" title="img2">img2</label>
+                           <input type="file" name="img2" class="img2" id="img2"/>
+                       </div>
+                       <div>
+                           <label for="img3" title="img3">img3</label>
+                           <input type="file" name="img3" class="img3" id="img3"/>
+                       </div>
+                       <div>
+                           <label for="img4" title="img4">img4</label>
+                           <input type="file" name="img4" class="img4" id="img4"/>
+                       </div>
 
-                          <input type="submit" value="Upload">
-                      </form>
+                       <input type="submit" value="Upload">
+                   </form>
     </table>
-                   </table>
-               </td>
+    </table>
+    </td>
+    </tr>
+    </table>
+</fieldset>
+<fieldset>
+    <legend>亲子教育</legend>
+    <table border="1">
+        <tr>
+            <th width="5%">Index#</th>
+            <th>Function</th>
+            <th>BaseURL</th>
+            <th>Parameters</th>
+            <th>Request</th>
+            <th>Reset</th>
+            <th width="56%">Result</th>
+        </tr>
+        <tr>
+            <td>#1</td>
+            <td class="function">获取任务列表</td>
+            <td class="baseUrl">${ctx}/task/requestTaskList</td>
+            <td class="parameters">
+                <table>
+                    <tr>
+                        <td align="right"><label for="userId" title="userId">userId</label></td>
+                        <td><input type="text" class="ipt_value" id="userId" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="status" title="status">status</label></td>
+                        <td><input type="text" class="ipt_value" id="status" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="filter" title="filter">filter(可为空)</label></td>
+                        <td><input type="text" class="ipt_value" id="filter" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="pageIndex" title="pageIndex">pageIndex(从1开始)</label></td>
+                        <td><input type="text" class="ipt_value" id="pageIndex" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="pageSize" title="pageSize">pageSize</label></td>
+                        <td><input type="text" class="ipt_value" id="pageSize" value=""/></td>
+                    </tr>
+                </table>
+            </td>
+            <td><input type="button" class="btn_request" value="Request"/></td>
+            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td class="result"></td>
+        </tr>
+        <tr>
+            <td>#2</td>
+            <td class="function">发布</td>
+            <td class="baseUrl">${ctx}/task/publishTask</td>
+            <td class="parameters">
+                <table>
+                    <tr>
+                        <td align="right"><label for="userId" title="userId">userId</label></td>
+                        <td><input type="text" class="ipt_value" id="userId" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="students" title="students">students</label></td>
+                        <td><input type="text" class="ipt_value" id="students" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="deadline" title="deadline">deadline</label></td>
+                        <td><input type="text" class="ipt_value" id="deadline" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="title" title="title">title</label></td>
+                        <td><input type="text" class="ipt_value" id="title" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="task" title="task">task</label></td>
+                        <td><input type="text" class="ipt_value" id="task" value=""/></td>
+                    </tr>
+                </table>
+            </td>
+            <td><input type="button" class="btn_request" value="Request"/></td>
+            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td class="result"></td>
+        </tr>
+        <tr>
+            <td>#3</td>
+            <td class="function">学生列表</td>
+            <td class="baseUrl">${ctx}/school/requestStudentList</td>
+            <td class="parameters">
+                <table>
+                    <tr>
+                        <td align="right"><label for="teacherId" title="teacherId">teacherId</label></td>
+                        <td><input type="text" class="ipt_value" id="teacherId" value=""/></td>
+                    </tr>
+                </table>
+            </td>
+            <td><input type="button" class="btn_request" value="Request"/></td>
+            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td class="result"></td>
+        </tr>
+        <tr>
+            <td>#4</td>
+            <td class="function">获取任务详情</td>
+            <td class="baseUrl">${ctx}/task/requestTaskDetail</td>
+            <td class="parameters">
+                <table>
+                    <tr>
+                        <td align="right"><label for="taskId" title="taskId">taskId</label></td>
+                        <td><input type="text" class="ipt_value" id="taskId" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="studentId" title="studentId">studentId</label></td>
+                        <td><input type="text" class="ipt_value" id="studentId" value=""/></td>
+                    </tr>
+                </table>
+            </td>
+            <td><input type="button" class="btn_request" value="Request"/></td>
+            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td class="result"></td>
+        </tr>
+        <tr>
+            <td>#5</td>
+            <td class="function">增加评论</td>
+            <td class="baseUrl">${ctx}/task/addComment</td>
+            <td class="parameters">
+                <table>
+                    <tr>
+                        <td align="right"><label for="taskId" title="taskId">taskId</label></td>
+                        <td><input type="text" class="ipt_value" id="taskId" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="userId" title="userId">userId</label></td>
+                        <td><input type="text" class="ipt_value" id="userId" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="comment" title="comment">comment</label></td>
+                        <td><input type="text" class="ipt_value" id="comment" value=""/></td>
+                    </tr>
+                </table>
+            </td>
+            <td><input type="button" class="btn_request" value="Request"/></td>
+            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td class="result"></td>
+        </tr>
+        <tr>
+            <td>#6</td>
+            <td class="function">删除评论</td>
+            <td class="baseUrl">${ctx}/task/deleteComment</td>
+            <td class="parameters">
+                <table>
+                    <tr>
+                        <td align="right"><label for="commentId" title="commentId">commentId</label></td>
+                        <td><input type="text" class="ipt_value" id="commentId" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="userId" title="userId">userId</label></td>
+                        <td><input type="text" class="ipt_value" id="userId" value=""/></td>
+                    </tr>
+                </table>
+            </td>
+            <td><input type="button" class="btn_request" value="Request"/></td>
+            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td class="result"></td>
+        </tr>
+        <tr>
+            <td>#7</td>
+            <td class="function">删除任务</td>
+            <td class="baseUrl">${ctx}/task/deleteTask</td>
+            <td class="parameters">
+                <table>
+                    <tr>
+                        <td align="right"><label for="taskId" title="taskId">taskId</label></td>
+                        <td><input type="text" class="ipt_value" id="taskId" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="userId" title="userId">userId</label></td>
+                        <td><input type="text" class="ipt_value" id="userId" value=""/></td>
+                    </tr>
+                </table>
+            </td>
+            <td><input type="button" class="btn_request" value="Request"/></td>
+            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td class="result"></td>
+        </tr>
+        <tr>
+            <td>#8</td>
+            <td class="function">修改任务</td>
+            <td class="baseUrl">${ctx}/task/editTask</td>
+            <td class="parameters">
+                <table>
+                    <tr>
+                        <td align="right"><label for="taskId" title="taskId">taskId</label></td>
+                        <td><input type="text" class="ipt_value" id="taskId" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="userId" title="userId">userId</label></td>
+                        <td><input type="text" class="ipt_value" id="userId" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="task" title="task">task</label></td>
+                        <td><input type="text" class="ipt_value" id="task" value=""/></td>
+                    </tr>
+                </table>
+            </td>
+            <td><input type="button" class="btn_request" value="Request"/></td>
+            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td class="result"></td>
+        </tr>
+        <tr>
+            <td>#9</td>
+            <td class="function">完成任务</td>
+            <td class="baseUrl">${ctx}/task/submitTask</td>
+            <td class="parameters">
+                <table>
+                    <tr>
+                        <td align="right"><label for="taskId" title="taskId">taskId</label></td>
+                        <td><input type="text" class="ipt_value" id="taskId" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="studentId" title="studentId">studentId</label></td>
+                        <td><input type="text" class="ipt_value" id="studentId" value=""/></td>
+                    </tr>
+                </table>
+            </td>
+            <td><input type="button" class="btn_request" value="Request"/></td>
+            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td class="result"></td>
         </tr>
     </table>
 </fieldset>

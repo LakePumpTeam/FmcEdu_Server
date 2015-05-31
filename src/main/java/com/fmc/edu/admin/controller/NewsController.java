@@ -41,6 +41,7 @@ public class NewsController extends BaseController {
     public String publishNews(HttpServletRequest pRequest,
                               HttpServletResponse pResponse,
                               @RequestParam(value = "newsType", required = true) int newsType,
+                              @RequestParam(value = "subject", required = true) String subject,
                               @RequestParam(value = "content", required = true) String content,
                               @RequestParam(value = "imgs", required = false) MultipartFile[] imgs) throws IOException {
         ResponseBean responseBean = new ResponseBean();
@@ -73,7 +74,7 @@ public class NewsController extends BaseController {
         news.setAuthor(userProfile.getId());
         news.setContent(content);
         news.setNewsType(newsType);
-        news.setSubject(StringUtils.EMPTY);
+        news.setSubject(subject);
         news.setApproved(true);
         TransactionStatus txStatus = ensureTransaction();
         try {

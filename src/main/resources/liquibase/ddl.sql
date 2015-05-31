@@ -246,7 +246,7 @@ DROP TABLE IF EXISTS `fmc_edu`.`comments` ;
 
 CREATE TABLE IF NOT EXISTS `fmc_edu`.`comments` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `news_id` INT NOT NULL,
+  `ref_id` INT NOT NULL,
   `profile_id` INT NOT NULL,
   `comment` VARCHAR(500) NOT NULL,
   `creation_date` DATETIME NULL,

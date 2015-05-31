@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Yu on 5/12/2015.
@@ -17,6 +18,14 @@ public class StudentService {
 
     public List<Student> queryStudentByParentId(int pParentId) {
         return getStudentRepository().queryStudentByParentId(pParentId);
+    }
+
+    public Map<String, Object> queryStudentListByTeacherId(int pTeacherId) {
+        return getStudentRepository().queryStudentListByTeacherId(pTeacherId);
+    }
+
+    public Student queryStudentById(int pStudentId) {
+        return getStudentRepository().queryStudentById(pStudentId);
     }
 
     public IStudentRepository getStudentRepository() {

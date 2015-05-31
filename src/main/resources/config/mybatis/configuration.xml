@@ -26,6 +26,8 @@
         <typeAlias alias="UserMessage" type="com.fmc.edu.model.news.UserMessage"/>
         <typeAlias alias="Course" type="com.fmc.edu.model.course.Course"/>
         <typeAlias alias="TimeTable" type="com.fmc.edu.model.course.TimeTable"/>
+        <typeAlias alias="Task" type="com.fmc.edu.model.task.Task"/>
+        <typeAlias alias="TaskStudentRelationShip" type="com.fmc.edu.model.relationship.TaskStudentsRelationship"/>
     </typeAliases>
     <typeHandlers>
         <typeHandler handler="org.apache.ibatis.type.BlobTypeHandler" javaType="byte[]" jdbcType="BLOB"/>

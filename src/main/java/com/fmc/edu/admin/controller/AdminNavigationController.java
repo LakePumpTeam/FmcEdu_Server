@@ -29,7 +29,7 @@ public class AdminNavigationController {
         return "admin/news/news";
     }
 
-    @RequestMapping(value = "/toLogin" + GlobalConstant.URL_SUFFIX)
+    @RequestMapping(value = "/login" + GlobalConstant.URL_SUFFIX)
     public String toLogin(HttpServletRequest pRequest, HttpServletResponse pResponse) {
         return "admin/login";
     }

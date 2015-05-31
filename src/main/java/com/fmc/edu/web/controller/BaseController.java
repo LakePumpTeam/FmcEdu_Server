@@ -95,6 +95,19 @@ public abstract class BaseController {
         return ids;
     }
 
+    protected String[] decodeArrayInput(final String[] pArrayInput) throws IOException {
+        if (pArrayInput == null || pArrayInput.length == 0) {
+            return new String[0];
+        }
+
+        String[] arrayInput = new String[pArrayInput.length];
+        for (int i = 0; i < pArrayInput.length; i++) {
+            LOG.debug("decodeArrayInput:" + pArrayInput[i]);
+            arrayInput[i] = decodeInput(pArrayInput[i]);
+        }
+        return arrayInput;
+    }
+
     public DataSourceTransactionManager getTransactionManager() {
         return mTransactionManager;
     }

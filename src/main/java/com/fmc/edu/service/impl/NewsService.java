@@ -43,6 +43,10 @@ public class NewsService {
         return getNewsRepository().insertComment(pComments);
     }
 
+    public boolean deleteComment(int pCommentId) {
+        return getNewsRepository().deleteComment(pCommentId);
+    }
+
     public News queryNewsDetail(int pNewsId) {
         return getNewsRepository().queryNewsDetail(pNewsId);
     }

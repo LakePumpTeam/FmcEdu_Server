@@ -36,6 +36,10 @@ public interface INewsRepository {
 
     boolean insertComment(Comments pComments);
 
+    String DELETE_COMMENTS = "com.fmc.edu.news.deleteComment";
+
+    boolean deleteComment(int pCommentId);
+
     String INSERT_NEWS = "com.fmc.edu.news.insertNews";
 
     boolean insertNews(News pNews);

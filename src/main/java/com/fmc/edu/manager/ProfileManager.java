@@ -129,6 +129,10 @@ public class ProfileManager {
         return getParentService().getParentRepository().queryParentDetailById(pParentId);
     }
 
+    public ParentStudentRelationship queryParentStudentRelationship(final int parentId, final int studentId) {
+        return getParentService().queryParentStudentRelationship(parentId, studentId);
+    }
+
     /**
      * Return the MessageIdentifyService according the develop status.
      *

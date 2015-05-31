@@ -9,7 +9,7 @@ import java.sql.Timestamp;
  */
 public class Comments extends BaseBean {
 
-    private int mNewsId;
+    private int mRefId;
 
     private int mProfileId;
 
@@ -17,12 +17,14 @@ public class Comments extends BaseBean {
 
     private Timestamp mCreationDate;
 
-    public int getNewsId() {
-        return mNewsId;
+    private Boolean mAvailable;
+
+    public int getRefId() {
+        return mRefId;
     }
 
-    public void setNewsId(int pNewsId) {
-        mNewsId = pNewsId;
+    public void setRefId(int pRefId) {
+        mRefId = pRefId;
     }
 
     public int getProfileId() {
@@ -47,5 +49,13 @@ public class Comments extends BaseBean {
 
     public void setCreationDate(final Timestamp pCreationDate) {
         mCreationDate = pCreationDate;
+    }
+
+    public Boolean getAvailable() {
+        return mAvailable;
+    }
+
+    public void setAvailable(Boolean pAvailable) {
+        mAvailable = pAvailable;
     }
 }

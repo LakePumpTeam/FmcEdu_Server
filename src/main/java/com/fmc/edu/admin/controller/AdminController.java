@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
  * Created by Yu on 5/28/2015.
  */
 @Controller
-@RequestMapping("/admin/")
+@RequestMapping("/admin")
 public class AdminController extends BaseController {
     private static final Logger LOG = Logger.getLogger(AdminController.class);
 
@@ -32,7 +32,7 @@ public class AdminController extends BaseController {
     @Resource(name = "passwordEncryptService")
     private PasswordEncryptService mPasswordEncryptService;
 
-    @RequestMapping(value = "/login" + GlobalConstant.URL_SUFFIX, method = RequestMethod.POST)
+    @RequestMapping(value = "/authorize" + GlobalConstant.URL_SUFFIX, method = RequestMethod.POST)
     public String login(HttpServletRequest pRequest,
                         HttpServletResponse pResponse,
                         @RequestParam(value = "userName", required = true) String userName,
@@ -44,7 +44,7 @@ public class AdminController extends BaseController {
         try {
             BaseProfile baseProfile = getMyAccountManager().findUser(userName);
             if (baseProfile == null) {
-                return "redirect:/admin/toLogin";
+                return "redirect:/admin/login";
             }
             String decodePassword = getPasswordEncryptService().encrypt(baseProfile.getSalt() + password);
             UsernamePasswordToken authenticationToken = new UsernamePasswordToken(userName, decodePassword);
@@ -53,31 +53,31 @@ public class AdminController extends BaseController {
 
         } catch (UnknownAccountException e) {
             LOG.error(e);
-            return "redirect:/admin/toLogin";
+            return "";//"redirect:/admin/login";
         } catch (IncorrectCredentialsException e) {
             LOG.error(e);
-            return "redirect:/admin/toLogin";
+            return "";//"redirect:/admin/login";
         } catch (LockedAccountException e) {
             LOG.error(e);
-            return "redirect:/admin/toLogin";
+            return "";//"redirect:/admin/login";
         } catch (ExcessiveAttemptsException e) {
             LOG.error(e);
-            return "redirect:/admin/toLogin";
+            return "";//"redirect:/admin/login";
         } catch (AuthenticationException e) {
             LOG.error(e);
-            return "redirect:/admin/toLogin";
+            return "";//"redirect:/admin/login";
         }
         return "redirect:/admin/home";
     }
 
-    @RequestMapping(value = "/logout" + GlobalConstant.URL_SUFFIX, method = RequestMethod.POST)
+    @RequestMapping(value = "/logout" + GlobalConstant.URL_SUFFIX)
     public String logout(HttpServletRequest pRequest, HttpServletResponse pResponse) {
         Subject currentUser = SecurityUtils.getSubject();
         if (currentUser == null) {
-            return "redirect:/admin/home";
+            return "redirect:/admin/login";
         }
         currentUser.logout();
-        return "redirect:/admin/home";
+        return "redirect:/admin/login";
     }
 
     public MyAccountManager getMyAccountManager() {

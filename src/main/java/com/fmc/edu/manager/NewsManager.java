@@ -47,6 +47,10 @@ public class NewsManager {
         return getNewsService().insertComment(pComments);
     }
 
+    public boolean deleteComment(int pCommentId) {
+        return getNewsService().deleteComment(pCommentId);
+    }
+
     public boolean insertNews(News pNews) {
         return getNewsService().insertNews(pNews);
     }

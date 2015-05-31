@@ -220,7 +220,7 @@ public class NewsActivityController extends BaseController {
                 return output(responseBean);
             }
             Comments comments = new Comments();
-            comments.setNewsId(Integer.valueOf(newsIdStr));
+            comments.setRefId(Integer.valueOf(newsIdStr));
             comments.setProfileId(Integer.valueOf(userIdStr));
             comments.setComment(contentStr);
 

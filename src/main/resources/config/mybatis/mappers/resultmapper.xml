@@ -47,7 +47,7 @@
         <result property="paid" column="paid"/>
         <result property="freeTrial" column="free_trial" jdbcType="TINYINT" javaType="boolean"/>
         <result property="freeTrialEndDate" column="free_trial_end_date"/>
-        <association property="address" javaType="Address" column="address_id" >
+        <association property="address" javaType="Address" column="address_id">
             <id property="id" column="address_id"/>
             <result property="address" column="full_address"/>
             <result property="cityId" column="cityId"/>
@@ -55,7 +55,7 @@
             <result property="provinceId" column="provinceId"/>
             <result property="province" column="province"/>
         </association>
-        <association  property="student" javaType="Student" column="studentId">
+        <association property="student" javaType="Student" column="studentId">
             <id property="id" column="studentId"/>
             <result property="name" column="studentName"/>
             <result property="male" column="sex"/>
@@ -159,11 +159,12 @@
 
     <resultMap id="comments" type="Comments">
         <id property="id" column="id"/>
-        <result property="newsId" column="news_id"/>
+        <result property="refId" column="ref_id"/>
         <result property="profileId" column="profile_id"/>
         <result property="comment" column="comment"/>
         <result property="creationDate" column="creation_date"/>
         <result property="lastUpdateDate" column="last_update_date"/>
+        <result property="available" column="available"/>
     </resultMap>
 
     <resultMap id="image" type="Image">
@@ -253,6 +254,26 @@
         <id property="id" column="id"/>
         <result property="classId" column="class_id"/>
         <result property="available" column="available"/>
+        <result property="creationDate" column="creation_date"/>
+        <result property="lastUpdateDate" column="last_update_date"/>
+    </resultMap>
+
+    <resultMap id="task" type="Task">
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="task" column="task"/>
+        <result property="deadline" column="deadline"/>
+        <result property="publishUserId" column="publish_user_id"/>
+        <result property="available" column="available"/>
+        <result property="creationDate" column="creation_date"/>
+        <result property="lastUpdateDate" column="last_update_date"/>
+    </resultMap>
+
+    <resultMap id="taskStudentRelationShip" type="TaskStudentRelationShip">
+        <id property="id" column="id"/>
+        <result property="taskId" column="task_id"/>
+        <result property="studentId" column="student_id"/>
+        <result property="completed" column="is_complete"/>
         <result property="creationDate" column="creation_date"/>
         <result property="lastUpdateDate" column="last_update_date"/>
     </resultMap>

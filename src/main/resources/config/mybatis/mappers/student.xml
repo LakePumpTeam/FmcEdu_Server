@@ -33,7 +33,32 @@
         on cls.id = s.class_id
         left join school scl
         on scl.id =cls.school_id
-        where psm.parent_id = #{parentId}
+        where psm.parent_id = #{parentId} AND psm.approved =1
     </select>
 
+    <select id="queryStudentListByTeacherId" resultType="map" parameterType="int">
+        select s.id as studentId, s.name as name
+        FROM student s
+        INNER JOIN class cls
+        ON s.class_id = cls.id
+        INNER JOIN teacher_class_map tcm
+        ON cls.id = tcm.class_id
+        INNER JOIN parent_student_map psm
+        ON psm.student_id = s.id
+        where tcm.teacher_id = #{teacherId} AND psm.approved =1
+    </select>
+
+    <select id="queryStudentById" resultMap="rm.student" parameterType="string">
+        select s.id as s_id,
+        s.class_id,
+        s.name,
+        s.sex,
+        s.birth,
+        s.ring_number,
+        s.ring_phone,
+        s.creation_date,
+        s.available
+        from student s
+        where s.id = #{studentId}
+    </select>
 </mapper>
