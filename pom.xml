@@ -337,6 +337,8 @@
 					<exclude>liquibase/*.xml</exclude>
 					<exclude>liquibase/*.sql</exclude>
 					<exclude>liquibase/*.ddl</exclude>
+					<exclude>config/mybatis/mappers/*.xml</exclude>
+					<exclude>config/mybatis/configuration.xml</exclude>
 				</excludes>
 			</resource>
 		</resources>
