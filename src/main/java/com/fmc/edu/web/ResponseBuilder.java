@@ -197,6 +197,7 @@ public class ResponseBuilder {
 
     public void buildTaskDetail(Task pTask, String pStudentId, ResponseBean pResponseBean) {
         pResponseBean.addData("taskId", pTask.getId());
+        pResponseBean.addData("studentId", pStudentId);
         pResponseBean.addData("title", pTask.getTitle());
         pResponseBean.addData("task", pTask.getTask());
         pResponseBean.addData("deadline", DateUtils.ConvertDateToString(pTask.getDeadline()));
