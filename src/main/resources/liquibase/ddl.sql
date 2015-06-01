@@ -381,6 +381,7 @@ CREATE TABLE IF NOT EXISTS `fmc_edu`.`task_student_map` (
   `is_complete` TINYINT(1) NOT NULL DEFAULT 0,
   `creation_date` DATETIME NULL,
   `last_update_date` DATETIME NULL,
+  `available` TINYINT(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   INDEX `fk_task_student_map_idx` (`student_id` ASC),
   INDEX `fk_task_task_map_idx` (`task_id` ASC),
