@@ -82,6 +82,10 @@
     </select>
 
     <update id="deleteTask" parameterType="map" flushCache="true">
-        UPDATE task SET available = 0 WHERE  id = #{taskId} and publish_user_id = #{userId}
+        UPDATE task_student_map tsm
+        INNER JOIN task t
+        ON t.id = tsm.task_id
+        SET tsm.available = 0
+        WHERE t.id = #{taskId} and t.publish_user_id = #{userId} and tsm.student_id = #{studentId}
     </update>
 </mapper>

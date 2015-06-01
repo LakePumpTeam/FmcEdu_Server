@@ -274,6 +274,7 @@
         <result property="taskId" column="task_id"/>
         <result property="studentId" column="student_id"/>
         <result property="completed" column="is_complete"/>
+        <result property="available" column="available"/>
         <result property="creationDate" column="creation_date"/>
         <result property="lastUpdateDate" column="last_update_date"/>
     </resultMap>

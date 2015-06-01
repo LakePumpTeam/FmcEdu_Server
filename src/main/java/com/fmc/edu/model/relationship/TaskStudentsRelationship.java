@@ -7,6 +7,7 @@ public class TaskStudentsRelationship extends BaseRelationship {
     private Integer mTaskId;
     private Integer mStudentId;
     private Boolean mCompleted;
+    private Boolean mAvailable;
 
     public Integer getTaskId() {
         return mTaskId;
@@ -30,5 +31,13 @@ public class TaskStudentsRelationship extends BaseRelationship {
 
     public void setCompleted(Boolean pCompleted) {
         mCompleted = pCompleted;
+    }
+
+    public Boolean getAvailable() {
+        return mAvailable;
+    }
+
+    public void setAvailable(Boolean pAvailable) {
+        mAvailable = pAvailable;
     }
 }

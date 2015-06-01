@@ -926,6 +926,10 @@
                         <td align="right"><label for="userId" title="userId">userId</label></td>
                         <td><input type="text" class="ipt_value" id="userId" value=""/></td>
                     </tr>
+                    <tr>
+                        <td align="right"><label for="studentId" title="studentId">studentId</label></td>
+                        <td><input type="text" class="ipt_value" id="studentId" value=""/></td>
+                    </tr>
                 </table>
             </td>
             <td><input type="button" class="btn_request" value="Request"/></td>

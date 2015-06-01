@@ -46,8 +46,8 @@ public class TaskManager {
         return getTaskService().queryTaskDetail(pTaskId);
     }
 
-    public boolean deleteTask(int pTaskId, int pUserId) {
-        return getTaskService().deleteTask(pTaskId, pUserId);
+    public boolean deleteTask(int pTaskId, int pUserId, int pStudentId) {
+        return getTaskService().deleteTask(pTaskId, pUserId, pStudentId);
     }
 
     public TaskService getTaskService() {

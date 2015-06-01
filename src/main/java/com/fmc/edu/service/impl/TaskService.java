@@ -46,8 +46,8 @@ public class TaskService {
         return getTaskRepository().queryTaskDetail(pTaskId);
     }
 
-    public boolean deleteTask(int pTaskId, int pUserId) {
-        return getTaskRepository().deleteTask(pTaskId, pUserId);
+    public boolean deleteTask(int pTaskId, int pUserId, int pStudentId) {
+        return getTaskRepository().deleteTask(pTaskId, pUserId, pStudentId);
     }
 
     public ITaskRepository getTaskRepository() {

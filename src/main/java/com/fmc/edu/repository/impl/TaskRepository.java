@@ -72,10 +72,11 @@ public class TaskRepository extends BaseRepository implements ITaskRepository {
     }
 
     @Override
-    public boolean deleteTask(int pTaskId, int pUserId) {
+    public boolean deleteTask(int pTaskId, int pUserId, int pStudentId) {
         Map<String, Object> params = new HashMap<String, Object>(2);
         params.put("taskId", pTaskId);
         params.put("userId", pUserId);
+        params.put("studentId", pStudentId);
         return getSqlSession().delete(DELETE_TASK, params) > 0;
     }
 }

@@ -41,5 +41,5 @@ public interface ITaskRepository {
 
     String DELETE_TASK = "com.fmc.edu.task.deleteTask";
 
-    boolean deleteTask(int pTaskId, int pUserId);
+    boolean deleteTask(int pTaskId, int pUserId, int pStudentId);
 }

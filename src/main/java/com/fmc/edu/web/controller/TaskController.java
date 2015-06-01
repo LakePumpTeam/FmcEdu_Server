@@ -149,13 +149,15 @@ public class TaskController extends BaseController {
     private String deleteTask(final HttpServletRequest pRequest,
                               final HttpServletResponse pResponse,
                               final String taskId,
-                              final String userId) {
+                              final String userId,
+                              final String studentId) {
         ResponseBean responseBean = new ResponseBean();
         TransactionStatus txStatus = ensureTransaction();
         try {
             String taskIdStr = decodeInput(taskId);
             String userIdStr = decodeInput(userId);
-            if (!getTaskManager().deleteTask(Integer.valueOf(taskIdStr), Integer.valueOf(userIdStr))) {
+            String studentIdStr = decodeInput(studentId);
+            if (!getTaskManager().deleteTask(Integer.valueOf(taskIdStr), Integer.valueOf(userIdStr), Integer.valueOf(studentIdStr))) {
                 responseBean.addBusinessMsg("删除任务失败.");
                 return output(responseBean);
             }
