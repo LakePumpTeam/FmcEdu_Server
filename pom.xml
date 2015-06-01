@@ -326,6 +326,10 @@
 		</profile>
 	</profiles>
 	<build>
+		<filters>
+			<filter>${project.basedir}/src/main/resources/config/mybatis/mybatis.properties</filter>
+			<filter>${project.basedir}/src/main/resources/web.properties</filter>
+		</filters>
 		<resources>
 			<resource>
 				<!--This config used to enable these file in the "directory" can reference property value in the pom.xml -->
