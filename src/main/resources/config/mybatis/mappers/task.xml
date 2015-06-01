@@ -24,7 +24,7 @@
         </foreach>
     </insert>
     <update id="editTask" parameterType="Task" flushCache="true">
-      UPDATE task SET task = #{task} WHERE id = ${id}
+      UPDATE task SET task = #{task} WHERE id = #{id}
     </update>
 
     <update id="submitTask" parameterType="map" flushCache="true">
