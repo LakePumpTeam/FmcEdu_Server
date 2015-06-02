@@ -91,6 +91,7 @@
 
     <select id="queryTaskStudentRelationship" resultMap="rm.taskStudentRelationShip" parameterType="map">
         SELECT id, task_id,student_id,is_complete,creation_date,last_update_date,available
+        FROM task_student_map
         WHERE task_id = #{taskId} and student_id = #{studentId} and available = 1
     </select>
 </mapper>
