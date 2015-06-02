@@ -73,10 +73,18 @@ public class TaskRepository extends BaseRepository implements ITaskRepository {
 
     @Override
     public boolean deleteTask(int pTaskId, int pUserId, int pStudentId) {
-        Map<String, Object> params = new HashMap<String, Object>(2);
+        Map<String, Object> params = new HashMap<String, Object>(3);
         params.put("taskId", pTaskId);
         params.put("userId", pUserId);
         params.put("studentId", pStudentId);
         return getSqlSession().delete(DELETE_TASK, params) > 0;
+    }
+
+    @Override
+    public TaskStudentsRelationship queryTaskStudentRelationship(int pTaskId, int pStudentId) {
+        Map<String, Object> params = new HashMap<String, Object>(2);
+        params.put("taskId", pTaskId);
+        params.put("studentId", pStudentId);
+        return getSqlSession().selectOne(QUERY_TASK_STUDENT_RELATIONSHIP_BY_STUDENT_ID_AND_TASK_ID, params);
     }
 }
