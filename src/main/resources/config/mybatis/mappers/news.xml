@@ -135,6 +135,7 @@
         <if test="userId != null and  userId != 0">
             and profile_id = #{userId}
         </if>
+        ORDER BY creation_date DESC
     </select>
 
     <select id="isLikedNews" parameterType="map" useCache="false" resultType="int">
