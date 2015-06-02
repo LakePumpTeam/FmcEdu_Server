@@ -25,8 +25,8 @@ public class TaskStudentsRelationship extends BaseRelationship {
         mStudentId = pStudentId;
     }
 
-    public Boolean getCompleted() {
-        return mCompleted;
+    public int getCompleted() {
+        return mCompleted ? 1 : 0;
     }
 
     public void setCompleted(Boolean pCompleted) {
