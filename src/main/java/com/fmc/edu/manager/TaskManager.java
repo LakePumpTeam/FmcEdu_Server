@@ -50,6 +50,10 @@ public class TaskManager {
         return getTaskService().deleteTask(pTaskId, pUserId, pStudentId);
     }
 
+    public TaskStudentsRelationship queryTaskStudentRelationship(int pTaskId, int pStudentId) {
+        return getTaskService().queryTaskStudentRelationship(pTaskId, pStudentId);
+    }
+
     public TaskService getTaskService() {
         return mTaskService;
     }

@@ -88,4 +88,9 @@
         SET tsm.available = 0
         WHERE t.id = #{taskId} and t.publish_user_id = #{userId} and tsm.student_id = #{studentId}
     </update>
+
+    <select id="queryTaskStudentRelationship" resultMap="rm.taskStudentRelationShip" parameterType="map">
+        SELECT id, task_id,student_id,is_complete,creation_date,last_update_date,available
+        WHERE task_id = #{taskId} and student_id = #{studentId} and available = 1
+    </select>
 </mapper>

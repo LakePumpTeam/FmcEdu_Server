@@ -10,6 +10,7 @@ import com.fmc.edu.model.profile.ParentProfile;
 import com.fmc.edu.model.profile.ProfileType;
 import com.fmc.edu.model.profile.TeacherProfile;
 import com.fmc.edu.model.relationship.ParentStudentRelationship;
+import com.fmc.edu.model.relationship.TaskStudentsRelationship;
 import com.fmc.edu.model.student.Student;
 import com.fmc.edu.model.task.Task;
 import com.fmc.edu.util.DateUtils;
@@ -200,6 +201,10 @@ public class ResponseBuilder {
         pResponseBean.addData("studentId", pStudentId);
         pResponseBean.addData("title", pTask.getTitle());
         pResponseBean.addData("task", pTask.getTask());
+        TaskStudentsRelationship taskStudentsRelationship = getTaskManager().queryTaskStudentRelationship(pTask.getId(), Integer.valueOf(pStudentId));
+        if (taskStudentsRelationship != null) {
+            pResponseBean.addData("status", taskStudentsRelationship.getCompleted());
+        }
         pResponseBean.addData("deadline", DateUtils.ConvertDateToString(pTask.getDeadline()));
         Student student = getStudentManager().queryStudentById(Integer.valueOf(pStudentId));
         if (student != null) {
@@ -220,6 +225,7 @@ public class ResponseBuilder {
         BaseProfile baseProfile = getProfileManager().getMyAccountManager().findUserById(String.valueOf(comment.getProfileId()));
         commentMap.put("commentId", comment.getId());
         commentMap.put("userId", comment.getProfileId());
+        commentMap.put("userName", baseProfile.getName());
 
         if (baseProfile.getProfileType() == ProfileType.PARENT.getValue()) {
             if (student == null) {

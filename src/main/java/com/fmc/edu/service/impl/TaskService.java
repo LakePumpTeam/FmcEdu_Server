@@ -50,6 +50,10 @@ public class TaskService {
         return getTaskRepository().deleteTask(pTaskId, pUserId, pStudentId);
     }
 
+    public TaskStudentsRelationship queryTaskStudentRelationship(int pTaskId, int pStudentId) {
+        return getTaskRepository().queryTaskStudentRelationship(pTaskId, pStudentId);
+    }
+
     public ITaskRepository getTaskRepository() {
         return mTaskRepository;
     }
