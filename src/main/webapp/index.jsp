@@ -997,7 +997,7 @@
         <tr>
             <td>#1</td>
             <td class="function">获取BBS列表</td>
-            <td class="baseUrl">${ctx}news/requestNewsList</td>
+            <td class="baseUrl">${ctx}/news/requestNewsList</td>
             <td class="parameters">
                 <table>
                     <tr>
@@ -1025,7 +1025,7 @@
         <tr>
             <td>#2</td>
             <td class="function">获取新闻详情</td>
-            <td class="baseUrl">${ctx}news/requestNewsDetail</td>
+            <td class="baseUrl">${ctx}/news/requestNewsDetail</td>
             <td class="parameters">
                 <table>
                     <tr>
@@ -1045,7 +1045,7 @@
         <tr>
             <td>#3</td>
             <td class="function">提交文件调查</td>
-            <td class="baseUrl">${ctx}news/submitParticipation</td>
+            <td class="baseUrl">${ctx}/news/submitParticipation</td>
             <td class="parameters">
                 <table>
                     <tr>
