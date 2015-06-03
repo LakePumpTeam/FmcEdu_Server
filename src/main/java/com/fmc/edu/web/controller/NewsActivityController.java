@@ -8,11 +8,9 @@ import com.fmc.edu.exception.NewsException;
 import com.fmc.edu.exception.ProfileException;
 import com.fmc.edu.manager.MyAccountManager;
 import com.fmc.edu.manager.NewsManager;
-import com.fmc.edu.model.news.Comments;
-import com.fmc.edu.model.news.News;
-import com.fmc.edu.model.news.NewsType;
-import com.fmc.edu.model.news.Slide;
+import com.fmc.edu.model.news.*;
 import com.fmc.edu.model.profile.BaseProfile;
+import com.fmc.edu.model.relationship.ProfileSelectionRelationship;
 import com.fmc.edu.util.DateUtils;
 import com.fmc.edu.util.RepositoryUtils;
 import com.fmc.edu.util.StringUtils;
@@ -68,7 +66,7 @@ public class NewsActivityController extends BaseController {
             String userIdStr = decodeInput(pRequest.getParameter("userId"));
             String typeStr = decodeInput(pRequest.getParameter("type"));
             if (!RepositoryUtils.idIsValid(userIdStr)) {
-                responseBean.addBusinessMsg("User id 不合法.");
+                responseBean.addBusinessMsg("用户Id错误:" + userIdStr);
                 return output(responseBean);
             }
             if (!StringUtils.isNumeric(typeStr)) {
@@ -190,8 +188,7 @@ public class NewsActivityController extends BaseController {
             int cachedNewsLike = (int) cacheContent.getCachedValue(String.valueOf(news.getId()), news.getLike());
             news.setLike(cachedNewsLike);
 
-            List<Comments> commentsList = getNewsManager().queryCommentsByNewsIdAndProfileId(userId, newsId);
-            getResponseBuilder().buildNewsDetailResponse(responseBean, news, commentsList, userId);
+            getResponseBuilder().buildNewsDetailResponse(responseBean, news, userId);
         } catch (Exception e) {
             responseBean.addErrorMsg(e);
             LOG.error(e);
@@ -296,7 +293,7 @@ public class NewsActivityController extends BaseController {
         try {
             String userIdStr = decodeInput(pRequest.getParameter("userId"));
             if (!RepositoryUtils.idIsValid(userIdStr)) {
-                responseBean.addBusinessMsg("User id .");
+                responseBean.addBusinessMsg("用户ID错误:" + userIdStr);
                 return output(responseBean);
             }
             responseBean.addData(getNewsManager().getReadNewsStatus(Integer.valueOf(userIdStr)));
@@ -364,6 +361,53 @@ public class NewsActivityController extends BaseController {
         return output(responseBean);
     }
 
+    @RequestMapping("/submitParticipation")
+    @ResponseBody
+    public String submitParticipation(final HttpServletRequest pRequest, final HttpServletResponse pResponse) {
+        ResponseBean responseBean = new ResponseBean();
+        TransactionStatus txStatus = ensureTransaction();
+        try {
+            String userIdStr = decodeInput(pRequest.getParameter("userId"));
+            String newsIdStr = decodeInput(pRequest.getParameter("newsId"));
+            String selectionIdStr = decodeInput(pRequest.getParameter("selectionId"));
+            if (!RepositoryUtils.idIsValid(userIdStr)) {
+                responseBean.addBusinessMsg("用户ID错误:" + userIdStr);
+                return output(responseBean);
+            }
+            if (!RepositoryUtils.idIsValid(newsIdStr)) {
+                responseBean.addBusinessMsg("文章ID错误:" + newsIdStr);
+                return output(responseBean);
+            }
+            if (!RepositoryUtils.idIsValid(selectionIdStr)) {
+                responseBean.addBusinessMsg("选项ID错误:" + selectionIdStr);
+                return output(responseBean);
+            }
+            int decodeUserId = Integer.valueOf(userIdStr);
+            int decodeNewsId = Integer.valueOf(newsIdStr);
+            int decodeSelectionId = Integer.valueOf(selectionIdStr);
+            ProfileSelectionRelationship profileSelectionRelationship = getNewsManager().queryProfileSelectionRelationship(decodeNewsId, decodeUserId);
+            if (profileSelectionRelationship != null) {
+                Selection selection = getNewsManager().querySelectionById(profileSelectionRelationship.getSelectionId());
+                responseBean.addBusinessMsg("你已参与该问卷调查, 你的选项为:" + selection.getSelection());
+                return output(responseBean);
+            }
+            ProfileSelectionRelationship tempProfileSelectionRelationship = new ProfileSelectionRelationship();
+            tempProfileSelectionRelationship.setNewsId(decodeNewsId);
+            tempProfileSelectionRelationship.setProfileId(decodeUserId);
+            tempProfileSelectionRelationship.setSelectionId(decodeSelectionId);
+            if (getNewsManager().insertProfileSelectionMap(tempProfileSelectionRelationship) == 0) {
+                responseBean.addBusinessMsg("问卷调查提交失败.");
+                return output(responseBean);
+            }
+        } catch (Exception e) {
+            responseBean.addErrorMsg(e);
+            txStatus.setRollbackOnly();
+            LOG.error(e);
+        } finally {
+            getTransactionManager().commit(txStatus);
+        }
+        return output(responseBean);
+    }
 
     public NewsManager getNewsManager() {
         return mNewsManager;

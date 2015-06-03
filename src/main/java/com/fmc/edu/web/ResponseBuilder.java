@@ -1,15 +1,13 @@
 package com.fmc.edu.web;
 
 import com.fmc.edu.manager.*;
-import com.fmc.edu.model.news.Comments;
-import com.fmc.edu.model.news.Image;
-import com.fmc.edu.model.news.News;
-import com.fmc.edu.model.news.Slide;
+import com.fmc.edu.model.news.*;
 import com.fmc.edu.model.profile.BaseProfile;
 import com.fmc.edu.model.profile.ParentProfile;
 import com.fmc.edu.model.profile.ProfileType;
 import com.fmc.edu.model.profile.TeacherProfile;
 import com.fmc.edu.model.relationship.ParentStudentRelationship;
+import com.fmc.edu.model.relationship.ProfileSelectionRelationship;
 import com.fmc.edu.model.relationship.TaskStudentsRelationship;
 import com.fmc.edu.model.student.Student;
 import com.fmc.edu.model.task.Task;
@@ -89,7 +87,6 @@ public class ResponseBuilder {
             newsMap.put("newsId", news.getId());
             newsMap.put("subject", news.getSubject());
             newsMap.put("content", news.getContent());
-            newsMap.put("like", news.getLike());
             newsMap.put("createDate", DateUtils.ConvertDateToString(news.getPublishDate()));
             newsMap.put("type", news.getNewsType());
             if (CollectionUtils.isEmpty(news.getImageUrls())) {
@@ -97,13 +94,12 @@ public class ResponseBuilder {
             } else {
                 newsMap.put("imageUrls", buildImageList(news.getImageUrls()));
             }
-            List<Comments> commentList = getNewsManager().queryCommentsByNewsIdAndProfileId(pBaseProfile.getId(), news.getId());
-            if (CollectionUtils.isEmpty(commentList)) {
-                newsMap.put("commentCount", 0);
-                newsMap.put("commentList", Collections.EMPTY_LIST);
+            if (news.getNewsType() == NewsType.SCHOOL_BBS) {
+                newsMap.put("popular", news.getPopular());
+                newsMap.put("participationCount", getNewsManager().queryProfileSelectionRelationshipCount(news.getId()));
             } else {
-                newsMap.put("commentCount", commentList.size());
-                newsMap.put("commentList", getCommentMapForNews(commentList));
+                newsMap.put("like", news.getLike());
+                buildCommentsList(pBaseProfile, news, newsMap);
             }
             newsList.add(newsMap);
         }
@@ -133,6 +129,17 @@ public class ResponseBuilder {
         return StringUtils.normalizeUrlNoEndSeparator(url.toString());
     }
 
+    private void buildCommentsList(BaseProfile pBaseProfile, News news, Map<String, Object> newsMap) {
+        List<Comments> commentList = getNewsManager().queryCommentsByNewsIdAndProfileId(pBaseProfile.getId(), news.getId());
+        if (CollectionUtils.isEmpty(commentList)) {
+            newsMap.put("commentCount", 0);
+            newsMap.put("commentList", Collections.EMPTY_LIST);
+        } else {
+            newsMap.put("commentCount", commentList.size());
+            newsMap.put("commentList", getCommentMapForNews(commentList));
+        }
+    }
+
     public void buildSlideListResponse(ResponseBean pResponseBean, final List<Slide> pSlideList) {
         if (CollectionUtils.isEmpty(pSlideList)) {
             return;
@@ -149,7 +156,7 @@ public class ResponseBuilder {
         pResponseBean.addData("slideList", slideList);
     }
 
-    public void buildNewsDetailResponse(ResponseBean pResponseBean, News pNews, List<Comments> pCommentsList, int pCurrentUserId) {
+    public void buildNewsDetailResponse(ResponseBean pResponseBean, News pNews, int pCurrentUserId) {
         if (pNews == null) {
             return;
         }
@@ -157,11 +164,18 @@ public class ResponseBuilder {
         newsMap.put("newsId", pNews.getId());
         newsMap.put("subject", pNews.getSubject());
         newsMap.put("content", pNews.getContent());
-        newsMap.put("like", pNews.getLike());
-        newsMap.put("liked", getNewsManager().isLikedNews(pCurrentUserId, pNews.getId()));
         newsMap.put("createDate", DateUtils.ConvertDateToString(pNews.getPublishDate()));
-        newsMap.put("commentList", getCommentMapForNews(pCommentsList));
         newsMap.put("imageUrls", getImagePathListOfNews(pNews));
+        if (pNews.getNewsType() == NewsType.SCHOOL_BBS) {
+            newsMap.put("popular ", pNews.getPopular());
+            newsMap.put("participationCount", getNewsManager().queryProfileSelectionRelationshipCount(pNews.getId()));
+            buildSelectionForNews(pNews.getId(), newsMap, pCurrentUserId);
+        } else {
+            List<Comments> commentsList = getNewsManager().queryCommentsByNewsIdAndProfileId(pCurrentUserId, pNews.getId());
+            newsMap.put("commentList", getCommentMapForNews(commentsList));
+            newsMap.put("like", pNews.getLike());
+            newsMap.put("liked", getNewsManager().isLikedNews(pCurrentUserId, pNews.getId()));
+        }
         pResponseBean.addData(newsMap);
     }
 
@@ -194,6 +208,32 @@ public class ResponseBuilder {
             }
         }
         return commentList;
+    }
+
+    private void buildSelectionForNews(int pNewsId, Map<String, Object> pNewsMap, int pCurrentUserId) {
+        List<Selection> selections = getNewsManager().querySelectionByNewsId(pNewsId);
+        if (CollectionUtils.isEmpty(selections)) {
+            pNewsMap.put("selections ", Collections.EMPTY_LIST);
+            return;
+        }
+        ProfileSelectionRelationship profileSelectionRelationship = getNewsManager().queryProfileSelectionRelationship(pNewsId, pCurrentUserId);
+        List<Map<String, Object>> convertedSelectionList = new ArrayList<Map<String, Object>>(selections.size());
+        Map<String, Object> selectionMap;
+        boolean isParticipation = false;
+        for (Selection selection : selections) {
+            selectionMap = new HashMap<String, Object>(3);
+            selectionMap.put("selectionId", selection.getId());
+            selectionMap.put("selection", selection.getSelection());
+            selectionMap.put("sortOrder", selection.getSortOrder());
+            boolean isSelected = profileSelectionRelationship != null && profileSelectionRelationship.getSelectionId().equals(selection.getId());
+            if (isSelected && !isParticipation) {
+                isParticipation = true;
+            }
+            selectionMap.put("isSelected", isSelected);
+            convertedSelectionList.add(selectionMap);
+        }
+        pNewsMap.put("selections", convertedSelectionList);
+        pNewsMap.put("isParticipation", isParticipation);
     }
 
     public void buildTaskDetail(Task pTask, String pStudentId, ResponseBean pResponseBean) {

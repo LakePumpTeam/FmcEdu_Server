@@ -1,10 +1,8 @@
 package com.fmc.edu.repository.impl;
 
 import com.fmc.edu.cache.Cache;
-import com.fmc.edu.model.news.Comments;
-import com.fmc.edu.model.news.Image;
-import com.fmc.edu.model.news.News;
-import com.fmc.edu.model.news.Slide;
+import com.fmc.edu.model.news.*;
+import com.fmc.edu.model.relationship.ProfileSelectionRelationship;
 import com.fmc.edu.repository.BaseRepository;
 import com.fmc.edu.repository.INewsRepository;
 import com.fmc.edu.util.pagenation.Pagination;
@@ -108,5 +106,38 @@ public class NewsRepository extends BaseRepository implements INewsRepository {
     @Override
     public boolean updateNewsCacheBatch(final List<Cache> pCacheList) {
         return getSqlSession().update(UPDATE_NEWS_CACHE_BATCH, pCacheList) > 0;
+    }
+
+    @Override
+    public int queryProfileSelectionRelationshipCount(int pNewsId) {
+        return getSqlSession().selectOne(QUERY_PROFILE_SELECTION_RELATIONSHIP_COUNT, pNewsId);
+    }
+
+    @Override
+    public ProfileSelectionRelationship queryProfileSelectionRelationship(int pNewsId, int pUserId) {
+        Map<String, Object> params = new HashMap<String, Object>(1);
+        params.put("newsId", pNewsId);
+        params.put("userId", pUserId);
+        return getSqlSession().selectOne(QUERY_PROFILE_SELECTION_RELATIONSHIP, params);
+    }
+
+    @Override
+    public List<Selection> querySelectionByNewsId(int pNewsId) {
+        return getSqlSession().selectList(QUERY_SELECTION_BY_NEWS_ID, pNewsId);
+    }
+
+    @Override
+    public Selection querySelectionById(int pSelectionId) {
+        return getSqlSession().selectOne(QUERY_SELECTION_BY_ID, pSelectionId);
+    }
+
+    @Override
+    public int insertProfileSelectionMap(ProfileSelectionRelationship pProfileSelectionRelationship) {
+        return getSqlSession().insert(INSERT_PROFILE_SELECTION_MAP, pProfileSelectionRelationship);
+    }
+
+    @Override
+    public int insertSelection(List<Selection> pSelections) {
+        return getSqlSession().insert(INSERT_SELECTION, pSelections);
     }
 }

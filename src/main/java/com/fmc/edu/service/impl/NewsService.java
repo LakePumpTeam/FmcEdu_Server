@@ -1,10 +1,8 @@
 package com.fmc.edu.service.impl;
 
 import com.fmc.edu.cache.Cache;
-import com.fmc.edu.model.news.Comments;
-import com.fmc.edu.model.news.Image;
-import com.fmc.edu.model.news.News;
-import com.fmc.edu.model.news.Slide;
+import com.fmc.edu.model.news.*;
+import com.fmc.edu.model.relationship.ProfileSelectionRelationship;
 import com.fmc.edu.repository.impl.NewsRepository;
 import com.fmc.edu.util.pagenation.Pagination;
 import org.springframework.stereotype.Service;
@@ -81,6 +79,30 @@ public class NewsService {
 
     public boolean insertImage(Image pImage) {
         return getNewsRepository().insertImage(pImage);
+    }
+
+    public int queryProfileSelectionRelationshipCount(int pNewsId) {
+        return getNewsRepository().queryProfileSelectionRelationshipCount(pNewsId);
+    }
+
+    public ProfileSelectionRelationship queryProfileSelectionRelationship(int pNewsId, int pUserId) {
+        return getNewsRepository().queryProfileSelectionRelationship(pNewsId, pUserId);
+    }
+
+    public List<Selection> querySelectionByNewsId(int pNewsId) {
+        return getNewsRepository().querySelectionByNewsId(pNewsId);
+    }
+
+    public Selection querySelectionById(int pSelectionId) {
+        return getNewsRepository().querySelectionById(pSelectionId);
+    }
+
+    public int insertProfileSelectionMap(ProfileSelectionRelationship pProfileSelectionRelationship) {
+        return getNewsRepository().insertProfileSelectionMap(pProfileSelectionRelationship);
+    }
+
+    public int insertSelection(List<Selection> pSelections) {
+        return getNewsRepository().insertSelection(pSelections);
     }
 
     public void setNewsRepository(NewsRepository pNewsRepository) {

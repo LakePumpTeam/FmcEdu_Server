@@ -982,5 +982,91 @@
         </tr>
     </table>
 </fieldset>
+<fieldset>
+    <legend>校园吧</legend>
+    <table border="1">
+        <tr>
+            <th width="5%">Index#</th>
+            <th>Function</th>
+            <th>BaseURL</th>
+            <th>Parameters</th>
+            <th>Request</th>
+            <th>Reset</th>
+            <th width="56%">Result</th>
+        </tr>
+        <tr>
+            <td>#1</td>
+            <td class="function">获取BBS列表</td>
+            <td class="baseUrl">${ctx}news/requestNewsList</td>
+            <td class="parameters">
+                <table>
+                    <tr>
+                        <td align="right"><label for="userId" title="userId">userId</label></td>
+                        <td><input type="text" class="ipt_value" id="userId" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="type" title="type">type</label></td>
+                        <td><input type="text" class="ipt_value" id="type" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="pageIndex" title="pageIndex">pageIndex(从1开始)</label></td>
+                        <td><input type="text" class="ipt_value" id="pageIndex" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="pageSize" title="pageSize">pageSize</label></td>
+                        <td><input type="text" class="ipt_value" id="pageSize" value=""/></td>
+                    </tr>
+                </table>
+            </td>
+            <td><input type="button" class="btn_request" value="Request"/></td>
+            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td class="result"></td>
+        </tr>
+        <tr>
+            <td>#2</td>
+            <td class="function">获取新闻详情</td>
+            <td class="baseUrl">${ctx}news/requestNewsDetail</td>
+            <td class="parameters">
+                <table>
+                    <tr>
+                        <td align="right"><label for="userId" title="newsId">userId</label></td>
+                        <td><input type="text" class="ipt_value" id="userId" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="newsId" title="newsId">newsId</label></td>
+                        <td><input type="text" class="ipt_value" id="newsId" value=""/></td>
+                    </tr>
+                </table>
+            </td>
+            <td><input type="button" class="btn_request" value="Request"/></td>
+            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td class="result"></td>
+        </tr>
+        <tr>
+            <td>#3</td>
+            <td class="function">提交文件调查</td>
+            <td class="baseUrl">${ctx}news/submitParticipation</td>
+            <td class="parameters">
+                <table>
+                    <tr>
+                        <td align="right"><label for="newsId" title="newsId">newsId</label></td>
+                        <td><input type="text" class="ipt_value" id="newsId" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="userId" title="userId">userId</label></td>
+                        <td><input type="text" class="ipt_value" id="userId" value=""/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="selectionId" title="selectionId">selectionId</label></td>
+                        <td><input type="text" class="ipt_value" id="selectionId" value=""/></td>
+                    </tr>
+                </table>
+            </td>
+            <td><input type="button" class="btn_request" value="Request"/></td>
+            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td class="result"></td>
+        </tr>
+    </table>
+</fieldset>
 </body>
 </html>

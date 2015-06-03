@@ -232,6 +232,7 @@ CREATE TABLE IF NOT EXISTS `fmc_edu`.`news` (
   `approved_by` INT NULL,
   `approve_date` DATETIME NULL,
   `like` INT NULL DEFAULT 0,
+  `popular` TINYINT(1) NULL DEFAULT 0,
   `publish_date` DATETIME NULL,
   `creation_date` DATETIME NOT NULL,
   `last_update_date` DATETIME NOT NULL,
@@ -395,6 +396,33 @@ CREATE TABLE IF NOT EXISTS `fmc_edu`.`task_student_map` (
     REFERENCES `fmc_edu`.`task` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
+ENGINE = MyISAM
+
+-- -----------------------------------------------------
+-- Table `fmc_edu`.`profile_selection_map`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fmc_edu`.`profile_selection_map` (
+  `news_id` INT NOT NULL,
+  `selection_id` INT NOT NULL,
+  `profile_id` INT NOT NULL,
+  `creation_date` DATETIME NULL,
+  INDEX `fk_profile_selection_map_selection1_idx` (`selection_id` ASC),
+  INDEX `fk_profile_selection_map_news1_idx` (`news_id` ASC),
+  INDEX `fk_profile_selection_map_profile1_idx` (`profile_id` ASC))
+ENGINE = MyISAM
+
+-- -----------------------------------------------------
+-- Table `fmc_edu`.`selection`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fmc_edu`.`selection` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `news_id` INT NOT NULL,
+  `selection` VARCHAR(80) NOT NULL,
+  `sort_order` TINYINT(1) NOT NULL,
+  `creation_date` DATETIME NULL,
+  `last_update_date` DATETIME NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_selection_news1_idx` (`news_id` ASC))
 ENGINE = MyISAM
 
 SET SQL_MODE=@OLD_SQL_MODE;

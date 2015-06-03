@@ -1,10 +1,8 @@
 package com.fmc.edu.repository;
 
 import com.fmc.edu.cache.Cache;
-import com.fmc.edu.model.news.Comments;
-import com.fmc.edu.model.news.Image;
-import com.fmc.edu.model.news.News;
-import com.fmc.edu.model.news.Slide;
+import com.fmc.edu.model.news.*;
+import com.fmc.edu.model.relationship.ProfileSelectionRelationship;
 import com.fmc.edu.util.pagenation.Pagination;
 
 import java.sql.Timestamp;
@@ -71,4 +69,28 @@ public interface INewsRepository {
     String UPDATE_NEWS_CACHE_BATCH = "com.fmc.edu.news.updateNewsCacheBatch";
 
     boolean updateNewsCacheBatch(List<Cache> pCacheList);
+
+    String QUERY_PROFILE_SELECTION_RELATIONSHIP_COUNT = "com.fmc.edu.news.queryProfileSelectionRelationshipCount";
+
+    int queryProfileSelectionRelationshipCount(int pNewsId);
+
+    String QUERY_PROFILE_SELECTION_RELATIONSHIP = "com.fmc.edu.news.queryProfileSelectionRelationship";
+
+    ProfileSelectionRelationship queryProfileSelectionRelationship(int pNewsId, int pUserId);
+
+    String QUERY_SELECTION_BY_NEWS_ID = "com.fmc.edu.news.querySelectionByNewsId";
+
+    List<Selection> querySelectionByNewsId(int pNewsId);
+
+    String QUERY_SELECTION_BY_ID = "com.fmc.edu.news.querySelectionById";
+
+    Selection querySelectionById(int pSelectionId);
+
+    String INSERT_PROFILE_SELECTION_MAP = "com.fmc.edu.news.insertProfileSelectionMap";
+
+    int insertProfileSelectionMap(ProfileSelectionRelationship pProfileSelectionRelationship);
+
+    String INSERT_SELECTION = "com.fmc.edu.news.insertSelection";
+
+    int insertSelection(List<Selection> pSelections);
 }

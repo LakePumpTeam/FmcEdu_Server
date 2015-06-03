@@ -19,6 +19,7 @@ public class News extends BaseBean {
     private int mApprovedBy;
     private Timestamp mApprovedDate;
     private int mLike;
+    private boolean mPopular;
     private Timestamp mPublishDate;
     private Timestamp mCreationDate;
 
@@ -94,6 +95,14 @@ public class News extends BaseBean {
 
     public void setLike(int pLike) {
         mLike = pLike;
+    }
+
+    public boolean getPopular() {
+        return mPopular;
+    }
+
+    public void setPopular(boolean pPopular) {
+        mPopular = pPopular;
     }
 
     public Timestamp getPublishDate() {

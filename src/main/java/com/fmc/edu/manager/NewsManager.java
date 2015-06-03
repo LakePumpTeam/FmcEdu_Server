@@ -3,6 +3,7 @@ package com.fmc.edu.manager;
 import com.fmc.edu.exception.ProfileException;
 import com.fmc.edu.model.news.*;
 import com.fmc.edu.model.profile.BaseProfile;
+import com.fmc.edu.model.relationship.ProfileSelectionRelationship;
 import com.fmc.edu.service.impl.NewsService;
 import com.fmc.edu.util.ImageUtils;
 import com.fmc.edu.util.StringUtils;
@@ -176,6 +177,30 @@ public class NewsManager {
 
     public boolean updateNews(News pNews) {
         return getNewsService().updateNews(pNews);
+    }
+
+    public int queryProfileSelectionRelationshipCount(int pNewsId) {
+        return getNewsService().queryProfileSelectionRelationshipCount(pNewsId);
+    }
+
+    public ProfileSelectionRelationship queryProfileSelectionRelationship(int pNewsId, int pUserId) {
+        return getNewsService().queryProfileSelectionRelationship(pNewsId, pUserId);
+    }
+
+    public List<Selection> querySelectionByNewsId(int pNewsId) {
+        return getNewsService().querySelectionByNewsId(pNewsId);
+    }
+
+    public Selection querySelectionById(int pSelectionId) {
+        return getNewsService().querySelectionById(pSelectionId);
+    }
+
+    public int insertProfileSelectionMap(ProfileSelectionRelationship pProfileSelectionRelationship) {
+        return getNewsService().insertProfileSelectionMap(pProfileSelectionRelationship);
+    }
+
+    public int insertSelection(List<Selection> pSelections) {
+        return getNewsService().insertSelection(pSelections);
     }
 
     public NewsService getNewsService() {

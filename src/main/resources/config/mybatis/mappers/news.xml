@@ -25,6 +25,7 @@
         approved_by,
         approve_date,
         `like`,
+        popular,
         publish_date,
         creation_date,
         last_update_date
@@ -68,6 +69,7 @@
         `news_type`,
         `approved`,
         `like`,
+        `popular`,
         `publish_date`,
         `creation_date`,
         `last_update_date`)
@@ -78,6 +80,7 @@
         #{newsType},
         #{approved},
         0,
+        #{popular}
         now(),
         now(),
         now()
@@ -204,4 +207,60 @@
             where id = ${item.key}
         </foreach>
     </update>
+
+    <select id="queryProfileSelectionRelationshipCount" resultType="int" parameterType="int">
+       SELECT count(1)
+         FROM profile_selection_map
+         WHERE news_id = #{newsId};
+    </select>
+    <select id="queryProfileSelectionRelationship" resultMap="rm.profileSelectionRelationship" parameterType="map">
+        SELECT news_id,
+                selection_id,
+                profile_id,
+                creation_date
+        FROM profile_selection_map
+        WHERE news_id = #{newsId} AND profile_id = #{userId} LIMIT 1;
+    </select>
+
+    <select id="querySelectionByNewsId" resultMap="rm.selection" parameterType="int">
+      SELECT id,
+             news_id,
+             selection,
+             sort_order,
+             creation_date,
+             last_update_date
+            FROM selection
+            WHERE news_id = #{newsId} ORDER BY sort_order ASC;
+    </select>
+
+    <select id="querySelectionById" resultMap="rm.selection" parameterType="int">
+        SELECT id,
+        news_id,
+        selection,
+        sort_order,
+        creation_date,
+        last_update_date
+        FROM selection
+        WHERE id = #{id};
+    </select>
+
+    <select id="insertProfileSelectionMap" parameterType="ProfileSelectionRelationship" flushCache="true">
+        INSERT INTO profile_selection_map
+        (news_id,
+        selection_id,
+        profile_id,
+        creation_date)
+        VALUES
+        (#{newsId},
+         #{selectionId},
+         #{profileId},
+         now());
+    </select>
+
+    <insert id="insertSelection" parameterType="Selection" flushCache="true">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            INSERT INTO selection (news_id,selection,sort_order,creation_date,last_update_date)
+            VALUES(#{item.newsId},#{item.selection},#{item.sortOrder},now(),now())
+        </foreach>
+    </insert>
 </mapper>

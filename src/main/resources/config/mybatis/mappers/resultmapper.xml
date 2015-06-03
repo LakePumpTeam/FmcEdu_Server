@@ -198,6 +198,7 @@
         <result property="approvedBy" column="approved_by"/>
         <result property="approvedDate" column="approve_date"/>
         <result property="like" column="like"/>
+        <result property="popular" column="popular"/>
         <result property="publishDate" column="publish_date"/>
         <result property="creationDate" column="creation_date"/>
         <result property="lastUpdateDate" column="last_update_date"/>
@@ -277,5 +278,21 @@
         <result property="available" column="available"/>
         <result property="creationDate" column="creation_date"/>
         <result property="lastUpdateDate" column="last_update_date"/>
+    </resultMap>
+
+    <resultMap id="selection" type="Selection">
+        <id property="id" column="id"/>
+        <result property="newsId" column="news_id"/>
+        <result property="selection" column="selection"/>
+        <result property="sortOrder" column="sort_order"/>
+        <result property="creationDate" column="creation_date"/>
+        <result property="lastUpdateDate" column="last_update_date"/>
+    </resultMap>
+
+    <resultMap id="profileSelectionRelationship" type="ProfileSelectionRelationship">
+        <result property="newsId" column="news_id"/>
+        <result property="selectionId" column="selection_id"/>
+        <result property="profileId" column="profile_id"/>
+        <result property="creationDate" column="creation_date"/>
     </resultMap>
 </mapper>
