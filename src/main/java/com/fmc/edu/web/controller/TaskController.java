@@ -60,9 +60,9 @@ public class TaskController extends BaseController {
         ResponseBean responseBean = new ResponseBean();
         try {
             Pagination pagination = buildPagination(pRequest);
-            String userIdStr = decodeInput(pRequest.getParameter("userId"));
-            String statusStr = decodeInput(pRequest.getParameter("status"));
-            String filterStr = decodeInput(pRequest.getParameter("filter"));
+            String userIdStr = pRequest.getParameter("userId");
+            String statusStr = pRequest.getParameter("status");
+            String filterStr = pRequest.getParameter("filter");
 
             BaseProfile baseProfile = getMyAccountManager().findUserById(userIdStr);
             if (baseProfile == null) {
@@ -100,11 +100,11 @@ public class TaskController extends BaseController {
         ResponseBean responseBean = new ResponseBean();
         TransactionStatus txStatus = ensureTransaction();
         try {
-            String userIdStr = decodeInput(userId);
-            String titleStr = decodeInput(title);
-            String taskStr = decodeInput(task);
-            String deadlineStr = decodeInput(deadline);
-            String[] decodeStudents = decodeArrayInput(students);
+            String userIdStr = userId;
+            String titleStr = title;
+            String taskStr = task;
+            String deadlineStr = deadline;
+            String[] decodeStudents = students;
             Task taskObj = new Task();
             taskObj.setAvailable(true);
             taskObj.setCreationDate(DateUtils.getDaysLater(0));
@@ -126,10 +126,6 @@ public class TaskController extends BaseController {
                 }
                 getTaskManager().insertTaskStudentRelationship(taskStudentsRelationships);
             }
-        } catch (IOException e) {
-            LOG.error(e);
-            responseBean.addErrorMsg(e);
-            txStatus.setRollbackOnly();
         } catch (ParseException e) {
             LOG.error(e);
             responseBean.addErrorMsg(e);
@@ -154,17 +150,13 @@ public class TaskController extends BaseController {
         ResponseBean responseBean = new ResponseBean();
         TransactionStatus txStatus = ensureTransaction();
         try {
-            String taskIdStr = decodeInput(taskId);
-            String userIdStr = decodeInput(userId);
-            String studentIdStr = decodeInput(studentId);
+            String taskIdStr = taskId;
+            String userIdStr = userId;
+            String studentIdStr = studentId;
             if (!getTaskManager().deleteTask(Integer.valueOf(taskIdStr), Integer.valueOf(userIdStr), Integer.valueOf(studentIdStr))) {
                 responseBean.addBusinessMsg("删除任务失败.");
                 return output(responseBean);
             }
-        } catch (IOException e) {
-            txStatus.setRollbackOnly();
-            responseBean.addErrorMsg(e);
-            LOG.error(e);
         } catch (Exception e) {
             txStatus.setRollbackOnly();
             responseBean.addErrorMsg(e);
@@ -183,14 +175,14 @@ public class TaskController extends BaseController {
                                      final String studentId) {
         ResponseBean responseBean = new ResponseBean();
         try {
-            String taskIdStr = decodeInput(taskId);
-            String studentIdStr = decodeInput(studentId);
+            String taskIdStr = taskId;
+            String studentIdStr = studentId;
             Task task = getTaskManager().queryTaskDetail(Integer.valueOf(taskIdStr));
             if (task == null) {
                 responseBean.addBusinessMsg("获取任务详情失败.");
             }
             getResponseBuilder().buildTaskDetail(task, studentIdStr, responseBean);
-        } catch (IOException e) {
+        } catch (Exception e) {
             responseBean.addErrorMsg(e);
             LOG.error(e);
         }
@@ -207,9 +199,9 @@ public class TaskController extends BaseController {
         ResponseBean responseBean = new ResponseBean();
         TransactionStatus txStatus = ensureTransaction();
         try {
-            String taskIdStr = decodeInput(taskId);
-            String userIdStr = decodeInput(userId);
-            String commentStr = decodeInput(comment);
+            String taskIdStr = taskId;
+            String userIdStr = userId;
+            String commentStr = comment;
             Comments comments = new Comments();
             comments.setComment(commentStr);
             comments.setProfileId(Integer.valueOf(userIdStr));
@@ -223,10 +215,6 @@ public class TaskController extends BaseController {
 
             Map<String, Object> commentMap = getResponseBuilder().buildComment(comments, null);
             responseBean.addData(commentMap);
-        } catch (IOException e) {
-            txStatus.setRollbackOnly();
-            responseBean.addErrorMsg(e);
-            LOG.error(e);
         } catch (Exception e) {
             txStatus.setRollbackOnly();
             responseBean.addErrorMsg(e);
@@ -246,16 +234,12 @@ public class TaskController extends BaseController {
         ResponseBean responseBean = new ResponseBean();
         TransactionStatus txStatus = ensureTransaction();
         try {
-            String commentIdStr = decodeInput(commentId);
-            String userIdStr = decodeInput(userId);
+            String commentIdStr = commentId;
+            String userIdStr = userId;
             if (!getNewsManager().deleteComment(Integer.valueOf(commentIdStr))) {
                 responseBean.addBusinessMsg("删除评论失败.");
                 return output(responseBean);
             }
-        } catch (IOException e) {
-            txStatus.setRollbackOnly();
-            responseBean.addErrorMsg(e);
-            LOG.error(e);
         } catch (Exception e) {
             txStatus.setRollbackOnly();
             responseBean.addErrorMsg(e);
@@ -276,9 +260,9 @@ public class TaskController extends BaseController {
         ResponseBean responseBean = new ResponseBean();
         TransactionStatus txStatus = ensureTransaction();
         try {
-            String taskIdStr = decodeInput(taskId);
-            String userIdStr = decodeInput(userId);
-            String taskStr = decodeInput(task);
+            String taskIdStr = taskId;
+            String userIdStr = userId;
+            String taskStr = task;
             Task taskObj = new Task();
             taskObj.setId(Integer.valueOf(taskIdStr));
             taskObj.setTask(taskStr);
@@ -286,10 +270,6 @@ public class TaskController extends BaseController {
                 responseBean.addBusinessMsg("修改任务失败.");
                 return output(responseBean);
             }
-        } catch (IOException e) {
-            txStatus.setRollbackOnly();
-            responseBean.addErrorMsg(e);
-            LOG.error(e);
         } catch (Exception e) {
             txStatus.setRollbackOnly();
             responseBean.addErrorMsg(e);
@@ -309,16 +289,12 @@ public class TaskController extends BaseController {
         ResponseBean responseBean = new ResponseBean();
         TransactionStatus txStatus = ensureTransaction();
         try {
-            String studentIdStr = decodeInput(studentId);
-            String taskIdStr = decodeInput(taskId);
+            String studentIdStr = studentId;
+            String taskIdStr = taskId;
             if (!getTaskManager().submitTask(Integer.valueOf(taskIdStr), Integer.valueOf(studentIdStr))) {
                 responseBean.addBusinessMsg("提交任务失败.");
                 return output(responseBean);
             }
-        } catch (IOException e) {
-            txStatus.setRollbackOnly();
-            responseBean.addErrorMsg(e);
-            LOG.error(e);
         } catch (Exception e) {
             txStatus.setRollbackOnly();
             responseBean.addErrorMsg(e);

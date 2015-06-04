@@ -1,6 +1,8 @@
 package com.fmc.edu.web.filter;
 
+import com.fmc.edu.util.StringUtils;
 import com.fmc.edu.web.servlet.Base64DecodeRequestWrapper;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.log4j.Logger;
 
 import javax.servlet.*;
@@ -18,12 +20,23 @@ public class DecodeBase64ParameterFilter implements Filter {
 
     @Override
     public void init(FilterConfig pFilterConfig) throws ServletException {
+        String enabled = pFilterConfig.getInitParameter("enabled");
+        if (StringUtils.isBlank(enabled)) {
+            setEnabled(true);
+        } else {
+            setEnabled(Boolean.valueOf(enabled));
+        }
+
         LOG.debug(">>>>>>>>>>>>>>Initialized DecodeBase64ParameterFilter>>>>>>");
     }
 
     @Override
     public void doFilter(ServletRequest pServletRequest, ServletResponse pServletResponse, FilterChain pFilterChain) throws IOException, ServletException {
         if (!isEnabled()) {
+            pFilterChain.doFilter(pServletRequest, pServletResponse);
+            return;
+        }
+        if (pServletRequest != null && ServletFileUpload.isMultipartContent((HttpServletRequest) pServletRequest)) {
             pFilterChain.doFilter(pServletRequest, pServletResponse);
             return;
         }

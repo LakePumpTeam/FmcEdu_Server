@@ -4,9 +4,11 @@ import com.fmc.edu.constant.GlobalConstant;
 import com.fmc.edu.crypto.IEncryptService;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.nio.charset.Charset;
 
 /**
@@ -14,6 +16,7 @@ import java.nio.charset.Charset;
  */
 @Service("replacementBase64EncryptService")
 public class ReplacementBase64EncryptService implements IEncryptService {
+    private static final Logger LOG = Logger.getLogger(ReplacementBase64EncryptService.class);
 
     public static final String RELACEMENT = "~";
 
@@ -40,7 +43,13 @@ public class ReplacementBase64EncryptService implements IEncryptService {
             //throw new EncryptException("Input source is invalid base64 format.");
             return "";
         }
-        return new String(Base64.decodeBase64(parameter), Charset.forName(GlobalConstant.CHARSET_UTF8));
+        String encodedParameter = new String(Base64.decodeBase64(parameter), Charset.forName(GlobalConstant.CHARSET_UTF8));
+        try {
+            return URLDecoder.decode(encodedParameter, GlobalConstant.CHARSET_UTF8);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return encodedParameter;
     }
 
 
@@ -53,8 +62,16 @@ public class ReplacementBase64EncryptService implements IEncryptService {
         try {
             return decrypt(new String(pSrc, Charset.forName(GlobalConstant.CHARSET_UTF8))).getBytes(GlobalConstant.CHARSET_UTF8);
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            LOG.error(e);
         }
         return null;
+    }
+
+    public static final boolean isBase64(String base64) {
+        if (com.fmc.edu.util.StringUtils.isBlank(base64)) {
+            return false;
+        }
+        base64 = base64.replaceAll(ReplacementBase64EncryptService.RELACEMENT, ReplacementBase64EncryptService.EQUAL_MARK);
+        return Base64.isBase64(base64);
     }
 }

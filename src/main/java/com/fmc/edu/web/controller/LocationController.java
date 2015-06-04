@@ -37,7 +37,7 @@ public class LocationController extends BaseController {
                 return responseBean.toString();
             }
 
-            String key = decodeInput(filterKey);
+            String key = filterKey;
             Pagination pagination = buildPagination(pRequest);
             Map<String, Object> dataList = getLocationManager().queryProvincePage(pagination, key);
             responseBean.addData(dataList);
@@ -65,10 +65,9 @@ public class LocationController extends BaseController {
                 return responseBean.toString();
             }
 
-            String key = decodeInput(filterKey);
-            String provId = pRequest.getParameter("provId");
+            String key = filterKey;
+            String provinceId = pRequest.getParameter("provId");
             Pagination pagination = buildPagination(pRequest);
-            String provinceId = decodeInput(provId);
             Map<String, Object> dataList = getLocationManager().queryCityPage(pagination, Integer.valueOf(provinceId), key);
             responseBean.addData(dataList);
         } catch (IOException e) {

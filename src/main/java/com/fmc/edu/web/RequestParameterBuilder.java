@@ -1,6 +1,5 @@
 package com.fmc.edu.web;
 
-import com.fmc.edu.crypto.impl.ReplacementBase64EncryptService;
 import com.fmc.edu.exception.InvalidIdException;
 import com.fmc.edu.exception.ProfileException;
 import com.fmc.edu.manager.MyAccountManager;
@@ -35,20 +34,17 @@ import java.util.Map;
 public class RequestParameterBuilder {
     private static final Logger LOG = Logger.getLogger(RequestParameterBuilder.class);
 
-    @Resource(name = "replacementBase64EncryptService")
-    private ReplacementBase64EncryptService mBase64EncryptService;
-
     @Resource(name = "parentService")
     private ParentService mParentService;
 
     public Student buildStudent(HttpServletRequest pRequest) throws IOException, ParseException {
-        String name = mBase64EncryptService.decrypt(pRequest.getParameter("studentName"));
-        String sexString = mBase64EncryptService.decrypt(pRequest.getParameter("studentSex"));
-        String birthString = mBase64EncryptService.decrypt(pRequest.getParameter("studentAge"));
-        String ringNum = mBase64EncryptService.decrypt(pRequest.getParameter("braceletNumber"));
-        String ringPhone = mBase64EncryptService.decrypt(pRequest.getParameter("braceletCardNumber"));
-        String classId = mBase64EncryptService.decrypt(pRequest.getParameter("classId"));
-        String studentId = mBase64EncryptService.decrypt(pRequest.getParameter("studentId"));
+        String name = pRequest.getParameter("studentName");
+        String sexString = pRequest.getParameter("studentSex");
+        String birthString = pRequest.getParameter("studentAge");
+        String ringNum = pRequest.getParameter("braceletNumber");
+        String ringPhone = pRequest.getParameter("braceletCardNumber");
+        String classId = pRequest.getParameter("classId");
+        String studentId = pRequest.getParameter("studentId");
         Student stu = new Student(Integer.valueOf(classId), name);
         //TODO update after confirmation
         stu.setMale(Boolean.valueOf(sexString));
@@ -75,16 +71,16 @@ public class RequestParameterBuilder {
 
     public Address buildAddress(HttpServletRequest pRequest) throws IOException, InvalidIdException {
         //TODO update after confirmation
-        String fullAddress = mBase64EncryptService.decrypt(pRequest.getParameter("address"));
-        String provinceId = mBase64EncryptService.decrypt(pRequest.getParameter("provId"));
+        String fullAddress = pRequest.getParameter("address");
+        String provinceId = pRequest.getParameter("provId");
         if (!RepositoryUtils.idIsValid(provinceId)) {
             throw new InvalidIdException(provinceId);
         }
-        String cityId = mBase64EncryptService.decrypt(pRequest.getParameter("cityId"));
+        String cityId = pRequest.getParameter("cityId");
         if (!RepositoryUtils.idIsValid(cityId)) {
             throw new InvalidIdException(cityId);
         }
-        String addressId = mBase64EncryptService.decrypt(pRequest.getParameter("addressId"));
+        String addressId = pRequest.getParameter("addressId");
         Address address = new Address(Integer.valueOf(provinceId), Integer.valueOf(cityId), fullAddress);
         if (StringUtils.isNoneBlank(addressId)) {
             address.setId(Integer.valueOf(addressId));
@@ -100,11 +96,11 @@ public class RequestParameterBuilder {
     }
 
     public ParentStudentRelationship buildParentStudentRelationship(HttpServletRequest pRequest) throws IOException {
-        String phone = mBase64EncryptService.decrypt(pRequest.getParameter("cellPhone"));
-        String relationship = mBase64EncryptService.decrypt(pRequest.getParameter("relation"));
-        String studentId = mBase64EncryptService.decrypt(pRequest.getParameter("studentId"));
-        String parentId = mBase64EncryptService.decrypt(pRequest.getParameter("parentId"));
-        boolean isAudit = Boolean.valueOf(mBase64EncryptService.decrypt(pRequest.getParameter("isAudit")));
+        String phone = pRequest.getParameter("cellPhone");
+        String relationship = pRequest.getParameter("relation");
+        String studentId = pRequest.getParameter("studentId");
+        String parentId = pRequest.getParameter("parentId");
+        boolean isAudit = Boolean.valueOf(pRequest.getParameter("isAudit"));
         List<ParentStudentRelationship> psrs = null;
         if (StringUtils.isNoneBlank(studentId) && StringUtils.isNoneBlank(parentId)) {
             Map<String, Object> queryParam = new HashMap<String, Object>(2);
@@ -137,12 +133,12 @@ public class RequestParameterBuilder {
 
     public ParentProfile buildParent(HttpServletRequest pRequest, final MyAccountManager pMyAccountManager) throws ProfileException {
         ParentProfile parent = new ParentProfile();
-        String phone = getBase64EncryptService().decrypt(pRequest.getParameter("cellPhone"));
+        String phone = pRequest.getParameter("cellPhone");
         if (phone == null || ValidationUtils.isValidPhoneNumber(phone)) {
             throw new ProfileException(MyAccountManager.ERROR_INVALID_PHONE);
         }
-        String parentName = getBase64EncryptService().decrypt(pRequest.getParameter("parentName"));
-        String parentId = getBase64EncryptService().decrypt(pRequest.getParameter("parentId"));
+        String parentName = pRequest.getParameter("parentName");
+        String parentId = pRequest.getParameter("parentId");
         parent.setPhone(phone);
         parent.setName(parentName);
         if (!RepositoryUtils.idIsValid(parentId)) {
@@ -169,13 +165,13 @@ public class RequestParameterBuilder {
 
     public TeacherProfile buildTeacher(final HttpServletRequest pRequest) throws ParseException {
         TeacherProfile teacher = new TeacherProfile();
-        int id = Integer.valueOf(getBase64EncryptService().decrypt(pRequest.getParameter("teacherId")));
-        String name = getBase64EncryptService().decrypt(pRequest.getParameter("teacherName"));
-        boolean male = Boolean.valueOf(getBase64EncryptService().decrypt(pRequest.getParameter("teacherSex")));
-        String phone = getBase64EncryptService().decrypt(pRequest.getParameter("cellPhone"));
-        Date birth = DateUtils.convertStringToDate(getBase64EncryptService().decrypt(pRequest.getParameter("teacherBirth")));
-        String resume = getBase64EncryptService().decrypt(pRequest.getParameter("resume"));
-        String course = getBase64EncryptService().decrypt(pRequest.getParameter("course"));
+        int id = Integer.valueOf(pRequest.getParameter("teacherId"));
+        String name = pRequest.getParameter("teacherName");
+        boolean male = Boolean.valueOf(pRequest.getParameter("teacherSex"));
+        String phone = pRequest.getParameter("cellPhone");
+        Date birth = DateUtils.convertStringToDate(pRequest.getParameter("teacherBirth"));
+        String resume = pRequest.getParameter("resume");
+        String course = pRequest.getParameter("course");
         teacher.setId(id);
         teacher.setName(name);
         teacher.setPhone(phone);
@@ -184,14 +180,6 @@ public class RequestParameterBuilder {
         teacher.setCourse(course);
         teacher.setMale(male);
         return teacher;
-    }
-
-    public ReplacementBase64EncryptService getBase64EncryptService() {
-        return mBase64EncryptService;
-    }
-
-    public void setBase64EncryptService(final ReplacementBase64EncryptService pBase64EncryptService) {
-        mBase64EncryptService = pBase64EncryptService;
     }
 
     public ParentService getmParentService() {

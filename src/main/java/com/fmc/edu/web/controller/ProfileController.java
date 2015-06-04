@@ -70,7 +70,7 @@ public class ProfileController extends BaseController {
     @ResponseBody
     public String requestPhoneIdentify(final HttpServletRequest pRequest, final HttpServletResponse pResponse, final String cellPhone) throws IOException {
         ResponseBean responseBean = new ResponseBean();
-        String phone = decodeInput(cellPhone);
+        String phone = cellPhone;
         LOG.debug("Decoded cellphone:" + phone);
         // output error if phone number is blank
         if (cellPhone == null || ValidationUtils.isValidPhoneNumber(phone)) {
@@ -108,10 +108,10 @@ public class ProfileController extends BaseController {
     @ResponseBody
     public String requestRegisterConfirm(final HttpServletRequest pRequest, final HttpServletResponse pResponse, String cellPhone, final String authCode,
                                          String password, String salt) throws IOException {
-        String identifyingCode = decodeInput(authCode);
-        String phoneNumber = decodeInput(cellPhone);
-        String passwordDecode = decodeInput(password);
-        String saltDecode = decodeInput(salt);
+        String identifyingCode = authCode;
+        String phoneNumber = cellPhone;
+        String passwordDecode = password;
+        String saltDecode = salt;
 
         ResponseBean responseBean = new ResponseBean();
         preRequestRegisterConfirm(pRequest, identifyingCode, phoneNumber, passwordDecode, saltDecode, responseBean);
@@ -207,7 +207,7 @@ public class ProfileController extends BaseController {
     public String requestSalt(HttpServletRequest pRequest, final HttpServletResponse pResponse, final String cellPhone) {
         ResponseBean responseBean = new ResponseBean();
         try {
-            String phone = decodeInput(cellPhone);
+            String phone = cellPhone;
             if (StringUtils.isBlank(phone)) {
                 responseBean.addBusinessMsg("phone is null.");
                 return output(responseBean);
@@ -218,7 +218,7 @@ public class ProfileController extends BaseController {
                 return output(responseBean);
             }
             responseBean.addData("salt", user.getSalt());
-        } catch (IOException e) {
+        } catch (Exception e) {
             responseBean.addErrorMsg(e);
             LOG.error(e);
         }
@@ -231,8 +231,8 @@ public class ProfileController extends BaseController {
         ResponseBean responseBean = new ResponseBean();
         BaseProfile user = null;
         try {
-            String account = decodeInput(userAccount);
-            String pwd = decodeInput(password);
+            String account = userAccount;
+            String pwd = password;
             user = getMyAccountManager().loginUser(account, pwd);
         } catch (LoginException e) {
             LOG.debug("Login failed:" + e.getMessage());
@@ -258,9 +258,9 @@ public class ProfileController extends BaseController {
         }
         TransactionStatus txStatus = ensureTransaction();
         try {
-            String cellPhone = decodeInput(pRequest.getParameter("cellPhone"));
-            String authCode = decodeInput(pRequest.getParameter("authCode"));
-            String password = decodeInput(pRequest.getParameter("password"));
+            String cellPhone = pRequest.getParameter("cellPhone");
+            String authCode = pRequest.getParameter("authCode");
+            String password = pRequest.getParameter("password");
             if (cellPhone == null || ValidationUtils.isValidPhoneNumber(cellPhone)) {
                 responseBean.addBusinessMsg(MyAccountManager.ERROR_INVALID_PHONE);
                 return output(responseBean);
@@ -319,9 +319,9 @@ public class ProfileController extends BaseController {
         TransactionStatus txStatus = ensureTransaction();
 
         try {
-            String userId = decodeInput(pRequest.getParameter("userId"));
-            String oldPassword = decodeInput(pRequest.getParameter("oldPassword"));
-            String newPassword = decodeInput(pRequest.getParameter("newPassword"));
+            String userId = pRequest.getParameter("userId");
+            String oldPassword = pRequest.getParameter("oldPassword");
+            String newPassword = pRequest.getParameter("newPassword");
             BaseProfile user = getMyAccountManager().findUserById(userId);
             if (user == null) {
                 responseBean.addBusinessMsg(MyAccountManager.ERROR_NOT_FIND_USER);
@@ -365,7 +365,7 @@ public class ProfileController extends BaseController {
     public String requestGetRelateInfo(HttpServletRequest pRequest, final HttpServletResponse pResponse)
             throws IOException, ParseException {
         ResponseBean responseBean = new ResponseBean();
-        String parentId = decodeInput(pRequest.getParameter("parentId"));
+        String parentId = pRequest.getParameter("parentId");
         if (StringUtils.isBlank(parentId)) {
             responseBean.addBusinessMsg(ERROR_NULL_PARENT_ID);
             return output(responseBean);
@@ -417,15 +417,11 @@ public class ProfileController extends BaseController {
         TransactionStatus status = ensureTransaction();
         try {
             LOG.debug("requestParentAudit():parentIds:" + parentIds);
-            LOG.debug("requestParentAudit():teacherId:" + teacherId);
-            LOG.debug("requestParentAudit():setPass:" + setPass);
-
-            LOG.debug("requestParentAudit():parentIds:" + parentIds);
             int[] ids = decodeInputIds(parentIds);
             LOG.debug("requestParentAudit():decode parentIds:" + ids);
-            int tid = Integer.valueOf(decodeInput(teacherId));
+            int tid = Integer.valueOf(teacherId);
             LOG.debug("requestParentAudit():decode teacherId:" + tid);
-            int pass = Integer.valueOf(decodeInput(setPass));
+            int pass = Integer.valueOf(setPass);
             LOG.debug("requestParentAudit():decode setPass:" + pass);
             getMyAccountManager().updateParentAuditStatus(tid, ids, pass);
         } catch (Exception e) {
@@ -445,8 +441,8 @@ public class ProfileController extends BaseController {
         ResponseBean responseBean = new ResponseBean();
         TransactionStatus status = ensureTransaction();
         try {
-            int tid = Integer.valueOf(decodeInput(teacherId));
-            int pass = Integer.valueOf(decodeInput(allPass));
+            int tid = Integer.valueOf(teacherId);//Integer.valueOf(decodeInput(teacherId));
+            int pass = Integer.valueOf(allPass);//Integer.valueOf(decodeInput(allPass));
             getMyAccountManager().updateAllParentAuditStatus(tid, pass);
         } catch (Exception e) {
             LOG.error(e);
@@ -463,7 +459,7 @@ public class ProfileController extends BaseController {
     public String requestPendingAuditParents(HttpServletRequest pRequest, final HttpServletResponse pResponse, final String teacherId)
             throws IOException {
         ResponseBean responseBean = new ResponseBean();
-        int tid = Integer.valueOf(decodeInput(teacherId));
+        int tid = Integer.valueOf(teacherId);//Integer.valueOf(decodeInput(teacherId));
         List<Map<String, Object>> pendingAuditParents = getMyAccountManager().getPendingAuditParents(tid);
         responseBean.addData("parentsAuditList", pendingAuditParents);
         return output(responseBean);

@@ -80,7 +80,7 @@
         #{newsType},
         #{approved},
         0,
-        #{popular}
+        #{popular},
         now(),
         now(),
         now()

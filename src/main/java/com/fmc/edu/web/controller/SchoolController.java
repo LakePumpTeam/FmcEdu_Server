@@ -48,8 +48,8 @@ public class SchoolController extends BaseController {
     public String requestSchools(final HttpServletRequest pRequest, final HttpServletResponse pResponse, final String cityId, final String filterKey) {
         ResponseBean responseBean = new ResponseBean();
         try {
-            String city = decodeInput(cityId);
-            String filter = decodeInput(filterKey);
+            String city = cityId;
+            String filter = filterKey;
             Pagination pagination = buildPagination(pRequest);
 
             Map<String, Object> schools = getSchoolManager().querySchoolsPage(pagination, Integer.valueOf(city), filter);
@@ -69,8 +69,8 @@ public class SchoolController extends BaseController {
     public String requestClasses(final HttpServletRequest pRequest, final HttpServletResponse pResponse, final String schoolId, final String filterKey) {
         ResponseBean responseBean = new ResponseBean();
         try {
-            String school = decodeInput(schoolId);
-            String filter = decodeInput(filterKey);
+            String school = schoolId;
+            String filter = filterKey;
             Pagination pagination = buildPagination(pRequest);
 
             Map<String, Object> classses = getSchoolManager().queryClassesPage(pagination, Integer.valueOf(school), filter);
@@ -91,13 +91,10 @@ public class SchoolController extends BaseController {
     public String requestHeadmaster(final HttpServletRequest pRequest, final HttpServletResponse pResponse, final String classId) {
         ResponseBean responseBean = new ResponseBean();
         try {
-            String correspondingClass = decodeInput(classId);
+            String correspondingClass = classId;
 
             Map<String, Object> headmaster = getSchoolManager().queryHeadmasterPage(Integer.valueOf(correspondingClass));
             responseBean.addData(headmaster);
-        } catch (IOException e) {
-            responseBean.addErrorMsg(e);
-            LOG.error(e);
         } catch (Exception ex) {
             responseBean.addErrorMsg(ex);
             LOG.error(ex);
@@ -109,7 +106,7 @@ public class SchoolController extends BaseController {
     @ResponseBody
     public String requestTeacherInfo(final HttpServletRequest pRequest, final HttpServletResponse pResponse, final String teacherId) throws IOException {
         ResponseBean responseBean = new ResponseBean();
-        int tid = Integer.valueOf(decodeInput(teacherId));
+        int tid = Integer.valueOf(teacherId);
         TeacherProfile teacher = getTeacherManager().queryTeacherById(tid);
         if (teacher == null) {
             responseBean.addBusinessMsg(TeacherManager.ERROR_NOT_FOUND_TEACHER);
@@ -152,7 +149,7 @@ public class SchoolController extends BaseController {
             throws IOException, ParseException {
         ResponseBean responseBean = new ResponseBean();
         try {
-            int decodeTeacherId = Integer.valueOf(decodeInput(teacherId));
+            int decodeTeacherId = Integer.valueOf(teacherId);
             Map<String, Object> studentMap = getStudentManager().queryStudentListByTeacherId(decodeTeacherId);
             responseBean.addData(studentMap);
         } catch (Exception e) {

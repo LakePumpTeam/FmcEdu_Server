@@ -2,13 +2,11 @@ package com.fmc.edu.web.multipart;
 
 import com.fmc.edu.configuration.WebConfig;
 import com.fmc.edu.crypto.impl.ReplacementBase64EncryptService;
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.log4j.Logger;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -54,12 +52,8 @@ public class FMCCommonsMultipartResolver extends CommonsMultipartResolver {
             String decodedValue;
             for (int i = 0; i < encodedValues.length; i++) {
                 decodedValue = encodedValues[i];
-                if (Base64.isBase64(encodedValues[i])) {
-                    try {
-                        decodedValue = decodeInput(encodedValues[i]);
-                    } catch (IOException e) {
-                        LOG.error(e);
-                    }
+                if (WebConfig.isEncodeBase64InputParam() && ReplacementBase64EncryptService.isBase64(encodedValues[i])) {
+                    decodedValue = mBase64EncryptService.decrypt(encodedValues[i]);
                 }
                 decodedValues[i] = decodedValue;
             }
@@ -67,17 +61,6 @@ public class FMCCommonsMultipartResolver extends CommonsMultipartResolver {
         }
 
         return new MultipartParsingResult(multipartParsingResult.getMultipartFiles(), encodedMultipartParameters, multipartParsingResult.getMultipartParameterContentTypes());
-    }
-
-    protected String decodeInput(final String pParameter) throws IOException {
-        LOG.debug("Encoded input parameter:" + pParameter);
-        if (!WebConfig.isEncodeBase64InputParam()) {
-            return pParameter;
-        }
-        String decodeInput = null;
-        decodeInput = mBase64EncryptService.decrypt(pParameter);
-        LOG.debug("Decoded input parameter:" + decodeInput);
-        return decodeInput;
     }
 
     public boolean isEnabled() {

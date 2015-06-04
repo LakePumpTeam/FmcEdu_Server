@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -35,14 +34,11 @@ public class HomePageController extends BaseController {
             if (!responseBean.isSuccess()) {
                 return responseBean.toString();
             }
-            String profileId = decodeInput(pRequest.getParameter("userId"));
+            String profileId = pRequest.getParameter("userId");
             Map<String, Object> homePageTeacher = getHomePageManager().obtainHeaderTeacher(profileId);
             responseBean.addData(homePageTeacher);
         } catch (ProfileException e) {
             responseBean.addBusinessMsg(e.getMessage());
-        } catch (IOException e) {
-            LOG.error(e);
-            responseBean.addErrorMsg(e);
         } catch (Exception e) {
             LOG.error(e);
             responseBean.addErrorMsg(e);

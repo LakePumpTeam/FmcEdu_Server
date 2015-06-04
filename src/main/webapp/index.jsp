@@ -732,20 +732,20 @@
                            <input type="text" class="ipt_value" name="content" id="content" value=""/>
                        </div>
                        <div>
-                           <label for="img1" title="img1">img1</label>
-                           <input type="file" name="img1" class="img1" id="img1"/>
+                           <label for="imgs" title="img1">img1</label>
+                           <input type="file" name="imgs" class="img1" id="imgs"/>
                        </div>
                        <div>
-                           <label for="img2" title="img2">img2</label>
-                           <input type="file" name="img2" class="img2" id="img2"/>
+                           <label for="imgs" title="img2">img2</label>
+                           <input type="file" name="imgs" class="imgs" id="imgs"/>
                        </div>
                        <div>
-                           <label for="img3" title="img3">img3</label>
-                           <input type="file" name="img3" class="img3" id="img3"/>
+                           <label for="imgs" title="img3">img3</label>
+                           <input type="file" name="imgs" class="imgs" id="imgs"/>
                        </div>
                        <div>
-                           <label for="img4" title="img4">img4</label>
-                           <input type="file" name="img4" class="img4" id="img4"/>
+                           <label for="imgs" title="img4">img4</label>
+                           <input type="file" name="imgs" class="imgs" id="imgs"/>
                        </div>
 
                        <input type="submit" value="Upload">

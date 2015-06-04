@@ -63,8 +63,8 @@ public class NewsActivityController extends BaseController {
         TransactionStatus txStatus = ensureTransaction();
         try {
             Pagination pagination = buildPagination(pRequest);
-            String userIdStr = decodeInput(pRequest.getParameter("userId"));
-            String typeStr = decodeInput(pRequest.getParameter("type"));
+            String userIdStr = pRequest.getParameter("userId");
+            String typeStr = pRequest.getParameter("type");
             if (!RepositoryUtils.idIsValid(userIdStr)) {
                 responseBean.addBusinessMsg("用户Id错误:" + userIdStr);
                 return output(responseBean);
@@ -165,8 +165,8 @@ public class NewsActivityController extends BaseController {
     public String requestNewsDetail(final HttpServletRequest pRequest, final HttpServletResponse pResponse) {
         ResponseBean responseBean = new ResponseBean();
         try {
-            String newsIdStr = decodeInput(pRequest.getParameter("newsId"));
-            String userIdStr = decodeInput(pRequest.getParameter("userId"));
+            String newsIdStr = pRequest.getParameter("newsId");
+            String userIdStr = pRequest.getParameter("userId");
             if (!RepositoryUtils.idIsValid(userIdStr)) {
                 responseBean.addBusinessMsg("用户Id错误.");
                 return output(responseBean);
@@ -201,9 +201,9 @@ public class NewsActivityController extends BaseController {
     public String postComment(final HttpServletRequest pRequest, final HttpServletResponse pResponse) {
         ResponseBean responseBean = new ResponseBean();
         try {
-            String newsIdStr = decodeInput(pRequest.getParameter("newsId"));
-            String userIdStr = decodeInput(pRequest.getParameter("userId"));
-            String contentStr = decodeInput(pRequest.getParameter("content"));
+            String newsIdStr = pRequest.getParameter("newsId");
+            String userIdStr = pRequest.getParameter("userId");
+            String contentStr = pRequest.getParameter("content");
             if (!RepositoryUtils.idIsValid(userIdStr)) {
                 responseBean.addBusinessMsg("User id is invalid.");
                 return output(responseBean);
@@ -236,9 +236,9 @@ public class NewsActivityController extends BaseController {
         ResponseBean responseBean = new ResponseBean();
         TransactionStatus txStatus = ensureTransaction();
         try {
-            String userIdStr = decodeInput(pRequest.getParameter("userId"));
-            String newsIdStr = decodeInput(pRequest.getParameter("newsId"));
-            String isLikeStr = decodeInput(pRequest.getParameter("isLike"));
+            String userIdStr = pRequest.getParameter("userId");
+            String newsIdStr = pRequest.getParameter("newsId");
+            String isLikeStr = pRequest.getParameter("isLike");
             if (!RepositoryUtils.idIsValid(userIdStr)) {
                 throw new NewsException("用户ID错误:" + userIdStr);
             }
@@ -291,7 +291,7 @@ public class NewsActivityController extends BaseController {
     public String checkNewNews(final HttpServletRequest pRequest, final HttpServletResponse pResponse) {
         ResponseBean responseBean = new ResponseBean();
         try {
-            String userIdStr = decodeInput(pRequest.getParameter("userId"));
+            String userIdStr = pRequest.getParameter("userId");
             if (!RepositoryUtils.idIsValid(userIdStr)) {
                 responseBean.addBusinessMsg("用户ID错误:" + userIdStr);
                 return output(responseBean);
@@ -320,9 +320,9 @@ public class NewsActivityController extends BaseController {
 
         TransactionStatus txStatus = ensureTransaction();
         try {
-            String userIdStr = decodeInput(userId);
-            //String subjectStr = decodeInput(subject);
-            String contentStrStr = decodeInput(content);
+            String userIdStr = userId;
+            //String subjectStr = subject;
+            String contentStrStr = content;
             if (!RepositoryUtils.idIsValid(userIdStr)) {
                 responseBean.addBusinessMsg("用户ID 为空.");
                 throw new Exception("用户ID 为空.");
@@ -340,7 +340,10 @@ public class NewsActivityController extends BaseController {
             classNews.setAuthor(userIdInt);
             classNews.setContent(contentStrStr);
             classNews.setNewsType(NewsType.CLASS_DYNAMICS);
-            classNews.setSubject(StringUtils.EMPTY);
+            if (StringUtils.isBlank(subject)) {
+                subject = StringUtils.EMPTY;
+            }
+            classNews.setSubject(subject);
             classNews.setApproved(true);
             if (!getNewsManager().insertNews(classNews)) {
                 responseBean.addBusinessMsg("发布班级动态失败.");
@@ -367,9 +370,9 @@ public class NewsActivityController extends BaseController {
         ResponseBean responseBean = new ResponseBean();
         TransactionStatus txStatus = ensureTransaction();
         try {
-            String userIdStr = decodeInput(pRequest.getParameter("userId"));
-            String newsIdStr = decodeInput(pRequest.getParameter("newsId"));
-            String selectionIdStr = decodeInput(pRequest.getParameter("selectionId"));
+            String userIdStr = pRequest.getParameter("userId");
+            String newsIdStr = pRequest.getParameter("newsId");
+            String selectionIdStr = pRequest.getParameter("selectionId");
             if (!RepositoryUtils.idIsValid(userIdStr)) {
                 responseBean.addBusinessMsg("用户ID错误:" + userIdStr);
                 return output(responseBean);

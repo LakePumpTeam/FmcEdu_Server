@@ -1,9 +1,7 @@
 package com.fmc.edu.web.controller;
 
 import com.fmc.edu.cache.CacheManager;
-import com.fmc.edu.configuration.WebConfig;
 import com.fmc.edu.constant.SessionConstant;
-import com.fmc.edu.crypto.impl.ReplacementBase64EncryptService;
 import com.fmc.edu.transaction.TransactionAnnotationProxyManager;
 import com.fmc.edu.util.pagenation.Pagination;
 import com.fmc.edu.web.ResponseBean;
@@ -31,9 +29,6 @@ public abstract class BaseController {
     @Autowired
     private DataSourceTransactionManager mTransactionManager;
 
-    @Resource(name = "replacementBase64EncryptService")
-    private ReplacementBase64EncryptService mBase64EncryptService;
-
     @Resource(name = "transactionAnnotationProxyManager")
     TransactionAnnotationProxyManager mTransactionAnnotationProxyManager;
 
@@ -44,17 +39,6 @@ public abstract class BaseController {
     protected String output(final ResponseBean pResponseBean) {
         LOG.debug("Response message:" + pResponseBean.toString());
         return pResponseBean.toString();
-    }
-
-    protected String decodeInput(final String pParameter) throws IOException {
-        LOG.debug("Encoded input parameter:" + pParameter);
-        if (!WebConfig.isEncodeBase64InputParam()) {
-            return pParameter;
-        }
-        String decodeInput = null;
-        decodeInput = mBase64EncryptService.decrypt(pParameter);
-        LOG.debug("Decoded input parameter:" + decodeInput);
-        return decodeInput;
     }
 
     protected TransactionStatus ensureTransaction() {
@@ -80,8 +64,8 @@ public abstract class BaseController {
     }
 
     protected Pagination buildPagination(HttpServletRequest pRequest) throws IOException {
-        String pageIndex = decodeInput(pRequest.getParameter("pageIndex"));
-        String pageSize = decodeInput(pRequest.getParameter("pageSize"));
+        String pageIndex = pRequest.getParameter("pageIndex");
+        String pageSize = pRequest.getParameter("pageSize");
         return new Pagination(Integer.valueOf(pageIndex), Integer.valueOf(pageSize));
     }
 
@@ -94,22 +78,9 @@ public abstract class BaseController {
         int[] ids = new int[pInputIds.length];
         for (int i = 0; i < pInputIds.length; i++) {
             LOG.debug("decodeInputIds:" + pInputIds[i]);
-            ids[i] = Integer.valueOf(decodeInput(pInputIds[i]));
+            ids[i] = Integer.valueOf(pInputIds[i]);
         }
         return ids;
-    }
-
-    protected String[] decodeArrayInput(final String[] pArrayInput) throws IOException {
-        if (pArrayInput == null || pArrayInput.length == 0) {
-            return new String[0];
-        }
-
-        String[] arrayInput = new String[pArrayInput.length];
-        for (int i = 0; i < pArrayInput.length; i++) {
-            LOG.debug("decodeArrayInput:" + pArrayInput[i]);
-            arrayInput[i] = decodeInput(pArrayInput[i]);
-        }
-        return arrayInput;
     }
 
     public DataSourceTransactionManager getTransactionManager() {
@@ -118,14 +89,6 @@ public abstract class BaseController {
 
     public void setTransactionManager(final DataSourceTransactionManager pTransactionManager) {
         mTransactionManager = pTransactionManager;
-    }
-
-    public ReplacementBase64EncryptService getBase64EncryptService() {
-        return mBase64EncryptService;
-    }
-
-    public void setBase64EncryptService(final ReplacementBase64EncryptService pBase64EncryptService) {
-        mBase64EncryptService = pBase64EncryptService;
     }
 
     public WebApplicationContext getWebApplicationContext() {

@@ -42,7 +42,7 @@
             <value>UTF-8</value>
         </property>
         <property name="enabled">
-            <value>false</value>
+            <value>true</value>
         </property>
     </bean>
 
