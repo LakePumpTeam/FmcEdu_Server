@@ -4,6 +4,7 @@ import com.fmc.edu.cache.CacheManager;
 import com.fmc.edu.configuration.WebConfig;
 import com.fmc.edu.constant.SessionConstant;
 import com.fmc.edu.crypto.impl.ReplacementBase64EncryptService;
+import com.fmc.edu.transaction.TransactionAnnotationProxyManager;
 import com.fmc.edu.util.pagenation.Pagination;
 import com.fmc.edu.web.ResponseBean;
 import org.apache.commons.lang3.StringUtils;
@@ -32,6 +33,9 @@ public abstract class BaseController {
 
     @Resource(name = "replacementBase64EncryptService")
     private ReplacementBase64EncryptService mBase64EncryptService;
+
+    @Resource(name = "transactionAnnotationProxyManager")
+    TransactionAnnotationProxyManager mTransactionAnnotationProxyManager;
 
     private CacheManager mCacheManager = CacheManager.getInstance();
 
@@ -138,5 +142,13 @@ public abstract class BaseController {
 
     public void setCacheManager(final CacheManager pCacheManager) {
         mCacheManager = pCacheManager;
+    }
+
+    public TransactionAnnotationProxyManager getTransactionAnnotationProxyManager() {
+        return mTransactionAnnotationProxyManager;
+    }
+
+    public void setTransactionAnnotationProxyManager(TransactionAnnotationProxyManager pTransactionAnnotationProxyManager) {
+        mTransactionAnnotationProxyManager = pTransactionAnnotationProxyManager;
     }
 }

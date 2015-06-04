@@ -28,6 +28,13 @@
         <dispatcher>INCLUDE</dispatcher>
     </filter-mapping>
     <filter-mapping>
+        <filter-name>decode-base64-parameter-filter</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>INCLUDE</dispatcher>
+    </filter-mapping>
+    <filter-mapping>
         <filter-name>html-escape-filter</filter-name>
         <url-pattern>/*</url-pattern>
         <dispatcher>REQUEST</dispatcher>
@@ -50,6 +57,16 @@
             <param-value>true</param-value>
         </init-param>
     </filter>
+
+    <filter>
+        <filter-name>decode-base64-parameter-filter</filter-name>
+        <filter-class>com.fmc.edu.web.filter.DecodeBase64ParameterFilter</filter-class>
+        <init-param>
+            <param-name>enabled</param-name>
+            <param-value>false</param-value>
+        </init-param>
+    </filter>
+
     <filter>
         <filter-name>html-escape-filter</filter-name>
         <filter-class>com.fmc.edu.web.filter.HTMLEscapeFilter</filter-class>
