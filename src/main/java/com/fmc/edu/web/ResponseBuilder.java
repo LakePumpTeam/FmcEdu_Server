@@ -56,6 +56,7 @@ public class ResponseBuilder {
             }
 
             List<Student> studentList = getStudentManager().queryStudentByParentId(parentProfile.getId());
+            pResponseBean.addData("auditState", false);
             if (!CollectionUtils.isEmpty(studentList)) {
                 Student student = studentList.get(0);
                 pResponseBean.addData("auditState", student.getParentStudentRelationship().getApproved());
