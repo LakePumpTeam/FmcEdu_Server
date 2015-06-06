@@ -7,9 +7,9 @@ import com.fmc.edu.exception.IdentityCodeException;
 import com.fmc.edu.exception.InvalidIdException;
 import com.fmc.edu.exception.LoginException;
 import com.fmc.edu.exception.ProfileException;
-import com.fmc.edu.manager.IdentityCodeManager;
 import com.fmc.edu.manager.MyAccountManager;
 import com.fmc.edu.manager.ProfileManager;
+import com.fmc.edu.manager.ResourceManager;
 import com.fmc.edu.manager.SchoolManager;
 import com.fmc.edu.model.address.Address;
 import com.fmc.edu.model.profile.BaseProfile;
@@ -17,6 +17,7 @@ import com.fmc.edu.model.profile.ParentProfile;
 import com.fmc.edu.model.relationship.ParentStudentRelationship;
 import com.fmc.edu.model.student.Student;
 import com.fmc.edu.util.DateUtils;
+import com.fmc.edu.util.RepositoryUtils;
 import com.fmc.edu.util.ValidationUtils;
 import com.fmc.edu.web.RequestParameterBuilder;
 import com.fmc.edu.web.ResponseBean;
@@ -46,10 +47,6 @@ public class ProfileController extends BaseController {
 
     private static final Logger LOG = Logger.getLogger(ProfileController.class);
 
-    private static final String ERROR_SESSION_EXPIRED = "Sorry, the session has expired.";
-    private static final String ERROR_NULL_PARENT_ID = "Sorry, the parent id should not be empty.";
-    private static final String ERROR_NULL_PARENT_IDS = "Sorry, the parent ids should not be empty.";
-
     @Resource(name = "profileManager")
     private ProfileManager mProfileManager;
 
@@ -69,18 +66,18 @@ public class ProfileController extends BaseController {
     @RequestMapping(value = ("/requestPhoneIdentify" + GlobalConstant.URL_SUFFIX))
     @ResponseBody
     public String requestPhoneIdentify(final HttpServletRequest pRequest, final HttpServletResponse pResponse, final String cellPhone) throws IOException {
-        ResponseBean responseBean = new ResponseBean();
+        ResponseBean responseBean = new ResponseBean(pRequest);
         String phone = cellPhone;
         LOG.debug("Decoded cellphone:" + phone);
         // output error if phone number is blank
-        if (cellPhone == null || ValidationUtils.isValidPhoneNumber(phone)) {
-            responseBean.addBusinessMsg(MyAccountManager.ERROR_INVALID_PHONE);
+        if (!ValidationUtils.isValidPhoneNumber(phone)) {
+            responseBean.addBusinessMsg(ResourceManager.VALIDATION_USER_PHONE_ERROR, phone);
             return output(responseBean);
         }
-        String identifyCode = null;
+
         TransactionStatus status = ensureTransaction();
         try {
-            identifyCode = getProfileManager().obtainIdentityCode(phone);
+            String identifyCode = getProfileManager().obtainIdentityCode(phone);
             pRequest.getSession().setAttribute(SessionConstant.SESSION_KEY_PHONE, phone);
 
             if (WebConfig.isDevelopment()) {
@@ -88,10 +85,10 @@ public class ProfileController extends BaseController {
                 LOG.debug(String.format("Send identify code: %s to phone: %s", identifyCode, phone));
             }
         } catch (ProfileException ex) {
-            responseBean.addBusinessMsg(ex.getMessage());
+            responseBean.addBusinessMsg(ex.getMessage(), ex.getArgs());
             status.setRollbackOnly();
         } catch (IdentityCodeException ex) {
-            responseBean.addBusinessMsg(ex.getMessage());
+            responseBean.addBusinessMsg(ex.getMessage(), ex.getArgs());
             status.setRollbackOnly();
         } catch (Exception e) {
             LOG.error(e);
@@ -106,15 +103,18 @@ public class ProfileController extends BaseController {
 
     @RequestMapping(value = "/requestRegisterConfirm" + GlobalConstant.URL_SUFFIX)
     @ResponseBody
-    public String requestRegisterConfirm(final HttpServletRequest pRequest, final HttpServletResponse pResponse, String cellPhone, final String authCode,
-                                         String password, String salt) throws IOException {
+    public String requestRegisterConfirm(final HttpServletRequest pRequest, final HttpServletResponse pResponse,
+                                         String cellPhone,
+                                         final String authCode,
+                                         String password,
+                                         String salt) throws IOException {
         String identifyingCode = authCode;
         String phoneNumber = cellPhone;
         String passwordDecode = password;
         String saltDecode = salt;
 
-        ResponseBean responseBean = new ResponseBean();
-        preRequestRegisterConfirm(pRequest, identifyingCode, phoneNumber, passwordDecode, saltDecode, responseBean);
+        ResponseBean responseBean = new ResponseBean(pRequest);
+        preRequestRegisterConfirm(pRequest, phoneNumber, identifyingCode, passwordDecode, saltDecode, responseBean);
         if (!responseBean.isSuccess()) {
             LOG.debug("pre validation failed." + responseBean.toString());
             return output(responseBean);
@@ -123,14 +123,14 @@ public class ProfileController extends BaseController {
         TransactionStatus status = ensureTransaction();
         try {
             if (!getProfileManager().verifyIdentityCodeAndRegister(phoneNumber, passwordDecode, identifyingCode, saltDecode)) {
-                responseBean.addBusinessMsg(IdentityCodeManager.ERROR_INVALID_IDENTITY_CODE);
-                return responseBean.toString();
+                responseBean.addBusinessMsg(ResourceManager.ERROR_IDENTITY_CODE_INVALID);
+                return output(responseBean);
             }
         } catch (IdentityCodeException e) {
-            responseBean.addBusinessMsg(e.getMessage());
+            responseBean.addBusinessMsg(e.getMessage(), e.getArgs());
             status.setRollbackOnly();
         } catch (ProfileException e) {
-            responseBean.addBusinessMsg(e.getMessage());
+            responseBean.addBusinessMsg(e.getMessage(), e.getArgs());
             status.setRollbackOnly();
         } catch (Exception e) {
             LOG.error(e);
@@ -146,20 +146,20 @@ public class ProfileController extends BaseController {
         if (StringUtils.isBlank(cellPhone)) {
             cellPhone = (String) pRequest.getSession().getAttribute(SessionConstant.SESSION_KEY_PHONE);
         }
-        if (cellPhone == null || ValidationUtils.isValidPhoneNumber(cellPhone)) {
-            responseBean.addBusinessMsg(MyAccountManager.ERROR_INVALID_PHONE);
+        if (!ValidationUtils.isValidPhoneNumber(cellPhone)) {
+            responseBean.addBusinessMsg(ResourceManager.VALIDATION_USER_PHONE_ERROR, cellPhone);
             return;
         }
         if (StringUtils.isBlank(authCode)) {
-            responseBean.addBusinessMsg(IdentityCodeManager.ERROR_INVALID_EMPTY_AUTHO_CODE);
+            responseBean.addBusinessMsg(ResourceManager.VALIDATION_IDENTITY_CODE_EMPTY);
             return;
         }
         if (StringUtils.isBlank(password)) {
-            responseBean.addBusinessMsg(MyAccountManager.ERROR_INVALID_EMTPY_PASSWORD);
+            responseBean.addBusinessMsg(ResourceManager.VALIDATION_USER_PASSWORD_EMPTY);
             return;
         }
         if (StringUtils.isBlank(pSalt)) {
-            responseBean.addBusinessMsg(MyAccountManager.ERROR_INVALID_EMPTY_SALT);
+            responseBean.addBusinessMsg(ResourceManager.VALIDATION_USER_SALT_EMPTY);
             return;
         }
     }
@@ -169,7 +169,7 @@ public class ProfileController extends BaseController {
     public String requestRegisterBaseInfo(HttpServletRequest pRequest, final HttpServletResponse pResponse, final String cellPhone)
             throws IOException {
         TransactionStatus status = ensureTransaction();
-        ResponseBean responseBean = new ResponseBean();
+        ResponseBean responseBean = new ResponseBean(pRequest);
         try {
 
             ParentProfile parent = getParameterBuilder().buildParent(pRequest, getMyAccountManager());
@@ -190,7 +190,7 @@ public class ProfileController extends BaseController {
             responseBean.addBusinessMsg(e.getMessage());
             status.setRollbackOnly();
         } catch (ProfileException e) {
-            responseBean.addBusinessMsg(e.getMessage());
+            responseBean.addBusinessMsg(e.getMessage(), e.getArgs());
             status.setRollbackOnly();
         } catch (Exception e) {
             LOG.error(e);
@@ -204,17 +204,18 @@ public class ProfileController extends BaseController {
 
     @RequestMapping(value = "/requestSalt" + GlobalConstant.URL_SUFFIX)
     @ResponseBody
-    public String requestSalt(HttpServletRequest pRequest, final HttpServletResponse pResponse, final String cellPhone) {
-        ResponseBean responseBean = new ResponseBean();
+    public String requestSalt(HttpServletRequest pRequest,
+                              final HttpServletResponse pResponse, final String cellPhone) {
+        ResponseBean responseBean = new ResponseBean(pRequest);
         try {
             String phone = cellPhone;
-            if (StringUtils.isBlank(phone)) {
-                responseBean.addBusinessMsg("phone is null.");
+            if (!ValidationUtils.isValidPhoneNumber(phone)) {
+                responseBean.addBusinessMsg(ResourceManager.VALIDATION_USER_PHONE_ERROR, cellPhone);
                 return output(responseBean);
             }
             BaseProfile user = getMyAccountManager().findUser(phone);
             if (user == null) {
-                responseBean.addBusinessMsg(MyAccountManager.ERROR_NOT_FIND_USER);
+                responseBean.addBusinessMsg(ResourceManager.ERROR_NOT_FIND_USER, phone);
                 return output(responseBean);
             }
             responseBean.addData("salt", user.getSalt());
@@ -227,16 +228,23 @@ public class ProfileController extends BaseController {
 
     @RequestMapping(value = "/requestLogin" + GlobalConstant.URL_SUFFIX)
     @ResponseBody
-    public String requestLogin(HttpServletRequest pRequest, final HttpServletResponse pResponse, final String userAccount, final String password) {
-        ResponseBean responseBean = new ResponseBean();
+    public String requestLogin(HttpServletRequest pRequest,
+                               final HttpServletResponse pResponse,
+                               final String userAccount,
+                               final String password) {
+        ResponseBean responseBean = new ResponseBean(pRequest);
         BaseProfile user = null;
         try {
-            String account = userAccount;
-            String pwd = password;
-            user = getMyAccountManager().loginUser(account, pwd);
+            if (!ValidationUtils.isValidPhoneNumber(userAccount)) {
+                throw new LoginException(ResourceManager.VALIDATION_USER_PHONE_ERROR, userAccount);
+            }
+            if (com.fmc.edu.util.StringUtils.isBlank(password)) {
+                throw new LoginException(ResourceManager.VALIDATION_USER_NEW_PASSWORD_EMPTY, password);
+            }
+            user = getMyAccountManager().loginUser(userAccount, password);
         } catch (LoginException e) {
-            LOG.debug("Login failed:" + e.getMessage());
-            responseBean.addBusinessMsg(e.getMessage());
+            LOG.debug("Login failed:" + getResourceManager().getMessage(pRequest, e.getMessage(), e.getArgs()));
+            responseBean.addBusinessMsg(e.getMessage(), e.getArgs());
         } catch (Exception e) {
             LOG.error(e);
             responseBean.addErrorMsg(e);
@@ -251,7 +259,7 @@ public class ProfileController extends BaseController {
     @RequestMapping(value = "/requestForgetPwd" + GlobalConstant.URL_SUFFIX)
     @ResponseBody
     public String requestForgetPwd(HttpServletRequest pRequest, final HttpServletResponse pResponse) {
-        ResponseBean responseBean = new ResponseBean();
+        ResponseBean responseBean = new ResponseBean(pRequest);
         preRequestForgetPwd(pRequest, responseBean);
         if (!responseBean.isSuccess()) {
             return responseBean.toString();
@@ -261,25 +269,26 @@ public class ProfileController extends BaseController {
             String cellPhone = pRequest.getParameter("cellPhone");
             String authCode = pRequest.getParameter("authCode");
             String password = pRequest.getParameter("password");
-            if (cellPhone == null || ValidationUtils.isValidPhoneNumber(cellPhone)) {
-                responseBean.addBusinessMsg(MyAccountManager.ERROR_INVALID_PHONE);
+
+            if (ValidationUtils.isValidPhoneNumber(cellPhone)) {
+                responseBean.addBusinessMsg(ResourceManager.VALIDATION_USER_PHONE_ERROR, cellPhone);
                 return output(responseBean);
             }
             BaseProfile user = getMyAccountManager().findUser(cellPhone);
             if (user == null) {
-                responseBean.addBusinessMsg(MyAccountManager.ERROR_NOT_FIND_USER);
+                responseBean.addBusinessMsg(ResourceManager.ERROR_NOT_FIND_USER, cellPhone);
                 return output(responseBean);
             }
             if (!getProfileManager().verifyIdentityCode(user.getPhone(), authCode)) {
-                responseBean.addBusinessMsg(IdentityCodeManager.ERROR_INVALID_IDENTITY_CODE);
+                responseBean.addBusinessMsg(ResourceManager.ERROR_IDENTITY_CODE_INVALID);
                 return output(responseBean);
             }
             if (!(getMyAccountManager().resetPassword(user, password) > 0)) {
-                responseBean.addBusinessMsg(MyAccountManager.ERROR_RESET_PASSWORD_FAILED);
+                responseBean.addBusinessMsg(ResourceManager.ERROR_RESET_PASSWORD_FAILED);
                 return output(responseBean);
             }
         } catch (IdentityCodeException e) {
-            responseBean.addBusinessMsg(e.getMessage());
+            responseBean.addBusinessMsg(e.getMessage(), e.getArgs());
             txStatus.setRollbackOnly();
         } catch (Exception ex) {
             txStatus.setRollbackOnly();
@@ -293,17 +302,17 @@ public class ProfileController extends BaseController {
     private void preRequestForgetPwd(HttpServletRequest pRequest, ResponseBean pResponseBean) {
         String cellPhone = pRequest.getParameter("cellPhone");
         if (StringUtils.isBlank(cellPhone)) {
-            pResponseBean.addBusinessMsg(MyAccountManager.ERROR_PHONE_FILED_IS_EMPTY);
+            pResponseBean.addBusinessMsg(ResourceManager.VALIDATION_USER_PHONE_EMPTY);
             return;
         }
         String authCode = pRequest.getParameter("authCode");
         if (StringUtils.isBlank(authCode)) {
-            pResponseBean.addBusinessMsg(IdentityCodeManager.ERROR_INVALID_EMPTY_AUTHO_CODE);
+            pResponseBean.addBusinessMsg(ResourceManager.VALIDATION_IDENTITY_CODE_EMPTY);
             return;
         }
         String password = pRequest.getParameter("password");
         if (StringUtils.isBlank(password)) {
-            pResponseBean.addBusinessMsg(MyAccountManager.ERROR_INVALID_EMTPY_PASSWORD);
+            pResponseBean.addBusinessMsg(ResourceManager.VALIDATION_USER_PASSWORD_EMPTY);
             return;
         }
     }
@@ -311,7 +320,7 @@ public class ProfileController extends BaseController {
     @RequestMapping(value = "/requestAlterPwd" + GlobalConstant.URL_SUFFIX)
     @ResponseBody
     public String requestAlterPwd(HttpServletRequest pRequest, final HttpServletResponse pResponse) {
-        ResponseBean responseBean = new ResponseBean();
+        ResponseBean responseBean = new ResponseBean(pRequest);
         preRequestAlterPwd(pRequest, responseBean);
         if (!responseBean.isSuccess()) {
             return output(responseBean);
@@ -322,14 +331,16 @@ public class ProfileController extends BaseController {
             String userId = pRequest.getParameter("userId");
             String oldPassword = pRequest.getParameter("oldPassword");
             String newPassword = pRequest.getParameter("newPassword");
+
+
             BaseProfile user = getMyAccountManager().findUserById(userId);
             if (user == null) {
-                responseBean.addBusinessMsg(MyAccountManager.ERROR_NOT_FIND_USER);
+                responseBean.addBusinessMsg(ResourceManager.ERROR_NOT_FIND_USER, userId);
                 return output(responseBean);
             }
 
             if (!user.getPassword().equals(oldPassword)) {
-                responseBean.addBusinessMsg(MyAccountManager.ERROR_OLD_PASSWORD_INVALID);
+                responseBean.addBusinessMsg(ResourceManager.VALIDATION_USER_OLD_PASSWORD_ERROR);
                 return output(responseBean);
             }
             getMyAccountManager().resetPassword(user, newPassword);
@@ -345,17 +356,17 @@ public class ProfileController extends BaseController {
     private void preRequestAlterPwd(HttpServletRequest pRequest, ResponseBean pResponseBean) {
         String userId = pRequest.getParameter("userId");
         if (StringUtils.isBlank(userId)) {
-            pResponseBean.addBusinessMsg("User id is empty.");
+            pResponseBean.addBusinessMsg(ResourceManager.VALIDATION_USER_USER_ID_EMPTY);
             return;
         }
         String oldPassword = pRequest.getParameter("oldPassword");
         if (StringUtils.isBlank(oldPassword)) {
-            pResponseBean.addBusinessMsg(MyAccountManager.ERROR_INVALID_EMTPY_PASSWORD);
+            pResponseBean.addBusinessMsg(ResourceManager.VALIDATION_USER_OLD_PASSWORD_ERROR);
             return;
         }
         String newPassword = pRequest.getParameter("newPassword");
         if (StringUtils.isBlank(newPassword)) {
-            pResponseBean.addBusinessMsg(MyAccountManager.ERROR_NEW_PASSWORD_IS_MEPTY);
+            pResponseBean.addBusinessMsg(ResourceManager.VALIDATION_USER_NEW_PASSWORD_EMPTY);
             return;
         }
     }
@@ -364,10 +375,10 @@ public class ProfileController extends BaseController {
     @ResponseBody
     public String requestGetRelateInfo(HttpServletRequest pRequest, final HttpServletResponse pResponse)
             throws IOException, ParseException {
-        ResponseBean responseBean = new ResponseBean();
+        ResponseBean responseBean = new ResponseBean(pRequest);
         String parentId = pRequest.getParameter("parentId");
         if (StringUtils.isBlank(parentId)) {
-            responseBean.addBusinessMsg(ERROR_NULL_PARENT_ID);
+            responseBean.addBusinessMsg(ResourceManager.VALIDATION_USER_USER_ID_ERROR, parentId);
             return output(responseBean);
         }
         int id = Integer.valueOf(parentId);
@@ -407,11 +418,18 @@ public class ProfileController extends BaseController {
 
     @RequestMapping(value = "/requestParentAudit" + GlobalConstant.URL_SUFFIX)
     @ResponseBody
-    public String requestParentAudit(HttpServletRequest pRequest, final HttpServletResponse pResponse, final String teacherId, final
-    String[] parentIds, String setPass) {
-        ResponseBean responseBean = new ResponseBean();
+    public String requestParentAudit(HttpServletRequest pRequest,
+                                     final HttpServletResponse pResponse,
+                                     final String teacherId,
+                                     final String[] parentIds,
+                                     String setPass) {
+        ResponseBean responseBean = new ResponseBean(pRequest);
         if (ArrayUtils.isEmpty(parentIds)) {
-            responseBean.addErrorMsg(ERROR_NULL_PARENT_IDS);
+            responseBean.addBusinessMsg(ResourceManager.VALIDATION_USER_PARENT_ID_ERROR);
+            return output(responseBean);
+        }
+        if (!RepositoryUtils.idIsValid(teacherId)) {
+            responseBean.addBusinessMsg(ResourceManager.VALIDATION_USER_USER_ID_ERROR, teacherId);
             return output(responseBean);
         }
         TransactionStatus status = ensureTransaction();
@@ -436,13 +454,19 @@ public class ProfileController extends BaseController {
 
     @RequestMapping(value = "/requestParentAuditAll" + GlobalConstant.URL_SUFFIX)
     @ResponseBody
-    public String requestParentAuditAll(HttpServletRequest pRequest, final HttpServletResponse pResponse, final String teacherId, final
-    String allPass) {
-        ResponseBean responseBean = new ResponseBean();
+    public String requestParentAuditAll(HttpServletRequest pRequest, final HttpServletResponse pResponse,
+                                        final String teacherId,
+                                        final String allPass) {
+        ResponseBean responseBean = new ResponseBean(pRequest);
+        if (!RepositoryUtils.idIsValid(teacherId)) {
+            responseBean.addBusinessMsg(ResourceManager.VALIDATION_USER_USER_ID_ERROR, teacherId);
+            return output(responseBean);
+        }
+
         TransactionStatus status = ensureTransaction();
         try {
-            int tid = Integer.valueOf(teacherId);//Integer.valueOf(decodeInput(teacherId));
-            int pass = Integer.valueOf(allPass);//Integer.valueOf(decodeInput(allPass));
+            int tid = Integer.valueOf(teacherId);
+            int pass = Integer.valueOf(allPass);
             getMyAccountManager().updateAllParentAuditStatus(tid, pass);
         } catch (Exception e) {
             LOG.error(e);
@@ -456,10 +480,16 @@ public class ProfileController extends BaseController {
 
     @RequestMapping(value = "/requestPendingAuditParentList" + GlobalConstant.URL_SUFFIX)
     @ResponseBody
-    public String requestPendingAuditParents(HttpServletRequest pRequest, final HttpServletResponse pResponse, final String teacherId)
-            throws IOException {
-        ResponseBean responseBean = new ResponseBean();
-        int tid = Integer.valueOf(teacherId);//Integer.valueOf(decodeInput(teacherId));
+    public String requestPendingAuditParents(HttpServletRequest pRequest,
+                                             final HttpServletResponse pResponse,
+                                             final String teacherId) throws IOException {
+        ResponseBean responseBean = new ResponseBean(pRequest);
+        if (!RepositoryUtils.idIsValid(teacherId)) {
+            responseBean.addBusinessMsg(ResourceManager.VALIDATION_USER_USER_ID_ERROR, teacherId);
+            return output(responseBean);
+        }
+
+        int tid = Integer.valueOf(teacherId);
         List<Map<String, Object>> pendingAuditParents = getMyAccountManager().getPendingAuditParents(tid);
         responseBean.addData("parentsAuditList", pendingAuditParents);
         return output(responseBean);

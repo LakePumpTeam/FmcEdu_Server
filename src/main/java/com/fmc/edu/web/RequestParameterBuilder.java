@@ -3,6 +3,7 @@ package com.fmc.edu.web;
 import com.fmc.edu.exception.InvalidIdException;
 import com.fmc.edu.exception.ProfileException;
 import com.fmc.edu.manager.MyAccountManager;
+import com.fmc.edu.manager.ResourceManager;
 import com.fmc.edu.model.address.Address;
 import com.fmc.edu.model.profile.BaseProfile;
 import com.fmc.edu.model.profile.ParentProfile;
@@ -135,7 +136,7 @@ public class RequestParameterBuilder {
         ParentProfile parent = new ParentProfile();
         String phone = pRequest.getParameter("cellPhone");
         if (phone == null || ValidationUtils.isValidPhoneNumber(phone)) {
-            throw new ProfileException(MyAccountManager.ERROR_INVALID_PHONE);
+            throw new ProfileException(ResourceManager.VALIDATION_USER_PHONE_ERROR, phone);
         }
         String parentName = pRequest.getParameter("parentName");
         String parentId = pRequest.getParameter("parentId");
@@ -144,14 +145,14 @@ public class RequestParameterBuilder {
         if (!RepositoryUtils.idIsValid(parentId)) {
             BaseProfile baseProfile = pMyAccountManager.findUser(phone);
             if (baseProfile == null) {
-                throw new ProfileException(MyAccountManager.ERROR_NOT_FIND_USER);
+                throw new ProfileException(ResourceManager.ERROR_NOT_FIND_USER, phone);
             }
             parent.setId(baseProfile.getId());
         } else {
             parent.setId(Integer.valueOf(parentId));
         }
         if (!RepositoryUtils.idIsValid(parent.getId())) {
-            throw new ProfileException(MyAccountManager.ERROR_NOT_FIND_USER);
+            throw new ProfileException(ResourceManager.ERROR_NOT_FIND_USER, phone);
         }
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("phone:").append(phone)

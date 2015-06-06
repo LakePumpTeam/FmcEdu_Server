@@ -22,7 +22,7 @@ public interface INewsRepository {
 
     int queryNewsMaxIdByNewsType(int pNewsType);
 
-    String QUERY_NEWS_SLIDE_LIST = "com.fmc.edu.news.querySlideListByNewType";
+    String QUERY_NEWS_SLIDE_LIST = "com.fmc.edu.news.querySlideList";
 
     List<Slide> querySlideList(Timestamp pStartDate, Timestamp pEndDate);
 
@@ -41,10 +41,6 @@ public interface INewsRepository {
     String INSERT_NEWS = "com.fmc.edu.news.insertNews";
 
     boolean insertNews(News pNews);
-
-    String QUERY_LAST_INSERT_NEWS_ID_BY_AUTHOR = "com.fmc.edu.news.queryLastInsertNewsTypeNewsIdByAuthor";
-
-    int queryLastInsertNewsTypeNewsIdByAuthor(int pUserId, int pNewsType);
 
     String INSERT_IMAGE = "com.fmc.edu.news.insertImage";
 

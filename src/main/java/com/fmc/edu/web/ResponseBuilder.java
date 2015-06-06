@@ -51,7 +51,7 @@ public class ResponseBuilder {
         if (pProfile.getProfileType() == ProfileType.PARENT.getValue()) {
             ParentProfile parentProfile = getProfileManager().queryParentByPhone(pProfile.getPhone());
             if (parentProfile == null) {
-                pResponseBean.addBusinessMsg("家长不存在.");
+                pResponseBean.addBusinessMsg(ResourceManager.ERROR_NOT_FIND_USER, pProfile.getPhone());
                 return;
             }
 
@@ -59,7 +59,6 @@ public class ResponseBuilder {
             if (!CollectionUtils.isEmpty(studentList)) {
                 Student student = studentList.get(0);
                 pResponseBean.addData("auditState", student.getParentStudentRelationship().getApproved());
-                pResponseBean.addData("userCardNum", student.getRingPhone());
                 pResponseBean.addData("studentName", student.getName());
                 pResponseBean.addData("studentSex", student.isMale());
                 pResponseBean.addData("schoolName", student.getSchool().getName());

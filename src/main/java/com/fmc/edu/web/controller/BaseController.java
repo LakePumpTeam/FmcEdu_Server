@@ -2,6 +2,7 @@ package com.fmc.edu.web.controller;
 
 import com.fmc.edu.cache.CacheManager;
 import com.fmc.edu.constant.SessionConstant;
+import com.fmc.edu.manager.ResourceManager;
 import com.fmc.edu.transaction.TransactionAnnotationProxyManager;
 import com.fmc.edu.util.pagenation.Pagination;
 import com.fmc.edu.web.ResponseBean;
@@ -25,6 +26,9 @@ import java.io.IOException;
 public abstract class BaseController {
 
     private static final Logger LOG = Logger.getLogger(BaseController.class);
+
+    @Resource(name = "resourceManager")
+    private ResourceManager mResourceManager;
 
     @Autowired
     private DataSourceTransactionManager mTransactionManager;
@@ -113,5 +117,13 @@ public abstract class BaseController {
 
     public void setTransactionAnnotationProxyManager(TransactionAnnotationProxyManager pTransactionAnnotationProxyManager) {
         mTransactionAnnotationProxyManager = pTransactionAnnotationProxyManager;
+    }
+
+    public ResourceManager getResourceManager() {
+        return mResourceManager;
+    }
+
+    public void setResourceManager(ResourceManager pResourceManager) {
+        mResourceManager = pResourceManager;
     }
 }

@@ -57,10 +57,6 @@ public class NewsService {
         return getNewsRepository().queryCommentsByNewsIdAndProfileId(pUserId, pNewsId);
     }
 
-    public int queryLastInsertNewsTypeNewsIdByAuthor(int pUserId, int pNewsType) {
-        return getNewsRepository().queryLastInsertNewsTypeNewsIdByAuthor(pUserId, pNewsType);
-    }
-
     public boolean updateNewsCacheBatch(final List<Cache> pCacheList) {
         return getNewsRepository().updateNewsCacheBatch(pCacheList);
     }

@@ -56,10 +56,6 @@ public class NewsManager {
         return getNewsService().insertNews(pNews);
     }
 
-    public int queryLastInsertNewsTypeNewsIdByAuthor(int pUserId, int pNewsType) {
-        return getNewsService().queryLastInsertNewsTypeNewsIdByAuthor(pUserId, pNewsType);
-    }
-
     public News queryNewsDetail(int pNewsId) {
         return getNewsService().queryNewsDetail(pNewsId);
     }
@@ -80,7 +76,7 @@ public class NewsManager {
         Map<String, Boolean> readNewsStatus = new HashMap<String, Boolean>(5);
         BaseProfile currentUser = getMyAccountManager().findUserById(String.valueOf(pUserId));
         if (currentUser == null) {
-            throw new ProfileException(MyAccountManager.ERROR_NOT_FIND_USER);
+            throw new ProfileException(ResourceManager.ERROR_NOT_FIND_USER, String.valueOf(pUserId));
         }
         List<Map<Integer, Integer>> maxNewsIdList = getAllNewsMaxNewsId();
         readNewsStatus.put("classNews", false);

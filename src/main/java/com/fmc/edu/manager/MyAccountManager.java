@@ -23,39 +23,19 @@ public class MyAccountManager {
 
     public static final String CURRENT_SESSION_USER_KEY = "com.fmc.edu.session.currentUser";
 
-    public static final String ERROR_NOT_FIND_USER = "账号不存在.";
-
-    public static final String ERROR_ACCOUNT_UNAVAILABLE = "账号不可用.";
-
-    public static final String ERROR_PASSWORD_IS_INVALID = "密码错误.";
-
-    public static final String ERROR_INVALID_PHONE = "电话号码错误.";
-
-    public static final String ERROR_INVALID_EMTPY_PASSWORD = "密码为空.";
-
-    public static final String ERROR_INVALID_EMPTY_SALT = "salt 为空.";
-
-    public static final String ERROR_RESET_PASSWORD_FAILED = "密码重置失败.";
-
-    public static final String ERROR_PHONE_FILED_IS_EMPTY = "电话号码不能为空.";
-
-    public static final String ERROR_OLD_PASSWORD_INVALID = "旧密码不正确.";
-
-    public static final String ERROR_NEW_PASSWORD_IS_MEPTY = "新密码不能为空.";
-
     @Resource(name = "myAccountService")
     private MyAccountService mMyAccountService;
 
     public BaseProfile loginUser(final String pAccount, final String pPassword) throws LoginException, UnsupportedEncodingException {
         BaseProfile user = getMyAccountService().findUser(pAccount);
         if (user == null) {
-            throw new LoginException(ERROR_NOT_FIND_USER);
+            throw new LoginException(ResourceManager.ERROR_NOT_FIND_USER, pAccount);
         }
         if (!user.isAvailable()) {
-            throw new LoginException(ERROR_ACCOUNT_UNAVAILABLE);
+            throw new LoginException(ResourceManager.ERROR_ACCOUNT_UNAVAILABLE);
         }
         if (StringUtils.isBlank(pPassword) || !pPassword.equals(user.getPassword())) {
-            throw new LoginException(ERROR_PASSWORD_IS_INVALID);
+            throw new LoginException(ResourceManager.ERROR_PASSWORD_ERROR);
         }
 
         user.setLastLoginDate(new Timestamp(System.currentTimeMillis()));

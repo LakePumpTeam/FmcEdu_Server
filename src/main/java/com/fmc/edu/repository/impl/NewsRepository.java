@@ -64,14 +64,6 @@ public class NewsRepository extends BaseRepository implements INewsRepository {
     }
 
     @Override
-    public int queryLastInsertNewsTypeNewsIdByAuthor(int pUserId, int pNewsType) {
-        Map<String, Object> params = new HashMap<String, Object>(1);
-        params.put("userId", pUserId);
-        params.put("newsType", pNewsType);
-        return getSqlSession().selectOne(QUERY_LAST_INSERT_NEWS_ID_BY_AUTHOR, params);
-    }
-
-    @Override
     public boolean insertImage(Image pImage) {
         return getSqlSession().insert(INSERT_IMAGE, pImage) > 0;
     }

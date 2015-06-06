@@ -22,19 +22,19 @@ public class Base64DecodeRequestWrapper extends HttpServletRequestWrapper {
 
     @Override
     public String getParameter(String pName) {
-        String encodedValue = this.getRequest().getParameter(pName);
-        LOG.debug(String.format(">>>>>>>>>>>>>>>Obtain Parameter:%s = %s", pName, encodedValue));
+        String encodedValue = getRequest().getParameter(pName);
+        LOG.debug(String.format("%s >>>>>>>>>>>>>>>Obtain Parameter:%s = %s", getRequest().getServletContext().getContextPath(), pName, encodedValue));
         String decodedValue = encodedValue;
         if (WebConfig.isEncodeBase64InputParam() && ReplacementBase64EncryptService.isBase64(decodedValue)) {
             decodedValue = mBase64EncryptService.decrypt(encodedValue);
         }
-        LOG.debug(String.format(">>>>>>>>>>>>>>>Decoded Parameter:%s = %s", pName, decodedValue));
+        LOG.debug(String.format("%s >>>>>>>>>>>>>>>Decoded Parameter:%s = %s", getRequest().getServletContext().getContextPath(), pName, decodedValue));
         return decodedValue;
     }
 
     @Override
-    public String[] getParameterValues(String name) {
-        String[] encodedValues = super.getParameterValues(name);
+    public String[] getParameterValues(String pName) {
+        String[] encodedValues = super.getParameterValues(pName);
         if (encodedValues == null || encodedValues.length == 0) {
             return encodedValues;
         }
@@ -42,10 +42,12 @@ public class Base64DecodeRequestWrapper extends HttpServletRequestWrapper {
         String decodedValue;
         for (int i = 0; i < encodedValues.length; i++) {
             decodedValue = encodedValues[i];
+            LOG.debug(String.format("%s >>>>>>>>>>>>>>>Obtain Parameter:%s = %s", getRequest().getServletContext().getContextPath(), pName, decodedValue));
             if (WebConfig.isEncodeBase64InputParam() && ReplacementBase64EncryptService.isBase64(encodedValues[i])) {
                 decodedValue = mBase64EncryptService.decrypt(encodedValues[i]);
             }
             decodedValues[i] = decodedValue;
+            LOG.debug(String.format("%s >>>>>>>>>>>>>>>Decoded Parameter:%s = %s", getRequest().getServletContext().getContextPath(), pName, decodedValue));
         }
         return decodedValues;
     }

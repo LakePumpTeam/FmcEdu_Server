@@ -16,11 +16,11 @@
     </context:component-scan>
     <mvc:annotation-driven/>
 
-    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-        <!--   <property name="basename" value="classpath:messages"/>-->
-        <property name="defaultEncoding" value="UTF-8"/>
+    <bean id="messageSource"
+          class="com.fmc.edu.message.CacheableResourceBundleMessageSource">
+        <property name="basename" value="messages"/>
+        <property name="defaultEncoding" value="UTF-8"></property>
     </bean>
-
     <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" id="localeChangeInterceptor">
         <property name="paramName" value="local"/>
     </bean>

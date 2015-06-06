@@ -2,11 +2,13 @@ package com.fmc.edu.web.controller;
 
 import com.fmc.edu.constant.GlobalConstant;
 import com.fmc.edu.exception.ProfileException;
+import com.fmc.edu.manager.ResourceManager;
 import com.fmc.edu.manager.SchoolManager;
 import com.fmc.edu.manager.StudentManager;
 import com.fmc.edu.manager.TeacherManager;
 import com.fmc.edu.model.profile.TeacherProfile;
 import com.fmc.edu.util.DateUtils;
+import com.fmc.edu.util.RepositoryUtils;
 import com.fmc.edu.util.pagenation.Pagination;
 import com.fmc.edu.web.RequestParameterBuilder;
 import com.fmc.edu.web.ResponseBean;
@@ -45,14 +47,19 @@ public class SchoolController extends BaseController {
 
     @RequestMapping("/requestSchools")
     @ResponseBody
-    public String requestSchools(final HttpServletRequest pRequest, final HttpServletResponse pResponse, final String cityId, final String filterKey) {
-        ResponseBean responseBean = new ResponseBean();
+    public String requestSchools(final HttpServletRequest pRequest,
+                                 final HttpServletResponse pResponse,
+                                 final String cityId,
+                                 final String filterKey) {
+        ResponseBean responseBean = new ResponseBean(pRequest);
+        if (!RepositoryUtils.idIsValid(cityId)) {
+            responseBean.addBusinessMsg(ResourceManager.ERROR_LOCATION_CITY_ID_ERROR);
+            return output(responseBean);
+        }
         try {
-            String city = cityId;
-            String filter = filterKey;
             Pagination pagination = buildPagination(pRequest);
 
-            Map<String, Object> schools = getSchoolManager().querySchoolsPage(pagination, Integer.valueOf(city), filter);
+            Map<String, Object> schools = getSchoolManager().querySchoolsPage(pagination, Integer.valueOf(cityId), filterKey);
             responseBean.addData(schools);
         } catch (IOException e) {
             responseBean.addErrorMsg(e);
@@ -66,8 +73,15 @@ public class SchoolController extends BaseController {
 
     @RequestMapping("/requestClasses")
     @ResponseBody
-    public String requestClasses(final HttpServletRequest pRequest, final HttpServletResponse pResponse, final String schoolId, final String filterKey) {
-        ResponseBean responseBean = new ResponseBean();
+    public String requestClasses(final HttpServletRequest pRequest,
+                                 final HttpServletResponse pResponse,
+                                 final String schoolId,
+                                 final String filterKey) {
+        ResponseBean responseBean = new ResponseBean(pRequest);
+        if (!RepositoryUtils.idIsValid(schoolId)) {
+            responseBean.addBusinessMsg(ResourceManager.ERROR_LOCATION_SCHOOL_ID_ERROR);
+            return output(responseBean);
+        }
         try {
             String school = schoolId;
             String filter = filterKey;
@@ -88,8 +102,15 @@ public class SchoolController extends BaseController {
 
     @RequestMapping("/requestHeadTeacher")
     @ResponseBody
-    public String requestHeadmaster(final HttpServletRequest pRequest, final HttpServletResponse pResponse, final String classId) {
-        ResponseBean responseBean = new ResponseBean();
+    public String requestHeadmaster(final HttpServletRequest pRequest,
+                                    final HttpServletResponse pResponse,
+                                    final String classId) {
+        ResponseBean responseBean = new ResponseBean(pRequest);
+        if (!RepositoryUtils.idIsValid(classId)) {
+            responseBean.addBusinessMsg(ResourceManager.ERROR_LOCATION_CLASS_ID_ERROR);
+            return output(responseBean);
+        }
+
         try {
             String correspondingClass = classId;
 
@@ -104,13 +125,20 @@ public class SchoolController extends BaseController {
 
     @RequestMapping("/requestTeacherInfo")
     @ResponseBody
-    public String requestTeacherInfo(final HttpServletRequest pRequest, final HttpServletResponse pResponse, final String teacherId) throws IOException {
-        ResponseBean responseBean = new ResponseBean();
+    public String requestTeacherInfo(final HttpServletRequest pRequest,
+                                     final HttpServletResponse pResponse,
+                                     final String teacherId) throws IOException {
+        ResponseBean responseBean = new ResponseBean(pRequest);
+        if (!RepositoryUtils.idIsValid(teacherId)) {
+            responseBean.addBusinessMsg(ResourceManager.VALIDATION_USER_TEACHER_ID_ERROR, teacherId);
+            return output(responseBean);
+        }
+
         int tid = Integer.valueOf(teacherId);
         TeacherProfile teacher = getTeacherManager().queryTeacherById(tid);
         if (teacher == null) {
-            responseBean.addBusinessMsg(TeacherManager.ERROR_NOT_FOUND_TEACHER);
-            return responseBean.toString();
+            responseBean.addBusinessMsg(ResourceManager.ERROR_TEACHER_UNKNOWN, teacherId);
+            return output(responseBean);
         }
         responseBean.addData("teacherName", teacher.getName());
         responseBean.addData("teacherBirth", DateUtils.ConvertDateToString(teacher.getBirth()));
@@ -118,20 +146,26 @@ public class SchoolController extends BaseController {
         responseBean.addData("course", teacher.getCourse());
         responseBean.addData("resume", teacher.getResume());
         responseBean.addData("teacherSex", teacher.isMale());
-        return responseBean.toString();
+        return output(responseBean);
     }
 
     @RequestMapping(value = "/requestModifyTeacherInfo" + GlobalConstant.URL_SUFFIX)
     @ResponseBody
-    public String requestModifyTeacherInfo(HttpServletRequest pRequest, final HttpServletResponse pResponse, final String teacherId)
+    public String requestModifyTeacherInfo(HttpServletRequest pRequest,
+                                           final HttpServletResponse pResponse,
+                                           final String teacherId)
             throws IOException, ParseException {
-        ResponseBean responseBean = new ResponseBean();
+        ResponseBean responseBean = new ResponseBean(pRequest);
+        if (!RepositoryUtils.idIsValid(teacherId)) {
+            responseBean.addBusinessMsg(ResourceManager.VALIDATION_USER_TEACHER_ID_ERROR, teacherId);
+            return output(responseBean);
+        }
         TransactionStatus status = ensureTransaction();
         try {
             TeacherProfile teacher = getParameterBuilder().buildTeacher(pRequest);
             getTeacherManager().updateTeacher(teacher);
         } catch (ProfileException ex) {
-            responseBean.addBusinessMsg(ex.getMessage());
+            responseBean.addBusinessMsg(ex.getMessage(), ex.getArgs());
             status.setRollbackOnly();
         } catch (Exception e) {
             responseBean.addErrorMsg(e);
@@ -145,9 +179,15 @@ public class SchoolController extends BaseController {
 
     @RequestMapping(value = "/requestStudentList" + GlobalConstant.URL_SUFFIX)
     @ResponseBody
-    public String requestStudentList(HttpServletRequest pRequest, final HttpServletResponse pResponse, final String teacherId)
+    public String requestStudentList(HttpServletRequest pRequest,
+                                     final HttpServletResponse pResponse,
+                                     final String teacherId)
             throws IOException, ParseException {
-        ResponseBean responseBean = new ResponseBean();
+        ResponseBean responseBean = new ResponseBean(pRequest);
+        if (!RepositoryUtils.idIsValid(teacherId)) {
+            responseBean.addBusinessMsg(ResourceManager.VALIDATION_USER_TEACHER_ID_ERROR, teacherId);
+            return output(responseBean);
+        }
         try {
             int decodeTeacherId = Integer.valueOf(teacherId);
             Map<String, Object> studentMap = getStudentManager().queryStudentListByTeacherId(decodeTeacherId);

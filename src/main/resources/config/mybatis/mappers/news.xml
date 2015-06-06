@@ -40,7 +40,7 @@
         select id from news where news_type=#{newsType} order by id desc limit 0,1;
     </select>
 
-    <select id="querySlideListByNewType" useCache="true" parameterType="map" resultMap="rm.slide">
+    <select id="querySlideList" useCache="true" parameterType="map" resultMap="rm.slide">
         SELECT id,
         subject,
         news_id,
@@ -49,7 +49,10 @@
         `order`
         FROM slide
         WHERE
-        available = 1 AND start_date &gt;= #{startDate} AND end_date &lt;= #{endDate} ORDER BY 'order' ASC
+        available = 1
+        AND start_date &gt;= now()
+        AND (end_date &lt;= now() OR end_date IS NULL)
+        ORDER BY 'order' ASC
     </select>
 
     <insert id="insertComment" parameterType="Comments" flushCache="true" keyProperty="id" useGeneratedKeys="true">
@@ -86,10 +89,6 @@
         now()
         )
     </insert>
-
-    <select id="queryLastInsertNewsTypeNewsIdByAuthor" useCache="false" parameterType="int" resultType="int">
-        select max(id) from news where news_type = #{newsType} and author = #{userId};
-    </select>
 
     <insert id="insertImage" parameterType="Image" flushCache="true">
         INSERT INTO `image`

@@ -34,7 +34,7 @@ public class HomePageManager {
     public Map<String, Object> obtainHeaderTeacher(final String pProfileId) throws ProfileException {
         BaseProfile baseProfile = getMyAccountManager().findUserById(pProfileId);
         if (baseProfile == null) {
-            throw new ProfileException("用户不存在.");
+            throw new ProfileException(ResourceManager.ERROR_NOT_FIND_USER, pProfileId);
         }
         Map<String, Object> headerTeacher = new HashMap<String, Object>();
         headerTeacher.put("userId", baseProfile.getId());

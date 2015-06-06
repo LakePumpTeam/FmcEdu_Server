@@ -3,10 +3,14 @@ package com.fmc.edu.web;
 import com.fmc.edu.constant.GlobalConstant;
 import com.fmc.edu.constant.JSONOutputConstant;
 import com.fmc.edu.crypto.impl.ReplacementBase64EncryptService;
+import com.fmc.edu.executor.processor.InstantiationTracingBeanPostProcessor;
+import com.fmc.edu.manager.ResourceManager;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.context.WebApplicationContext;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,7 +20,15 @@ import java.util.Map;
 public class ResponseBean {
     private Map<String, Object> responseData = new HashMap<String, Object>();
 
+    private ResourceManager mResourceManager;
+
+    private HttpServletRequest mHttpServletRequest;
+
     public ResponseBean() {
+        this(null);
+    }
+
+    public ResponseBean(HttpServletRequest pRequest) {
         responseData.put(JSONOutputConstant.PARAM_STATUS, GlobalConstant.STATUS_SUCCESS);
         responseData.put(JSONOutputConstant.PARAM_MESSAGE, StringUtils.EMPTY);
         responseData.put(JSONOutputConstant.PARAM_DATA, new HashMap<String, Object>());
@@ -24,15 +36,45 @@ public class ResponseBean {
         Map<String, Object> dataMap = (Map<String, Object>) responseData.get(JSONOutputConstant.PARAM_DATA);
         dataMap.put(JSONOutputConstant.BUSSINESS_IS_SUCCESS, GlobalConstant.STATUS_SUCCESS);
         dataMap.put(JSONOutputConstant.BUSSINESS_MESSAGE, StringUtils.EMPTY);
+
+        mHttpServletRequest = pRequest;
+        if (mHttpServletRequest == null) {
+            WebApplicationContext webApplicationContext = (WebApplicationContext) mHttpServletRequest.getServletContext().getAttribute(InstantiationTracingBeanPostProcessor.FMC_ROOT_WEB_CURRENT_WEBAPPLICATIONCONTEXT);
+            mResourceManager = (ResourceManager) webApplicationContext.getBean("resourceManager");
+        }
+        if (mResourceManager == null) {
+            mResourceManager = new ResourceManager();
+        }
     }
 
-    public void addBusinessMsg(final String pBussinessMsg) {
-        if (StringUtils.isBlank(pBussinessMsg)) {
+    public void addBusinessMsg(final String pMsgKey) {
+        if (StringUtils.isBlank(pMsgKey)) {
             return;
         }
+
         Map<String, Object> dataMap = (Map<String, Object>) responseData.get(JSONOutputConstant.PARAM_DATA);
         dataMap.put(JSONOutputConstant.BUSSINESS_IS_SUCCESS, GlobalConstant.STATUS_ERROR);
-        dataMap.put(JSONOutputConstant.BUSSINESS_MESSAGE, pBussinessMsg);
+        dataMap.put(JSONOutputConstant.BUSSINESS_MESSAGE, mResourceManager.getMessage(mHttpServletRequest, pMsgKey));
+    }
+
+    public void addBusinessMsg(final String pMsgKey, String... pArgs) {
+        if (StringUtils.isBlank(pMsgKey)) {
+            return;
+        }
+
+        Map<String, Object> dataMap = (Map<String, Object>) responseData.get(JSONOutputConstant.PARAM_DATA);
+        dataMap.put(JSONOutputConstant.BUSSINESS_IS_SUCCESS, GlobalConstant.STATUS_ERROR);
+        dataMap.put(JSONOutputConstant.BUSSINESS_MESSAGE, mResourceManager.getMessage(mHttpServletRequest, pMsgKey, pArgs));
+    }
+
+    public void addBusinessMsg(final String pMsgKey, String[] pArgs, String pMessage) {
+        if (StringUtils.isBlank(pMsgKey)) {
+            return;
+        }
+
+        Map<String, Object> dataMap = (Map<String, Object>) responseData.get(JSONOutputConstant.PARAM_DATA);
+        dataMap.put(JSONOutputConstant.BUSSINESS_IS_SUCCESS, GlobalConstant.STATUS_ERROR);
+        dataMap.put(JSONOutputConstant.BUSSINESS_MESSAGE, mResourceManager.getMessage(mHttpServletRequest, pMsgKey, pArgs, pMessage));
     }
 
     public void addErrorMsg(final String pErrorMsg) {

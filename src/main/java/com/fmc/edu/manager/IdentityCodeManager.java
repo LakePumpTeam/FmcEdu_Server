@@ -16,13 +16,6 @@ import java.util.Date;
  */
 @Service("identityCodeManager")
 public class IdentityCodeManager {
-    public static final String ERROR_INVALID_IDENTITY_CODE = "验证码错误.";
-
-    public static final String ERROR_EXPIRED_IDENTITY_CODE = "验证码过期.";
-
-    public static final String ERROR_UNKOWN_IDENTITY_CODE = "验证码错误.";
-
-    public static final String ERROR_INVALID_EMPTY_AUTHO_CODE = "验证码为空.";
     @Resource(name = "identityCodeService")
     private IdentityCodeService mIdentityCodeService;
 
@@ -37,10 +30,10 @@ public class IdentityCodeManager {
     public boolean verifyIdentityCode(String pPhone, String pAuthoCode) throws IdentityCodeException {
         IdentityCode identityCode = getIdentityCodeService().queryIdentityCodeByPhone(pPhone);
         if (identityCode == null) {
-            throw new IdentityCodeException("验证码无效.");
+            throw new IdentityCodeException(ResourceManager.ERROR_IDENTITY_CODE_INVALID);
         }
         if (identityCode.getIdentityEndDate().before(new Timestamp(System.currentTimeMillis()))) {
-            throw new IdentityCodeException("验证码过期.");
+            throw new IdentityCodeException(ResourceManager.ERROR_IDENTITY_CODE_EXPIRED);
         }
         return identityCode.getIdentityCode().equalsIgnoreCase(pAuthoCode);
     }

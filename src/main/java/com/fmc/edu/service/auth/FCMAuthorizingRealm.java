@@ -2,6 +2,7 @@ package com.fmc.edu.service.auth;
 
 import com.fmc.edu.manager.MyAccountManager;
 import com.fmc.edu.manager.PermissionManager;
+import com.fmc.edu.manager.ResourceManager;
 import com.fmc.edu.model.profile.BaseProfile;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
@@ -61,7 +62,7 @@ public class FCMAuthorizingRealm extends AuthorizingRealm {
         BaseProfile user = getMyAccountManager().findUser(account);
 
         if (user == null) {
-            throw new UnknownAccountException(MyAccountManager.ERROR_NOT_FIND_USER);
+            throw new UnknownAccountException(ResourceManager.ERROR_NOT_FIND_USER);
         }
 
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(

@@ -72,7 +72,7 @@
     </select>
 
     <insert id="initialStudent" useGeneratedKeys="true" keyProperty="id"
-            parameterType="Student">
+            parameterType="Student" flushCache="true">
         INSERT INTO student (name, class_id, sex, birth, ring_number, ring_phone, creation_date, last_update_date)
         VALUES (#{name}, #{classId}, #{male}, #{birth}, #{ringNumber}, #{ringPhone}, #{creationDate},
         #{lastUpdateDate})
@@ -84,7 +84,7 @@
         WHERE NAME = #{name} AND class_id = #{classId}
     </select>
 
-    <update id="updateStudentById" parameterType="Student">
+    <update id="updateStudentById" parameterType="Student" flushCache="true">
         UPDATE student
         SET name = #{name}, class_id = #{classId}, sex = #{male}, birth = #{birth}, ring_number = #{ringNumber},
         ring_phone = #{ringPhone}, last_update_date = #{lastUpdateDate}

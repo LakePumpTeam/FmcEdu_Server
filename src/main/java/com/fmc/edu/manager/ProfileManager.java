@@ -52,7 +52,8 @@ public class ProfileManager {
     @Resource(name = "teacherManager")
     private TeacherManager mTeacherManager;
 
-    public boolean verifyIdentityCodeAndRegister(String pPhoneNumber, final String pPassword, String pIdentifyingCode, String pSalt) throws IdentityCodeException, ProfileException {
+    public boolean verifyIdentityCodeAndRegister(String pPhoneNumber, final String pPassword, String pIdentifyingCode, String pSalt)
+            throws IdentityCodeException, ProfileException {
         if (getIdentityCodeManager().verifyIdentityCode(pPhoneNumber, pIdentifyingCode)) {
             BaseProfile user = getMyAccountManager().findUser(pPhoneNumber);
             if (user != null) {
@@ -75,7 +76,7 @@ public class ProfileManager {
                 return true;
             }
         } else {
-            throw new IdentityCodeException(IdentityCodeManager.ERROR_INVALID_IDENTITY_CODE);
+            throw new IdentityCodeException(ResourceManager.ERROR_IDENTITY_CODE_INVALID);
         }
         return false;
     }
@@ -84,9 +85,11 @@ public class ProfileManager {
         return getParentService().registerParentAddress(profileId, pAddress);
     }
 
-    public void registerRelationshipBetweenStudent(final ParentStudentRelationship pParentStudentRelationship, final Student pStudent, final ParentProfile pParent) throws ProfileException {
+    public void registerRelationshipBetweenStudent(final ParentStudentRelationship pParentStudentRelationship,
+                                                   final Student pStudent,
+                                                   final ParentProfile pParent) throws ProfileException {
         getSchoolManager().persistStudent(pStudent);
-        //TODO More than one student have the same name in the same class, here maybe get error data.
+        //FIXME More than one student have the same name in the same class, here maybe get error data.
         int id = getSchoolManager().queryStudentIdByFields(pStudent);
         pParentStudentRelationship.setStudentId(id);
         getParentService().registerParentStudentRelationship(pParentStudentRelationship);

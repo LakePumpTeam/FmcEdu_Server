@@ -44,7 +44,7 @@ public class NewsController extends BaseController {
                               @RequestParam(value = "subject", required = true) String subject,
                               @RequestParam(value = "content", required = true) String content,
                               @RequestParam(value = "imgs", required = false) MultipartFile[] imgs) throws IOException {
-        ResponseBean responseBean = new ResponseBean();
+        ResponseBean responseBean = new ResponseBean(pRequest);
         if (StringUtils.isBlank(content)) {
             LOG.debug(">>>>Content is empty.>>>>");
             responseBean.addBusinessMsg("Content is empty.");

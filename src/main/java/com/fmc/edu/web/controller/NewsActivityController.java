@@ -8,6 +8,7 @@ import com.fmc.edu.exception.NewsException;
 import com.fmc.edu.exception.ProfileException;
 import com.fmc.edu.manager.MyAccountManager;
 import com.fmc.edu.manager.NewsManager;
+import com.fmc.edu.manager.ResourceManager;
 import com.fmc.edu.model.news.*;
 import com.fmc.edu.model.profile.BaseProfile;
 import com.fmc.edu.model.relationship.ProfileSelectionRelationship;
@@ -58,7 +59,7 @@ public class NewsActivityController extends BaseController {
     @RequestMapping("/requestNewsList")
     @ResponseBody
     public String requestNewsList(final HttpServletRequest pRequest, final HttpServletResponse pResponse) {
-        ResponseBean responseBean = new ResponseBean();
+        ResponseBean responseBean = new ResponseBean(pRequest);
 
         TransactionStatus txStatus = ensureTransaction();
         try {
@@ -66,17 +67,17 @@ public class NewsActivityController extends BaseController {
             String userIdStr = pRequest.getParameter("userId");
             String typeStr = pRequest.getParameter("type");
             if (!RepositoryUtils.idIsValid(userIdStr)) {
-                responseBean.addBusinessMsg("用户Id错误:" + userIdStr);
+                responseBean.addBusinessMsg(ResourceManager.VALIDATION_USER_USER_ID_EMPTY, userIdStr);
                 return output(responseBean);
             }
             if (!StringUtils.isNumeric(typeStr)) {
-                responseBean.addBusinessMsg("新闻类型错误:" + typeStr);
+                responseBean.addBusinessMsg(ResourceManager.VALIDATION_NEWS_PROVINCE_TYPE_ERROR, typeStr);
                 return output(responseBean);
             }
 
             BaseProfile currentUser = getMyAccountManager().findUserById(userIdStr);
             if (currentUser == null) {
-                responseBean.addBusinessMsg(MyAccountManager.ERROR_NOT_FIND_USER);
+                responseBean.addBusinessMsg(ResourceManager.ERROR_NOT_FIND_USER, userIdStr);
                 return output(responseBean);
             }
 
@@ -147,7 +148,7 @@ public class NewsActivityController extends BaseController {
     @RequestMapping("/requestSlides")
     @ResponseBody
     public String requestSlides(final HttpServletRequest pRequest, final HttpServletResponse pResponse) {
-        ResponseBean responseBean = new ResponseBean();
+        ResponseBean responseBean = new ResponseBean(pRequest);
         try {
             //TODO need to confirm the date period
             List<Slide> slideList = getNewsManager().querySlideList(DateUtils.getDaysLater(-1), DateUtils.getDaysLater(30));
@@ -163,16 +164,16 @@ public class NewsActivityController extends BaseController {
     @RequestMapping("/requestNewsDetail")
     @ResponseBody
     public String requestNewsDetail(final HttpServletRequest pRequest, final HttpServletResponse pResponse) {
-        ResponseBean responseBean = new ResponseBean();
+        ResponseBean responseBean = new ResponseBean(pRequest);
         try {
             String newsIdStr = pRequest.getParameter("newsId");
             String userIdStr = pRequest.getParameter("userId");
             if (!RepositoryUtils.idIsValid(userIdStr)) {
-                responseBean.addBusinessMsg("用户Id错误.");
+                responseBean.addBusinessMsg(ResourceManager.VALIDATION_USER_USER_ID_ERROR);
                 return output(responseBean);
             }
             if (!RepositoryUtils.idIsValid(newsIdStr)) {
-                responseBean.addBusinessMsg("新闻ID错误:" + newsIdStr);
+                responseBean.addBusinessMsg(ResourceManager.VALIDATION_NEWS_ID_ERROR, newsIdStr);
                 return output(responseBean);
             }
             int userId = Integer.valueOf(userIdStr);
@@ -199,21 +200,21 @@ public class NewsActivityController extends BaseController {
     @RequestMapping("/postComment")
     @ResponseBody
     public String postComment(final HttpServletRequest pRequest, final HttpServletResponse pResponse) {
-        ResponseBean responseBean = new ResponseBean();
+        ResponseBean responseBean = new ResponseBean(pRequest);
         try {
             String newsIdStr = pRequest.getParameter("newsId");
             String userIdStr = pRequest.getParameter("userId");
             String contentStr = pRequest.getParameter("content");
             if (!RepositoryUtils.idIsValid(userIdStr)) {
-                responseBean.addBusinessMsg("User id is invalid.");
+                responseBean.addBusinessMsg(ResourceManager.VALIDATION_USER_USER_ID_ERROR, userIdStr);
                 return output(responseBean);
             }
             if (!RepositoryUtils.idIsValid(newsIdStr)) {
-                responseBean.addBusinessMsg("News id is invalid:" + newsIdStr);
+                responseBean.addBusinessMsg(ResourceManager.VALIDATION_NEWS_ID_ERROR, newsIdStr);
                 return output(responseBean);
             }
             if (StringUtils.isBlank(contentStr)) {
-                responseBean.addBusinessMsg("News id is invalid:" + contentStr);
+                responseBean.addBusinessMsg(ResourceManager.VALIDATION_NEWS_CONTENT_EMPTY);
                 return output(responseBean);
             }
             Comments comments = new Comments();
@@ -233,17 +234,18 @@ public class NewsActivityController extends BaseController {
     @RequestMapping("/likeNews")
     @ResponseBody
     public String likeNews(final HttpServletRequest pRequest, final HttpServletResponse pResponse) {
-        ResponseBean responseBean = new ResponseBean();
+        ResponseBean responseBean = new ResponseBean(pRequest);
         TransactionStatus txStatus = ensureTransaction();
         try {
             String userIdStr = pRequest.getParameter("userId");
             String newsIdStr = pRequest.getParameter("newsId");
             String isLikeStr = pRequest.getParameter("isLike");
+
             if (!RepositoryUtils.idIsValid(userIdStr)) {
-                throw new NewsException("用户ID错误:" + userIdStr);
+                throw new NewsException(ResourceManager.VALIDATION_USER_USER_ID_ERROR, userIdStr);
             }
-            if (!StringUtils.isNumeric(newsIdStr)) {
-                throw new NewsException("文章ID错误:" + newsIdStr);
+            if (!RepositoryUtils.idIsValid(newsIdStr)) {
+                throw new NewsException(ResourceManager.VALIDATION_NEWS_ID_ERROR, newsIdStr);
             }
             boolean isLike = true;
             if (!StringUtils.isBlank(isLikeStr)) {
@@ -261,7 +263,7 @@ public class NewsActivityController extends BaseController {
             } else if (profileNewsRelation != null) {
                 getMyAccountManager().deleteLikeNewsRelation(profileId, newsId);
             } else {
-                throw new NewsException("状态错误.");
+                throw new NewsException(ResourceManager.ERROR_COMMON_OPERATION_FAILED);
             }
 
             // handle cache
@@ -273,7 +275,7 @@ public class NewsActivityController extends BaseController {
             //TODO integration with memory cache for like numbers
             return output(responseBean);
         } catch (NewsException ex) {
-            responseBean.addBusinessMsg(ex.getMessage());
+            responseBean.addBusinessMsg(ex.getMessage(), ex.getArgs());
             txStatus.setRollbackOnly();
             LOG.error(ex);
         } catch (Exception e) {
@@ -289,17 +291,17 @@ public class NewsActivityController extends BaseController {
     @RequestMapping("/checkNewNews")
     @ResponseBody
     public String checkNewNews(final HttpServletRequest pRequest, final HttpServletResponse pResponse) {
-        ResponseBean responseBean = new ResponseBean();
+        ResponseBean responseBean = new ResponseBean(pRequest);
         try {
             String userIdStr = pRequest.getParameter("userId");
             if (!RepositoryUtils.idIsValid(userIdStr)) {
-                responseBean.addBusinessMsg("用户ID错误:" + userIdStr);
+                responseBean.addBusinessMsg(ResourceManager.VALIDATION_USER_USER_ID_ERROR, userIdStr);
                 return output(responseBean);
             }
             responseBean.addData(getNewsManager().getReadNewsStatus(Integer.valueOf(userIdStr)));
             return output(responseBean);
         } catch (ProfileException e) {
-            responseBean.addBusinessMsg(e.getMessage());
+            responseBean.addBusinessMsg(e.getMessage(), e.getArgs());
         } catch (Exception e) {
             responseBean.addErrorMsg(e);
             LOG.error(e);
@@ -316,7 +318,7 @@ public class NewsActivityController extends BaseController {
                                 @RequestParam(value = "content", required = true) String content,
                                 @RequestParam(value = "imgs", required = false) MultipartFile[] imgs
     ) {
-        ResponseBean responseBean = new ResponseBean();
+        ResponseBean responseBean = new ResponseBean(pRequest);
 
         TransactionStatus txStatus = ensureTransaction();
         try {
@@ -324,16 +326,14 @@ public class NewsActivityController extends BaseController {
             //String subjectStr = subject;
             String contentStrStr = content;
             if (!RepositoryUtils.idIsValid(userIdStr)) {
-                responseBean.addBusinessMsg("用户ID 为空.");
-                throw new Exception("用户ID 为空.");
+                throw new ProfileException(ResourceManager.VALIDATION_USER_USER_ID_ERROR, userIdStr);
             }
             /*if (!StringUtils.isBlank(subjectStr)) {
                 responseBean.addBusinessMsg("" + subjectStr);
 				return output(responseBean);
 			}*/
             if (StringUtils.isBlank(contentStrStr)) {
-                responseBean.addBusinessMsg("内容不能为空.");
-                throw new Exception("内容不能为空.");
+                throw new NewsException(ResourceManager.VALIDATION_NEWS_CONTENT_EMPTY);
             }
             int userIdInt = Integer.valueOf(userIdStr);
             News classNews = new News();
@@ -346,14 +346,21 @@ public class NewsActivityController extends BaseController {
             classNews.setSubject(subject);
             classNews.setApproved(true);
             if (!getNewsManager().insertNews(classNews)) {
-                responseBean.addBusinessMsg("发布班级动态失败.");
-                throw new Exception("发布班级动态失败.");
+                responseBean.addBusinessMsg(ResourceManager.ERROR_POST_CLASS_NEWS_FAILED);
+                return output(responseBean);
             }
-            // int newsId = getNewsManager().queryLastInsertNewsTypeNewsIdByAuthor(userIdInt, NewsType.CLASS_DYNAMICS);
 
             getNewsManager().saveNewsImage(imgs, userIdStr, classNews.getId());
 
             return output(responseBean);
+        } catch (ProfileException e) {
+            responseBean.addBusinessMsg(e.getMessage(), e.getArgs());
+            LOG.error(e.fillInStackTrace());
+            txStatus.setRollbackOnly();
+        } catch (NewsException e) {
+            responseBean.addBusinessMsg(e.getMessage(), e.getArgs());
+            LOG.error(e.fillInStackTrace());
+            txStatus.setRollbackOnly();
         } catch (Exception e) {
             responseBean.addErrorMsg(e);
             LOG.error(e.fillInStackTrace());
@@ -367,31 +374,34 @@ public class NewsActivityController extends BaseController {
     @RequestMapping("/submitParticipation")
     @ResponseBody
     public String submitParticipation(final HttpServletRequest pRequest, final HttpServletResponse pResponse) {
-        ResponseBean responseBean = new ResponseBean();
+        ResponseBean responseBean = new ResponseBean(pRequest);
         TransactionStatus txStatus = ensureTransaction();
         try {
             String userIdStr = pRequest.getParameter("userId");
             String newsIdStr = pRequest.getParameter("newsId");
             String selectionIdStr = pRequest.getParameter("selectionId");
+
             if (!RepositoryUtils.idIsValid(userIdStr)) {
-                responseBean.addBusinessMsg("用户ID错误:" + userIdStr);
+                responseBean.addBusinessMsg(ResourceManager.VALIDATION_USER_USER_ID_ERROR, userIdStr);
                 return output(responseBean);
             }
             if (!RepositoryUtils.idIsValid(newsIdStr)) {
-                responseBean.addBusinessMsg("文章ID错误:" + newsIdStr);
+                responseBean.addBusinessMsg(ResourceManager.VALIDATION_NEWS_ID_ERROR, newsIdStr);
                 return output(responseBean);
             }
             if (!RepositoryUtils.idIsValid(selectionIdStr)) {
-                responseBean.addBusinessMsg("选项ID错误:" + selectionIdStr);
+                responseBean.addBusinessMsg(ResourceManager.VALIDATION_NEWS_SELECTION_EMPTY);
                 return output(responseBean);
             }
+
             int decodeUserId = Integer.valueOf(userIdStr);
             int decodeNewsId = Integer.valueOf(newsIdStr);
             int decodeSelectionId = Integer.valueOf(selectionIdStr);
+
             ProfileSelectionRelationship profileSelectionRelationship = getNewsManager().queryProfileSelectionRelationship(decodeNewsId, decodeUserId);
             if (profileSelectionRelationship != null) {
                 Selection selection = getNewsManager().querySelectionById(profileSelectionRelationship.getSelectionId());
-                responseBean.addBusinessMsg("你已参与该问卷调查, 你的选项为:" + selection.getSelection());
+                responseBean.addBusinessMsg(ResourceManager.ERROR_NEWS_DUPLICATION_PARTICIPATION_ERROR, selection.getSelection());
                 return output(responseBean);
             }
             ProfileSelectionRelationship tempProfileSelectionRelationship = new ProfileSelectionRelationship();
@@ -399,7 +409,7 @@ public class NewsActivityController extends BaseController {
             tempProfileSelectionRelationship.setProfileId(decodeUserId);
             tempProfileSelectionRelationship.setSelectionId(decodeSelectionId);
             if (getNewsManager().insertProfileSelectionMap(tempProfileSelectionRelationship) == 0) {
-                responseBean.addBusinessMsg("问卷调查提交失败.");
+                responseBean.addBusinessMsg(ResourceManager.ERROR_NEWS_PARTICIPATION_FAILED);
                 return output(responseBean);
             }
         } catch (Exception e) {

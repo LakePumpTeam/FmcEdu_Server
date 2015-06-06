@@ -15,7 +15,7 @@ public class TestResoonseBean {
 
     @Test
     public void testAndroidPushNotificationMsg() {
-        ResponseBean responseBean = new ResponseBean();
+        ResponseBean responseBean = new ResponseBean(null);
         responseBean.addErrorMsg("error message");
         responseBean.addBusinessMsg("business message ");
         responseBean.addData("test", "test");

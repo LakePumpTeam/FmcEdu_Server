@@ -2,9 +2,10 @@ package com.fmc.edu.web.controller;
 
 import com.fmc.edu.constant.GlobalConstant;
 import com.fmc.edu.manager.LocationManager;
+import com.fmc.edu.manager.ResourceManager;
+import com.fmc.edu.util.RepositoryUtils;
 import com.fmc.edu.util.pagenation.Pagination;
 import com.fmc.edu.web.ResponseBean;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +31,7 @@ public class LocationController extends BaseController {
     @RequestMapping(value = ("/requestProv" + GlobalConstant.URL_SUFFIX))
     @ResponseBody
     public String requestProv(final HttpServletRequest pRequest, final HttpServletResponse pResponse, String filterKey) {
-        ResponseBean responseBean = new ResponseBean();
+        ResponseBean responseBean = new ResponseBean(pRequest);
         try {
             preRequestProv(pRequest, responseBean);
             if (!responseBean.isSuccess()) {
@@ -57,7 +58,7 @@ public class LocationController extends BaseController {
     @RequestMapping(value = ("/requestCities" + GlobalConstant.URL_SUFFIX))
     @ResponseBody
     public String requestCityPage(final HttpServletRequest pRequest, final HttpServletResponse pResponse, String filterKey) {
-        ResponseBean responseBean = new ResponseBean();
+        ResponseBean responseBean = new ResponseBean(pRequest);
         try {
             preRequestCityPage(pRequest, responseBean);
 
@@ -82,11 +83,12 @@ public class LocationController extends BaseController {
 
     protected void preRequestCityPage(final HttpServletRequest pRequest, ResponseBean responseBean) {
         String provId = pRequest.getParameter("provId");
-        if (StringUtils.isBlank(provId)) {
-            responseBean.addBusinessMsg("省份不能为空.");
+        if (RepositoryUtils.idIsValid(provId)) {
+            responseBean.addBusinessMsg(ResourceManager.VALIDATION_LOCATION_PROVINCE_ID_ERROR, provId);
         }
         validatePaginationParameters(pRequest, responseBean);
     }
+
     public LocationManager getLocationManager() {
         return mLocationManager;
     }

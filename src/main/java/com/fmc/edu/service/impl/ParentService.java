@@ -1,7 +1,7 @@
 package com.fmc.edu.service.impl;
 
 import com.fmc.edu.exception.ProfileException;
-import com.fmc.edu.manager.MyAccountManager;
+import com.fmc.edu.manager.ResourceManager;
 import com.fmc.edu.model.address.Address;
 import com.fmc.edu.model.profile.BaseProfile;
 import com.fmc.edu.model.profile.ParentProfile;
@@ -56,7 +56,7 @@ public class ParentService {
         if (pParentStudentRelationship.getParentId() == 0) {
             parent = getParentRepository().queryParentByPhone(pParentStudentRelationship.getParentPhone());
             if (parent == null) {
-                throw new ProfileException(MyAccountManager.ERROR_NOT_FIND_USER);
+                throw new ProfileException(ResourceManager.ERROR_NOT_FIND_USER, pParentStudentRelationship.getParentPhone());
             }
             pParentStudentRelationship.setParentId(parent.getId());
         }

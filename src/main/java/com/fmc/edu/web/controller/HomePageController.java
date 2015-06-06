@@ -2,6 +2,7 @@ package com.fmc.edu.web.controller;
 
 import com.fmc.edu.exception.ProfileException;
 import com.fmc.edu.manager.HomePageManager;
+import com.fmc.edu.manager.ResourceManager;
 import com.fmc.edu.web.ResponseBean;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -28,7 +29,7 @@ public class HomePageController extends BaseController {
     @RequestMapping("/requestHeaderTeacherForHomePage")
     @ResponseBody
     public String requestHeaderTeacherForHomePage(final HttpServletRequest pRequest, final HttpServletResponse pResponse) {
-        ResponseBean responseBean = new ResponseBean();
+        ResponseBean responseBean = new ResponseBean(pRequest);
         try {
             preRequestHeaderTeacherForHomePage(pRequest, responseBean);
             if (!responseBean.isSuccess()) {
@@ -38,7 +39,7 @@ public class HomePageController extends BaseController {
             Map<String, Object> homePageTeacher = getHomePageManager().obtainHeaderTeacher(profileId);
             responseBean.addData(homePageTeacher);
         } catch (ProfileException e) {
-            responseBean.addBusinessMsg(e.getMessage());
+            responseBean.addBusinessMsg(e.getMessage(), e.getArgs());
         } catch (Exception e) {
             LOG.error(e);
             responseBean.addErrorMsg(e);
@@ -49,7 +50,7 @@ public class HomePageController extends BaseController {
     private void preRequestHeaderTeacherForHomePage(final HttpServletRequest pRequest, ResponseBean pResponseBean) {
         String profileId = pRequest.getParameter("userId");
         if (StringUtils.isBlank(profileId)) {
-            pResponseBean.addBusinessMsg("用户id为空.");
+            pResponseBean.addBusinessMsg(ResourceManager.VALIDATION_USER_USER_ID_EMPTY);
             return;
         }
     }
@@ -61,4 +62,5 @@ public class HomePageController extends BaseController {
     public void setHomePageManager(HomePageManager pHomePageManager) {
         this.mHomePageManager = pHomePageManager;
     }
+
 }

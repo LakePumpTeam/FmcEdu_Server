@@ -1,10 +1,7 @@
 package com.fmc.edu.web.controller;
 
 import com.fmc.edu.constant.GlobalConstant;
-import com.fmc.edu.manager.MyAccountManager;
-import com.fmc.edu.manager.NewsManager;
-import com.fmc.edu.manager.ProfileManager;
-import com.fmc.edu.manager.TaskManager;
+import com.fmc.edu.manager.*;
 import com.fmc.edu.model.news.Comments;
 import com.fmc.edu.model.profile.BaseProfile;
 import com.fmc.edu.model.profile.ProfileType;
@@ -57,7 +54,7 @@ public class TaskController extends BaseController {
     @ResponseBody
     private String requestTaskList(final HttpServletRequest pRequest,
                                    final HttpServletResponse pResponse) {
-        ResponseBean responseBean = new ResponseBean();
+        ResponseBean responseBean = new ResponseBean(pRequest);
         try {
             Pagination pagination = buildPagination(pRequest);
             String userIdStr = pRequest.getParameter("userId");
@@ -66,7 +63,7 @@ public class TaskController extends BaseController {
 
             BaseProfile baseProfile = getMyAccountManager().findUserById(userIdStr);
             if (baseProfile == null) {
-                responseBean.addBusinessMsg(MyAccountManager.ERROR_NOT_FIND_USER);
+                responseBean.addBusinessMsg(ResourceManager.ERROR_NOT_FIND_USER, userIdStr);
                 return output(responseBean);
             }
             Map<String, Object> taskList = new HashMap<String, Object>();
@@ -75,7 +72,7 @@ public class TaskController extends BaseController {
             } else if (baseProfile.getProfileType() == ProfileType.TEACHER.getValue()) {
                 taskList = getTaskManager().queryTaskListByTeacherId(baseProfile.getId(), filterStr, Integer.valueOf(statusStr), pagination);
             } else {
-                responseBean.addBusinessMsg("未知用户类型.");
+                responseBean.addBusinessMsg(ResourceManager.ERROR_USER_TYPE_UNKNOWN);
             }
             responseBean.addData(taskList);
         } catch (IOException e) {
@@ -97,21 +94,18 @@ public class TaskController extends BaseController {
                                final String deadline,
                                final String title,
                                final String task) {
-        ResponseBean responseBean = new ResponseBean();
+        ResponseBean responseBean = new ResponseBean(pRequest);
         TransactionStatus txStatus = ensureTransaction();
         try {
-            String userIdStr = userId;
-            String titleStr = title;
-            String taskStr = task;
-            String deadlineStr = deadline;
             String[] decodeStudents = students;
+
             Task taskObj = new Task();
             taskObj.setAvailable(true);
             taskObj.setCreationDate(DateUtils.getDaysLater(0));
-            taskObj.setDeadline(new java.sql.Timestamp(DateUtils.convertStringToDate(deadlineStr).getTime()));
-            taskObj.setPublishUserId(Integer.valueOf(userIdStr));
-            taskObj.setTask(taskStr);
-            taskObj.setTitle(titleStr);
+            taskObj.setDeadline(new java.sql.Timestamp(DateUtils.convertStringToDate(deadline).getTime()));
+            taskObj.setPublishUserId(Integer.valueOf(userId));
+            taskObj.setTask(task);
+            taskObj.setTitle(title);
             TaskStudentsRelationship taskStudentsRelationship;
             List<TaskStudentsRelationship> taskStudentsRelationships = new ArrayList<TaskStudentsRelationship>();
             if (getTaskManager().publishTask(taskObj)) {
@@ -147,14 +141,12 @@ public class TaskController extends BaseController {
                               final String taskId,
                               final String userId,
                               final String studentId) {
-        ResponseBean responseBean = new ResponseBean();
+        ResponseBean responseBean = new ResponseBean(pRequest);
         TransactionStatus txStatus = ensureTransaction();
         try {
-            String taskIdStr = taskId;
-            String userIdStr = userId;
-            String studentIdStr = studentId;
-            if (!getTaskManager().deleteTask(Integer.valueOf(taskIdStr), Integer.valueOf(userIdStr), Integer.valueOf(studentIdStr))) {
-                responseBean.addBusinessMsg("删除任务失败.");
+
+            if (!getTaskManager().deleteTask(Integer.valueOf(taskId), Integer.valueOf(userId), Integer.valueOf(studentId))) {
+                responseBean.addBusinessMsg(ResourceManager.ERROR_NEWS_DELETE_TASK_FAILED);
                 return output(responseBean);
             }
         } catch (Exception e) {
@@ -173,15 +165,13 @@ public class TaskController extends BaseController {
                                      final HttpServletResponse pResponse,
                                      final String taskId,
                                      final String studentId) {
-        ResponseBean responseBean = new ResponseBean();
+        ResponseBean responseBean = new ResponseBean(pRequest);
         try {
-            String taskIdStr = taskId;
-            String studentIdStr = studentId;
-            Task task = getTaskManager().queryTaskDetail(Integer.valueOf(taskIdStr));
+            Task task = getTaskManager().queryTaskDetail(Integer.valueOf(taskId));
             if (task == null) {
-                responseBean.addBusinessMsg("获取任务详情失败.");
+                responseBean.addBusinessMsg(ResourceManager.ERROR_NEWS_OBTAIN_TASK_DETAIL_FAILED);
             }
-            getResponseBuilder().buildTaskDetail(task, studentIdStr, responseBean);
+            getResponseBuilder().buildTaskDetail(task, studentId, responseBean);
         } catch (Exception e) {
             responseBean.addErrorMsg(e);
             LOG.error(e);
@@ -196,20 +186,17 @@ public class TaskController extends BaseController {
                               final String taskId,
                               final String userId,
                               final String comment) {
-        ResponseBean responseBean = new ResponseBean();
+        ResponseBean responseBean = new ResponseBean(pRequest);
         TransactionStatus txStatus = ensureTransaction();
         try {
-            String taskIdStr = taskId;
-            String userIdStr = userId;
-            String commentStr = comment;
             Comments comments = new Comments();
-            comments.setComment(commentStr);
-            comments.setProfileId(Integer.valueOf(userIdStr));
-            comments.setRefId(Integer.valueOf(taskIdStr));
+            comments.setComment(comment);
+            comments.setProfileId(Integer.valueOf(userId));
+            comments.setRefId(Integer.valueOf(taskId));
             comments.setAvailable(true);
             comments.setCreationDate(DateUtils.getDaysLater(0));
             if (!getNewsManager().insertComment(comments)) {
-                responseBean.addBusinessMsg("添加评论失败.");
+                responseBean.addBusinessMsg(ResourceManager.ERROR_NEWS_ADD_COMMENT_FAILED);
                 return output(responseBean);
             }
 
@@ -231,13 +218,11 @@ public class TaskController extends BaseController {
                                  final HttpServletResponse pResponse,
                                  final String commentId,
                                  final String userId) {
-        ResponseBean responseBean = new ResponseBean();
+        ResponseBean responseBean = new ResponseBean(pRequest);
         TransactionStatus txStatus = ensureTransaction();
         try {
-            String commentIdStr = commentId;
-            String userIdStr = userId;
-            if (!getNewsManager().deleteComment(Integer.valueOf(commentIdStr))) {
-                responseBean.addBusinessMsg("删除评论失败.");
+            if (!getNewsManager().deleteComment(Integer.valueOf(commentId))) {
+                responseBean.addBusinessMsg(ResourceManager.ERROR_NEWS_DELETE_COMMENT_FAILED);
                 return output(responseBean);
             }
         } catch (Exception e) {
@@ -257,17 +242,14 @@ public class TaskController extends BaseController {
                             final String taskId,
                             final String userId,
                             final String task) {
-        ResponseBean responseBean = new ResponseBean();
+        ResponseBean responseBean = new ResponseBean(pRequest);
         TransactionStatus txStatus = ensureTransaction();
         try {
-            String taskIdStr = taskId;
-            String userIdStr = userId;
-            String taskStr = task;
             Task taskObj = new Task();
-            taskObj.setId(Integer.valueOf(taskIdStr));
-            taskObj.setTask(taskStr);
+            taskObj.setId(Integer.valueOf(taskId));
+            taskObj.setTask(task);
             if (!getTaskManager().editTask(taskObj)) {
-                responseBean.addBusinessMsg("修改任务失败.");
+                responseBean.addBusinessMsg(ResourceManager.ERROR_NEWS_MODIFY_TASK_FAILED);
                 return output(responseBean);
             }
         } catch (Exception e) {
@@ -286,13 +268,11 @@ public class TaskController extends BaseController {
                               final HttpServletResponse pResponse,
                               final String studentId,
                               final String taskId) {
-        ResponseBean responseBean = new ResponseBean();
+        ResponseBean responseBean = new ResponseBean(pRequest);
         TransactionStatus txStatus = ensureTransaction();
         try {
-            String studentIdStr = studentId;
-            String taskIdStr = taskId;
-            if (!getTaskManager().submitTask(Integer.valueOf(taskIdStr), Integer.valueOf(studentIdStr))) {
-                responseBean.addBusinessMsg("提交任务失败.");
+            if (!getTaskManager().submitTask(Integer.valueOf(taskId), Integer.valueOf(studentId))) {
+                responseBean.addBusinessMsg(ResourceManager.ERROR_NEWS_SUBMIT_TASK_FAILED);
                 return output(responseBean);
             }
         } catch (Exception e) {
