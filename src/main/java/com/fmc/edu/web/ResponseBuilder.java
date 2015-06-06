@@ -64,6 +64,7 @@ public class ResponseBuilder {
                 pResponseBean.addData("studentSex", student.isMale());
                 pResponseBean.addData("schoolName", student.getSchool().getName());
                 pResponseBean.addData("repayState", parentProfile.isPaid());
+                pResponseBean.addData("braceletCardNumber", student.getRingPhone());
             }
         } else {
             TeacherProfile teacherProfile = getTeacherManager().queryTeacherById(pProfile.getId());
