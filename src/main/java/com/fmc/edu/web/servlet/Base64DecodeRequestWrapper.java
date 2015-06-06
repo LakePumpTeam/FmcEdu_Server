@@ -23,12 +23,12 @@ public class Base64DecodeRequestWrapper extends HttpServletRequestWrapper {
     @Override
     public String getParameter(String pName) {
         String encodedValue = getRequest().getParameter(pName);
-        LOG.debug(String.format("%s >>>>>>>>>>>>>>>Obtain Parameter:%s = %s", getRequest().getServletContext().getContextPath(), pName, encodedValue));
+        LOG.debug(String.format("%s >>>>>>>>>>>>>>>Obtain Parameter:%s = %s", getRequestURI(), pName, encodedValue));
         String decodedValue = encodedValue;
         if (WebConfig.isEncodeBase64InputParam() && ReplacementBase64EncryptService.isBase64(decodedValue)) {
             decodedValue = mBase64EncryptService.decrypt(encodedValue);
         }
-        LOG.debug(String.format("%s >>>>>>>>>>>>>>>Decoded Parameter:%s = %s", getRequest().getServletContext().getContextPath(), pName, decodedValue));
+        LOG.debug(String.format("%s >>>>>>>>>>>>>>>Decoded Parameter:%s = %s", getRequestURI(), pName, decodedValue));
         return decodedValue;
     }
 
@@ -42,12 +42,12 @@ public class Base64DecodeRequestWrapper extends HttpServletRequestWrapper {
         String decodedValue;
         for (int i = 0; i < encodedValues.length; i++) {
             decodedValue = encodedValues[i];
-            LOG.debug(String.format("%s >>>>>>>>>>>>>>>Obtain Parameter:%s = %s", getRequest().getServletContext().getContextPath(), pName, decodedValue));
+            LOG.debug(String.format("%s >>>>>>>>>>>>>>>Obtain Parameter:%s = %s", getRequestURI(), pName, decodedValue));
             if (WebConfig.isEncodeBase64InputParam() && ReplacementBase64EncryptService.isBase64(encodedValues[i])) {
                 decodedValue = mBase64EncryptService.decrypt(encodedValues[i]);
             }
             decodedValues[i] = decodedValue;
-            LOG.debug(String.format("%s >>>>>>>>>>>>>>>Decoded Parameter:%s = %s", getRequest().getServletContext().getContextPath(), pName, decodedValue));
+            LOG.debug(String.format("%s >>>>>>>>>>>>>>>Decoded Parameter:%s = %s", getRequestURI(), pName, decodedValue));
         }
         return decodedValues;
     }
