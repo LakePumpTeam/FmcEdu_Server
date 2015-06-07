@@ -274,6 +274,11 @@
 			<artifactId>shiro-ehcache</artifactId>
 			<version>${shiroVersion}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20141113</version>
+		</dependency>
 	</dependencies>
 	<profiles>
 		<profile>
