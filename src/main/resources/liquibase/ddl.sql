@@ -292,28 +292,20 @@ ENGINE = MyISAM;
 -- -----------------------------------------------------
 -- Table `fmc_edu`.`course`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `fmc_edu`.`course` ;
-
 CREATE TABLE IF NOT EXISTS `fmc_edu`.`course` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `timetable_id` INT NOT NULL,
-  `day` INT NOT NULL,
-  `course1` VARCHAR(45) NULL,
-  `course2` VARCHAR(45) NULL,
-  `course3` VARCHAR(45) NULL,
-  `course4` VARCHAR(45) NULL,
-  `course5` VARCHAR(45) NULL,
-  `course6` VARCHAR(45) NULL,
-  `course7` VARCHAR(45) NULL,
-  `course8` VARCHAR(45) NULL,
-  `course9` VARCHAR(45) NULL,
-  `course10` VARCHAR(45) NULL,
-  `course11` VARCHAR(45) NULL,
-  `course12` VARCHAR(45) NULL,
+  `course_name` VARCHAR(45) NOT NULL,
+  `order` INT NOT NULL,
+  `order_name` VARCHAR(45) NULL,
+  `start_time` TIME NOT NULL,
+  `end_time` TIME NOT NULL,
+  `week` INT NULL,
   `available` TINYINT(1) NULL DEFAULT 1,
   `last_update_date` DATETIME NULL,
-  PRIMARY KEY (`id`))
-ENGINE = MyISAM;
+  PRIMARY KEY (`id`),
+  INDEX `fk_course_timetable1_idx` (`timetable_id` ASC))
+ENGINE = MyISAM
 
 
 -- -----------------------------------------------------
