@@ -1097,7 +1097,7 @@
             <td class="result"></td>
         </tr>
         <tr>
-            <td>#1</td>
+            <td>#2</td>
             <td class="function"> 增加或更新课程表</td>
             <td class="baseUrl">${ctx}/school/submitClassCourse</td>
             <td class="parameters">
