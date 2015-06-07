@@ -46,6 +46,13 @@
         where tcm.teacher_id=#{teacherId};
     </select>
 
+    <select id="queryClassById" parameterType="int" resultMap="rm.fmcClass">
+        SELECT cls.id as id, cls.school_id as schoolId,cls.grade as grade,cls.class as class,
+        cls.available as available,cls.head_teacher_id as headTeacherId
+        FROM class cls
+        where cls.id=#{classId};
+    </select>
+
     <update id="updateTeacher" parameterType="TeacherProfile">
         UPDATE teacher
         LEFT JOIN profile ON id = profile_id

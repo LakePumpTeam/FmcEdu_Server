@@ -230,35 +230,6 @@
         <result property="lastUpdateDate" column="last_update_date"/>
     </resultMap>
 
-    <resultMap id="course" type="Course">
-        <id property="id" column="id"/>
-        <result property="timeTableId" column="timetable_id"/>
-        <result property="day" column="day"/>
-        <result property="course1" column="course1"/>
-        <result property="course2" column="course2"/>
-        <result property="course3" column="course3"/>
-        <result property="course4" column="course4"/>
-        <result property="course5" column="course5"/>
-        <result property="course6" column="course6"/>
-        <result property="course7" column="course7"/>
-        <result property="course8" column="course8"/>
-        <result property="course9" column="course9"/>
-        <result property="course10" column="course10"/>
-        <result property="course11" column="course11"/>
-        <result property="course12" column="course12"/>
-        <result property="available" column="available"/>
-        <result property="creationDate" column="creation_date"/>
-        <result property="lastUpdateDate" column="last_update_date"/>
-    </resultMap>
-
-    <resultMap id="timeTable" type="TimeTable">
-        <id property="id" column="id"/>
-        <result property="classId" column="class_id"/>
-        <result property="available" column="available"/>
-        <result property="creationDate" column="creation_date"/>
-        <result property="lastUpdateDate" column="last_update_date"/>
-    </resultMap>
-
     <resultMap id="task" type="Task">
         <id property="id" column="id"/>
         <result property="title" column="title"/>
@@ -295,4 +266,26 @@
         <result property="profileId" column="profile_id"/>
         <result property="creationDate" column="creation_date"/>
     </resultMap>
+
+    <resultMap id="course" type="Course">
+        <id property="id" column="id"/>
+        <result property="timeTableId" column="timetable_id"/>
+        <result property="courseName" column="course_name"/>
+        <result property="order" column="order"/>
+        <result property="orderName" column="order_name"/>
+        <result property="startTime" column="start_time"/>
+        <result property="endTime" column="end_time"/>
+        <result property="week" column="week"/>
+        <result property="available" column="available"/>
+        <result property="lastUpdateDate" column="last_update_date"/>
+    </resultMap>
+
+    <resultMap id="timeTable" type="TimeTable">
+        <id property="id" column="id"/>
+        <result property="classId" column="class_id"/>
+        <result property="available" column="available"/>
+        <result property="creationDate" column="creation_date"/>
+        <result property="lastUpdateDate" column="last_update_date"/>
+    </resultMap>
+
 </mapper>

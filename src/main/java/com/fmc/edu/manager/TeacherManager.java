@@ -2,6 +2,7 @@ package com.fmc.edu.manager;
 
 import com.fmc.edu.exception.ProfileException;
 import com.fmc.edu.model.profile.TeacherProfile;
+import com.fmc.edu.model.school.FmcClass;
 import com.fmc.edu.service.impl.TeacherService;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +28,7 @@ public class TeacherManager {
         return getTeacherService().queryHeaderTeacherByParentId(parentId);
     }
 
-    public Map<String, Object> queryClassByTeacherId(int pTeacherId) {
+    public List<Map<String, Object>> queryClassByTeacherId(int pTeacherId) {
         return getTeacherService().queryClassByTeacherId(pTeacherId);
     }
 
@@ -36,6 +37,10 @@ public class TeacherManager {
             throw new ProfileException(TeacherManager.ERROR_NOT_FOUND_TEACHER);
         }
         return getTeacherService().updateTeacher(pTeacher);
+    }
+
+    public FmcClass queryClassById(int pClassId) {
+        return getTeacherService().queryClassById(pClassId);
     }
 
     public TeacherService getTeacherService() {

@@ -1,5 +1,7 @@
 package com.fmc.edu.service.impl;
 
+import com.fmc.edu.model.course.Course;
+import com.fmc.edu.model.course.TimeTable;
 import com.fmc.edu.model.profile.TeacherProfile;
 import com.fmc.edu.model.student.Student;
 import com.fmc.edu.repository.ISchoolRepository;
@@ -7,6 +9,7 @@ import com.fmc.edu.util.pagenation.Pagination;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -37,6 +40,7 @@ public class SchoolService {
     public int queryStudentIdByFields(final Student pStudent) {
         return getSchoolRepository().queryStudentIdByFields(pStudent);
     }
+
     public boolean saveOrUpdateStudentByFields(final Student pStudent) {
         int id = getSchoolRepository().queryStudentIdByFields(pStudent);
         if (id > 0) {
@@ -48,6 +52,22 @@ public class SchoolService {
 
     public TeacherProfile queryTeacherById(final int pTeacherId) {
         return getSchoolRepository().queryTeacherById(pTeacherId);
+    }
+
+    public List<Course> queryCourseListByClassId(int pClassId) {
+        return getSchoolRepository().queryCourseListByClassId(pClassId);
+    }
+
+    public int insertTimeTable(TimeTable pTimeTable) {
+        return getSchoolRepository().insertTimeTable(pTimeTable);
+    }
+
+    public int insertCourse(Course pCourse) {
+        return getSchoolRepository().insertCourse(pCourse);
+    }
+
+    public int updateCourse(Course pCourse) {
+        return getSchoolRepository().updateCourse(pCourse);
     }
 
     public ISchoolRepository getSchoolRepository() {

@@ -1068,5 +1068,51 @@
         </tr>
     </table>
 </fieldset>
+<fieldset>
+    <legend>课程表</legend>
+    <table border="1">
+        <tr>
+            <th width="5%">Index#</th>
+            <th>Function</th>
+            <th>BaseURL</th>
+            <th>Parameters</th>
+            <th>Request</th>
+            <th>Reset</th>
+            <th width="56%">Result</th>
+        </tr>
+        <tr>
+            <td>#1</td>
+            <td class="function"> 获取课程表</td>
+            <td class="baseUrl">${ctx}/school/requestClassCourseList</td>
+            <td class="parameters">
+                <table>
+                    <tr>
+                        <td align="right"><label for="classId" title="classId">classId</label></td>
+                        <td><input type="text" class="ipt_value" id="classId" value=""/></td>
+                    </tr>
+                </table>
+            </td>
+            <td><input type="button" class="btn_request" value="Request"/></td>
+            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td class="result"></td>
+        </tr>
+        <tr>
+            <td>#1</td>
+            <td class="function"> 增加或更新课程表</td>
+            <td class="baseUrl">${ctx}/school/submitClassCourse</td>
+            <td class="parameters">
+                <table>
+                    <tr>
+                        <td align="right"><label for="courses" title="courses">courses</label></td>
+                        <td><input type="text" class="ipt_value" id="courses" value=""/></td>
+                    </tr>
+                </table>
+            </td>
+            <td><input type="button" class="btn_request" value="Request"/></td>
+            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td class="result"></td>
+        </tr>
+    </table>
+</fieldset>
 </body>
 </html>

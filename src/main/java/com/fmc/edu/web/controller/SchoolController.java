@@ -6,13 +6,19 @@ import com.fmc.edu.manager.ResourceManager;
 import com.fmc.edu.manager.SchoolManager;
 import com.fmc.edu.manager.StudentManager;
 import com.fmc.edu.manager.TeacherManager;
+import com.fmc.edu.model.course.Course;
+import com.fmc.edu.model.course.TimeTable;
 import com.fmc.edu.model.profile.TeacherProfile;
+import com.fmc.edu.model.school.FmcClass;
 import com.fmc.edu.util.DateUtils;
 import com.fmc.edu.util.RepositoryUtils;
+import com.fmc.edu.util.StringUtils;
 import com.fmc.edu.util.pagenation.Pagination;
 import com.fmc.edu.web.RequestParameterBuilder;
 import com.fmc.edu.web.ResponseBean;
 import org.apache.log4j.Logger;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +29,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -195,6 +204,119 @@ public class SchoolController extends BaseController {
         } catch (Exception e) {
             LOG.error(e);
             responseBean.addErrorMsg(e);
+        }
+        return output(responseBean);
+    }
+
+    @RequestMapping("/requestClassCourseList")
+    @ResponseBody
+    public String requestClassCourseList(HttpServletRequest pRequest,
+                                         final HttpServletResponse pResponse,
+                                         final String classId)
+            throws IOException, ParseException {
+        ResponseBean responseBean = new ResponseBean(pRequest);
+        if (!RepositoryUtils.idIsValid(classId)) {
+            responseBean.addBusinessMsg(ResourceManager.VALIDATION_SCHOOL_CLASS_ID_ERROR, classId);
+            return output(responseBean);
+        }
+        FmcClass fmcClass = getTeacherManager().queryClassById(Integer.valueOf(classId));
+        if (fmcClass == null) {
+            responseBean.addBusinessMsg(ResourceManager.ERROR_NOT_FOND_CLASS, classId);
+            return output(responseBean);
+        }
+        responseBean.addData("classId", fmcClass.getId());
+        List<Map<String, Object>> courseList = new ArrayList<Map<String, Object>>();
+        responseBean.addData("courseList", courseList);
+        List<Course> courses = getSchoolManager().queryCourseListByClassId(Integer.valueOf(classId));
+        Map<String, Object> courseMap;
+        Map<String, Object> courseDetail;
+        if (courses != null) {
+            for (Course course : courses) {
+                courseMap = new HashMap<String, Object>(2);
+                courseDetail = new HashMap<String, Object>(6);
+                courseMap.put("week", course.getWeek());
+                courseMap.put("course", courseDetail);
+                courseDetail.put("courseId", course.getId());
+                courseDetail.put("order", course.getOrder());
+                courseDetail.put("orderName", course.getOrderName());
+                courseDetail.put("startTime", DateUtils.convertTimeToString(course.getStartTime()));
+                courseDetail.put("endTime", DateUtils.convertTimeToString(course.getEndTime()));
+                courseList.add(courseMap);
+            }
+        }
+        return output(responseBean);
+    }
+
+
+    @RequestMapping("/submitClassCourse")
+    @ResponseBody
+    public String submitClassCourse(HttpServletRequest pRequest,
+                                    final HttpServletResponse pResponse,
+                                    String courses)
+            throws IOException, ParseException {
+        ResponseBean responseBean = new ResponseBean(pRequest);
+        if (StringUtils.isBlank(courses)) {
+            return output(responseBean);
+        }
+        JSONArray jsonArray = new JSONArray(courses);
+        if (jsonArray == null || jsonArray.length() == 0) {
+            return output(responseBean);
+        }
+        JSONObject jsonObject;
+        int week;
+        int classId;
+        JSONObject course;
+        int courseId;
+        int order;
+        String orderName;
+        String courseName;
+        String startTime;
+        String endTime;
+        Course courseBean;
+        TimeTable timeTable;
+        TransactionStatus txStatus = ensureTransaction();
+        try {
+            for (int i = 0; i < jsonArray.length(); i++) {
+                jsonObject = jsonArray.getJSONObject(i);
+                if (jsonObject == null) {
+                    continue;
+                }
+                courseBean = new Course();
+                week = jsonObject.getInt("week");
+                classId = jsonObject.getInt("classId");
+                courseBean.setWeek(week);
+                course = jsonObject.getJSONObject("course");
+                if (course != null) {
+                    if (course.keySet().contains("courseId")) {
+                        courseId = course.getInt("courseId");
+                        courseBean.setId(courseId);
+                    }
+                    order = course.getInt("order");
+                    orderName = course.getString("orderName");
+                    courseName = course.getString("courseName");
+                    startTime = course.getString("startTime");
+                    endTime = course.getString("endTime");
+                    courseBean.setOrder(order);
+                    courseBean.setOrderName(orderName);
+                    courseBean.setCourseName(courseName);
+                    courseBean.setStartTime(DateUtils.convertStringToTime(startTime));
+                    courseBean.setEndTime(DateUtils.convertStringToTime(endTime));
+                }
+                if (!RepositoryUtils.idIsValid(courseBean.getId())) {
+                    timeTable = new TimeTable();
+                    timeTable.setClassId(classId);
+                    getSchoolManager().insertTimeTable(timeTable);
+                    courseBean.setTimeTableId(timeTable.getId());
+                    getSchoolManager().insertCourse(courseBean);
+                } else {
+                    getSchoolManager().updateCourse(courseBean);
+                }
+            }
+        } catch (Exception e) {
+            txStatus.setRollbackOnly();
+            LOG.error(e);
+        } finally {
+            getTransactionManager().commit(txStatus);
         }
         return output(responseBean);
     }

@@ -36,7 +36,8 @@ public class HomePageController extends BaseController {
                 return responseBean.toString();
             }
             String profileId = pRequest.getParameter("userId");
-            Map<String, Object> homePageTeacher = getHomePageManager().obtainHeaderTeacher(profileId);
+            String studentId = pRequest.getParameter("studentId");
+            Map<String, Object> homePageTeacher = getHomePageManager().obtainHeaderTeacher(profileId, studentId);
             responseBean.addData(homePageTeacher);
         } catch (ProfileException e) {
             responseBean.addBusinessMsg(e.getMessage(), e.getArgs());

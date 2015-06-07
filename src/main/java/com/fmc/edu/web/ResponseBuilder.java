@@ -56,6 +56,24 @@ public class ResponseBuilder {
             }
 
             List<Student> studentList = getStudentManager().queryStudentByParentId(parentProfile.getId());
+            List<Map<String, Object>> optionList = new ArrayList<Map<String, Object>>();
+            pResponseBean.addData("optionList", optionList);
+            if (!CollectionUtils.isEmpty(studentList)) {
+                Map<String, Object> option;
+                for (Student student : studentList) {
+                    option = new HashMap<String, Object>(4);
+                    option.put("optionId", student.getId());
+                    option.put("optionName", student.getName());
+                    option.put("classId", student.getClassId());
+                    option.put("auditState", student.getParentStudentRelationship().getApproved());
+                    pResponseBean.addData("braceletCardNumber", student.getRingPhone());
+                    optionList.add(option);
+
+                }
+            }
+            pResponseBean.addData("repayState", parentProfile.isPaid());
+
+            //TODO need to remove bellow logic code.
             pResponseBean.addData("auditState", false);
             if (!CollectionUtils.isEmpty(studentList)) {
                 Student student = studentList.get(0);
@@ -63,7 +81,6 @@ public class ResponseBuilder {
                 pResponseBean.addData("studentName", student.getName());
                 pResponseBean.addData("studentSex", student.isMale());
                 pResponseBean.addData("schoolName", student.getSchool().getName());
-                pResponseBean.addData("repayState", parentProfile.isPaid());
                 pResponseBean.addData("braceletCardNumber", student.getRingPhone());
             }
         } else {

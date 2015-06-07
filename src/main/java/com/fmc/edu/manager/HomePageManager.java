@@ -4,6 +4,7 @@ import com.fmc.edu.exception.ProfileException;
 import com.fmc.edu.model.profile.BaseProfile;
 import com.fmc.edu.model.profile.ProfileType;
 import com.fmc.edu.model.profile.TeacherProfile;
+import com.fmc.edu.model.school.FmcClass;
 import com.fmc.edu.model.student.Student;
 import com.fmc.edu.util.StringUtils;
 import org.apache.commons.collections.CollectionUtils;
@@ -31,7 +32,8 @@ public class HomePageManager {
     @Resource(name = "studentManager")
     private StudentManager mStudentManager;
 
-    public Map<String, Object> obtainHeaderTeacher(final String pProfileId) throws ProfileException {
+    public Map<String, Object> obtainHeaderTeacher(final String pProfileId,
+                                                   final String pStudentId) throws ProfileException {
         BaseProfile baseProfile = getMyAccountManager().findUserById(pProfileId);
         if (baseProfile == null) {
             throw new ProfileException(ResourceManager.ERROR_NOT_FIND_USER, pProfileId);
@@ -39,6 +41,7 @@ public class HomePageManager {
         Map<String, Object> headerTeacher = new HashMap<String, Object>();
         headerTeacher.put("userId", baseProfile.getId());
         headerTeacher.put("userRole", baseProfile.getProfileType());
+        Student student = getStudentManager().queryStudentById(Integer.valueOf(pStudentId));
 
         if (baseProfile.getProfileType() == ProfileType.PARENT.getValue()) {
             List<Map<String, Object>> headerTeachers = getTeacherManager().queryHeaderTeacherByParentId(baseProfile.getId());
@@ -48,9 +51,8 @@ public class HomePageManager {
             } else {
                 teacher = headerTeachers.get(0);
             }
-            List<Student> students = getStudentManager().queryStudentByParentId(baseProfile.getId());
-            if (!CollectionUtils.isEmpty(students)) {
-                headerTeacher.put("sex", students.get(0).isMale());
+            if (student != null) {
+                headerTeacher.put("sex", student.isMale());
             }
             headerTeacher.put("teacherId", teacher.get("teacherId"));
             headerTeacher.put("teacherName", StringUtils.ifNULLReturn(teacher.get("teacherName"), ""));
@@ -63,11 +65,12 @@ public class HomePageManager {
                 teacher = new TeacherProfile();
             }
             headerTeacher.put("sex", teacher.isMale());
-            Map<String, Object> tClass = getTeacherManager().queryClassByTeacherId(baseProfile.getId());
+            FmcClass tClass = getTeacherManager().queryClassById(student.getClassId());
             if (tClass == null) {
-                tClass = new HashMap<String, Object>(0);
+                headerTeacher.put("className", "");
+            } else {
+                headerTeacher.put("className", StringUtils.ifNULLReturn(getSchoolManager().getClassString(String.valueOf(tClass.getGrade()), String.valueOf(tClass.getClass())), ""));
             }
-            headerTeacher.put("className", StringUtils.ifNULLReturn(getSchoolManager().getClassString(String.valueOf(tClass.get("grade")), String.valueOf(tClass.get("class"))), ""));
         }
         return headerTeacher;
     }

@@ -1,6 +1,7 @@
 package com.fmc.edu.service.impl;
 
 import com.fmc.edu.model.profile.TeacherProfile;
+import com.fmc.edu.model.school.FmcClass;
 import com.fmc.edu.repository.ITeacherRepository;
 import org.springframework.stereotype.Service;
 
@@ -25,12 +26,16 @@ public class TeacherService {
         return getTeacherRepository().queryHeaderTeacherByParentId(parentId);
     }
 
-    public Map<String, Object> queryClassByTeacherId(int pTeacherId) {
+    public List<Map<String, Object>> queryClassByTeacherId(int pTeacherId) {
         return getTeacherRepository().queryClassByTeacherId(pTeacherId);
     }
 
     public boolean updateTeacher(final TeacherProfile pTeacher) {
         return getTeacherRepository().updateTeacher(pTeacher);
+    }
+
+    public FmcClass queryClassById(int pClassId) {
+        return getTeacherRepository().queryClassById(pClassId);
     }
 
     public ITeacherRepository getTeacherRepository() {

@@ -1,5 +1,6 @@
 package com.fmc.edu.util;
 
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,6 +13,8 @@ import java.util.Date;
 public class DateUtils {
 
     public static final String PATTERN_STUDENT_BIRTH = "yyyy-MM-dd";
+
+    public static final String PATTERN_TIME = "HH:mm";
 
     public static Timestamp getDaysLater(int pDays) {
         Calendar calendar = Calendar.getInstance();
@@ -37,4 +40,17 @@ public class DateUtils {
 		cal.add(Calendar.SECOND, pSeconds);
 		return cal.getTime();
 	}
+
+
+    public static Time convertStringToTime(String pTimeString) throws ParseException {
+        if (StringUtils.isBlank(pTimeString)) {
+            return null;
+        }
+        Date date = (new SimpleDateFormat(PATTERN_TIME)).parse(pTimeString);
+        return new Time(date.getTime());
+    }
+
+    public static String convertTimeToString(Time pTime) {
+        return (new SimpleDateFormat(PATTERN_TIME)).format(pTime);
+    }
 }

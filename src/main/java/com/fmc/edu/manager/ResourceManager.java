@@ -45,6 +45,8 @@ public class ResourceManager {
 
     public static final String VALIDATION_USER_TEACHER_ID_ERROR = "validation.user.teacher.id.error";
 
+    public static final String VALIDATION_SCHOOL_CLASS_ID_ERROR = "validation.school.class.id.error";
+
     public static final String ERROR_NOT_FIND_USER = "profile.error.not.find.user";
 
     public static final String ERROR_RESET_PASSWORD_FAILED = "profile.error.reset.password.failed";
@@ -86,6 +88,8 @@ public class ResourceManager {
     public static final String ERROR_LOCATION_CLASS_ID_ERROR = "school.error.class.id.error";
 
     public static final String ERROR_TEACHER_UNKNOWN = "school.error.teacher.unknown";
+
+    public static final String ERROR_NOT_FOND_CLASS = "school.error.class.not.found";
 
     public String getMessage(HttpServletRequest request, String pKey, String[] pArgs, String pDefaultMessage) {
         RequestContext requestContext = new RequestContext(request);

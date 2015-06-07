@@ -100,4 +100,44 @@
         WHERE id = #{id}
     </select>
 
+    <select id="queryCourseListByClassId" parameterType="int" resultMap="rm.course">
+        SELECT cs.id,
+        cs.timetable_id,
+        cs.course_name,
+        cs.`order`,
+        cs.order_name,
+        cs.start_time,
+        cs.end_time,
+        cs.week,
+        cs.available,
+        cs.last_update_date
+        FROM course cs
+        INNER JOIN timetable tt
+        ON cs.timetable_id = tt.id
+        WHERE tt.class_id = #{classId} and tt.available = 1;
+
+    </select>
+
+    <insert id="insertTimeTable" flushCache="true" parameterType="TimeTable" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO timetable (class_id, available, creation_date, last_update_date)
+        VALUES ( #{classId}, 1, now(), now());
+    </insert>
+
+    <insert id="insertCourse" flushCache="true" parameterType="Course" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO course
+        (timetable_id,course_name,`order`,order_name,start_time,end_time,week,available,last_update_date)
+        VALUES(#{timeTableId},#{courseName},#{order},#{orderName},#{startTime},#{endTime},#{week},1,now());
+    </insert>
+
+    <update id="updateCourse" flushCache="true" parameterType="Course">
+        UPDATE course
+        SET timetable_id = #{timeTableId},
+        course_name = #{courseName},
+        `order` = #{order},
+        order_name = #{orderName},
+        start_time = #{startTime},
+        end_time = #{endTime},
+        week = #{week}
+        WHERE id = #{id}
+    </update>
 </mapper>

@@ -1,5 +1,7 @@
 package com.fmc.edu.manager;
 
+import com.fmc.edu.model.course.Course;
+import com.fmc.edu.model.course.TimeTable;
 import com.fmc.edu.model.profile.TeacherProfile;
 import com.fmc.edu.model.student.Student;
 import com.fmc.edu.service.impl.SchoolService;
@@ -76,6 +78,21 @@ public class SchoolManager {
         return getSchoolService().queryTeacherById(pTeacherId);
     }
 
+    public List<Course> queryCourseListByClassId(int pClassId) {
+        return getSchoolService().queryCourseListByClassId(pClassId);
+    }
+
+    public int insertTimeTable(TimeTable pTimeTable) {
+        return getSchoolService().insertTimeTable(pTimeTable);
+    }
+
+    public int insertCourse(Course pCourse) {
+        return getSchoolService().insertCourse(pCourse);
+    }
+
+    public int updateCourse(Course pCourse) {
+        return getSchoolService().updateCourse(pCourse);
+    }
     public SchoolService getSchoolService() {
         return mSchoolService;
     }
