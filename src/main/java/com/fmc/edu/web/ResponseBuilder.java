@@ -42,12 +42,16 @@ public class ResponseBuilder {
     @Resource(name = "taskManager")
     private TaskManager mTaskManager;
 
+    @Resource(name = "schoolManager")
+    private SchoolManager mSchoolManager;
+
     public void buildAuthorizedResponse(ResponseBean pResponseBean, final BaseProfile pProfile) {
         pResponseBean.addData("userId", pProfile.getId());
         pResponseBean.addData("userRole", pProfile.getProfileType());
         pResponseBean.addData("salt", pProfile.getSalt());
         pResponseBean.addData("userName", pProfile.getName());
-
+        List<Map<String, Object>> optionList = new ArrayList<Map<String, Object>>();
+        pResponseBean.addData("optionList", optionList);
         if (pProfile.getProfileType() == ProfileType.PARENT.getValue()) {
             ParentProfile parentProfile = getProfileManager().queryParentByPhone(pProfile.getPhone());
             if (parentProfile == null) {
@@ -56,8 +60,7 @@ public class ResponseBuilder {
             }
 
             List<Student> studentList = getStudentManager().queryStudentByParentId(parentProfile.getId());
-            List<Map<String, Object>> optionList = new ArrayList<Map<String, Object>>();
-            pResponseBean.addData("optionList", optionList);
+
             if (!CollectionUtils.isEmpty(studentList)) {
                 Map<String, Object> option;
                 for (Student student : studentList) {
@@ -85,6 +88,17 @@ public class ResponseBuilder {
             }
         } else {
             TeacherProfile teacherProfile = getTeacherManager().queryTeacherById(pProfile.getId());
+            List<Map<String, Object>> classes = getTeacherManager().queryClassByTeacherId(pProfile.getId());
+            if (!org.apache.commons.collections.CollectionUtils.isEmpty(classes)) {
+                Map<String, Object> option;
+                for (Map<String, Object> cls : classes) {
+                    option = new HashMap<String, Object>(3);
+                    option.put("optionId", cls.get("id"));
+                    option.put("optionName", getSchoolManager().getClassString(String.valueOf(cls.get("grade")), String.valueOf(cls.get("class"))));
+                    option.put("classId", cls.get("id"));
+                    optionList.add(option);
+                }
+            }
             if (teacherProfile == null) {
                 return;
             }
@@ -354,5 +368,13 @@ public class ResponseBuilder {
 
     public void setTaskManager(TaskManager pTaskManager) {
         mTaskManager = pTaskManager;
+    }
+
+    public SchoolManager getSchoolManager() {
+        return mSchoolManager;
+    }
+
+    public void setSchoolManager(SchoolManager pSchoolManager) {
+        mSchoolManager = pSchoolManager;
     }
 }
