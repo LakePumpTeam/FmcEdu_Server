@@ -7,7 +7,7 @@
     <select id="queryStudentsByParentId" resultMap="rm.student" parameterType="string">
         select s.id as s_id,
         s.class_id,
-        s.name as studentName,
+        s.name,
         s.sex,
         s.birth,
         s.ring_number,
@@ -34,7 +34,7 @@
         on cls.id = s.class_id
         left join school scl
         on scl.id =cls.school_id
-        where psm.parent_id = #{parentId} AND psm.approved =1
+        where psm.parent_id = #{parentId}
     </select>
 
     <select id="queryStudentListByTeacherId" resultType="map" parameterType="int">
