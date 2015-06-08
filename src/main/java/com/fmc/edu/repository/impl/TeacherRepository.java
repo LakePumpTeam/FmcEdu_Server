@@ -26,7 +26,7 @@ public class TeacherRepository extends BaseRepository implements ITeacherReposit
 
     @Override
     public List<Map<String, Object>> queryClassByTeacherId(int pTeacherId) {
-        return getSqlSession().selectOne(QUERY_CLASS_BY_TEACHER_ID, pTeacherId);
+        return getSqlSession().selectList(QUERY_CLASS_BY_TEACHER_ID, pTeacherId);
     }
 
     @Override
