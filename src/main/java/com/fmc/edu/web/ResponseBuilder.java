@@ -68,8 +68,8 @@ public class ResponseBuilder {
                     option.put("optionId", student.getId());
                     option.put("optionName", student.getName());
                     option.put("classId", student.getClassId());
+                    option.put("braceletCardNumber", student.getRingPhone());
                     option.put("auditState", student.getParentStudentRelationship().getApproved());
-                    pResponseBean.addData("braceletCardNumber", student.getRingPhone());
                     optionList.add(option);
 
                 }
