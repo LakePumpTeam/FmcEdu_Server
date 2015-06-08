@@ -2,9 +2,9 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 
 <configuration>
-    <settings>
-        <setting name="cacheEnabled" value="true"/>
-    </settings>
+    <!-- <settings>
+         <setting name="cacheEnabled" value="true"/>
+     </settings>-->
     <typeAliases>
         <typeAlias alias="IdentityCode" type="com.fmc.edu.model.common.IdentityCode"/>
         <typeAlias alias="BaseProfile" type="com.fmc.edu.model.profile.BaseProfile"/>

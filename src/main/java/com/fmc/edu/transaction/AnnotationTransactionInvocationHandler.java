@@ -28,7 +28,10 @@ public class AnnotationTransactionInvocationHandler implements InvocationHandler
         if (!originalMethod.isAnnotationPresent(FMCTransactional.class)) {
             return method.invoke(proxy, objects);
         }
-
+        FMCTransactional fmcTransactional = originalMethod.getAnnotation(FMCTransactional.class);
+        if (fmcTransactional.value() == false) {
+            return method.invoke(proxy, objects);
+        }
         TransactionStatus txStatus = ensureTransaction();
         Object result = null;
         try {
