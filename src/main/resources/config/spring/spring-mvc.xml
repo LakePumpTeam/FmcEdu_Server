@@ -18,7 +18,12 @@
 
     <bean id="messageSource"
           class="com.fmc.edu.message.CacheableResourceBundleMessageSource">
-        <property name="basename" value="messages"/>
+        <property name="basenames">
+            <list>
+                <!-- main resources -->
+                <value>classpath:messages</value>
+            </list>
+        </property>
         <property name="defaultEncoding" value="UTF-8"></property>
     </bean>
     <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" id="localeChangeInterceptor">

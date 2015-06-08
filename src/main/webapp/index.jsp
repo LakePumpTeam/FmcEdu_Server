@@ -569,6 +569,11 @@
                         <td align="right"><label for="userId" title="userId">userId</label></td>
                         <td><input type="text" class="ipt_value" id="userId" value=""/></td>
                     </tr>
+                    <tr>
+                        <td align="right"><label for="optionId"
+                                                 title="optionId">optionId(家长登陆是传学生的ID，教师登陆传所选班级的ID)</label></td>
+                        <td><input type="text" class="ipt_value" id="optionId" value=""/></td>
+                    </tr>
                 </table>
             </td>
             <td><input type="button" class="btn_request" value="Request"/></td>

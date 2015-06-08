@@ -2,7 +2,7 @@ package com.fmc.edu.message;
 
 import com.fmc.edu.constant.GlobalConstant;
 import com.fmc.edu.util.StringUtils;
-import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.stereotype.Component;
 
 import java.io.UnsupportedEncodingException;
@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * Created by Yu on 6/6/2015.
  */
 @Component("cacheableResourceBundleMessageSource")
-public class CacheableResourceBundleMessageSource extends ResourceBundleMessageSource {
+public class CacheableResourceBundleMessageSource extends ReloadableResourceBundleMessageSource {
 
     private static final String NULL = "null";
 
