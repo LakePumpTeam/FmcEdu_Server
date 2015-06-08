@@ -67,4 +67,5 @@
     <mvc:resources location="/bower_components/" mapping="/bower_components/**"/>
     <mvc:resources location="/dist/" mapping="/dist/**"/>
     <mvc:resources location="/pages/" mapping="/pages/**"/>
+    <mvc:resources location="/slide/" mapping="/slide/**" />
 </beans>

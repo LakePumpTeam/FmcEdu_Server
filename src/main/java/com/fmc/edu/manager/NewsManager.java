@@ -39,8 +39,8 @@ public class NewsManager {
         return getNewsService().queryNewsListByNewType(pPagination, pNewsType);
     }
 
-    public List<Slide> querySlideList(Timestamp pStartDate, Timestamp pEndDate) {
-        return getNewsService().querySlideList(pStartDate, pEndDate);
+    public List<Slide> querySlideList(final boolean pAvailable, Timestamp pStartDate, Timestamp pEndDate) {
+        return getNewsService().querySlideList(pAvailable, pStartDate, pEndDate);
     }
 
     public boolean insertComment(Comments pComments) {

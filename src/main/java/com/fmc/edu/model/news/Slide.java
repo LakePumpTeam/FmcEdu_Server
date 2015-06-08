@@ -8,8 +8,10 @@ import java.sql.Timestamp;
  * Created by Yu on 2015/5/21.
  */
 public class Slide extends BaseBean {
+
     private String mSubject;
     private int mNewsId;
+    private News mNews;
     private int mProfileId;
     private String mImgName;
     private String mImgPath;
@@ -17,6 +19,7 @@ public class Slide extends BaseBean {
     private Timestamp mStartDate;
     private Timestamp mEndDate;
     private boolean mAvailable;
+    private Timestamp mCreationDate;
 
     public String getSubject() {
         return mSubject;
@@ -88,5 +91,21 @@ public class Slide extends BaseBean {
 
     public void setAvailable(boolean pAvailable) {
         mAvailable = pAvailable;
+    }
+
+    public Timestamp getCreationDate() {
+        return mCreationDate;
+    }
+
+    public void setCreationDate(final Timestamp pCreationDate) {
+        mCreationDate = pCreationDate;
+    }
+
+    public News getNews() {
+        return mNews;
+    }
+
+    public void setNews(final News pNews) {
+        mNews = pNews;
     }
 }

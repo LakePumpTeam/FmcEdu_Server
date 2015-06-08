@@ -24,7 +24,7 @@ public interface INewsRepository {
 
     String QUERY_NEWS_SLIDE_LIST = "com.fmc.edu.news.querySlideList";
 
-    List<Slide> querySlideList(Timestamp pStartDate, Timestamp pEndDate);
+    List<Slide> querySlideList(final boolean pAvailable, Timestamp pStartDate, Timestamp pEndDate);
 
     String QUERY_NEWS_DETAIL = "com.fmc.edu.news.queryNewsDetail";
 

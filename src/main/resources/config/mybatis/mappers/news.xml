@@ -3,12 +3,14 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fmc.edu.news">
+    <!--
     <cache type="org.mybatis.caches.ehcache.EhcacheCache"
            eviction="FIFO"
            flushInterval="60000"
            size="512"
            readOnly="true"
             />
+    -->
 
     <sql id="limit-split-page">
         LIMIT #{start}, #{size}
@@ -46,10 +48,15 @@
         news_id,
         img_name,
         img_path,
-        `order`
+        `order`,
+        available,
+        creation_date
         FROM slide
         WHERE
-        available = 1
+        <choose>
+            <when test="available">available = 1</when>
+            <otherwise>available = 0</otherwise>
+        </choose>
         AND start_date &gt;= now()
         AND (end_date &lt;= now() OR end_date IS NULL)
         ORDER BY 'order' ASC
@@ -262,4 +269,12 @@
             VALUES(#{item.newsId},#{item.selection},#{item.sortOrder},now(),now())
         </foreach>
     </insert>
+
+    <select id="querySlideList4Admin" useCache="true" parameterType="map" resultMap="rm.slide">
+        SELECT id, subject, news_id, img_name, img_path, `order`, creation_date
+        FROM slide
+        WHERE start_date &gt; = now() AND (end_date &lt; = now() OR end_date IS NULL)
+        AND available = 1
+        ORDER BY 'order' ASC
+    </select>
 </mapper>

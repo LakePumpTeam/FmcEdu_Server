@@ -15,45 +15,56 @@ import java.io.IOException;
  */
 public class DecodeBase64ParameterFilter implements Filter {
 
-    private boolean mEnabled;
-    private static final Logger LOG = Logger.getLogger(DecodeBase64ParameterFilter.class);
+	private boolean mEnabled;
+	private String[] mDisablePrefixArray;
+	private static final Logger LOG = Logger.getLogger(DecodeBase64ParameterFilter.class);
 
-    @Override
-    public void init(FilterConfig pFilterConfig) throws ServletException {
-        String enabled = pFilterConfig.getInitParameter("enabled");
-        if (StringUtils.isBlank(enabled)) {
-            setEnabled(true);
-        } else {
-            setEnabled(Boolean.valueOf(enabled));
-        }
+	@Override
+	public void init(FilterConfig pFilterConfig) throws ServletException {
+		String enabled = pFilterConfig.getInitParameter("enabled");
+		if (StringUtils.isBlank(enabled)) {
+			setEnabled(true);
+		} else {
+			setEnabled(Boolean.valueOf(enabled));
+		}
+		mDisablePrefixArray = pFilterConfig.getInitParameter("disablePrefixArray").split(",");
+		LOG.debug(">>>>>>>>>>>>>>Initialized DecodeBase64ParameterFilter>>>>>>");
+	}
 
-        LOG.debug(">>>>>>>>>>>>>>Initialized DecodeBase64ParameterFilter>>>>>>");
-    }
+	@Override
+	public void doFilter(ServletRequest pServletRequest, ServletResponse pServletResponse, FilterChain pFilterChain) throws IOException, ServletException {
+		if (!isEnabled()) {
+			pFilterChain.doFilter(pServletRequest, pServletResponse);
+			return;
+		}
+		if (pServletRequest instanceof HttpServletRequest) {
+			HttpServletRequest httpServletRequest = (HttpServletRequest) pServletRequest;
+			for (String disablePrefix : mDisablePrefixArray) {
+				if (!httpServletRequest.getRequestURI().startsWith(disablePrefix)) {
+					continue;
+				}
+				pFilterChain.doFilter(pServletRequest, pServletResponse);
+				return;
+			}
+		}
+		if (pServletRequest != null && ServletFileUpload.isMultipartContent((HttpServletRequest) pServletRequest)) {
+			pFilterChain.doFilter(pServletRequest, pServletResponse);
+			return;
+		}
+		HttpServletRequestWrapper requestWrapper = new Base64DecodeRequestWrapper((HttpServletRequest) pServletRequest);
+		pFilterChain.doFilter(requestWrapper, pServletResponse);
+	}
 
-    @Override
-    public void doFilter(ServletRequest pServletRequest, ServletResponse pServletResponse, FilterChain pFilterChain) throws IOException, ServletException {
-        if (!isEnabled()) {
-            pFilterChain.doFilter(pServletRequest, pServletResponse);
-            return;
-        }
-        if (pServletRequest != null && ServletFileUpload.isMultipartContent((HttpServletRequest) pServletRequest)) {
-            pFilterChain.doFilter(pServletRequest, pServletResponse);
-            return;
-        }
-        HttpServletRequestWrapper requestWrapper = new Base64DecodeRequestWrapper((HttpServletRequest) pServletRequest);
-        pFilterChain.doFilter(requestWrapper, pServletResponse);
-    }
+	@Override
+	public void destroy() {
+		LOG.debug(">>>>>>>>>>>>>>Destroyed DecodeBase64ParameterFilter>>>>>>");
+	}
 
-    @Override
-    public void destroy() {
-        LOG.debug(">>>>>>>>>>>>>>Destroyed DecodeBase64ParameterFilter>>>>>>");
-    }
+	public boolean isEnabled() {
+		return mEnabled;
+	}
 
-    public boolean isEnabled() {
-        return mEnabled;
-    }
-
-    public void setEnabled(boolean pEnabled) {
-        mEnabled = pEnabled;
-    }
+	public void setEnabled(boolean pEnabled) {
+		mEnabled = pEnabled;
+	}
 }

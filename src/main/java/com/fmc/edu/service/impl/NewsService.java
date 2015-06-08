@@ -28,8 +28,8 @@ public class NewsService {
         return getNewsRepository().queryNewsMaxIdByNewsType(pNewsType);
     }
 
-    public List<Slide> querySlideList(Timestamp pStartDate, Timestamp pEndDate) {
-        return getNewsRepository().querySlideList(pStartDate, pEndDate);
+    public List<Slide> querySlideList(final boolean pAvailable, Timestamp pStartDate, Timestamp pEndDate) {
+        return getNewsRepository().querySlideList(pAvailable, pStartDate, pEndDate);
     }
 
     public NewsRepository getNewsRepository() {

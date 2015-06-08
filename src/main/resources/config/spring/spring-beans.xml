@@ -11,11 +11,15 @@
 		<property name="initializationHandlers">
 			<array>
 				<ref bean="newsCacheInitHandler" />
+				<ref bean="PCEduSlideCountInitHandler" />
 			</array>
 		</property>
 	</bean>
 
 	<bean id="newsCacheInitHandler" class="com.fmc.edu.executor.handler.NewsCacheInitHandler" />
+	<bean id="PCEduSlideCountInitHandler" class="com.fmc.edu.executor.handler.PCEduSlideCountInitHandler">
+		<property name="slideCount" value="5" />
+	</bean>
 
 	<task:scheduled-tasks>
 		<!-- every 10 mins -->

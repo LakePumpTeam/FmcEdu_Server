@@ -34,8 +34,9 @@ public class NewsRepository extends BaseRepository implements INewsRepository {
     }
 
     @Override
-    public List<Slide> querySlideList(Timestamp pStartDate, Timestamp pEndDate) {
+    public List<Slide> querySlideList(final boolean pAvailable, Timestamp pStartDate, Timestamp pEndDate) {
         Map<String, Object> params = new HashMap<String, Object>(2);
+        params.put("available", pAvailable);
         params.put("startDate", pStartDate);
         params.put("endDate", pEndDate);
         return getSqlSession().selectList(QUERY_NEWS_SLIDE_LIST, params);

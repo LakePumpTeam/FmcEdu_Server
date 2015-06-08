@@ -217,6 +217,7 @@
         <result property="available" column="available"/>
         <result property="creationDate" column="creation_date"/>
         <result property="lastUpdateDate" column="last_update_date"/>
+        <association property="news" column="news_id" select="com.fmc.edu.news.queryNewsDetail" />
     </resultMap>
 
     <resultMap id="userMessage" type="UserMessage">

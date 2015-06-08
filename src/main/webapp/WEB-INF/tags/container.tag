@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <%@attribute name="template" %>
 <%@attribute name="subject" %>
@@ -34,6 +35,7 @@
         String ctx = request.getContextPath();
         request.setAttribute("ctx", ctx);
     %>
+    <c:set var="ctx" value="${ctx}" scope="request" />
     <script>
         var ctx = "<%=ctx%>";
     </script>
@@ -335,6 +337,9 @@
                             </li>
                         </ul>
                         <!-- /.nav-second-level -->
+                    </li>
+                    <li>
+                        <a href="${ctx}/admin/slide"><i class="fa fa-files-o fa-fw"></i> Slide</a>
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>

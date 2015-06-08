@@ -7,6 +7,7 @@
         </div>
         <script type="text/plain" id="myEditor" name="content" style="width:100%;height:240px;"><p>输入校园通知信息...</p>
         </script>
+        <br />
         <input type="submit" value="发布" id="submit" class="btn btn btn-primary"/>
     </form>
     <script type="text/javascript">
