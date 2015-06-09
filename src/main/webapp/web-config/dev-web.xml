@@ -67,7 +67,7 @@
         </init-param>
         <init-param>
             <param-name>disablePrefixArray</param-name>
-            <param-value>/admin/,/WEB-INF/jsp/admin/</param-value>
+            <param-value>admin/,WEB-INF/jsp/admin/</param-value>
         </init-param>
     </filter>
 

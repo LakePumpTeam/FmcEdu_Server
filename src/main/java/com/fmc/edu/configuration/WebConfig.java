@@ -35,6 +35,8 @@ public class WebConfig {
     private static final String COMPRESS_IMAGE_HIGHT = "compressedImageHight";
 
     private static final String COMPRESS_IMAGE_WIDTH = "compressedImageWidth";
+
+    private static final String FMC_WEB_CONTEXT = "webContext";
     private static Properties props;
 
     static {
@@ -134,5 +136,16 @@ public class WebConfig {
         }
         String compressedImageWidth = props.getProperty(WebConfig.COMPRESS_IMAGE_WIDTH);
         return Integer.valueOf(compressedImageWidth);
+    }
+
+    public static String getFMCWebContext() {
+        if (props == null) {
+            return "/";
+        }
+        String webContext = props.getProperty(WebConfig.FMC_WEB_CONTEXT);
+        if (StringUtils.isBlank(webContext)) {
+            return "/";
+        }
+        return webContext;
     }
 }
