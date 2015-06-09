@@ -41,8 +41,9 @@ public class DecodeBase64ParameterFilter implements Filter {
         if (pServletRequest instanceof HttpServletRequest) {
             HttpServletRequest httpServletRequest = (HttpServletRequest) pServletRequest;
             for (String disablePrefix : mDisablePrefixArray) {
-                LOG.debug(">>>>>>>>>>>>>>Current Request URI:" + httpServletRequest.getRequestURI());
-                if (!httpServletRequest.getRequestURI().startsWith(WebConfig.getFMCWebContext() + disablePrefix)) {
+                disablePrefix = WebConfig.getFMCWebContext() + disablePrefix;
+                LOG.debug(">>>>>>>>>>>>>>Current Request URI:" + httpServletRequest.getRequestURI() + ">>>disablePrefix:" + disablePrefix);
+                if (!httpServletRequest.getRequestURI().startsWith(disablePrefix)) {
                     continue;
                 }
                 LOG.debug(">>>>>>>>>>>>>>SKIP: Request URI:" + httpServletRequest.getRequestURI());
