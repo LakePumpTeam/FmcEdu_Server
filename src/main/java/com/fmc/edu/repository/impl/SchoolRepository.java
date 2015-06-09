@@ -88,8 +88,11 @@ public class SchoolRepository extends BaseRepository implements ISchoolRepositor
     }
 
     @Override
-    public List<Course> queryCourseListByClassId(int pClassId) {
-        return getSqlSession().selectList(QUERY_COURSE_LIST_BY_CLASS_ID, pClassId);
+    public List<Course> queryCourseListByClassId(int pClassId, int pWeek) {
+        Map<String, Object> params = new HashMap<String, Object>(2);
+        params.put("classId", pClassId);
+        params.put("week", pWeek);
+        return getSqlSession().selectList(QUERY_COURSE_LIST_BY_CLASS_ID, params);
     }
 
     @Override

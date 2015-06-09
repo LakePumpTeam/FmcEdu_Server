@@ -100,7 +100,7 @@
         WHERE id = #{id}
     </select>
 
-    <select id="queryCourseListByClassId" parameterType="int" resultMap="rm.course">
+    <select id="queryCourseListByClassId" parameterType="map" resultMap="rm.course">
         SELECT cs.id,
         cs.timetable_id,
         cs.course_name,
@@ -114,7 +114,7 @@
         FROM course cs
         INNER JOIN timetable tt
         ON cs.timetable_id = tt.id
-        WHERE tt.class_id = #{classId} and tt.available = 1;
+        WHERE tt.class_id = #{classId} and tt.available = 1 AND cs.week = #{week};
 
     </select>
 

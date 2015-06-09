@@ -42,6 +42,8 @@ import java.util.Map;
 public class SchoolController extends BaseController {
     private static final Logger LOG = Logger.getLogger(SchoolController.class);
 
+    public static int[] WEEK_LIST = {1, 2, 3, 4, 5, 6, 7};
+
     @Resource(name = "schoolManager")
     private SchoolManager mSchoolManager;
 
@@ -227,22 +229,28 @@ public class SchoolController extends BaseController {
         responseBean.addData("classId", fmcClass.getId());
         List<Map<String, Object>> courseList = new ArrayList<Map<String, Object>>();
         responseBean.addData("courseList", courseList);
-        List<Course> courses = getSchoolManager().queryCourseListByClassId(Integer.valueOf(classId));
-        Map<String, Object> courseMap;
+        List<Course> courses;
+        Map<String, Object> courseListItem;
+        List<Map<String, Object>> courseListMap;
         Map<String, Object> courseDetail;
-        if (courses != null) {
-            for (Course course : courses) {
-                courseMap = new HashMap<String, Object>(2);
-                courseDetail = new HashMap<String, Object>(6);
-                courseMap.put("week", course.getWeek());
-                courseMap.put("course", courseDetail);
-                courseDetail.put("courseId", course.getId());
-                courseDetail.put("order", course.getOrder());
-                courseDetail.put("orderName", course.getOrderName());
-                courseDetail.put("startTime", DateUtils.convertTimeToString(course.getStartTime()));
-                courseDetail.put("endTime", DateUtils.convertTimeToString(course.getEndTime()));
-                courseList.add(courseMap);
+        for (int week : WEEK_LIST) {
+            courseListItem = new HashMap<String, Object>();
+            courseListItem.put("week", week);
+            courseListMap = new ArrayList<Map<String, Object>>();
+            courseListItem.put("courses", courseListMap);
+            courses = getSchoolManager().queryCourseListByClassId(Integer.valueOf(classId), week);
+            if (courses != null) {
+                for (Course course : courses) {
+                    courseDetail = new HashMap<String, Object>(6);
+                    courseDetail.put("courseId", course.getId());
+                    courseDetail.put("order", course.getOrder());
+                    courseDetail.put("orderName", course.getOrderName());
+                    courseDetail.put("startTime", DateUtils.convertTimeToString(course.getStartTime()));
+                    courseDetail.put("endTime", DateUtils.convertTimeToString(course.getEndTime()));
+                    courseListMap.add(courseDetail);
+                }
             }
+            courseList.add(courseListItem);
         }
         return output(responseBean);
     }
@@ -252,20 +260,20 @@ public class SchoolController extends BaseController {
     @ResponseBody
     public String submitClassCourse(HttpServletRequest pRequest,
                                     final HttpServletResponse pResponse,
-                                    String courses)
+                                    String course)
             throws IOException, ParseException {
         ResponseBean responseBean = new ResponseBean(pRequest);
-        if (StringUtils.isBlank(courses)) {
+        if (StringUtils.isBlank(course)) {
             return output(responseBean);
         }
-        JSONArray jsonArray = new JSONArray(courses);
-        if (jsonArray == null || jsonArray.length() == 0) {
+        JSONObject jsonCourse = new JSONObject(course);
+        if (jsonCourse == null || jsonCourse.length() == 0) {
             return output(responseBean);
         }
-        JSONObject jsonObject;
         int week;
         int classId;
-        JSONObject course;
+        JSONArray courseArray;
+        JSONObject jsonObject;
         int courseId;
         int order;
         String orderName;
@@ -276,32 +284,34 @@ public class SchoolController extends BaseController {
         TimeTable timeTable;
         TransactionStatus txStatus = ensureTransaction();
         try {
-            for (int i = 0; i < jsonArray.length(); i++) {
-                jsonObject = jsonArray.getJSONObject(i);
+            courseBean = new Course();
+            week = jsonCourse.getInt("week");
+            classId = jsonCourse.getInt("classId");
+            courseBean.setWeek(week);
+            courseArray = jsonCourse.getJSONArray("courses");
+            if (courseArray == null || courseArray.length() == 0) {
+                return output(responseBean);
+            }
+            for (int i = 0; i < courseArray.length(); i++) {
+                jsonObject = courseArray.getJSONObject(i);
                 if (jsonObject == null) {
                     continue;
                 }
-                courseBean = new Course();
-                week = jsonObject.getInt("week");
-                classId = jsonObject.getInt("classId");
-                courseBean.setWeek(week);
-                course = jsonObject.getJSONObject("course");
-                if (course != null) {
-                    if (course.keySet().contains("courseId")) {
-                        courseId = course.getInt("courseId");
-                        courseBean.setId(courseId);
-                    }
-                    order = course.getInt("order");
-                    orderName = course.getString("orderName");
-                    courseName = course.getString("courseName");
-                    startTime = course.getString("startTime");
-                    endTime = course.getString("endTime");
-                    courseBean.setOrder(order);
-                    courseBean.setOrderName(orderName);
-                    courseBean.setCourseName(courseName);
-                    courseBean.setStartTime(DateUtils.convertStringToTime(startTime));
-                    courseBean.setEndTime(DateUtils.convertStringToTime(endTime));
+                if (jsonObject.keySet().contains("courseId")) {
+                    courseId = jsonObject.getInt("courseId");
+                    courseBean.setId(courseId);
                 }
+                order = jsonObject.getInt("order");
+                orderName = jsonObject.getString("orderName");
+                courseName = jsonObject.getString("courseName");
+                startTime = jsonObject.getString("startTime");
+                endTime = jsonObject.getString("endTime");
+                courseBean.setOrder(order);
+                courseBean.setOrderName(orderName);
+                courseBean.setCourseName(courseName);
+                courseBean.setStartTime(DateUtils.convertStringToTime(startTime));
+                courseBean.setEndTime(DateUtils.convertStringToTime(endTime));
+
                 if (!RepositoryUtils.idIsValid(courseBean.getId())) {
                     timeTable = new TimeTable();
                     timeTable.setClassId(classId);
