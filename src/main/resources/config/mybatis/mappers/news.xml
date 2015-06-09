@@ -7,7 +7,7 @@
     <cache type="org.mybatis.caches.ehcache.EhcacheCache"
            eviction="FIFO"
            flushInterval="60000"
-           size="512"
+           size ="512"
            readOnly="true"
             />
     -->
@@ -210,7 +210,7 @@
             <set>
                 `like` = #{item.value}, last_update_date = #{item.lastUpdateTimestamp}
             </set>
-            where id = ${item.key}
+            where id = #{item.key}
         </foreach>
     </update>
 
@@ -277,4 +277,14 @@
         AND available = 1
         ORDER BY 'order' ASC
     </select>
+
+    <update id="updateSlidesBatch" parameterType="list" flushCache="true">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE slide
+            <set>
+                `order` = #{item.order}, available = #{item.available}, last_update_date = #{item.lastUpdateDate}
+            </set>
+            where id = #{item.id}
+        </foreach>
+    </update>
 </mapper>

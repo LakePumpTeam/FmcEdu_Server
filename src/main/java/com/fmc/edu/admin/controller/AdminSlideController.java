@@ -6,13 +6,16 @@ import com.fmc.edu.model.news.News;
 import com.fmc.edu.model.news.NewsType;
 import com.fmc.edu.model.news.Slide;
 import com.fmc.edu.util.DateUtils;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.TransactionStatus;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,6 +25,7 @@ import java.util.List;
 @RequestMapping("/admin")
 public class AdminSlideController extends AdminTransactionBaseController {
 
+	private static final Logger LOG = Logger.getLogger(AdminSlideController.class);
 
 	@Resource(name = "newsManager")
 	private NewsManager mNewsManager;
@@ -35,6 +39,33 @@ public class AdminSlideController extends AdminTransactionBaseController {
 		List<News> newsList = getNewsManager().queryNewsListByNewType(buildDefaultPagination(), NewsType.PARENT_CHILD_EDU);
 		pModel.addAttribute("newsList", newsList);
 		return "admin/slide/slide";
+	}
+
+	@RequestMapping(value = "/saveSlides" + GlobalConstant.URL_SUFFIX)
+	public String saveActiveSlides(HttpServletRequest pRequest, HttpServletResponse pResponse, Model pModel, int[] ids, int[] order,
+			boolean[] available) {
+		List<Slide> slides = new ArrayList<>(ids.length);
+		for (int i = 0; i < ids.length; i++) {
+			Slide sl = new Slide();
+			sl.setId(ids[i]);
+			sl.setOrder(order[i]);
+			sl.setAvailable(available[i]);
+			slides.add(sl);
+		}
+		TransactionStatus ts = ensureTransaction();
+		try {
+			boolean success = getNewsManager().UpdateSlidesBatch(slides);
+			if (!success) {
+				ts.setRollbackOnly();
+			}
+		} catch (Exception e) {
+			LOG.error(e);
+			ts.setRollbackOnly();
+		} finally {
+			pModel.addAttribute("success", ts.isRollbackOnly() ? 0 : 1);
+			getTransactionManager().commit(ts);
+		}
+		return toSlide(pRequest, pResponse, pModel);
 	}
 
 	public NewsManager getNewsManager() {

@@ -133,4 +133,9 @@ public class NewsRepository extends BaseRepository implements INewsRepository {
     public int insertSelection(List<Selection> pSelections) {
         return getSqlSession().insert(INSERT_SELECTION, pSelections);
     }
+
+    @Override
+    public boolean UpdateSlidesBatch(final List<Slide> pSlides) {
+        return getSqlSession().update(UPDATE_SLIDES, pSlides) > 0;
+    }
 }

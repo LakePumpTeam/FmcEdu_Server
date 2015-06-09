@@ -101,6 +101,10 @@ public class NewsService {
         return getNewsRepository().insertSelection(pSelections);
     }
 
+    public boolean UpdateSlidesBatch(final List<Slide> pSlides) {
+        return getNewsRepository().UpdateSlidesBatch(pSlides);
+    }
+
     public void setNewsRepository(NewsRepository pNewsRepository) {
         mNewsRepository = pNewsRepository;
     }

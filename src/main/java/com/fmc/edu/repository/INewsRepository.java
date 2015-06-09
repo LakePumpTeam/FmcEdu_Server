@@ -89,4 +89,8 @@ public interface INewsRepository {
     String INSERT_SELECTION = "com.fmc.edu.news.insertSelection";
 
     int insertSelection(List<Selection> pSelections);
+
+    String UPDATE_SLIDES = "com.fmc.edu.news.updateSlidesBatch";
+
+    boolean UpdateSlidesBatch(List<Slide> pSlides);
 }
