@@ -306,6 +306,10 @@ public class SchoolController extends BaseController {
                 courseName = jsonObject.getString("courseName");
                 startTime = jsonObject.getString("startTime");
                 endTime = jsonObject.getString("endTime");
+                if (StringUtils.isBlank(startTime) || StringUtils.isBlank(endTime)) {
+                    LOG.debug("NOT SET startTime Or endTime, SKIP THIS DATA.");
+                    continue;
+                }
                 courseBean.setOrder(order);
                 courseBean.setOrderName(orderName);
                 courseBean.setCourseName(courseName);
