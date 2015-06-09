@@ -29,6 +29,9 @@ public class DecodeBase64ParameterFilter implements Filter {
             setEnabled(Boolean.valueOf(enabled));
         }
         mDisablePrefixArray = pFilterConfig.getInitParameter("disablePrefixArray").split(",");
+        for (int i = 0; i < mDisablePrefixArray.length; i++) {
+            mDisablePrefixArray[i] = (WebConfig.getFMCWebContext() + mDisablePrefixArray[i]).replace("//", "/");
+        }
         LOG.debug(">>>>>>>>>>>>>>Initialized DecodeBase64ParameterFilter>>>>>>");
     }
 
@@ -41,7 +44,6 @@ public class DecodeBase64ParameterFilter implements Filter {
         if (pServletRequest instanceof HttpServletRequest) {
             HttpServletRequest httpServletRequest = (HttpServletRequest) pServletRequest;
             for (String disablePrefix : mDisablePrefixArray) {
-                disablePrefix = WebConfig.getFMCWebContext() + disablePrefix;
                 LOG.debug(">>>>>>>>>>>>>>Current Request URI:" + httpServletRequest.getRequestURI() + ">>>disablePrefix:" + disablePrefix);
                 if (!httpServletRequest.getRequestURI().startsWith(disablePrefix)) {
                     continue;
