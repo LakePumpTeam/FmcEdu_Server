@@ -42,11 +42,11 @@ public class DecodeBase64ParameterFilter implements Filter {
 			for (String disablePrefix : mDisablePrefixArray) {
                 LOG.debug(">>>>>>>>>>>>>>Current Request URI:" + httpServletRequest.getRequestURI());
                 if (!httpServletRequest.getRequestURI().startsWith(disablePrefix)) {
-                    LOG.debug(">>>>>>>>>>>>>>SKIP: Request URI:" + httpServletRequest.getRequestURI());
                     continue;
-				}
-				pFilterChain.doFilter(pServletRequest, pServletResponse);
-				return;
+                }
+                LOG.debug(">>>>>>>>>>>>>>SKIP: Request URI:" + httpServletRequest.getRequestURI());
+                pFilterChain.doFilter(pServletRequest, pServletResponse);
+                return;
 			}
 		}
 		if (pServletRequest != null && ServletFileUpload.isMultipartContent((HttpServletRequest) pServletRequest)) {
