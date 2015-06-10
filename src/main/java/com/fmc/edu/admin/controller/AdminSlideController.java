@@ -1,12 +1,17 @@
 package com.fmc.edu.admin.controller;
 
 import com.fmc.edu.constant.GlobalConstant;
+import com.fmc.edu.manager.MyAccountManager;
 import com.fmc.edu.manager.NewsManager;
 import com.fmc.edu.model.news.News;
 import com.fmc.edu.model.news.NewsType;
 import com.fmc.edu.model.news.Slide;
+import com.fmc.edu.model.profile.BaseProfile;
 import com.fmc.edu.util.DateUtils;
 import org.apache.log4j.Logger;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.ui.Model;
@@ -72,6 +77,10 @@ public class AdminSlideController extends AdminTransactionBaseController {
 	@RequestMapping(value = "/createSlide" + GlobalConstant.URL_SUFFIX)
 	public String createSlide(HttpServletRequest pRequest, HttpServletResponse pResponse, Model pModel, String subject, int newsId,
 			boolean available, MultipartFile image) {
+		Subject currentUser = SecurityUtils.getSubject();
+		Session session = currentUser.getSession(false);
+		BaseProfile userProfile = (BaseProfile) session.getAttribute(MyAccountManager.CURRENT_SESSION_USER_KEY);
+
 		Slide slide = new Slide();
 		slide.setSubject(subject);
 		slide.setNewsId(newsId);

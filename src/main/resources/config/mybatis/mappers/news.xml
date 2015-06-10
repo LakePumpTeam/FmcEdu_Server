@@ -1,77 +1,77 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fmc.edu.news">
-    <!--
-    <cache type="org.mybatis.caches.ehcache.EhcacheCache"
-           eviction="FIFO"
-           flushInterval="60000"
-           size ="512"
-           readOnly="true"
-            />
-    -->
+	<!--
+	<cache type="org.mybatis.caches.ehcache.EhcacheCache"
+		   eviction="FIFO"
+		   flushInterval="60000"
+		   size ="512"
+		   readOnly="true"
+			/>
+	-->
 
-    <sql id="limit-split-page">
+	<sql id="limit-split-page">
         LIMIT #{start}, #{size}
     </sql>
 
-    <select id="queryNewsListByNewType" parameterType="map" useCache="true" resultMap="rm.news">
-        SELECT id,
-        author,
-        subject,
-        content,
-        news_type,
-        ref_id,
-        approved,
-        approved_by,
-        approve_date,
-        `like`,
-        popular,
-        publish_date,
-        creation_date,
-        last_update_date
-        FROM news
-        WHERE
-        <if test="newsType != 0">news_type = #{newsType} and</if>
-        approved = 1 order by publish_date DESC
-        <include refid="limit-split-page"/>
-    </select>
+	<select id="queryNewsListByNewType" parameterType="map" useCache="true" resultMap="rm.news">
+		SELECT id,
+		author,
+		subject,
+		content,
+		news_type,
+		ref_id,
+		approved,
+		approved_by,
+		approve_date,
+		`like`,
+		popular,
+		publish_date,
+		creation_date,
+		last_update_date
+		FROM news
+		WHERE
+		<if test="newsType != 0">news_type = #{newsType} and</if>
+		approved = 1 order by publish_date DESC
+		<include refid="limit-split-page" />
+	</select>
 
-    <select id="queryNewsMaxIdByNewsType" useCache="false" parameterType="int" resultType="int">
+	<select id="queryNewsMaxIdByNewsType" useCache="false" parameterType="int" resultType="int">
         select id from news where news_type=#{newsType} order by id desc limit 0,1;
     </select>
 
-    <select id="querySlideList" useCache="true" parameterType="map" resultMap="rm.slide">
-        SELECT id,
-        subject,
-        news_id,
-        img_name,
-        img_path,
-        `order`,
-        available,
-        creation_date
-        FROM slide
-        WHERE
-        <choose>
-            <when test="available">available = 1</when>
-            <otherwise>available = 0</otherwise>
-        </choose>
-        AND start_date &gt;= now()
-        AND (end_date &lt;= now() OR end_date IS NULL)
-        ORDER BY 'order' ASC
-    </select>
+	<select id="querySlideList" useCache="true" parameterType="map" resultMap="rm.slide">
+		SELECT id,
+		subject,
+		news_id,
+		img_name,
+		img_path,
+		`order`,
+		available,
+		creation_date
+		FROM slide
+		WHERE
+		<choose>
+			<when test="available">available = 1</when>
+			<otherwise>available = 0</otherwise>
+		</choose>
+		AND start_date &gt;= now()
+		AND (end_date &lt;= now() OR end_date IS NULL)
+		ORDER BY 'order' ASC
+	</select>
 
-    <insert id="insertComment" parameterType="Comments" flushCache="true" keyProperty="id" useGeneratedKeys="true">
+	<insert id="insertComment" parameterType="Comments" flushCache="true" keyProperty="id" useGeneratedKeys="true">
         INSERT INTO comments (ref_id,profile_id,comment,creation_date,last_update_date, available)
         VALUES (#{refId}, #{profileId}, #{comment}, now(), now(), 1)
     </insert>
 
-    <update id="deleteComment" flushCache="true" parameterType="int">
+	<update id="deleteComment" flushCache="true" parameterType="int">
         UPDATE comments SET available = 0 WHERE id = #{commentId}
     </update>
 
-    <insert id="insertNews" keyProperty="id" useGeneratedKeys="true" parameterType="News" flushCache="true">
+	<insert id="insertNews" keyProperty="id" useGeneratedKeys="true" parameterType="News" flushCache="true">
         INSERT INTO `news`
         (`author`,
         `subject`,
@@ -97,7 +97,7 @@
         )
     </insert>
 
-    <insert id="insertImage" parameterType="Image" flushCache="true">
+	<insert id="insertImage" parameterType="Image" flushCache="true">
         INSERT INTO `image`
         ( `news_id`,
         `img_name`,
@@ -114,7 +114,7 @@
         );
     </insert>
 
-    <select id="queryNewsDetail" parameterType="int" resultMap="rm.news" useCache="true">
+	<select id="queryNewsDetail" parameterType="int" resultMap="rm.news" useCache="true">
         SELECT id,
         author,
         subject,
@@ -132,94 +132,94 @@
         WHERE id = #{newsId}
     </select>
 
-    <select id="queryCommentsByNewsIdAndProfileId" parameterType="map" useCache="false" resultMap="rm.comments">
-        SELECT `id`,
-        `ref_id`,
-        `profile_id`,
-        `comment`,
-        `creation_date`,
-        `last_update_date`
-        FROM `comments`
-        WHERE ref_id = #{newsId} AND available = 1
-        <if test="userId != null and  userId != 0">
-            and profile_id = #{userId}
-        </if>
-        ORDER BY creation_date DESC
-    </select>
+	<select id="queryCommentsByNewsIdAndProfileId" parameterType="map" useCache="false" resultMap="rm.comments">
+		SELECT `id`,
+		`ref_id`,
+		`profile_id`,
+		`comment`,
+		`creation_date`,
+		`last_update_date`
+		FROM `comments`
+		WHERE ref_id = #{newsId} AND available = 1
+		<if test="userId != null and  userId != 0">
+			and profile_id = #{userId}
+		</if>
+		ORDER BY creation_date DESC
+	</select>
 
-    <select id="isLikedNews" parameterType="map" useCache="false" resultType="int">
+	<select id="isLikedNews" parameterType="map" useCache="false" resultType="int">
         SELECT count(1)
         FROM `profile_like_map`
         WHERE profile_id =#{userId} AND news_id = #{newsId} ;
 
     </select>
 
-    <select id="getAllNewsMaxNewsId" resultType="map" useCache="false">
+	<select id="getAllNewsMaxNewsId" resultType="map" useCache="false">
         SELECT CAST(news_type AS SIGNED) as newsType, max(id) as maxId
         FROM news
         where approved = 1
         GROUP BY news_type
     </select>
 
-    <update id="updateNews" parameterType="News" flushCache="true">
-        UPDATE news
-        <trim prefix="set" suffixOverrides=",">
-            <if test="author != 0 ">
-                author = #{author},
-            </if>
-            <if test="subject != null ">
-                subject = #{subject},
-            </if>
-            <if test="content != null ">
-                content = #{content},
-            </if>
-            <if test="newsType!= null ">
-                news_type = #{newsType},
-            </if>
-            <if test="refId != 0 ">
-                ref_id = #{refId},
-            </if>
-            <if test="approved != null ">
-                approved = #{approved},
-            </if>
-            <if test="approvedBy != null ">
-                approved_by = #{approvedBy},
-            </if>
-            <if test="approvedDate != null ">
-                approve_date = #{approvedDate},
-            </if>
-            <if test="like != 0 ">
-                `like` = #{like},
-            </if>
-            <if test="publishDate != null ">
-                publish_date = #{publishDate},
-            </if>
-            <if test="creationDate !=null ">
-                creation_date = #{creationDate},
-            </if>
-            <if test="lastUpdateDate !=null ">
-                last_update_date = #{lastUpdateDate},
-            </if>
-        </trim>
-        WHERE id = #{id}
-    </update>
+	<update id="updateNews" parameterType="News" flushCache="true">
+		UPDATE news
+		<trim prefix="set" suffixOverrides=",">
+			<if test="author != 0 ">
+				author = #{author},
+			</if>
+			<if test="subject != null ">
+				subject = #{subject},
+			</if>
+			<if test="content != null ">
+				content = #{content},
+			</if>
+			<if test="newsType!= null ">
+				news_type = #{newsType},
+			</if>
+			<if test="refId != 0 ">
+				ref_id = #{refId},
+			</if>
+			<if test="approved != null ">
+				approved = #{approved},
+			</if>
+			<if test="approvedBy != null ">
+				approved_by = #{approvedBy},
+			</if>
+			<if test="approvedDate != null ">
+				approve_date = #{approvedDate},
+			</if>
+			<if test="like != 0 ">
+				`like` = #{like},
+			</if>
+			<if test="publishDate != null ">
+				publish_date = #{publishDate},
+			</if>
+			<if test="creationDate !=null ">
+				creation_date = #{creationDate},
+			</if>
+			<if test="lastUpdateDate !=null ">
+				last_update_date = #{lastUpdateDate},
+			</if>
+		</trim>
+		WHERE id = #{id}
+	</update>
 
-    <update id="updateNewsCacheBatch" parameterType="list" flushCache="true">
-        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
-            UPDATE news
-            <set>
-                `like` = #{item.value}, last_update_date = #{item.lastUpdateTimestamp}
-            </set>
-            where id = #{item.key}
-        </foreach>
-    </update>
+	<update id="updateNewsCacheBatch" parameterType="list" flushCache="true">
+		<foreach collection="list" item="item" index="index" open="" close="" separator=";">
+			UPDATE news
+			<set>
+				`like` = #{item.value}, last_update_date = #{item.lastUpdateTimestamp}
+			</set>
+			where id = #{item.key}
+		</foreach>
+	</update>
 
-    <select id="queryProfileSelectionRelationshipCount" resultType="int" parameterType="int">
+	<select id="queryProfileSelectionRelationshipCount" resultType="int" parameterType="int">
        SELECT count(1)
          FROM profile_selection_map
          WHERE news_id = #{newsId};
     </select>
-    <select id="queryProfileSelectionRelationship" resultMap="rm.profileSelectionRelationship" parameterType="map">
+	<select id="queryProfileSelectionRelationship" resultMap="rm.profileSelectionRelationship" parameterType="map">
         SELECT news_id,
                 selection_id,
                 profile_id,
@@ -228,7 +228,7 @@
         WHERE news_id = #{newsId} AND profile_id = #{userId} LIMIT 1;
     </select>
 
-    <select id="querySelectionByNewsId" resultMap="rm.selection" parameterType="int">
+	<select id="querySelectionByNewsId" resultMap="rm.selection" parameterType="int">
       SELECT id,
              news_id,
              selection,
@@ -239,7 +239,7 @@
             WHERE news_id = #{newsId} ORDER BY sort_order ASC;
     </select>
 
-    <select id="querySelectionById" resultMap="rm.selection" parameterType="int">
+	<select id="querySelectionById" resultMap="rm.selection" parameterType="int">
         SELECT id,
         news_id,
         selection,
@@ -250,7 +250,7 @@
         WHERE id = #{id};
     </select>
 
-    <select id="insertProfileSelectionMap" parameterType="ProfileSelectionRelationship" flushCache="true">
+	<select id="insertProfileSelectionMap" parameterType="ProfileSelectionRelationship" flushCache="true">
         INSERT INTO profile_selection_map
         (news_id,
         selection_id,
@@ -263,14 +263,14 @@
          now());
     </select>
 
-    <insert id="insertSelection" parameterType="Selection" flushCache="true">
-        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
-            INSERT INTO selection (news_id,selection,sort_order,creation_date,last_update_date)
-            VALUES(#{item.newsId},#{item.selection},#{item.sortOrder},now(),now())
-        </foreach>
-    </insert>
+	<insert id="insertSelection" parameterType="Selection" flushCache="true">
+		<foreach collection="list" item="item" index="index" open="" close="" separator=";">
+			INSERT INTO selection (news_id,selection,sort_order,creation_date,last_update_date)
+			VALUES(#{item.newsId},#{item.selection},#{item.sortOrder},now(),now())
+		</foreach>
+	</insert>
 
-    <select id="querySlideList4Admin" useCache="true" parameterType="map" resultMap="rm.slide">
+	<select id="querySlideList4Admin" useCache="true" parameterType="map" resultMap="rm.slide">
         SELECT id, subject, news_id, img_name, img_path, `order`, creation_date
         FROM slide
         WHERE start_date &gt; = now() AND (end_date &lt; = now() OR end_date IS NULL)
@@ -278,17 +278,20 @@
         ORDER BY 'order' ASC
     </select>
 
-    <update id="updateSlidesBatch" parameterType="list" flushCache="true">
-        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
-            UPDATE slide
-            <set>
-                `order` = #{item.order}, available = #{item.available}, last_update_date = #{item.lastUpdateDate}
-            </set>
-            where id = #{item.id}
-        </foreach>
-    </update>
+	<update id="updateSlidesBatch" parameterType="list" flushCache="true">
+		<foreach collection="list" item="item" index="index" open="" close="" separator=";">
+			UPDATE slide
+			<set>
+				`order` = #{item.order}, available = #{item.available}, last_update_date = #{item.lastUpdateDate}
+			</set>
+			where id = #{item.id}
+		</foreach>
+	</update>
 
-    <insert id="insertImage" parameterType="com.fmc.edu.model.news.Slide" useGeneratedKeys="true" keyProperty="id" flushCache="true">
-        INSERT INTO slide ()
+	<insert id="insertImage" parameterType="com.fmc.edu.model.news.Slide" useGeneratedKeys="true" keyProperty="id" flushCache="true">
+		INSERT INTO slide (subject, news_id, profile_id, img_name, img_path, `order`, start_date, end_date, available, creation_date,
+		last_update_date)
+		VALUES (#{subject}, #{newsId}, #{profileId}, #{imgName}, #{imgPath}, #{order}, #{startDate}, #{endDate}, #{available},
+		#{creationDate}, #{lastUpdateDate)
     </insert>
 </mapper>
