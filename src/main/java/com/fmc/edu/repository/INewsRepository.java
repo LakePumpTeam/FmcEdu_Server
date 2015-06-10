@@ -14,83 +14,87 @@ import java.util.Map;
  */
 public interface INewsRepository {
 
-    String QUERY_NEWS_LIST_BY_TYPE = "com.fmc.edu.news.queryNewsListByNewType";
+	String QUERY_NEWS_LIST_BY_TYPE = "com.fmc.edu.news.queryNewsListByNewType";
 
-    List<News> queryNewsListByNewType(Pagination pPagination, int pNewsType);
+	List<News> queryNewsListByNewType(Pagination pPagination, int pNewsType);
 
-    String QUERY_NEWS_MAX_ID_BY_NEWS_TYPE = "com.fmc.edu.news.queryNewsMaxIdByNewsType";
+	String QUERY_NEWS_MAX_ID_BY_NEWS_TYPE = "com.fmc.edu.news.queryNewsMaxIdByNewsType";
 
-    int queryNewsMaxIdByNewsType(int pNewsType);
+	int queryNewsMaxIdByNewsType(int pNewsType);
 
-    String QUERY_NEWS_SLIDE_LIST = "com.fmc.edu.news.querySlideList";
+	String QUERY_NEWS_SLIDE_LIST = "com.fmc.edu.news.querySlideList";
 
-    List<Slide> querySlideList(final boolean pAvailable, Timestamp pStartDate, Timestamp pEndDate);
+	List<Slide> querySlideList(final boolean pAvailable, Timestamp pStartDate, Timestamp pEndDate);
 
-    String QUERY_NEWS_DETAIL = "com.fmc.edu.news.queryNewsDetail";
+	String QUERY_NEWS_DETAIL = "com.fmc.edu.news.queryNewsDetail";
 
-    News queryNewsDetail(int pNewsId);
+	News queryNewsDetail(int pNewsId);
 
-    String INSERT_COMMENTS = "com.fmc.edu.news.insertComment";
+	String INSERT_COMMENTS = "com.fmc.edu.news.insertComment";
 
-    boolean insertComment(Comments pComments);
+	boolean insertComment(Comments pComments);
 
-    String DELETE_COMMENTS = "com.fmc.edu.news.deleteComment";
+	String DELETE_COMMENTS = "com.fmc.edu.news.deleteComment";
 
-    boolean deleteComment(int pCommentId);
+	boolean deleteComment(int pCommentId);
 
-    String INSERT_NEWS = "com.fmc.edu.news.insertNews";
+	String INSERT_NEWS = "com.fmc.edu.news.insertNews";
 
-    boolean insertNews(News pNews);
+	boolean insertNews(News pNews);
 
-    String INSERT_IMAGE = "com.fmc.edu.news.insertImage";
+	String INSERT_IMAGE = "com.fmc.edu.news.insertImage";
 
-    boolean insertImage(Image pImage);
+	boolean insertImage(Image pImage);
 
-    String QUERY_COMMENTS_BY_NEWSID_AND_PROFILEID = "com.fmc.edu.news.queryCommentsByNewsIdAndProfileId";
+	String QUERY_COMMENTS_BY_NEWSID_AND_PROFILEID = "com.fmc.edu.news.queryCommentsByNewsIdAndProfileId";
 
-    List<Comments> queryCommentsByNewsIdAndProfileId(int pUserId, int pNewsId);
+	List<Comments> queryCommentsByNewsIdAndProfileId(int pUserId, int pNewsId);
 
-    String IS_LIKED_NEWS = "com.fmc.edu.news.isLikedNews";
+	String IS_LIKED_NEWS = "com.fmc.edu.news.isLikedNews";
 
-    boolean isLikedNews(int pUserId, int pNewsId);
+	boolean isLikedNews(int pUserId, int pNewsId);
 
-    String QUERY_ALL_NEWS_MAX_ID = "com.fmc.edu.news.getAllNewsMaxNewsId";
+	String QUERY_ALL_NEWS_MAX_ID = "com.fmc.edu.news.getAllNewsMaxNewsId";
 
-    List<Map<Integer, Integer>> getAllNewsMaxNewsId();
+	List<Map<Integer, Integer>> getAllNewsMaxNewsId();
 
-    String UPDATE_NEWS = "com.fmc.edu.news.updateNews";
+	String UPDATE_NEWS = "com.fmc.edu.news.updateNews";
 
-    boolean updateNews(News pNews);
+	boolean updateNews(News pNews);
 
-    String UPDATE_NEWS_CACHE_BATCH = "com.fmc.edu.news.updateNewsCacheBatch";
+	String UPDATE_NEWS_CACHE_BATCH = "com.fmc.edu.news.updateNewsCacheBatch";
 
-    boolean updateNewsCacheBatch(List<Cache> pCacheList);
+	boolean updateNewsCacheBatch(List<Cache> pCacheList);
 
-    String QUERY_PROFILE_SELECTION_RELATIONSHIP_COUNT = "com.fmc.edu.news.queryProfileSelectionRelationshipCount";
+	String QUERY_PROFILE_SELECTION_RELATIONSHIP_COUNT = "com.fmc.edu.news.queryProfileSelectionRelationshipCount";
 
-    int queryProfileSelectionRelationshipCount(int pNewsId);
+	int queryProfileSelectionRelationshipCount(int pNewsId);
 
-    String QUERY_PROFILE_SELECTION_RELATIONSHIP = "com.fmc.edu.news.queryProfileSelectionRelationship";
+	String QUERY_PROFILE_SELECTION_RELATIONSHIP = "com.fmc.edu.news.queryProfileSelectionRelationship";
 
-    ProfileSelectionRelationship queryProfileSelectionRelationship(int pNewsId, int pUserId);
+	ProfileSelectionRelationship queryProfileSelectionRelationship(int pNewsId, int pUserId);
 
-    String QUERY_SELECTION_BY_NEWS_ID = "com.fmc.edu.news.querySelectionByNewsId";
+	String QUERY_SELECTION_BY_NEWS_ID = "com.fmc.edu.news.querySelectionByNewsId";
 
-    List<Selection> querySelectionByNewsId(int pNewsId);
+	List<Selection> querySelectionByNewsId(int pNewsId);
 
-    String QUERY_SELECTION_BY_ID = "com.fmc.edu.news.querySelectionById";
+	String QUERY_SELECTION_BY_ID = "com.fmc.edu.news.querySelectionById";
 
-    Selection querySelectionById(int pSelectionId);
+	Selection querySelectionById(int pSelectionId);
 
-    String INSERT_PROFILE_SELECTION_MAP = "com.fmc.edu.news.insertProfileSelectionMap";
+	String INSERT_PROFILE_SELECTION_MAP = "com.fmc.edu.news.insertProfileSelectionMap";
 
-    int insertProfileSelectionMap(ProfileSelectionRelationship pProfileSelectionRelationship);
+	int insertProfileSelectionMap(ProfileSelectionRelationship pProfileSelectionRelationship);
 
-    String INSERT_SELECTION = "com.fmc.edu.news.insertSelection";
+	String INSERT_SELECTION = "com.fmc.edu.news.insertSelection";
 
-    int insertSelection(List<Selection> pSelections);
+	int insertSelection(List<Selection> pSelections);
 
-    String UPDATE_SLIDES = "com.fmc.edu.news.updateSlidesBatch";
+	String UPDATE_SLIDES = "com.fmc.edu.news.updateSlidesBatch";
 
-    boolean UpdateSlidesBatch(List<Slide> pSlides);
+	boolean UpdateSlidesBatch(List<Slide> pSlides);
+
+	String CREATE_SLIDE = "com.fmc.edu.news.createSlide";
+
+	boolean createSlide(Slide pSlide);
 }

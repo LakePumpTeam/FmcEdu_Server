@@ -199,6 +199,11 @@ public class NewsManager {
 		return getNewsService().insertSelection(pSelections);
 	}
 
+	public boolean createSlide(final Slide pSlide, final MultipartFile pImage) {
+		boolean created = getNewsService().createSlide(pSlide);
+		return created;
+	}
+
 	public boolean UpdateSlidesBatch(final List<Slide> pSlides) {
 		return getNewsService().UpdateSlidesBatch(pSlides);
 	}

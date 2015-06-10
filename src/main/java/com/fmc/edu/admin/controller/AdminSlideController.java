@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -42,7 +43,7 @@ public class AdminSlideController extends AdminTransactionBaseController {
 	}
 
 	@RequestMapping(value = "/saveSlides" + GlobalConstant.URL_SUFFIX)
-	public String saveActiveSlides(HttpServletRequest pRequest, HttpServletResponse pResponse, Model pModel, int[] ids, int[] order,
+	public String saveSlides(HttpServletRequest pRequest, HttpServletResponse pResponse, Model pModel, int[] ids, int[] order,
 			boolean[] available) {
 		List<Slide> slides = new ArrayList<>(ids.length);
 		for (int i = 0; i < ids.length; i++) {
@@ -55,6 +56,30 @@ public class AdminSlideController extends AdminTransactionBaseController {
 		TransactionStatus ts = ensureTransaction();
 		try {
 			boolean success = getNewsManager().UpdateSlidesBatch(slides);
+			if (!success) {
+				ts.setRollbackOnly();
+			}
+		} catch (Exception e) {
+			LOG.error(e);
+			ts.setRollbackOnly();
+		} finally {
+			pModel.addAttribute("success", ts.isRollbackOnly() ? 0 : 1);
+			getTransactionManager().commit(ts);
+		}
+		return toSlide(pRequest, pResponse, pModel);
+	}
+
+	@RequestMapping(value = "/createSlide" + GlobalConstant.URL_SUFFIX)
+	public String createSlide(HttpServletRequest pRequest, HttpServletResponse pResponse, Model pModel, String subject, int newsId,
+			boolean available, MultipartFile image) {
+		Slide slide = new Slide();
+		slide.setSubject(subject);
+		slide.setNewsId(newsId);
+		slide.setAvailable(available);
+
+		TransactionStatus ts = ensureTransaction();
+		try {
+			boolean success = getNewsManager().createSlide(slide, image);
 			if (!success) {
 				ts.setRollbackOnly();
 			}

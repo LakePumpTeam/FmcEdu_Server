@@ -45,7 +45,6 @@ public class BaseBean implements Serializable {
 		}
 
 		BaseBean baseBean = (BaseBean) pObject;
-
 		return getId() == baseBean.getId();
 	}
 

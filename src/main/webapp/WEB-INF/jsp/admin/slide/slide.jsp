@@ -41,6 +41,7 @@
                                     <tr>
                                         <th>#</th>
                                         <th>预览</th>
+                                        <th>主题</th>
                                         <th>链接到文章</th>
                                         <th>显示顺序</th>
                                         <th>是否启用</th>
@@ -50,11 +51,11 @@
                                     <tbody>
                                     <c:forEach var="slide" items="${activeSlides}" varStatus="index">
                                         <tr>
-                                            <td>
-                                                    ${slide.id}
+                                            <td>${slide.id}
                                                 <input type="hidden" name="ids" value="${slide.id}" />
                                             </td>
                                             <td><img src="${ctx}${slide.imgPath}${slide.imgName}" height="80px" /></td>
+                                            <td>${slide.subject}</td>
                                             <td>《${slide.news.subject}》</td>
                                             <td><select name="order" class="form-control" data-slide-count="${slideCount}">
                                                 <c:forEach var="i" begin="1" end="${slideCount}">
@@ -86,6 +87,7 @@
                                     <tr>
                                         <th>#</th>
                                         <th>预览</th>
+                                        <th>主题</th>
                                         <th>链接到文章</th>
                                         <th>显示顺序</th>
                                         <th>是否启用</th>
@@ -95,11 +97,11 @@
                                     <tbody>
                                     <c:forEach var="slide" items="${inactiveSlides}" varStatus="index">
                                         <tr>
-                                            <td>
-                                                    ${slide.id}
+                                            <td>${slide.id}
                                                 <input type="hidden" name="ids" value="${slide.id}" />
                                             </td>
                                             <td><img src="${ctx}${slide.imgPath}${slide.imgName}" height="80px" /></td>
+                                            <td>${slide.subject}</td>
                                             <td>《${slide.news.subject}》</td>
                                             <td><select name="order" class="form-control" data-slide-count="${slideCount}" disabled>
                                                 <c:forEach var="i" begin="1" end="${slideCount}">
@@ -137,8 +139,12 @@
                 <!-- /.panel-heading -->
                 <div class="panel-body">
                     <div class="form-group">
+                        <label>主题：</label>
+                        <input type="text" name="subject" class="form-control">
+                    </div>
+                    <div class="form-group">
                         <label>请选择图片：</label>
-                        <input type="file" class="btn btn-primary">
+                        <input type="file" name="image" class="btn btn-primary">
                     </div>
                     <div class="form-group">
                         <label>请选择链接的文章：</label>
@@ -159,7 +165,7 @@
                                 <tbody>
                                 <c:forEach var="news" items="${newsList}">
                                     <tr>
-                                        <td><input type="radio" name="news_id" value="${news.id}" /></td>
+                                        <td><input type="radio" name="newsId" value="${news.id}" /></td>
                                         <td>${news.id}</td>
                                         <td>${news.subject}</td>
                                         <td>${fn:substring(news.content, 0, 25)}...</td>

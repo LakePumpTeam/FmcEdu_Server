@@ -108,4 +108,8 @@ public class NewsService {
     public void setNewsRepository(NewsRepository pNewsRepository) {
         mNewsRepository = pNewsRepository;
     }
+
+    public boolean createSlide(final Slide pSlide) {
+        return getNewsRepository().createSlide(pSlide);
+    }
 }

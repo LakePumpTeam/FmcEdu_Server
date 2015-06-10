@@ -287,4 +287,8 @@
             where id = #{item.id}
         </foreach>
     </update>
+
+    <insert id="insertImage" parameterType="com.fmc.edu.model.news.Slide" useGeneratedKeys="true" keyProperty="id" flushCache="true">
+        INSERT INTO slide ()
+    </insert>
 </mapper>
