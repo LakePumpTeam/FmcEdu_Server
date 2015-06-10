@@ -69,6 +69,7 @@ public class HomePageManager {
             if (tClass == null) {
                 headerTeacher.put("className", "");
             } else {
+                headerTeacher.put("headTeacher", baseProfile.getId() == tClass.getHeadTeacherId());
                 headerTeacher.put("className", StringUtils.ifNULLReturn(getSchoolManager().getClassString(String.valueOf(tClass.getGrade()), String.valueOf(tClass.getRealClass())), ""));
             }
         }
