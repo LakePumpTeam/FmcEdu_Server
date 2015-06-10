@@ -125,13 +125,10 @@
 
     <update id="updateCourse" flushCache="true" parameterType="Course">
         UPDATE course
-        SET timetable_id = #{timeTableId},
-        course_name = #{courseName},
-        `order` = #{order},
+        SET course_name = #{courseName},
         order_name = #{orderName},
         start_time = #{startTime},
         end_time = #{endTime},
-        week = #{week}
         WHERE id = #{id}
     </update>
 </mapper>
