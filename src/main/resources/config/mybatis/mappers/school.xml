@@ -128,7 +128,7 @@
         SET course_name = #{courseName},
         order_name = #{orderName},
         start_time = #{startTime},
-        end_time = #{endTime},
+        end_time = #{endTime}
         WHERE id = #{id}
     </update>
 </mapper>
