@@ -45,7 +45,7 @@ public interface ISchoolRepository {
 
     String QUERY_COURSE_LIST_BY_CLASS_ID = "com.fmc.edu.school.queryCourseListByClassId";
 
-    List<Course> queryCourseListByClassId(int pClassId);
+    List<Course> queryCourseListByClassId(int pClassId, int pWeek);
 
     String INSERT_TIME_TABLE = "com.fmc.edu.school.insertTimeTable";
 

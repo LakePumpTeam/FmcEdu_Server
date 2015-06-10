@@ -78,8 +78,8 @@ public class SchoolManager {
         return getSchoolService().queryTeacherById(pTeacherId);
     }
 
-    public List<Course> queryCourseListByClassId(int pClassId) {
-        return getSchoolService().queryCourseListByClassId(pClassId);
+    public List<Course> queryCourseListByClassId(int pClassId, int pWeek) {
+        return getSchoolService().queryCourseListByClassId(pClassId, pWeek);
     }
 
     public int insertTimeTable(TimeTable pTimeTable) {
