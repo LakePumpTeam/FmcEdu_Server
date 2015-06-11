@@ -83,7 +83,7 @@ public class LocationController extends BaseController {
 
     protected void preRequestCityPage(final HttpServletRequest pRequest, ResponseBean responseBean) {
         String provId = pRequest.getParameter("provId");
-        if (RepositoryUtils.idIsValid(provId)) {
+        if (!RepositoryUtils.idIsValid(provId)) {
             responseBean.addBusinessMsg(ResourceManager.VALIDATION_LOCATION_PROVINCE_ID_ERROR, provId);
         }
         validatePaginationParameters(pRequest, responseBean);
