@@ -3,12 +3,6 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fmc.edu.school">
-    <cache type="org.mybatis.caches.ehcache.EhcacheCache"
-           eviction="FIFO"
-           flushInterval="60000"
-           size="512"
-           readOnly="true"
-            />
     <sql id="limit-split-page">
         limit #{start}, #{size}
     </sql>
@@ -131,13 +125,10 @@
 
     <update id="updateCourse" flushCache="true" parameterType="Course">
         UPDATE course
-        SET timetable_id = #{timeTableId},
-        course_name = #{courseName},
-        `order` = #{order},
+        SET course_name = #{courseName},
         order_name = #{orderName},
         start_time = #{startTime},
-        end_time = #{endTime},
-        week = #{week}
+        end_time = #{endTime}
         WHERE id = #{id}
     </update>
 </mapper>

@@ -244,6 +244,7 @@ public class SchoolController extends BaseController {
                     courseDetail = new HashMap<String, Object>(6);
                     courseDetail.put("courseId", course.getId());
                     courseDetail.put("order", course.getOrder());
+                    courseDetail.put("courseName", course.getCourseName());
                     courseDetail.put("orderName", course.getOrderName());
                     courseDetail.put("startTime", DateUtils.convertTimeToString(course.getStartTime()));
                     courseDetail.put("endTime", DateUtils.convertTimeToString(course.getEndTime()));
