@@ -270,7 +270,7 @@ public class ProfileController extends BaseController {
             String authCode = pRequest.getParameter("authCode");
             String password = pRequest.getParameter("password");
 
-            if (ValidationUtils.isValidPhoneNumber(cellPhone)) {
+            if (!ValidationUtils.isValidPhoneNumber(cellPhone)) {
                 responseBean.addBusinessMsg(ResourceManager.VALIDATION_USER_PHONE_ERROR, cellPhone);
                 return output(responseBean);
             }
