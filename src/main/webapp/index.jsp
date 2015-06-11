@@ -1,9 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>FmcEdu Interface Index</title>
-    <c:set var="ctx" value="${pageContext.request.contextPath}"/>
+    <c:set var="ctx" value="${pageContext.request.contextPath}" />
     <script type="text/javascript" src="${ctx}/js/jquery-1.7.2.min.js"></script>
     <script type="text/javascript" src="${ctx}/js/jquery.base64.js"></script>
     <script type="text/javascript" src="${ctx}/js/index.js"></script>
@@ -23,14 +23,14 @@
 </head>
 <body>
 <ul class="ul-toolbar">
-    <li><input type="text" encode-type="encode" class="ipt_value"/>
-        <input type="button" class="btn_base64" data-type="encode" value="Base64 Encode"/>
+    <li><input type="text" encode-type="encode" class="ipt_value" />
+        <input type="button" class="btn_base64" data-type="encode" value="Base64 Encode" />
         &nbsp;|&nbsp; <span class="result" encode-type="encode"></span></li>
-    <li><input type="text" encode-type="decode" class="ipt_value"/>
-        <input type="button" class="btn_base64" data-type="decode" value="Base64 Decode"/>
+    <li><input type="text" encode-type="decode" class="ipt_value" />
+        <input type="button" class="btn_base64" data-type="decode" value="Base64 Decode" />
         &nbsp;|&nbsp; <span class="result" encode-type="decode"></span></li>
 </ul>
-<hr/>
+<hr />
 <fieldset>
     <legend>注册</legend>
     <table border="1">
@@ -51,12 +51,12 @@
                 <table>
                     <tr>
                         <td align="right"><label for="cellPhone" title="cellPhone">cellPhone</label></td>
-                        <td><input type="text" class="ipt_value" id="cellPhone" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="cellPhone" value="" /></td>
                     </tr>
                 </table>
             </td>
-            <td><input type="button" class="btn_request" value="Request"/></td>
-            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td><input type="button" class="btn_request" value="Request" /></td>
+            <td><input type="button" class="btn_reset" value="Reset" /></td>
             <td class="result"></td>
         </tr>
         <tr>
@@ -67,28 +67,28 @@
                 <table>
                     <tr>
                         <td align="right"><label for="cellPhone" title="cellPhone">cellPhone</label></td>
-                        <td><input type="text" class="ipt_value" id="cellPhone" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="cellPhone" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="cellPhone" title="cellPhone">authCode</label></td>
-                        <td><input type="text" class="ipt_value" id="authCode" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="authCode" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="salt" title="salt">salt</label></td>
-                        <td><input type="text" class="ipt_value" id="salt" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="salt" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="password" title="cellPhone">password</label></td>
-                        <td><input type="text" class="ipt_value" id="password" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="password" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="confirmPassword" title="cellPhone">confirmPassword</label></td>
-                        <td><input type="text" class="ipt_value" id="confirmPassword" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="confirmPassword" value="" /></td>
                     </tr>
                 </table>
             </td>
-            <td><input type="button" class="btn_request" value="Request"/></td>
-            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td><input type="button" class="btn_request" value="Request" /></td>
+            <td><input type="button" class="btn_reset" value="Reset" /></td>
             <td class="result"></td>
         </tr>
         <tr>
@@ -99,77 +99,77 @@
                 <table>
                     <tr>
                         <td align="right"><label for="cellPhone" title="cellPhone">cellPhone</label></td>
-                        <td><input type="text" class="ipt_value" id="cellPhone" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="cellPhone" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="provId" title="provId">provId</label></td>
-                        <td><input type="text" class="ipt_value" id="provId" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="provId" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="cityId" title="cityId">cityId</label></td>
-                        <td><input type="text" class="ipt_value" id="cityId" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="cityId" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="schoolId" title="schoolId">schoolId</label></td>
-                        <td><input type="text" class="ipt_value" id="schoolId" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="schoolId" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="classId" title="classId">classId</label></td>
-                        <td><input type="text" class="ipt_value" id="classId" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="classId" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="teacherId" title="teacherId">teacherId</label></td>
-                        <td><input type="text" class="ipt_value" id="teacherId" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="teacherId" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="studentName" title="studentName">studentName</label></td>
-                        <td><input type="text" class="ipt_value" id="studentName" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="studentName" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="studentSex" title="studentSex">studentSex</label></td>
-                        <td><input type="text" class="ipt_value" id="studentSex" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="studentSex" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="studentAge" title="studentAge">studentAge</label></td>
-                        <td><input type="text" class="ipt_value" id="studentAge" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="studentAge" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="parentName" title="parentName">parentName</label></td>
-                        <td><input type="text" class="ipt_value" id="parentName" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="parentName" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="relation" title="relation">relation</label></td>
-                        <td><input type="text" class="ipt_value" id="relation" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="relation" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="address" title="address">address</label></td>
-                        <td><input type="text" class="ipt_value" id="address" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="address" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="braceletCardNumber"
                                                  title="braceletCardNumber">braceletCardNumber</label></td>
-                        <td><input type="text" class="ipt_value" id="braceletCardNumber" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="braceletCardNumber" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="braceletNumber" title="braceletNumber">braceletNumber</label></td>
-                        <td><input type="text" class="ipt_value" id="braceletNumber" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="braceletNumber" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="parentId" title="parentId">parentId</label></td>
-                        <td><input type="text" class="ipt_value" id="parentId" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="parentId" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="studentId" title="studentId">studentId</label></td>
-                        <td><input type="text" class="ipt_value" id="studentId" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="studentId" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="addressId" title="addressId">addressId</label></td>
-                        <td><input type="text" class="ipt_value" id="addressId" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="addressId" value="" /></td>
                     </tr>
                 </table>
             </td>
-            <td><input type="button" class="btn_request" value="Request"/></td>
-            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td><input type="button" class="btn_request" value="Request" /></td>
+            <td><input type="button" class="btn_reset" value="Reset" /></td>
             <td class="result"></td>
         </tr>
         <tr>
@@ -180,16 +180,16 @@
                 <table>
                     <tr>
                         <td align="right"><label for="userAccount" title="userAccount">userAccount</label></td>
-                        <td><input type="text" class="ipt_value" id="userAccount" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="userAccount" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="password" title="password">password</label></td>
-                        <td><input type="text" class="ipt_value" id="password" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="password" value="" /></td>
                     </tr>
                 </table>
             </td>
-            <td><input type="button" class="btn_request" value="Request"/></td>
-            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td><input type="button" class="btn_request" value="Request" /></td>
+            <td><input type="button" class="btn_reset" value="Reset" /></td>
             <td class="result"></td>
         </tr>
         <tr>
@@ -200,20 +200,20 @@
                 <table>
                     <tr>
                         <td align="right"><label for="cellPhone" title="cellPhone">cellPhone</label></td>
-                        <td><input type="text" class="ipt_value" id="cellPhone" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="cellPhone" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="authCode" title="authCode">authCode</label></td>
-                        <td><input type="text" class="ipt_value" id="authCode" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="authCode" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="password" title="password">password</label></td>
-                        <td><input type="text" class="ipt_value" id="password" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="password" value="" /></td>
                     </tr>
                 </table>
             </td>
-            <td><input type="button" class="btn_request" value="Request"/></td>
-            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td><input type="button" class="btn_request" value="Request" /></td>
+            <td><input type="button" class="btn_reset" value="Reset" /></td>
             <td class="result"></td>
         </tr>
         <tr>
@@ -224,20 +224,20 @@
                 <table>
                     <tr>
                         <td align="right"><label for="userId" title="userId">userId</label></td>
-                        <td><input type="text" class="ipt_value" id="userId" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="userId" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="oldPassword" title="oldPassword">oldPassword</label></td>
-                        <td><input type="text" class="ipt_value" id="oldPassword" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="oldPassword" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="newPassword" title="newPassword">newPassword</label></td>
-                        <td><input type="text" class="ipt_value" id="newPassword" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="newPassword" value="" /></td>
                     </tr>
                 </table>
             </td>
-            <td><input type="button" class="btn_request" value="Request"/></td>
-            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td><input type="button" class="btn_request" value="Request" /></td>
+            <td><input type="button" class="btn_reset" value="Reset" /></td>
             <td class="result"></td>
         </tr>
         <tr>
@@ -248,12 +248,12 @@
                 <table>
                     <tr>
                         <td align="right"><label for="parentId" title="parentId">parentId</label></td>
-                        <td><input type="text" class="ipt_value" id="parentId" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="parentId" value="" /></td>
                     </tr>
                 </table>
             </td>
-            <td><input type="button" class="btn_request" value="Request"/></td>
-            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td><input type="button" class="btn_request" value="Request" /></td>
+            <td><input type="button" class="btn_reset" value="Reset" /></td>
             <td class="result"></td>
         </tr>
         <tr>
@@ -264,20 +264,20 @@
                 <table>
                     <tr>
                         <td align="right"><label for="parentIds" title="parentId">parentIds</label></td>
-                        <td><input type="text" class="ipt_value" id="parentIds" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="parentIds" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="teacherId" title="teacherId">teacherId</label></td>
-                        <td><input type="text" class="ipt_value" id="teacherId" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="teacherId" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="setPass" title="setPass">setPass</label></td>
-                        <td><input type="text" class="ipt_value" id="setPass" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="setPass" value="" /></td>
                     </tr>
                 </table>
             </td>
-            <td><input type="button" class="btn_request" value="Request"/></td>
-            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td><input type="button" class="btn_request" value="Request" /></td>
+            <td><input type="button" class="btn_reset" value="Reset" /></td>
             <td class="result"></td>
         </tr>
         <tr>
@@ -288,16 +288,16 @@
                 <table>
                     <tr>
                         <td align="right"><label for="teacherId" title="teacherId">teacherId</label></td>
-                        <td><input type="text" class="ipt_value" id="teacherId" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="teacherId" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="setPass" title="allPass">allPass</label></td>
-                        <td><input type="text" class="ipt_value" id="allPass" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="allPass" value="" /></td>
                     </tr>
                 </table>
             </td>
-            <td><input type="button" class="btn_request" value="Request"/></td>
-            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td><input type="button" class="btn_request" value="Request" /></td>
+            <td><input type="button" class="btn_reset" value="Reset" /></td>
             <td class="result"></td>
         </tr>
         <tr>
@@ -308,12 +308,12 @@
                 <table>
                     <tr>
                         <td align="right"><label for="teacherId" title="teacherId">teacherId</label></td>
-                        <td><input type="text" class="ipt_value" id="teacherId" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="teacherId" value="" /></td>
                     </tr>
                 </table>
             </td>
-            <td><input type="button" class="btn_request" value="Request"/></td>
-            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td><input type="button" class="btn_request" value="Request" /></td>
+            <td><input type="button" class="btn_reset" value="Reset" /></td>
             <td class="result"></td>
         </tr>
         <tr>
@@ -324,18 +324,18 @@
                 <table>
                     <tr>
                         <td align="right"><label for="cellPhone" title="cellPhone">cellPhone</label></td>
-                        <td><input type="text" class="ipt_value" id="cellPhone" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="cellPhone" value="" /></td>
                     </tr>
                 </table>
             </td>
-            <td><input type="button" class="btn_request" value="Request"/></td>
-            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td><input type="button" class="btn_request" value="Request" /></td>
+            <td><input type="button" class="btn_reset" value="Reset" /></td>
             <td class="result"></td>
         </tr>
     </table>
 </fieldset>
 
-<hr/>
+<hr />
 <fieldset>
     <legend>地址</legend>
     <table border="1">
@@ -356,20 +356,20 @@
                 <table>
                     <tr>
                         <td align="right"><label for="filterKey" title="filterKey">filterKey(可空)</label></td>
-                        <td><input type="text" class="ipt_value" id="filterKey" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="filterKey" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="pageIndex" title="pageIndex">pageIndex(从1开始)</label></td>
-                        <td><input type="text" class="ipt_value" id="pageIndex" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="pageIndex" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="pageSize" title="pageSize">pageSize</label></td>
-                        <td><input type="text" class="ipt_value" id="pageSize" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="pageSize" value="" /></td>
                     </tr>
                 </table>
             </td>
-            <td><input type="button" class="btn_request" value="Request"/></td>
-            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td><input type="button" class="btn_request" value="Request" /></td>
+            <td><input type="button" class="btn_reset" value="Reset" /></td>
             <td class="result"></td>
         </tr>
 
@@ -381,24 +381,24 @@
                 <table>
                     <tr>
                         <td align="right"><label for="filterKey" title="filterKey">filterKey(可空)</label></td>
-                        <td><input type="text" class="ipt_value" id="filterKey" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="filterKey" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="provId" title="provId">provId</label></td>
-                        <td><input type="text" class="ipt_value" id="provId" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="provId" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="pageIndex" title="pageIndex">pageIndex(从1开始)</label></td>
-                        <td><input type="text" class="ipt_value" id="pageIndex" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="pageIndex" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="pageSize" title="pageSize">pageSize</label></td>
-                        <td><input type="text" class="ipt_value" id="pageSize" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="pageSize" value="" /></td>
                     </tr>
                 </table>
             </td>
-            <td><input type="button" class="btn_request" value="Request"/></td>
-            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td><input type="button" class="btn_request" value="Request" /></td>
+            <td><input type="button" class="btn_reset" value="Reset" /></td>
             <td class="result"></td>
         </tr>
     </table>
@@ -424,24 +424,24 @@
                 <table>
                     <tr>
                         <td align="right"><label for="filterKey" title="filterKey">filterKey(可空)</label></td>
-                        <td><input type="text" class="ipt_value" id="filterKey" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="filterKey" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="cityId" title="cityId">cityId</label></td>
-                        <td><input type="text" class="ipt_value" id="cityId" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="cityId" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="pageIndex" title="pageIndex">pageIndex(从1开始)</label></td>
-                        <td><input type="text" class="ipt_value" id="pageIndex" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="pageIndex" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="pageSize" title="pageSize">pageSize</label></td>
-                        <td><input type="text" class="ipt_value" id="pageSize" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="pageSize" value="" /></td>
                     </tr>
                 </table>
             </td>
-            <td><input type="button" class="btn_request" value="Request"/></td>
-            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td><input type="button" class="btn_request" value="Request" /></td>
+            <td><input type="button" class="btn_reset" value="Reset" /></td>
             <td class="result"></td>
         </tr>
         <tr>
@@ -452,24 +452,24 @@
                 <table>
                     <tr>
                         <td align="right"><label for="filterKey" title="filterKey">filterKey(可空)</label></td>
-                        <td><input type="text" class="ipt_value" id="filterKey" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="filterKey" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="schoolId" title="schoolId">schoolId</label></td>
-                        <td><input type="text" class="ipt_value" id="schoolId" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="schoolId" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="pageIndex" title="pageIndex">pageIndex(从1开始)</label></td>
-                        <td><input type="text" class="ipt_value" id="pageIndex" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="pageIndex" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="pageSize" title="pageSize">pageSize</label></td>
-                        <td><input type="text" class="ipt_value" id="pageSize" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="pageSize" value="" /></td>
                     </tr>
                 </table>
             </td>
-            <td><input type="button" class="btn_request" value="Request"/></td>
-            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td><input type="button" class="btn_request" value="Request" /></td>
+            <td><input type="button" class="btn_reset" value="Reset" /></td>
             <td class="result"></td>
         </tr>
         <tr>
@@ -480,12 +480,12 @@
                 <table>
                     <tr>
                         <td align="right"><label for="classId" title="classId">classId</label></td>
-                        <td><input type="text" class="ipt_value" id="classId" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="classId" value="" /></td>
                     </tr>
                 </table>
             </td>
-            <td><input type="button" class="btn_request" value="Request"/></td>
-            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td><input type="button" class="btn_request" value="Request" /></td>
+            <td><input type="button" class="btn_reset" value="Reset" /></td>
             <td class="result"></td>
         </tr>
         <tr>
@@ -496,12 +496,12 @@
                 <table>
                     <tr>
                         <td align="right"><label for="teacherId" title="teacherId">teacherId</label></td>
-                        <td><input type="text" class="ipt_value" id="teacherId" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="teacherId" value="" /></td>
                     </tr>
                 </table>
             </td>
-            <td><input type="button" class="btn_request" value="Request"/></td>
-            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td><input type="button" class="btn_request" value="Request" /></td>
+            <td><input type="button" class="btn_reset" value="Reset" /></td>
             <td class="result"></td>
         </tr>
         <tr>
@@ -512,36 +512,36 @@
                 <table>
                     <tr>
                         <td align="right"><label for="teacherId" title="teacherId">teacherId</label></td>
-                        <td><input type="text" class="ipt_value" id="teacherId" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="teacherId" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="teacherName" title="teacherName">teacherName</label></td>
-                        <td><input type="text" class="ipt_value" id="teacherName" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="teacherName" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="teacherBirth" title="teacherBirth">teacherBirth</label></td>
-                        <td><input type="text" class="ipt_value" id="teacherBirth" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="teacherBirth" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="teacherSex" title="teacherSex">teacherSex</label></td>
-                        <td><input type="text" class="ipt_value" id="teacherSex" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="teacherSex" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="course" title="course">course</label></td>
-                        <td><input type="text" class="ipt_value" id="course" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="course" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="cellPhone" title="cellPhone">cellPhone</label></td>
-                        <td><input type="text" class="ipt_value" id="cellPhone" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="cellPhone" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="resume" title="resume">resume</label></td>
-                        <td><input type="text" class="ipt_value" id="resume" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="resume" value="" /></td>
                     </tr>
                 </table>
             </td>
-            <td><input type="button" class="btn_request" value="Request"/></td>
-            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td><input type="button" class="btn_request" value="Request" /></td>
+            <td><input type="button" class="btn_reset" value="Reset" /></td>
             <td class="result"></td>
         </tr>
     </table>
@@ -567,17 +567,17 @@
                 <table>
                     <tr>
                         <td align="right"><label for="userId" title="userId">userId</label></td>
-                        <td><input type="text" class="ipt_value" id="userId" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="userId" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="optionId"
                                                  title="optionId">optionId(家长登陆是传学生的ID，教师登陆传所选班级的ID)</label></td>
-                        <td><input type="text" class="ipt_value" id="optionId" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="optionId" value="" /></td>
                     </tr>
                 </table>
             </td>
-            <td><input type="button" class="btn_request" value="Request"/></td>
-            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td><input type="button" class="btn_request" value="Request" /></td>
+            <td><input type="button" class="btn_reset" value="Reset" /></td>
             <td class="result"></td>
         </tr>
     </table>
@@ -603,24 +603,24 @@
                 <table>
                     <tr>
                         <td align="right"><label for="userId" title="userId">userId</label></td>
-                        <td><input type="text" class="ipt_value" id="userId" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="userId" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="type" title="type">type</label></td>
-                        <td><input type="text" class="ipt_value" id="type" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="type" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="pageIndex" title="pageIndex">pageIndex(从1开始)</label></td>
-                        <td><input type="text" class="ipt_value" id="pageIndex" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="pageIndex" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="pageSize" title="pageSize">pageSize</label></td>
-                        <td><input type="text" class="ipt_value" id="pageSize" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="pageSize" value="" /></td>
                     </tr>
                 </table>
             </td>
-            <td><input type="button" class="btn_request" value="Request"/></td>
-            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td><input type="button" class="btn_request" value="Request" /></td>
+            <td><input type="button" class="btn_reset" value="Reset" /></td>
             <td class="result"></td>
         </tr>
         <tr>
@@ -629,8 +629,8 @@
             <td class="baseUrl">${ctx}/news/requestSlides</td>
             <td class="parameters">
             </td>
-            <td><input type="button" class="btn_request" value="Request"/></td>
-            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td><input type="button" class="btn_request" value="Request" /></td>
+            <td><input type="button" class="btn_reset" value="Reset" /></td>
             <td class="result"></td>
         </tr>
         <tr>
@@ -641,20 +641,20 @@
                 <table>
                     <tr>
                         <td align="right"><label for="userId" title="userId">userId</label></td>
-                        <td><input type="text" class="ipt_value" id="userId" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="userId" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="newsId" title="newsId">newsId</label></td>
-                        <td><input type="text" class="ipt_value" id="newsId" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="newsId" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="content" title="content">content</label></td>
-                        <td><input type="text" class="ipt_value" id="content" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="content" value="" /></td>
                     </tr>
                 </table>
             </td>
-            <td><input type="button" class="btn_request" value="Request"/></td>
-            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td><input type="button" class="btn_request" value="Request" /></td>
+            <td><input type="button" class="btn_reset" value="Reset" /></td>
             <td class="result"></td>
         </tr>
         <tr>
@@ -665,16 +665,16 @@
                 <table>
                     <tr>
                         <td align="right"><label for="userId" title="newsId">userId</label></td>
-                        <td><input type="text" class="ipt_value" id="userId" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="userId" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="newsId" title="newsId">newsId</label></td>
-                        <td><input type="text" class="ipt_value" id="newsId" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="newsId" value="" /></td>
                     </tr>
                 </table>
             </td>
-            <td><input type="button" class="btn_request" value="Request"/></td>
-            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td><input type="button" class="btn_request" value="Request" /></td>
+            <td><input type="button" class="btn_reset" value="Reset" /></td>
             <td class="result"></td>
         </tr>
         <tr>
@@ -685,12 +685,12 @@
                 <table>
                     <tr>
                         <td align="right"><label for="userId" title="newsId">userId</label></td>
-                        <td><input type="text" class="ipt_value" id="userId" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="userId" value="" /></td>
                     </tr>
                 </table>
             </td>
-            <td><input type="button" class="btn_request" value="Request"/></td>
-            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td><input type="button" class="btn_request" value="Request" /></td>
+            <td><input type="button" class="btn_reset" value="Reset" /></td>
             <td class="result"></td>
         </tr>
         <tr>
@@ -701,64 +701,85 @@
                 <table>
                     <tr>
                         <td align="right"><label for="userId" title="newsId">userId</label></td>
-                        <td><input type="text" class="ipt_value" id="userId" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="userId" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="newsId" title="newsId">newsId</label></td>
-                        <td><input type="text" class="ipt_value" id="newsId" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="newsId" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="isLike" title="isLike">isLike</label></td>
-                        <td><input type="text" class="ipt_value" id="isLike" value="true"/></td>
+                        <td><input type="text" class="ipt_value" id="isLike" value="true" /></td>
                     </tr>
                 </table>
             </td>
-            <td><input type="button" class="btn_request" value="Request"/></td>
-            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td><input type="button" class="btn_request" value="Request" /></td>
+            <td><input type="button" class="btn_reset" value="Reset" /></td>
             <td class="result"></td>
         </tr>
-        <span>
+        <tr>
             <td>#7</td>
             <td class="function">发布班级动态</td>
-             <td class="baseUrl">${ctx}/news/postClassNews</td>
-               <td class="parameters">
-                   <form method="POST" enctype="multipart/form-data" action="${ctx}/news/postClassNews">
+            <td class="baseUrl">${ctx}/news/postClassNews</td>
+            <td class="parameters">
+                <form method="POST" enctype="multipart/form-data" action="${ctx}/news/postClassNews">
+                    <div>
+                        <label for="userId" title="userId">userId</label>
+                        <input type="text" class="ipt_value" name="userId" id="userId" value="" />
+                    </div>
+                    <div>
+                        <label for="subject" title="subject">subject</label>
+                        <input type="text" class="ipt_value" name="subject" id="subject" value="" />
+                    </div>
+                    <div>
+                        <label for="content" title="content">content</label>
+                        <input type="text" class="ipt_value" name="content" id="content" value="" />
+                    </div>
+                    <div>
+                        <label for="imgs" title="img1">img1</label>
+                        <input type="file" name="imgs" class="img1" id="imgs" />
+                    </div>
+                    <div>
+                        <label for="imgs" title="img2">img2</label>
+                        <input type="file" name="imgs" class="imgs" id="imgs" />
+                    </div>
+                    <div>
+                        <label for="imgs" title="img3">img3</label>
+                        <input type="file" name="imgs" class="imgs" id="imgs" />
+                    </div>
+                    <div>
+                        <label for="imgs" title="img4">img4</label>
+                        <input type="file" name="imgs" class="imgs" id="imgs" />
+                    </div>
 
-                       <div>
-                           <label for="userId" title="userId">userId</label>
-                           <input type="text" class="ipt_value" name="userId" id="userId" value=""/>
-                       </div>
-                       <div>
-                           <label for="subject" title="subject">subject</label>
-                           <input type="text" class="ipt_value" name="subject" id="subject" value=""/>
-                       </div>
-                       <div>
-                           <label for="content" title="content">content</label>
-                           <input type="text" class="ipt_value" name="content" id="content" value=""/>
-                       </div>
-                       <div>
-                           <label for="imgs" title="img1">img1</label>
-                           <input type="file" name="imgs" class="img1" id="imgs"/>
-                       </div>
-                       <div>
-                           <label for="imgs" title="img2">img2</label>
-                           <input type="file" name="imgs" class="imgs" id="imgs"/>
-                       </div>
-                       <div>
-                           <label for="imgs" title="img3">img3</label>
-                           <input type="file" name="imgs" class="imgs" id="imgs"/>
-                       </div>
-                       <div>
-                           <label for="imgs" title="img4">img4</label>
-                           <input type="file" name="imgs" class="imgs" id="imgs"/>
-                       </div>
-
-                       <input type="submit" value="Upload">
-                   </form>
-    </table>
-    </table>
-    </td>
-    </tr>
+                    <input type="submit" value="Upload">
+                </form>
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>#8</td>
+            <td class="function">删除班级动态</td>
+            <td class="baseUrl">${ctx}/news/requestDisableNews</td>
+            <td class="parameters">
+                <table>
+                    <tr>
+                        <td align="right"><label for="userId" title="newsId">userId</label></td>
+                        <td><input type="text" class="ipt_value" id="userId" value="" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="newsId" title="newsId">newsId</label></td>
+                        <td><input type="text" class="ipt_value" id="newsId" value="" /></td>
+                    </tr>
+                </table>
+            </td>
+            <td><input type="button" class="btn_request" value="Request" /></td>
+            <td><input type="button" class="btn_reset" value="Reset" /></td>
+            <td class="result"></td>
+        </tr>
+        </tr>
     </table>
 </fieldset>
 <fieldset>
@@ -781,28 +802,28 @@
                 <table>
                     <tr>
                         <td align="right"><label for="userId" title="userId">userId</label></td>
-                        <td><input type="text" class="ipt_value" id="userId" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="userId" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="status" title="status">status</label></td>
-                        <td><input type="text" class="ipt_value" id="status" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="status" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="filter" title="filter">filter(可为空)</label></td>
-                        <td><input type="text" class="ipt_value" id="filter" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="filter" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="pageIndex" title="pageIndex">pageIndex(从1开始)</label></td>
-                        <td><input type="text" class="ipt_value" id="pageIndex" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="pageIndex" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="pageSize" title="pageSize">pageSize</label></td>
-                        <td><input type="text" class="ipt_value" id="pageSize" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="pageSize" value="" /></td>
                     </tr>
                 </table>
             </td>
-            <td><input type="button" class="btn_request" value="Request"/></td>
-            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td><input type="button" class="btn_request" value="Request" /></td>
+            <td><input type="button" class="btn_reset" value="Reset" /></td>
             <td class="result"></td>
         </tr>
         <tr>
@@ -813,28 +834,28 @@
                 <table>
                     <tr>
                         <td align="right"><label for="userId" title="userId">userId</label></td>
-                        <td><input type="text" class="ipt_value" id="userId" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="userId" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="students" title="students">students</label></td>
-                        <td><input type="text" class="ipt_value" id="students" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="students" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="deadline" title="deadline">deadline</label></td>
-                        <td><input type="text" class="ipt_value" id="deadline" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="deadline" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="title" title="title">title</label></td>
-                        <td><input type="text" class="ipt_value" id="title" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="title" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="task" title="task">task</label></td>
-                        <td><input type="text" class="ipt_value" id="task" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="task" value="" /></td>
                     </tr>
                 </table>
             </td>
-            <td><input type="button" class="btn_request" value="Request"/></td>
-            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td><input type="button" class="btn_request" value="Request" /></td>
+            <td><input type="button" class="btn_reset" value="Reset" /></td>
             <td class="result"></td>
         </tr>
         <tr>
@@ -845,12 +866,12 @@
                 <table>
                     <tr>
                         <td align="right"><label for="teacherId" title="teacherId">teacherId</label></td>
-                        <td><input type="text" class="ipt_value" id="teacherId" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="teacherId" value="" /></td>
                     </tr>
                 </table>
             </td>
-            <td><input type="button" class="btn_request" value="Request"/></td>
-            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td><input type="button" class="btn_request" value="Request" /></td>
+            <td><input type="button" class="btn_reset" value="Reset" /></td>
             <td class="result"></td>
         </tr>
         <tr>
@@ -861,16 +882,16 @@
                 <table>
                     <tr>
                         <td align="right"><label for="taskId" title="taskId">taskId</label></td>
-                        <td><input type="text" class="ipt_value" id="taskId" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="taskId" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="studentId" title="studentId">studentId</label></td>
-                        <td><input type="text" class="ipt_value" id="studentId" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="studentId" value="" /></td>
                     </tr>
                 </table>
             </td>
-            <td><input type="button" class="btn_request" value="Request"/></td>
-            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td><input type="button" class="btn_request" value="Request" /></td>
+            <td><input type="button" class="btn_reset" value="Reset" /></td>
             <td class="result"></td>
         </tr>
         <tr>
@@ -881,20 +902,20 @@
                 <table>
                     <tr>
                         <td align="right"><label for="taskId" title="taskId">taskId</label></td>
-                        <td><input type="text" class="ipt_value" id="taskId" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="taskId" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="userId" title="userId">userId</label></td>
-                        <td><input type="text" class="ipt_value" id="userId" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="userId" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="comment" title="comment">comment</label></td>
-                        <td><input type="text" class="ipt_value" id="comment" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="comment" value="" /></td>
                     </tr>
                 </table>
             </td>
-            <td><input type="button" class="btn_request" value="Request"/></td>
-            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td><input type="button" class="btn_request" value="Request" /></td>
+            <td><input type="button" class="btn_reset" value="Reset" /></td>
             <td class="result"></td>
         </tr>
         <tr>
@@ -905,16 +926,16 @@
                 <table>
                     <tr>
                         <td align="right"><label for="commentId" title="commentId">commentId</label></td>
-                        <td><input type="text" class="ipt_value" id="commentId" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="commentId" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="userId" title="userId">userId</label></td>
-                        <td><input type="text" class="ipt_value" id="userId" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="userId" value="" /></td>
                     </tr>
                 </table>
             </td>
-            <td><input type="button" class="btn_request" value="Request"/></td>
-            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td><input type="button" class="btn_request" value="Request" /></td>
+            <td><input type="button" class="btn_reset" value="Reset" /></td>
             <td class="result"></td>
         </tr>
         <tr>
@@ -925,20 +946,20 @@
                 <table>
                     <tr>
                         <td align="right"><label for="taskId" title="taskId">taskId</label></td>
-                        <td><input type="text" class="ipt_value" id="taskId" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="taskId" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="userId" title="userId">userId</label></td>
-                        <td><input type="text" class="ipt_value" id="userId" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="userId" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="studentId" title="studentId">studentId</label></td>
-                        <td><input type="text" class="ipt_value" id="studentId" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="studentId" value="" /></td>
                     </tr>
                 </table>
             </td>
-            <td><input type="button" class="btn_request" value="Request"/></td>
-            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td><input type="button" class="btn_request" value="Request" /></td>
+            <td><input type="button" class="btn_reset" value="Reset" /></td>
             <td class="result"></td>
         </tr>
         <tr>
@@ -949,20 +970,20 @@
                 <table>
                     <tr>
                         <td align="right"><label for="taskId" title="taskId">taskId</label></td>
-                        <td><input type="text" class="ipt_value" id="taskId" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="taskId" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="userId" title="userId">userId</label></td>
-                        <td><input type="text" class="ipt_value" id="userId" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="userId" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="task" title="task">task</label></td>
-                        <td><input type="text" class="ipt_value" id="task" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="task" value="" /></td>
                     </tr>
                 </table>
             </td>
-            <td><input type="button" class="btn_request" value="Request"/></td>
-            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td><input type="button" class="btn_request" value="Request" /></td>
+            <td><input type="button" class="btn_reset" value="Reset" /></td>
             <td class="result"></td>
         </tr>
         <tr>
@@ -973,16 +994,16 @@
                 <table>
                     <tr>
                         <td align="right"><label for="taskId" title="taskId">taskId</label></td>
-                        <td><input type="text" class="ipt_value" id="taskId" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="taskId" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="studentId" title="studentId">studentId</label></td>
-                        <td><input type="text" class="ipt_value" id="studentId" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="studentId" value="" /></td>
                     </tr>
                 </table>
             </td>
-            <td><input type="button" class="btn_request" value="Request"/></td>
-            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td><input type="button" class="btn_request" value="Request" /></td>
+            <td><input type="button" class="btn_reset" value="Reset" /></td>
             <td class="result"></td>
         </tr>
     </table>
@@ -1007,24 +1028,24 @@
                 <table>
                     <tr>
                         <td align="right"><label for="userId" title="userId">userId</label></td>
-                        <td><input type="text" class="ipt_value" id="userId" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="userId" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="type" title="type">type</label></td>
-                        <td><input type="text" class="ipt_value" id="type" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="type" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="pageIndex" title="pageIndex">pageIndex(从1开始)</label></td>
-                        <td><input type="text" class="ipt_value" id="pageIndex" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="pageIndex" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="pageSize" title="pageSize">pageSize</label></td>
-                        <td><input type="text" class="ipt_value" id="pageSize" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="pageSize" value="" /></td>
                     </tr>
                 </table>
             </td>
-            <td><input type="button" class="btn_request" value="Request"/></td>
-            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td><input type="button" class="btn_request" value="Request" /></td>
+            <td><input type="button" class="btn_reset" value="Reset" /></td>
             <td class="result"></td>
         </tr>
         <tr>
@@ -1035,16 +1056,16 @@
                 <table>
                     <tr>
                         <td align="right"><label for="userId" title="newsId">userId</label></td>
-                        <td><input type="text" class="ipt_value" id="userId" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="userId" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="newsId" title="newsId">newsId</label></td>
-                        <td><input type="text" class="ipt_value" id="newsId" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="newsId" value="" /></td>
                     </tr>
                 </table>
             </td>
-            <td><input type="button" class="btn_request" value="Request"/></td>
-            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td><input type="button" class="btn_request" value="Request" /></td>
+            <td><input type="button" class="btn_reset" value="Reset" /></td>
             <td class="result"></td>
         </tr>
         <tr>
@@ -1055,20 +1076,20 @@
                 <table>
                     <tr>
                         <td align="right"><label for="newsId" title="newsId">newsId</label></td>
-                        <td><input type="text" class="ipt_value" id="newsId" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="newsId" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="userId" title="userId">userId</label></td>
-                        <td><input type="text" class="ipt_value" id="userId" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="userId" value="" /></td>
                     </tr>
                     <tr>
                         <td align="right"><label for="selectionId" title="selectionId">selectionId</label></td>
-                        <td><input type="text" class="ipt_value" id="selectionId" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="selectionId" value="" /></td>
                     </tr>
                 </table>
             </td>
-            <td><input type="button" class="btn_request" value="Request"/></td>
-            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td><input type="button" class="btn_request" value="Request" /></td>
+            <td><input type="button" class="btn_reset" value="Reset" /></td>
             <td class="result"></td>
         </tr>
     </table>
@@ -1093,12 +1114,12 @@
                 <table>
                     <tr>
                         <td align="right"><label for="classId" title="classId">classId</label></td>
-                        <td><input type="text" class="ipt_value" id="classId" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="classId" value="" /></td>
                     </tr>
                 </table>
             </td>
-            <td><input type="button" class="btn_request" value="Request"/></td>
-            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td><input type="button" class="btn_request" value="Request" /></td>
+            <td><input type="button" class="btn_reset" value="Reset" /></td>
             <td class="result"></td>
         </tr>
         <tr>
@@ -1109,12 +1130,12 @@
                 <table>
                     <tr>
                         <td align="right"><label for="courses" title="courses">courses</label></td>
-                        <td><input type="text" class="ipt_value" id="courses" value=""/></td>
+                        <td><input type="text" class="ipt_value" id="courses" value="" /></td>
                     </tr>
                 </table>
             </td>
-            <td><input type="button" class="btn_request" value="Request"/></td>
-            <td><input type="button" class="btn_reset" value="Reset"/></td>
+            <td><input type="button" class="btn_request" value="Request" /></td>
+            <td><input type="button" class="btn_reset" value="Reset" /></td>
             <td class="result"></td>
         </tr>
     </table>

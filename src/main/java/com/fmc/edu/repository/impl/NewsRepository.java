@@ -143,4 +143,11 @@ public class NewsRepository extends BaseRepository implements INewsRepository {
 	public boolean createSlide(final Slide pSlide) {
 		return getSqlSession().insert(CREATE_SLIDE, pSlide) > 0;
 	}
+
+	public boolean updateNewsAvailable(final int pNewsId, final boolean pAvailable) {
+		Map<String, Object> params = new HashMap<String, Object>(1);
+		params.put("newsId", pNewsId);
+		params.put("available", pAvailable);
+		return getSqlSession().update(UPDATE_NEWS_AVAILABLE, params) > 0;
+	}
 }

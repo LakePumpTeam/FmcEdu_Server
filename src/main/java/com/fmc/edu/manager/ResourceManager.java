@@ -81,6 +81,8 @@ public class ResourceManager {
 
     public static final String ERROR_POST_CLASS_NEWS_FAILED = "news.error.post.class.news.failed";
 
+    public static final String ERROR_NEWS_DISABLE_NEWS_FAILED = "news.error.disable.news";
+
     public static final String ERROR_LOCATION_CITY_ID_ERROR = "location.error.city.id.error";
 
     public static final String ERROR_LOCATION_SCHOOL_ID_ERROR = "school.error.school.id.error";
@@ -90,6 +92,7 @@ public class ResourceManager {
     public static final String ERROR_TEACHER_UNKNOWN = "school.error.teacher.unknown";
 
     public static final String ERROR_NOT_FOND_CLASS = "school.error.class.not.found";
+
 
     public String getMessage(HttpServletRequest request, String pKey, String[] pArgs, String pDefaultMessage) {
         RequestContext requestContext = new RequestContext(request);

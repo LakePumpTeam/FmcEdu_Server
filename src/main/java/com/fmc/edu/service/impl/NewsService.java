@@ -3,6 +3,7 @@ package com.fmc.edu.service.impl;
 import com.fmc.edu.cache.Cache;
 import com.fmc.edu.model.news.*;
 import com.fmc.edu.model.relationship.ProfileSelectionRelationship;
+import com.fmc.edu.repository.INewsRepository;
 import com.fmc.edu.repository.impl.NewsRepository;
 import com.fmc.edu.util.pagenation.Pagination;
 import org.springframework.stereotype.Service;
@@ -17,99 +18,104 @@ import java.util.Map;
  */
 @Service("newsService")
 public class NewsService {
-    @Resource(name = "newsRepository")
-    private NewsRepository mNewsRepository;
 
-    public List<News> queryNewsListByNewType(Pagination pPagination, int pNewsType) {
-        return getNewsRepository().queryNewsListByNewType(pPagination, pNewsType);
-    }
+	@Resource(name = "newsRepository")
+	private INewsRepository mNewsRepository;
 
-    public int queryNewsMaxIdByNewsType(int pNewsType) {
-        return getNewsRepository().queryNewsMaxIdByNewsType(pNewsType);
-    }
+	public List<News> queryNewsListByNewType(Pagination pPagination, int pNewsType) {
+		return getNewsRepository().queryNewsListByNewType(pPagination, pNewsType);
+	}
 
-    public List<Slide> querySlideList(final boolean pAvailable, Timestamp pStartDate, Timestamp pEndDate) {
-        return getNewsRepository().querySlideList(pAvailable, pStartDate, pEndDate);
-    }
+	public int queryNewsMaxIdByNewsType(int pNewsType) {
+		return getNewsRepository().queryNewsMaxIdByNewsType(pNewsType);
+	}
 
-    public NewsRepository getNewsRepository() {
-        return mNewsRepository;
-    }
+	public List<Slide> querySlideList(final boolean pAvailable, Timestamp pStartDate, Timestamp pEndDate) {
+		return getNewsRepository().querySlideList(pAvailable, pStartDate, pEndDate);
+	}
 
-    public boolean insertComment(Comments pComments) {
+	public INewsRepository getNewsRepository() {
+		return mNewsRepository;
+	}
 
-        return getNewsRepository().insertComment(pComments);
-    }
+	public boolean insertComment(Comments pComments) {
 
-    public boolean deleteComment(int pCommentId) {
-        return getNewsRepository().deleteComment(pCommentId);
-    }
+		return getNewsRepository().insertComment(pComments);
+	}
 
-    public News queryNewsDetail(int pNewsId) {
-        return getNewsRepository().queryNewsDetail(pNewsId);
-    }
+	public boolean deleteComment(int pCommentId) {
+		return getNewsRepository().deleteComment(pCommentId);
+	}
 
-    public boolean insertNews(News pNews) {
-        return getNewsRepository().insertNews(pNews);
-    }
+	public News queryNewsDetail(int pNewsId) {
+		return getNewsRepository().queryNewsDetail(pNewsId);
+	}
 
-    public List<Comments> queryCommentsByNewsIdAndProfileId(int pUserId, int pNewsId) {
-        return getNewsRepository().queryCommentsByNewsIdAndProfileId(pUserId, pNewsId);
-    }
+	public boolean insertNews(News pNews) {
+		return getNewsRepository().insertNews(pNews);
+	}
 
-    public boolean updateNewsCacheBatch(final List<Cache> pCacheList) {
-        return getNewsRepository().updateNewsCacheBatch(pCacheList);
-    }
+	public List<Comments> queryCommentsByNewsIdAndProfileId(int pUserId, int pNewsId) {
+		return getNewsRepository().queryCommentsByNewsIdAndProfileId(pUserId, pNewsId);
+	}
 
-    public boolean isLikedNews(int pUserId, int pNewsId) {
-        return getNewsRepository().isLikedNews(pUserId, pNewsId);
-    }
+	public boolean updateNewsCacheBatch(final List<Cache> pCacheList) {
+		return getNewsRepository().updateNewsCacheBatch(pCacheList);
+	}
 
-    public List<Map<Integer, Integer>> getAllNewsMaxNewsId() {
-        return getNewsRepository().getAllNewsMaxNewsId();
-    }
+	public boolean isLikedNews(int pUserId, int pNewsId) {
+		return getNewsRepository().isLikedNews(pUserId, pNewsId);
+	}
 
-    public boolean updateNews(News pNews) {
-        return getNewsRepository().updateNews(pNews);
-    }
+	public List<Map<Integer, Integer>> getAllNewsMaxNewsId() {
+		return getNewsRepository().getAllNewsMaxNewsId();
+	}
 
-    public boolean insertImage(Image pImage) {
-        return getNewsRepository().insertImage(pImage);
-    }
+	public boolean updateNews(News pNews) {
+		return getNewsRepository().updateNews(pNews);
+	}
 
-    public int queryProfileSelectionRelationshipCount(int pNewsId) {
-        return getNewsRepository().queryProfileSelectionRelationshipCount(pNewsId);
-    }
+	public boolean insertImage(Image pImage) {
+		return getNewsRepository().insertImage(pImage);
+	}
 
-    public ProfileSelectionRelationship queryProfileSelectionRelationship(int pNewsId, int pUserId) {
-        return getNewsRepository().queryProfileSelectionRelationship(pNewsId, pUserId);
-    }
+	public int queryProfileSelectionRelationshipCount(int pNewsId) {
+		return getNewsRepository().queryProfileSelectionRelationshipCount(pNewsId);
+	}
 
-    public List<Selection> querySelectionByNewsId(int pNewsId) {
-        return getNewsRepository().querySelectionByNewsId(pNewsId);
-    }
+	public ProfileSelectionRelationship queryProfileSelectionRelationship(int pNewsId, int pUserId) {
+		return getNewsRepository().queryProfileSelectionRelationship(pNewsId, pUserId);
+	}
 
-    public Selection querySelectionById(int pSelectionId) {
-        return getNewsRepository().querySelectionById(pSelectionId);
-    }
+	public List<Selection> querySelectionByNewsId(int pNewsId) {
+		return getNewsRepository().querySelectionByNewsId(pNewsId);
+	}
 
-    public int insertProfileSelectionMap(ProfileSelectionRelationship pProfileSelectionRelationship) {
-        return getNewsRepository().insertProfileSelectionMap(pProfileSelectionRelationship);
-    }
+	public Selection querySelectionById(int pSelectionId) {
+		return getNewsRepository().querySelectionById(pSelectionId);
+	}
 
-    public int insertSelection(List<Selection> pSelections) {
-        return getNewsRepository().insertSelection(pSelections);
-    }
+	public int insertProfileSelectionMap(ProfileSelectionRelationship pProfileSelectionRelationship) {
+		return getNewsRepository().insertProfileSelectionMap(pProfileSelectionRelationship);
+	}
 
-    public boolean UpdateSlidesBatch(final List<Slide> pSlides) {
-        return getNewsRepository().UpdateSlidesBatch(pSlides);
-    }
+	public int insertSelection(List<Selection> pSelections) {
+		return getNewsRepository().insertSelection(pSelections);
+	}
 
-    public void setNewsRepository(NewsRepository pNewsRepository) {
-        mNewsRepository = pNewsRepository;
-    }
+	public boolean UpdateSlidesBatch(final List<Slide> pSlides) {
+		return getNewsRepository().UpdateSlidesBatch(pSlides);
+	}
 
-    public boolean createSlide(final Slide pSlide) {
-        return getNewsRepository().createSlide(pSlide);
-    }
+	public void setNewsRepository(NewsRepository pNewsRepository) {
+		mNewsRepository = pNewsRepository;
+	}
+
+	public boolean createSlide(final Slide pSlide) {
+		return getNewsRepository().createSlide(pSlide);
+	}
+
+	public boolean updateNewsAvailable(final int pNewsId, final boolean pAvailable) {
+		return getNewsRepository().updateNewsAvailable(pNewsId, pAvailable);
+	}
 }

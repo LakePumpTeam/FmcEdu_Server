@@ -223,4 +223,8 @@ public class NewsManager {
 	public void setMyAccountManager(MyAccountManager pMyAccountManager) {
 		mMyAccountManager = pMyAccountManager;
 	}
+
+	public boolean disableNewsById(final int pNewsId) {
+		return getNewsService().updateNewsAvailable(pNewsId, false);
+	}
 }

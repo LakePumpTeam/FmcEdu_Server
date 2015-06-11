@@ -216,6 +216,8 @@ INSERT INTO teacher_class_map(teacher_id, class_id, sub_title, head_teacher, las
 INSERT INTO teacher_class_map(teacher_id, class_id, sub_title, head_teacher, last_update_date) values(2, 2, 'Nature',  1, '2015-05-16');
 INSERT INTO teacher_class_map(teacher_id, class_id, sub_title, head_teacher, last_update_date) values(3, 3, 'Chinese', 1, '2015-05-16');
 INSERT INTO teacher_class_map(teacher_id, class_id, sub_title, head_teacher, last_update_date) values(4, 4, 'English', 1, '2015-05-16');
+insert into teacher_class_map(teacher_id, class_id, sub_title, head_teacher, last_update_date)values (4, 9, 'English', 0, '2015-05-16');
+insert into teacher_class_map(teacher_id, class_id, sub_title, head_teacher, last_update_date)values (4, 10,'English', 0, '2015-05-16');
 
 #news
 INSERT INTO `fmc_edu`.`news` (`author`,`subject`,`content`,`news_type`,`ref_id`,`approved`,`approved_by`,`approve_date`,`like`,`publish_date`,`creation_date`,`last_update_date`) VALUES (1,'test2','test content',1,1,1,1,now(),10,now(),now(),now());

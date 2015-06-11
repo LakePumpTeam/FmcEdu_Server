@@ -118,6 +118,7 @@ public class ResponseBuilder {
             newsMap = new HashMap<String, Object>(5);
             newsMap.put("newsId", news.getId());
             newsMap.put("subject", news.getSubject());
+            newsMap.put("author", news.getAuthor());
             newsMap.put("content", news.getContent());
             newsMap.put("createDate", DateUtils.ConvertDateToString(news.getPublishDate()));
             newsMap.put("type", news.getNewsType());

@@ -97,4 +97,8 @@ public interface INewsRepository {
 	String CREATE_SLIDE = "com.fmc.edu.news.createSlide";
 
 	boolean createSlide(Slide pSlide);
+
+	String UPDATE_NEWS_AVAILABLE = "com.fmc.edu.news.updateNewsAvailable";
+
+	boolean updateNewsAvailable(int pNewsId, final boolean pAvailable);
 }

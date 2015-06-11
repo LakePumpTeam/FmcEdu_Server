@@ -33,8 +33,9 @@
 		last_update_date
 		FROM news
 		WHERE
-		<if test="newsType != 0">news_type = #{newsType} and</if>
-		approved = 1 order by publish_date DESC
+		<if test="newsType != 0">news_type = #{newsType} AND</if>
+		approved = 1 AND available = 1
+		ORDER BY publish_date DESC
 		<include refid="limit-split-page" />
 	</select>
 
@@ -77,6 +78,7 @@
         `subject`,
         `content`,
         `news_type`,
+		`available`,
         `approved`,
         `like`,
         `popular`,
@@ -88,6 +90,7 @@
         #{subject},
         #{content},
         #{newsType},
+		1,
         #{approved},
         0,
         #{popular},
@@ -121,6 +124,7 @@
         content,
         news_type,
         ref_id,
+		available,
         approved,
         approved_by,
         approve_date,
@@ -202,6 +206,12 @@
 			</if>
 		</trim>
 		WHERE id = #{id}
+	</update>
+
+	<update id="updateNewsAvailable" parameterType="map" flushCache="true">
+		UPDATE news
+		SET available = #{available}
+		WHERE id = #{newsId}
 	</update>
 
 	<update id="updateNewsCacheBatch" parameterType="list" flushCache="true">
@@ -288,7 +298,7 @@
 		</foreach>
 	</update>
 
-	<insert id="insertSlide" parameterType="com.fmc.edu.model.news.Slide" useGeneratedKeys="true" keyProperty="id" flushCache="true">
+	<insert id="createSlide" parameterType="com.fmc.edu.model.news.Slide" useGeneratedKeys="true" keyProperty="id" flushCache="true">
 		INSERT INTO slide (subject, news_id, profile_id, img_name, img_path, `order`, start_date, end_date, available, creation_date,
 		last_update_date)
 		VALUES (#{subject}, #{newsId}, #{profileId}, #{imgName}, #{imgPath}, #{order}, #{startDate}, #{endDate}, #{available},

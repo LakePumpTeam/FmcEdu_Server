@@ -85,6 +85,7 @@ public class AdminSlideController extends AdminTransactionBaseController {
 		slide.setSubject(subject);
 		slide.setNewsId(newsId);
 		slide.setAvailable(available);
+		slide.setProfileId(userProfile.getId());
 
 		TransactionStatus ts = ensureTransaction();
 		try {
