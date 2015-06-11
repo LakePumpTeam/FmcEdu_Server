@@ -197,6 +197,7 @@ public class ResponseBuilder {
         newsMap.put("newsId", pNews.getId());
         newsMap.put("subject", pNews.getSubject());
         newsMap.put("content", pNews.getContent());
+        newsMap.put("author", pNews.getAuthor());
         newsMap.put("createDate", DateUtils.ConvertDateToString(pNews.getPublishDate()));
         newsMap.put("imageUrls", getImagePathListOfNews(pNews));
         if (pNews.getNewsType() == NewsType.SCHOOL_BBS) {
