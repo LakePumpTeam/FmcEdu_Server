@@ -135,7 +135,7 @@ public class RequestParameterBuilder {
     public ParentProfile buildParent(HttpServletRequest pRequest, final MyAccountManager pMyAccountManager) throws ProfileException {
         ParentProfile parent = new ParentProfile();
         String phone = pRequest.getParameter("cellPhone");
-        if (phone == null || ValidationUtils.isValidPhoneNumber(phone)) {
+        if (phone == null || !ValidationUtils.isValidPhoneNumber(phone)) {
             throw new ProfileException(ResourceManager.VALIDATION_USER_PHONE_ERROR, phone);
         }
         String parentName = pRequest.getParameter("parentName");
