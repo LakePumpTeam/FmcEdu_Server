@@ -17,7 +17,7 @@
     VALUES (#{title}, #{task}, #{deadline}, now(), now(), #{publishUserId}, #{available})
    </insert>
 
-    <insert id="insertTaskStudentRelationship" flushCache="true" parameterType="TaskStudentRelationShip">
+    <insert id="insertTaskStudentRelationship" flushCache="true" parameterType="com.fmc.edu.model.relationship.TaskStudentsRelationship">
         <foreach collection="list" item="item" index="index" open="" close="" separator=";">
             INSERT INTO task_student_map (task_id, student_id, is_complete, creation_date, last_update_date)
             VALUES (#{item.taskId}, #{item.studentId}, #{item.completed}, now(), now())
