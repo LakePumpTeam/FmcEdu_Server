@@ -55,11 +55,15 @@
 		FROM slide
 		WHERE
 		<choose>
-			<when test="available">available = 1</when>
-			<otherwise>available = 0</otherwise>
+			<when test="available">
+				available = 1
+			</when>
+			<otherwise>
+				available = 0
+			</otherwise>
 		</choose>
-		AND start_date &gt;= now()
-		AND (end_date &lt;= now() OR end_date IS NULL)
+		AND start_date &lt;= now()
+		AND (end_date &gt;= now() OR end_date IS NULL)
 		ORDER BY 'order' ASC
 	</select>
 
