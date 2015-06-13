@@ -29,11 +29,11 @@ public interface ITaskRepository {
 
     String QUERY_TASK_LIST_BY_PARENT_ID = "com.fmc.edu.task.queryTaskListByParentId";
 
-    Map<String, Object> queryTaskListByParentId(int pParentId, String pFilter, int pStatus, Pagination pPagination);
+    Map<String, Object> queryTaskListByParentId(int pParentId, String pFilter, Integer pStatus, Pagination pPagination);
 
     String QUERY_TASK_LIST_BY_TEACHER_ID = "com.fmc.edu.task.queryTaskListByTeacherId";
 
-    Map<String, Object> queryTaskListByTeacherId(int pTeacherId, String pFilter, int pStatus, Pagination pPagination);
+    Map<String, Object> queryTaskListByTeacherId(int pTeacherId, String pFilter, Integer pStatus, Pagination pPagination);
 
     String QUERY_TASK_DETAIL = "com.fmc.edu.task.queryTaskDetail";
 

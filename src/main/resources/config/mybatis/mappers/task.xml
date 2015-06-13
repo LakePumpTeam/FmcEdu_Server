@@ -49,8 +49,12 @@
 		ON psm.student_id = tsm.student_id
 		INNER JOIN student s
 		ON s.id = tsm.student_id
-		WHERE psm.parent_id = #{parentId} AND tsm.is_complete = #{status} AND t.available = 1
-		<if test="filter != null">
+		WHERE psm.parent_id = #{parentId}
+		<if test="status != null">
+			AND tsm.is_complete = #{status}
+		</if>
+		AND t.available = 1
+		<if test="filter != null and filter != '' ">
 			AND title LIKE CONCAT('%', #{filter}, '%')
 		</if>
 		ORDER BY t.creation_date DESC
@@ -70,8 +74,12 @@
 		ON cls.id = s.class_id
 		INNER JOIN teacher_class_map tcm
 		ON cls.id = tcm.class_id
-		WHERE tcm.teacher_id = #{teacherId} AND tsm.is_complete = #{status} AND t.available = 1
-		<if test="filter != null">
+		WHERE tcm.teacher_id = #{teacherId}
+		<if test="status != null">
+			AND tsm.is_complete = #{status}
+		</if>
+		AND t.available = 1
+		<if test="filter != null and filter != '' ">
 			AND title LIKE CONCAT('%', #{filter}, '%')
 		</if>
 		ORDER BY t.creation_date DESC

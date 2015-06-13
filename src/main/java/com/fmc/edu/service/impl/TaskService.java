@@ -34,11 +34,11 @@ public class TaskService {
         return getTaskRepository().submitTask(pTaskId, pStudentId);
     }
 
-    public Map<String, Object> queryTaskListByParentId(int pParentId, String pFilter, int pStatus, Pagination pPagination) {
+    public Map<String, Object> queryTaskListByParentId(int pParentId, String pFilter, Integer pStatus, Pagination pPagination) {
         return getTaskRepository().queryTaskListByParentId(pParentId, pFilter, pStatus, pPagination);
     }
 
-    public Map<String, Object> queryTaskListByTeacherId(int pTeacherId, String pFilter, int pStatus, Pagination pPagination) {
+    public Map<String, Object> queryTaskListByTeacherId(int pTeacherId, String pFilter, Integer pStatus, Pagination pPagination) {
         return getTaskRepository().queryTaskListByTeacherId(pTeacherId, pFilter, pStatus, pPagination);
     }
 

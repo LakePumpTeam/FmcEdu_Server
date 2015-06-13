@@ -40,7 +40,7 @@ public class TaskRepository extends BaseRepository implements ITaskRepository {
     }
 
     @Override
-    public Map<String, Object> queryTaskListByParentId(int pParentId, String pFilter, int pStatus, Pagination pPagination) {
+    public Map<String, Object> queryTaskListByParentId(int pParentId, String pFilter, Integer pStatus, Pagination pPagination) {
         Map<String, Object> params = paginationToParameters(pPagination);
         params.put("parentId", pParentId);
         params.put("filter", pFilter);
@@ -53,7 +53,7 @@ public class TaskRepository extends BaseRepository implements ITaskRepository {
     }
 
     @Override
-    public Map<String, Object> queryTaskListByTeacherId(int pTeacherId, String pFilter, int pStatus, Pagination pPagination) {
+    public Map<String, Object> queryTaskListByTeacherId(int pTeacherId, String pFilter, Integer pStatus, Pagination pPagination) {
         Map<String, Object> params = paginationToParameters(pPagination);
         params.put("teacherId", pTeacherId);
         params.put("filter", pFilter);

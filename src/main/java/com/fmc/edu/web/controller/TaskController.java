@@ -8,6 +8,7 @@ import com.fmc.edu.model.profile.ProfileType;
 import com.fmc.edu.model.relationship.TaskStudentsRelationship;
 import com.fmc.edu.model.task.Task;
 import com.fmc.edu.util.DateUtils;
+import com.fmc.edu.util.StringUtils;
 import com.fmc.edu.util.pagenation.Pagination;
 import com.fmc.edu.web.ResponseBean;
 import com.fmc.edu.web.ResponseBuilder;
@@ -67,10 +68,11 @@ public class TaskController extends BaseController {
                 return output(responseBean);
             }
             Map<String, Object> taskList = new HashMap<String, Object>();
+            Integer status = StringUtils.isEmpty(statusStr) ? null : Integer.valueOf(statusStr);
             if (baseProfile.getProfileType() == ProfileType.PARENT.getValue()) {
-                taskList = getTaskManager().queryTaskListByParentId(baseProfile.getId(), filterStr, Integer.valueOf(statusStr), pagination);
+                taskList = getTaskManager().queryTaskListByParentId(baseProfile.getId(), filterStr, status, pagination);
             } else if (baseProfile.getProfileType() == ProfileType.TEACHER.getValue()) {
-                taskList = getTaskManager().queryTaskListByTeacherId(baseProfile.getId(), filterStr, Integer.valueOf(statusStr), pagination);
+                taskList = getTaskManager().queryTaskListByTeacherId(baseProfile.getId(), filterStr, status, pagination);
             } else {
                 responseBean.addBusinessMsg(ResourceManager.ERROR_USER_TYPE_UNKNOWN);
             }
