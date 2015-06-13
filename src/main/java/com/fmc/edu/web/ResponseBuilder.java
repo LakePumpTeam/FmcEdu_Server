@@ -277,7 +277,7 @@ public class ResponseBuilder {
         pResponseBean.addData("task", pTask.getTask());
         TaskStudentsRelationship taskStudentsRelationship = getTaskManager().queryTaskStudentRelationship(pTask.getId(), Integer.valueOf(pStudentId));
         if (taskStudentsRelationship != null) {
-            pResponseBean.addData("status", taskStudentsRelationship.getCompleted());
+            pResponseBean.addData("status", taskStudentsRelationship.getCompleted() ? 1 : 0);
         }
         pResponseBean.addData("deadline", DateUtils.ConvertDateToString(pTask.getDeadline()));
         Student student = getStudentManager().queryStudentById(Integer.valueOf(pStudentId));

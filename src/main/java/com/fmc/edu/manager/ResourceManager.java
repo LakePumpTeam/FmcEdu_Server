@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Component("resourceManager")
 public class ResourceManager {
+
     public static final String VALIDATION_USER_USER_ID_EMPTY = "validation.user.user.id.empty";
 
     public static final String VALIDATION_USER_USER_ID_ERROR = "validation.user.user.id.error";
