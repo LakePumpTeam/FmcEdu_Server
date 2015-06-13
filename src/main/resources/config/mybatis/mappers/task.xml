@@ -1,33 +1,36 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fmc.edu.task">
-    <cache type="org.mybatis.caches.ehcache.EhcacheCache"
-           eviction="FIFO"
-           flushInterval="60000"
-           size="512"
-           readOnly="true"
-            />
-    <sql id="limit-split-page">
+	<cache type="org.mybatis.caches.ehcache.EhcacheCache"
+	       eviction="FIFO"
+	       flushInterval="60000"
+	       size="512"
+	       readOnly="true"
+			/>
+
+	<sql id="limit-split-page">
         limit #{start}, #{size}
     </sql>
-    <insert id="publishTask" parameterType="Task" keyProperty="id" useGeneratedKeys="true" flushCache="true">
-    INSERT INTO task (title, task, deadline, creation_date, last_update_date, publish_user_id, available)
-    VALUES (#{title}, #{task}, #{deadline}, now(), now(), #{publishUserId}, #{available})
+
+	<insert id="publishTask" parameterType="Task" keyProperty="id" useGeneratedKeys="true" flushCache="true">
+		INSERT INTO task (title, task, deadline, creation_date, last_update_date, publish_user_id, available)
+		VALUES (#{title}, #{task}, #{deadline}, now(), now(), #{publishUserId}, #{available})
    </insert>
 
-    <insert id="insertTaskStudentRelationship" flushCache="true" parameterType="com.fmc.edu.model.relationship.TaskStudentsRelationship">
-        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
-            INSERT INTO task_student_map (task_id, student_id, is_complete, creation_date, last_update_date)
-            VALUES (#{item.taskId}, #{item.studentId}, #{item.completed}, now(), now())
-        </foreach>
-    </insert>
-    <update id="editTask" parameterType="Task" flushCache="true">
+	<insert id="insertTaskStudentRelationship" flushCache="true" parameterType="com.fmc.edu.model.relationship.TaskStudentsRelationship">
+		INSERT INTO task_student_map (task_id, student_id, is_complete, creation_date, last_update_date)
+		VALUES
+		<foreach collection="list" item="item" index="index" open="" close="" separator=",">
+			(#{item.taskId}, #{item.studentId}, #{item.completed}, now(), now())
+		</foreach>
+	</insert>
+	<update id="editTask" parameterType="Task" flushCache="true">
       UPDATE task SET task = #{task} WHERE id = #{id}
     </update>
 
-    <update id="submitTask" parameterType="map" flushCache="true">
+	<update id="submitTask" parameterType="map" flushCache="true">
         UPDATE task_student_map tsm
         INNER JOIN task t
         ON tsm.task_id = t.id
@@ -35,53 +38,53 @@
         WHERE tsm.student_id = #{studentId} and tsm.task_id = #{taskId}
     </update>
 
-    <select id="queryTaskListByParentId" parameterType="map" resultType="map">
-        SELECT t.id as taskId, t.title as title, DATE_FORMAT(t.deadline,'%Y-%m-%d') as deadline, s.name as studentName,
-        1 as userRole, s.id as studentId,
-        CAST(is_complete as SIGNED) as status
-        FROM task t
-        INNER JOIN task_student_map tsm
-        ON t.id = tsm.task_id
-        INNER JOIN parent_student_map psm
-        ON psm.student_id = tsm.student_id
-        INNER JOIN student s
-        ON s.id = tsm.student_id
-        WHERE psm.parent_id = #{parentId} AND tsm.is_complete = #{status} AND t.available = 1
-        <if test="filter != null">
-            AND title LIKE CONCAT('%', #{filter}, '%')
-        </if>
-        ORDER BY t.creation_date DESC
-        <include refid="limit-split-page"/>
-    </select>
+	<select id="queryTaskListByParentId" parameterType="map" resultType="map">
+		SELECT t.id as taskId, t.title as title, DATE_FORMAT(t.deadline,'%Y-%m-%d') as deadline, s.name as studentName,
+		1 as userRole, s.id as studentId,
+		CAST(is_complete as SIGNED) as status
+		FROM task t
+		INNER JOIN task_student_map tsm
+		ON t.id = tsm.task_id
+		INNER JOIN parent_student_map psm
+		ON psm.student_id = tsm.student_id
+		INNER JOIN student s
+		ON s.id = tsm.student_id
+		WHERE psm.parent_id = #{parentId} AND tsm.is_complete = #{status} AND t.available = 1
+		<if test="filter != null">
+			AND title LIKE CONCAT('%', #{filter}, '%')
+		</if>
+		ORDER BY t.creation_date DESC
+		<include refid="limit-split-page" />
+	</select>
 
-    <select id="queryTaskListByTeacherId" parameterType="map" resultType="map">
-        SELECT t.id as taskId, t.title as title, DATE_FORMAT(t.deadline,'%Y-%m-%d') as deadline, s.name as studentName,
-        2 as userRole, s.id as studentId,
-        CAST(is_complete as SIGNED) as status
-        FROM task t
-        INNER JOIN task_student_map tsm
-        ON t.id = tsm.task_id
-        INNER JOIN student s
-        ON s.id = tsm.student_id
-        INNER JOIN `class` cls
-        ON cls.id = s.class_id
-        INNER JOIN teacher_class_map tcm
-        ON cls.id = tcm.class_id
-        WHERE tcm.teacher_id = #{teacherId} AND tsm.is_complete = #{status} AND t.available = 1
-        <if test="filter != null">
-            AND title LIKE CONCAT('%', #{filter}, '%')
-        </if>
-        ORDER BY t.creation_date DESC
-        <include refid="limit-split-page"/>
-    </select>
+	<select id="queryTaskListByTeacherId" parameterType="map" resultType="map">
+		SELECT t.id as taskId, t.title as title, DATE_FORMAT(t.deadline,'%Y-%m-%d') as deadline, s.name as studentName,
+		2 as userRole, s.id as studentId,
+		CAST(is_complete as SIGNED) as status
+		FROM task t
+		INNER JOIN task_student_map tsm
+		ON t.id = tsm.task_id
+		INNER JOIN student s
+		ON s.id = tsm.student_id
+		INNER JOIN `class` cls
+		ON cls.id = s.class_id
+		INNER JOIN teacher_class_map tcm
+		ON cls.id = tcm.class_id
+		WHERE tcm.teacher_id = #{teacherId} AND tsm.is_complete = #{status} AND t.available = 1
+		<if test="filter != null">
+			AND title LIKE CONCAT('%', #{filter}, '%')
+		</if>
+		ORDER BY t.creation_date DESC
+		<include refid="limit-split-page" />
+	</select>
 
-    <select id="queryTaskDetail" parameterType="int" resultMap="rm.task">
+	<select id="queryTaskDetail" parameterType="int" resultMap="rm.task">
         SELECT t.id, t.title, t.task, t.deadline, t.creation_date, t.last_update_date, t.publish_user_id, t.available
         FROM task t
         WHERE t.id = #{taskId}
     </select>
 
-    <update id="deleteTask" parameterType="map" flushCache="true">
+	<update id="deleteTask" parameterType="map" flushCache="true">
         UPDATE task_student_map tsm
         INNER JOIN task t
         ON t.id = tsm.task_id
@@ -89,7 +92,7 @@
         WHERE t.id = #{taskId} and t.publish_user_id = #{userId} and tsm.student_id = #{studentId}
     </update>
 
-    <select id="queryTaskStudentRelationship" resultMap="rm.taskStudentRelationShip" parameterType="map">
+	<select id="queryTaskStudentRelationship" resultMap="rm.taskStudentRelationShip" parameterType="map">
         SELECT id, task_id,student_id,is_complete,creation_date,last_update_date,available
         FROM task_student_map
         WHERE task_id = #{taskId} and student_id = #{studentId} and available = 1
