@@ -327,7 +327,7 @@
                         <!-- /.nav-second-level -->
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> 育儿学堂<span class="fa arrow"></span></a>
+                        <a href="#"><i class="fa fa-files-o fa-fw"></i> 育儿学堂<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
                                 <a href="${ctx}/admin/news?m=y&i=yexttj">推荐</a>
@@ -335,11 +335,11 @@
                             <li>
                                 <a href="${ctx}/admin/news?m=y&i=yext">发布</a>
                             </li>
+                            <li>
+                                <a href="${ctx}/admin/slide">幻灯片</a>
+                            </li>
                         </ul>
                         <!-- /.nav-second-level -->
-                    </li>
-                    <li>
-                        <a href="${ctx}/admin/slide"><i class="fa fa-files-o fa-fw"></i> Slide</a>
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
