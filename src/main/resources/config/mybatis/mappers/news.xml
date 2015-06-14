@@ -305,7 +305,7 @@
 	<insert id="createSlide" parameterType="com.fmc.edu.model.news.Slide" useGeneratedKeys="true" keyProperty="id" flushCache="true">
 		INSERT INTO slide (subject, news_id, profile_id, img_name, img_path, `order`, start_date, end_date, available, creation_date,
 		last_update_date)
-		VALUES (#{subject}, #{newsId}, #{profileId}, #{imgName}, #{imgPath}, #{order}, #{startDate}, #{endDate}, #{available},
-		#{creationDate}, #{lastUpdateDate)
+		VALUES (#{subject}, #{newsId}, #{profileId}, #{imgName}, #{imgPath}, #{order}, now(), #{endDate}, #{available}, now(),
+		#{lastUpdateDate})
     </insert>
 </mapper>

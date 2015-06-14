@@ -54,7 +54,7 @@
                                             <td>${slide.id}
                                                 <input type="hidden" name="ids" value="${slide.id}" />
                                             </td>
-                                            <td><img src="${ctx}${slide.imgPath}${slide.imgName}" height="80px" /></td>
+                                            <td><img src="${ctx}/upload/slide/${slide.imgPath}${slide.imgName}" height="80px" /></td>
                                             <td>${slide.subject}</td>
                                             <td>《${slide.news.subject}》</td>
                                             <td><select name="order" class="form-control" data-slide-count="${slideCount}">
@@ -100,7 +100,7 @@
                                             <td>${slide.id}
                                                 <input type="hidden" name="ids" value="${slide.id}" />
                                             </td>
-                                            <td><img src="${ctx}${slide.imgPath}${slide.imgName}" height="80px" /></td>
+                                            <td><img src="${ctx}/upload/slide/${slide.imgPath}${slide.imgName}" height="80px" /></td>
                                             <td>${slide.subject}</td>
                                             <td>《${slide.news.subject}》</td>
                                             <td><select name="order" class="form-control" data-slide-count="${slideCount}" disabled>
@@ -138,60 +138,62 @@
                 <div class="panel-heading">创建新的育儿学堂幻灯片</div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
-                    <div class="form-group">
-                        <label>主题：</label>
-                        <input type="text" name="subject" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label>请选择图片：</label>
-                        <input type="file" name="image" class="btn btn-primary">
-                    </div>
-                    <div class="form-group">
-                        <label>请选择链接的文章：</label>
-
-                        <div class="dataTable_wrapper">
-                            <table class="table table-striped table-bordered table-hover" id="table-news">
-                                <thead>
-                                <tr>
-                                    <th>选择</th>
-                                    <th>#</th>
-                                    <th>标题</th>
-                                    <th>内容</th>
-                                    <th>赞</th>
-                                    <th>创建时间</th>
-                                    <th>发布时间</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <c:forEach var="news" items="${newsList}">
-                                    <tr>
-                                        <td><input type="radio" name="newsId" value="${news.id}" /></td>
-                                        <td>${news.id}</td>
-                                        <td>${news.subject}</td>
-                                        <td>${fn:substring(news.content, 0, 25)}...</td>
-                                        <td>${news.like}</td>
-                                        <td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${news.creationDate}" /></td>
-                                        <td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${news.publishDate}" /></td>
-                                    </tr>
-                                </c:forEach>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>是否启用：</label>&nbsp;
-                        <label class="radio-inline text-danger">
-                            <input type="radio" name="available" value="false" checked="checked"> 禁用
-                        </label>
-                        <label class="radio-inline text-success">
-                            <input type="radio" name="available" value="true"> 启用
-                        </label>
-                    </div>
-                    <div class="form-group">
+                    <form action="/admin/createSlide" method="post" enctype="multipart/form-data">
                         <div class="form-group">
-                            <input type="button" value="创建" class="btn btn-primary" />
+                            <label>主题：</label>
+                            <input type="text" name="subject" class="form-control">
                         </div>
-                    </div>
+                        <div class="form-group">
+                            <label>请选择图片：</label>
+                            <input type="file" name="image" class="btn btn-primary">
+                        </div>
+                        <div class="form-group">
+                            <label>请选择链接的文章：</label>
+
+                            <div class="dataTable_wrapper">
+                                <table class="table table-striped table-bordered table-hover" id="table-news">
+                                    <thead>
+                                    <tr>
+                                        <th>选择</th>
+                                        <th>#</th>
+                                        <th>标题</th>
+                                        <th>内容</th>
+                                        <th>赞</th>
+                                        <th>创建时间</th>
+                                        <th>发布时间</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <c:forEach var="news" items="${newsList}">
+                                        <tr>
+                                            <td><input type="radio" name="newsId" value="${news.id}" /></td>
+                                            <td>${news.id}</td>
+                                            <td>${news.subject}</td>
+                                            <td>${fn:substring(news.content, 0, 25)}...</td>
+                                            <td>${news.like}</td>
+                                            <td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${news.creationDate}" /></td>
+                                            <td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${news.publishDate}" /></td>
+                                        </tr>
+                                    </c:forEach>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>是否启用：</label>&nbsp;
+                            <label class="radio-inline text-danger">
+                                <input type="radio" name="available" value="false" checked="checked"> 禁用
+                            </label>
+                            <label class="radio-inline text-success">
+                                <input type="radio" name="available" value="true"> 启用
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-group">
+                                <input type="submit" value="创建" class="btn btn-primary" />
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

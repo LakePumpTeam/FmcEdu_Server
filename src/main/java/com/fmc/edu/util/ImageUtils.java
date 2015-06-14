@@ -18,7 +18,7 @@ import java.io.IOException;
 public class ImageUtils {
 	private static final Logger LOG = Logger.getLogger(ImageUtils.class);
 
-	public static boolean writeFileToDisk(MultipartFile pFile, String userId, String fileName) throws IOException {
+	public static boolean writeNewsImageToDisk(MultipartFile pFile, String userId, String fileName) throws IOException {
 		String highImagePath = ImageUtils.getHighBaseImagePath(userId);
 		String lowImagePath = ImageUtils.getLowBaseImagePath(userId);
 		File highBaseDir = new File(highImagePath);
@@ -50,14 +50,42 @@ public class ImageUtils {
 		return true;
 	}
 
-	public static String getSlideImagePath(String pFileName) {
+	public static boolean writeSlideImageToDisk(MultipartFile pFile, String pFileName) {
+		try {
+			String slideImagePath = ImageUtils.getSlideImageBasePath();
+			File slideDir = new File(slideImagePath);
+			if (!slideDir.exists()) {
+				slideDir.mkdirs();
+			}
+
+			LOG.debug("Writing image to:" + slideImagePath);
+			byte[] bytes = pFile.getBytes();
+			BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(pFileName));
+			stream.write(bytes);
+			IOUtils.closeQuietly(stream);
+
+			LOG.debug("Writing image completed.");
+		} catch (IOException e) {
+			LOG.error(e);
+			return false;
+		}
+		return true;
+	}
+
+	public static String getSlideImageBasePath() {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append(WebConfig.getUploadFileRootPath())
 				.append(File.separator)
-				.append("slide")
+				.append("slide");
+		return FilenameUtils.normalizeNoEndSeparator(stringBuilder.toString());
+	}
+
+	public static String getSlideImagePath(String pFileName) {
+		StringBuilder path = new StringBuilder();
+		path.append(getSlideImageBasePath())
 				.append(File.separator)
 				.append(pFileName);
-		return FilenameUtils.normalizeNoEndSeparator(stringBuilder.toString());
+		return FilenameUtils.normalizeNoEndSeparator(path.toString());
 	}
 
 	public static String getHighBaseImagePath(final String userId) {
@@ -99,6 +127,12 @@ public class ImageUtils {
 	public static String getRelativePath(String userId) {
 		StringBuilder relativePath = new StringBuilder();
 		relativePath.append(userId).append(File.separator);
+		return relativePath.toString();
+	}
+
+	public static String getRelativePath() {
+		StringBuilder relativePath = new StringBuilder();
+		relativePath.append(File.separator);
 		return relativePath.toString();
 	}
 

@@ -75,8 +75,8 @@ public class AdminSlideController extends AdminTransactionBaseController {
 	}
 
 	@RequestMapping(value = "/createSlide" + GlobalConstant.URL_SUFFIX)
-	public String createSlide(HttpServletRequest pRequest, HttpServletResponse pResponse, Model pModel, String subject, int newsId,
-			boolean available, MultipartFile image) {
+	public String createSlide(HttpServletRequest pRequest, HttpServletResponse pResponse, Model pModel, String subject, Integer newsId,
+			Boolean available, MultipartFile image) {
 		Subject currentUser = SecurityUtils.getSubject();
 		Session session = currentUser.getSession(false);
 		BaseProfile userProfile = (BaseProfile) session.getAttribute(MyAccountManager.CURRENT_SESSION_USER_KEY);
@@ -86,6 +86,7 @@ public class AdminSlideController extends AdminTransactionBaseController {
 		slide.setNewsId(newsId);
 		slide.setAvailable(available);
 		slide.setProfileId(userProfile.getId());
+		slide.setOrder(1);
 
 		TransactionStatus ts = ensureTransaction();
 		try {

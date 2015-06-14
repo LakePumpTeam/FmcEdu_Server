@@ -148,7 +148,7 @@ public class NewsManager {
 			}
 			synchronized (NewsManager.WRITE_FILE_LOCK) {
 				String fileName = System.currentTimeMillis() + ImageUtils.getSuffixFromFileName(img.getOriginalFilename());
-				ImageUtils.writeFileToDisk(img, pUserId, fileName);
+				ImageUtils.writeNewsImageToDisk(img, pUserId, fileName);
 				Image image;
 				String relativePath;
 				relativePath = ImageUtils.getRelativePath(pUserId);
@@ -200,7 +200,29 @@ public class NewsManager {
 	}
 
 	public boolean createSlide(final Slide pSlide, final MultipartFile pImage) {
+		LOG.debug("Processing image, size:" + pImage.getSize() + " >>> image original name:" + pImage.getOriginalFilename());
+		boolean writeImageFile = false;
+		if (pImage.getSize() == 0) {
+			return writeImageFile;
+		}
+		String fileName = System.currentTimeMillis() + ImageUtils.getSuffixFromFileName(pImage.getOriginalFilename());
+		synchronized (NewsManager.WRITE_FILE_LOCK) {
+			writeImageFile = ImageUtils.writeSlideImageToDisk(pImage, fileName);
+		}
+		pSlide.setImgName(fileName);
+		pSlide.setImgPath("");
 		boolean created = getNewsService().createSlide(pSlide);
+		if (created) {
+			if (writeImageFile) {
+				Image image;
+				String relativePath = ImageUtils.getSlideImageBasePath();
+				image = new Image();
+				image.setImgName(fileName);
+				image.setImgPath(StringUtils.normalizeUrlNoEndSeparator(relativePath));
+				image.setNewsId(pSlide.getNewsId());
+				return insertImage(image);
+			}
+		}
 		return created;
 	}
 
