@@ -15,6 +15,7 @@
 		<property name="password" value="${mybatis.db.password}"/>
 		<property name="testWhileIdle" value="true"/>
 		<property name="testOnBorrow" value="true"/>
+		<property name="validationQuery" value="select 1"/>
 	</bean>
 	<!-- Datasource Configuration end -->
 
