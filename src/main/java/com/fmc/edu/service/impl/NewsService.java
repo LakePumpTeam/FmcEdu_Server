@@ -22,8 +22,8 @@ public class NewsService {
 	@Resource(name = "newsRepository")
 	private INewsRepository mNewsRepository;
 
-	public List<News> queryNewsListByNewType(Pagination pPagination, int pNewsType) {
-		return getNewsRepository().queryNewsListByNewType(pPagination, pNewsType);
+	public List<News> queryNewsListByClassId(int pNewsType, final int pClassId, Pagination pPagination) {
+		return getNewsRepository().queryNewsListByClassId(pNewsType, pClassId, pPagination);
 	}
 
 	public int queryNewsMaxIdByNewsType(int pNewsType) {

@@ -20,10 +20,11 @@ import java.util.Map;
 public class NewsRepository extends BaseRepository implements INewsRepository {
 
 	@Override
-	public List<News> queryNewsListByNewType(Pagination pPagination, int pNewsType) {
+	public List<News> queryNewsListByClassId(int pNewsType, final int pClassId, Pagination pPagination) {
 		Map<String, Object> params = paginationToParameters(pPagination);
 		params.put("newsType", pNewsType);
-		return getSqlSession().selectList(QUERY_NEWS_LIST_BY_TYPE, params);
+		params.put("classId", pClassId);
+		return getSqlSession().selectList(QUERY_NEWS_LIST_BY_CLASS_ID, params);
 	}
 
 	@Override

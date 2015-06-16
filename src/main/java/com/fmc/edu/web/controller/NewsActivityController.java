@@ -65,10 +65,14 @@ public class NewsActivityController extends BaseController {
 		try {
 			Pagination pagination = buildPagination(pRequest);
 			String userIdStr = pRequest.getParameter("userId");
+			String classIdStr = pRequest.getParameter("classId");
 			String typeStr = pRequest.getParameter("type");
 			if (!RepositoryUtils.idIsValid(userIdStr)) {
 				responseBean.addBusinessMsg(ResourceManager.VALIDATION_USER_USER_ID_EMPTY, userIdStr);
 				return output(responseBean);
+			}
+			if (!RepositoryUtils.idIsValid(classIdStr)) {
+				throw new ProfileException(ResourceManager.VALIDATION_SCHOOL_CLASS_ID_ERROR, classIdStr);
 			}
 			if (!StringUtils.isNumeric(typeStr)) {
 				responseBean.addBusinessMsg(ResourceManager.VALIDATION_NEWS_PROVINCE_TYPE_ERROR, typeStr);
@@ -82,7 +86,8 @@ public class NewsActivityController extends BaseController {
 			}
 
 			int newsType = Integer.valueOf(typeStr);
-			List<News> newsList = getNewsManager().queryNewsListByNewType(pagination, newsType);
+			int classId = Integer.valueOf(classIdStr);
+			List<News> newsList = getNewsManager().queryNewsListByClassId(newsType, classId, pagination);
 			responseBean.addData(JSONOutputConstant.IS_LAST_PAGE, RepositoryUtils.isLastPageFlag(newsList, pagination.getPageSize()));
 
 			if (CollectionUtils.isEmpty(newsList)) {
@@ -312,45 +317,39 @@ public class NewsActivityController extends BaseController {
 	@RequestMapping(value = "/postClassNews", method = RequestMethod.POST)
 	@ResponseBody
 	public String postClassNews(final HttpServletRequest pRequest,
-			final HttpServletResponse pResponse,
-			@RequestParam(value = "userId", required = true) String userId,
-			@RequestParam(value = "subject", required = false) String subject,
-			@RequestParam(value = "content", required = true) String content,
-			@RequestParam(value = "imgs", required = false) MultipartFile[] imgs
-	) {
+			final HttpServletResponse pResponse, String userId, @RequestParam(value = "subject", required = false) String subject,
+			String content, String classId, @RequestParam(value = "imgs", required = false) MultipartFile[] imgs) {
 		ResponseBean responseBean = new ResponseBean(pRequest);
 
 		TransactionStatus txStatus = ensureTransaction();
 		try {
-			String userIdStr = userId;
-			//String subjectStr = subject;
-			String contentStrStr = content;
-			if (!RepositoryUtils.idIsValid(userIdStr)) {
-				throw new ProfileException(ResourceManager.VALIDATION_USER_USER_ID_ERROR, userIdStr);
+			if (!RepositoryUtils.idIsValid(userId)) {
+				throw new ProfileException(ResourceManager.VALIDATION_USER_USER_ID_ERROR, userId);
 			}
-			/*if (!StringUtils.isBlank(subjectStr)) {
-	            responseBean.addBusinessMsg("" + subjectStr);
-				return output(responseBean);
-			}*/
-			if (StringUtils.isBlank(contentStrStr)) {
+			if (!RepositoryUtils.idIsValid(classId)) {
+				throw new ProfileException(ResourceManager.VALIDATION_SCHOOL_CLASS_ID_ERROR, classId);
+			}
+			if (StringUtils.isBlank(content)) {
 				throw new NewsException(ResourceManager.VALIDATION_NEWS_CONTENT_EMPTY);
 			}
-			int userIdInt = Integer.valueOf(userIdStr);
-			News classNews = new News();
-			classNews.setAuthor(userIdInt);
-			classNews.setContent(contentStrStr);
-			classNews.setNewsType(NewsType.CLASS_DYNAMICS);
+			// convert ids to integer type
+			int userIdInt = Integer.valueOf(userId);
+			int classIdInt = Integer.valueOf(classId);
+			// create bean to persist
+			News classNews = new News(classIdInt, content, userIdInt, NewsType.CLASS_DYNAMICS);
 			if (StringUtils.isBlank(subject)) {
 				subject = StringUtils.EMPTY;
 			}
 			classNews.setSubject(subject);
+			// always set approved for now
 			classNews.setApproved(true);
+			// persist news & images
 			if (!getNewsManager().insertNews(classNews)) {
 				responseBean.addBusinessMsg(ResourceManager.ERROR_POST_CLASS_NEWS_FAILED);
 				return output(responseBean);
 			}
 
-			getNewsManager().saveNewsImage(imgs, userIdStr, classNews.getId());
+			getNewsManager().saveNewsImage(imgs, userId, classNews.getId());
 
 			return output(responseBean);
 		} catch (ProfileException e) {

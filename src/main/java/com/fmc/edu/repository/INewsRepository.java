@@ -14,9 +14,9 @@ import java.util.Map;
  */
 public interface INewsRepository {
 
-	String QUERY_NEWS_LIST_BY_TYPE = "com.fmc.edu.news.queryNewsListByNewType";
+	String QUERY_NEWS_LIST_BY_CLASS_ID = "com.fmc.edu.news.queryNewsListByClassId";
 
-	List<News> queryNewsListByNewType(Pagination pPagination, int pNewsType);
+	List<News> queryNewsListByClassId(int pNewsType, final int pClassId, Pagination pPagination);
 
 	String QUERY_NEWS_MAX_ID_BY_NEWS_TYPE = "com.fmc.edu.news.queryNewsMaxIdByNewsType";
 

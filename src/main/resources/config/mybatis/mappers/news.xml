@@ -16,25 +16,20 @@
         LIMIT #{start}, #{size}
     </sql>
 
-	<select id="queryNewsListByNewType" parameterType="map" useCache="true" resultMap="rm.news">
-		SELECT id,
-		author,
-		subject,
-		content,
-		news_type,
-		ref_id,
-		approved,
-		approved_by,
-		approve_date,
-		`like`,
-		popular,
-		publish_date,
-		creation_date,
-		last_update_date
-		FROM news
+	<select id="queryNewsListByClassId" parameterType="map" useCache="true" resultMap="rm.news">
+		SELECT n.id, author, subject, content, news_type, ref_id, approved, approved_by, approve_date, n.available, `like`, popular,
+		publish_date, creation_date, n.last_update_date
+		FROM news n
 		WHERE
 		<if test="newsType != 0">news_type = #{newsType} AND</if>
-		approved = 1 AND available = 1
+		<choose>
+			<when test="classId == 0"></when>
+			<when test="newsType == 5">ref_id = #{classId} AND</when>
+			<when test="newsType == 2 or newsType == 3 or newsType == 4 or newsType == 7">ref_id in (select school_id from class c where
+				c.id = #{classId}) AND
+			</when>
+		</choose>
+		approved = 1 AND n.available = 1 AND publish_date &lt;= now()
 		ORDER BY publish_date DESC
 		<include refid="limit-split-page" />
 	</select>
@@ -77,31 +72,9 @@
     </update>
 
 	<insert id="insertNews" keyProperty="id" useGeneratedKeys="true" parameterType="News" flushCache="true">
-        INSERT INTO `news`
-        (`author`,
-        `subject`,
-        `content`,
-        `news_type`,
-		`available`,
-        `approved`,
-        `like`,
-        `popular`,
-        `publish_date`,
-        `creation_date`,
-        `last_update_date`)
-        VALUES
-        ( #{author},
-        #{subject},
-        #{content},
-        #{newsType},
-		1,
-        #{approved},
-        0,
-        #{popular},
-        now(),
-        now(),
-        now()
-        )
+		INSERT INTO news ( author, subject, content, news_type, ref_id, approved, approved_by, approve_date, popular, publish_date,
+		creation_date, last_update_date)
+		VALUES ( #{author}, #{subject}, #{content}, #{newsType}, #{refId}, #{approved}, #{author}, now(), #{popular}, now(), now(), now())
     </insert>
 
 	<insert id="insertImage" parameterType="Image" flushCache="true">

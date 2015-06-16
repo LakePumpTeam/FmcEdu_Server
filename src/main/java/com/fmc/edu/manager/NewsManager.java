@@ -25,6 +25,7 @@ import java.util.Map;
  */
 @Service("newsManager")
 public class NewsManager {
+
 	private static final Logger LOG = Logger.getLogger(NewsManager.class);
 	public static Object WRITE_FILE_LOCK = "writeFileLock";
 
@@ -34,9 +35,8 @@ public class NewsManager {
 	@Resource(name = "myAccountManager")
 	private MyAccountManager mMyAccountManager;
 
-	public List<News> queryNewsListByNewType(Pagination pPagination, int pNewsType) {
-
-		return getNewsService().queryNewsListByNewType(pPagination, pNewsType);
+	public List<News> queryNewsListByClassId(int pNewsType, final int pClassId, Pagination pPagination) {
+		return getNewsService().queryNewsListByClassId(pNewsType, pClassId, pPagination);
 	}
 
 	public List<Slide> querySlideList(final boolean pAvailable, Timestamp pStartDate, Timestamp pEndDate) {
@@ -44,7 +44,6 @@ public class NewsManager {
 	}
 
 	public boolean insertComment(Comments pComments) {
-
 		return getNewsService().insertComment(pComments);
 	}
 

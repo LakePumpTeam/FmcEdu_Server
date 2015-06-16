@@ -10,122 +10,133 @@ import java.util.List;
  */
 public class News extends BaseBean {
 
-    private int mAuthor;
-    private String mSubject;
-    private String mContent;
-    private Integer mNewsType;
-    private int mRefId;
-    private Boolean mApproved;
-    private int mApprovedBy;
-    private Timestamp mApprovedDate;
-    private int mLike;
-    private boolean mPopular;
-    private Timestamp mPublishDate;
-    private Timestamp mCreationDate;
+	private int mAuthor;
+	private String mSubject;
+	private String mContent;
+	private Integer mNewsType;
+	private int mRefId;
+	private Boolean mApproved;
+	private int mApprovedBy;
+	private Timestamp mApprovedDate;
+	private int mLike;
+	private boolean mPopular;
+	private Timestamp mPublishDate;
+	private Timestamp mCreationDate;
 
-    private List<Image> mImageUrls;
+	private List<Image> mImageUrls;
 
-    public int getAuthor() {
-        return mAuthor;
-    }
+	public News() {
 
-    public void setAuthor(int pAuthor) {
-        mAuthor = pAuthor;
-    }
+	}
 
-    public String getSubject() {
-        return mSubject;
-    }
+	public News(final int pRefId, final String pContent, final int pAuthor, final Integer pNewsType) {
+		mRefId = pRefId;
+		mContent = pContent;
+		mNewsType = pNewsType;
+		mAuthor = pAuthor;
+	}
 
-    public void setSubject(String pSubject) {
-        mSubject = pSubject;
-    }
+	public int getAuthor() {
+		return mAuthor;
+	}
 
-    public String getContent() {
-        return mContent;
-    }
+	public void setAuthor(int pAuthor) {
+		mAuthor = pAuthor;
+	}
 
-    public void setContent(String pContent) {
-        mContent = pContent;
-    }
+	public String getSubject() {
+		return mSubject;
+	}
 
-    public Integer getNewsType() {
-        return mNewsType;
-    }
+	public void setSubject(String pSubject) {
+		mSubject = pSubject;
+	}
 
-    public void setNewsType(Integer pNewsType) {
-        mNewsType = pNewsType;
-    }
+	public String getContent() {
+		return mContent;
+	}
 
-    public int getRefId() {
-        return mRefId;
-    }
+	public void setContent(String pContent) {
+		mContent = pContent;
+	}
 
-    public void setRefId(int pRefId) {
-        mRefId = pRefId;
-    }
+	public Integer getNewsType() {
+		return mNewsType;
+	}
 
-    public Boolean isApproved() {
-        return mApproved;
-    }
+	public void setNewsType(Integer pNewsType) {
+		mNewsType = pNewsType;
+	}
 
-    public void setApproved(Boolean pApproved) {
-        mApproved = pApproved;
-    }
+	public int getRefId() {
+		return mRefId;
+	}
 
-    public int getApprovedBy() {
-        return mApprovedBy;
-    }
+	public void setRefId(int pRefId) {
+		mRefId = pRefId;
+	}
 
-    public void setApprovedBy(int pApprovedBy) {
-        mApprovedBy = pApprovedBy;
-    }
+	public Boolean isApproved() {
+		return mApproved;
+	}
 
-    public Timestamp getApprovedDate() {
-        return mApprovedDate;
-    }
+	public void setApproved(Boolean pApproved) {
+		mApproved = pApproved;
+	}
 
-    public void setApprovedDate(Timestamp pApprovedDate) {
-        mApprovedDate = pApprovedDate;
-    }
+	public int getApprovedBy() {
+		return mApprovedBy;
+	}
 
-    public int getLike() {
-        return mLike;
-    }
+	public void setApprovedBy(int pApprovedBy) {
+		mApprovedBy = pApprovedBy;
+	}
 
-    public void setLike(int pLike) {
-        mLike = pLike;
-    }
+	public Timestamp getApprovedDate() {
+		return mApprovedDate;
+	}
 
-    public boolean getPopular() {
-        return mPopular;
-    }
+	public void setApprovedDate(Timestamp pApprovedDate) {
+		mApprovedDate = pApprovedDate;
+	}
 
-    public void setPopular(boolean pPopular) {
-        mPopular = pPopular;
-    }
+	public int getLike() {
+		return mLike;
+	}
 
-    public Timestamp getPublishDate() {
-        return mPublishDate;
-    }
+	public void setLike(int pLike) {
+		mLike = pLike;
+	}
 
-    public void setPublishDate(Timestamp pPublishDate) {
-        mPublishDate = pPublishDate;
-    }
+	public boolean getPopular() {
+		return mPopular;
+	}
 
-    public List<Image> getImageUrls() {
-        return mImageUrls;
-    }
+	public void setPopular(boolean pPopular) {
+		mPopular = pPopular;
+	}
 
-    public void setImageUrls(List<Image> pImageUrls) {
-        mImageUrls = pImageUrls;
-    }
+	public Timestamp getPublishDate() {
+		return mPublishDate;
+	}
 
-    public Timestamp getCreationDate() {
-        return mCreationDate;
-    }
+	public void setPublishDate(Timestamp pPublishDate) {
+		mPublishDate = pPublishDate;
+	}
 
-    public void setCreationDate(Timestamp pCreationDate) {
-        mCreationDate = pCreationDate;
-    }
+	public List<Image> getImageUrls() {
+		return mImageUrls;
+	}
+
+	public void setImageUrls(List<Image> pImageUrls) {
+		mImageUrls = pImageUrls;
+	}
+
+	public Timestamp getCreationDate() {
+		return mCreationDate;
+	}
+
+	public void setCreationDate(Timestamp pCreationDate) {
+		mCreationDate = pCreationDate;
+	}
 }
