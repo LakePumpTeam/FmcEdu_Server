@@ -288,7 +288,7 @@
 			</activation>
 			<properties>
 				<!-- local -->
-				<mybatis.db.url>jdbc:mysql://127.0.0.1/fmc_edu?useUnicode=true&amp;amp;characterEncoding=UTF-8&amp;amp;allowMultiQueries=true
+				<mybatis.db.url>jdbc:mysql://127.0.0.1/fmc_edu?useUnicode=true&amp;amp;allowMultiQueries=true
 				</mybatis.db.url>
 				<mybatis.db.username>root</mybatis.db.username>
 				<mybatis.db.password>root</mybatis.db.password>
@@ -305,8 +305,8 @@
 				<activeByDefault>false</activeByDefault>
 			</activation>
 			<properties>
-				<!-- dev -->
-				<mybatis.db.url>jdbc:mysql://127.0.0.1/dev_fmc_edu?useUnicode=true&amp;amp;characterEncoding=UTF-8&amp;amp;allowMultiQueries=true
+				<!-- dev characterEncoding=UTF-8&amp;amp;-->
+				<mybatis.db.url>jdbc:mysql://127.0.0.1/dev_fmc_edu?useUnicode=true&amp;amp;allowMultiQueries=true
 				</mybatis.db.url>
 				<mybatis.db.username>root</mybatis.db.username>
 				<mybatis.db.password>123abcABC</mybatis.db.password>
@@ -324,7 +324,7 @@
 			</activation>
 			<properties>
 				<!-- production -->
-				<mybatis.db.url>jdbc:mysql://127.0.0.1/fmc_edu?useUnicode=true&amp;amp;characterEncoding=UTF-8
+				<mybatis.db.url>jdbc:mysql://127.0.0.1/fmc_edu?useUnicode=true&amp;amp;allowMultiQueries=true
 				</mybatis.db.url>
 				<mybatis.db.username>root</mybatis.db.username>
 				<mybatis.db.password>123abcABC</mybatis.db.password>
