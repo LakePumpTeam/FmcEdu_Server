@@ -1083,7 +1083,7 @@
                         <td><input type="text" class="ipt_value" id="userId" value="" /></td>
                     </tr>
                     <tr>
-                        <td align="right"><label for="selectionId" title="selectionId">selectionId</label></td>
+                        <td align="right"><label for="selectionId" title="selectionId">selectionIds</label></td>
                         <td><input type="text" class="ipt_value" id="selectionId" value="" /></td>
                     </tr>
                 </table>

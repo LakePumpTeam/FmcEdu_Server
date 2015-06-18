@@ -163,7 +163,7 @@ public class ResponseBuilder {
     }
 
     private void buildCommentsList(BaseProfile pBaseProfile, News news, Map<String, Object> newsMap) {
-        List<Comments> commentList = getNewsManager().queryCommentsByNewsIdAndProfileId(pBaseProfile.getId(), news.getId());
+        List<Comments> commentList = getNewsManager().queryCommentsByNewsIdAndProfileId(0, news.getId());
         if (CollectionUtils.isEmpty(commentList)) {
             newsMap.put("commentCount", 0);
             newsMap.put("commentList", Collections.EMPTY_LIST);
@@ -205,7 +205,7 @@ public class ResponseBuilder {
             newsMap.put("participationCount", getNewsManager().queryProfileSelectionRelationshipCount(pNews.getId()));
             buildSelectionForNews(pNews.getId(), newsMap, pCurrentUserId);
         } else {
-            List<Comments> commentsList = getNewsManager().queryCommentsByNewsIdAndProfileId(pCurrentUserId, pNews.getId());
+            List<Comments> commentsList = getNewsManager().queryCommentsByNewsIdAndProfileId(0, pNews.getId());
             newsMap.put("commentList", getCommentMapForNews(commentsList));
             newsMap.put("like", pNews.getLike());
             newsMap.put("liked", getNewsManager().isLikedNews(pCurrentUserId, pNews.getId()));

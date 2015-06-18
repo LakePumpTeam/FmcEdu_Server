@@ -41,7 +41,7 @@
 	<select id="queryTaskListByParentId" parameterType="map" resultType="map">
 		SELECT t.id as taskId, t.title as title, DATE_FORMAT(t.deadline,'%Y-%m-%d') as deadline, s.name as studentName,
 		1 as userRole, s.id as studentId,
-		CAST(is_complete as SIGNED) as status
+		CAST(is_complete as SIGNED) as completeStatus
 		FROM task t
 		INNER JOIN task_student_map tsm
 		ON t.id = tsm.task_id
@@ -64,7 +64,7 @@
 	<select id="queryTaskListByTeacherId" parameterType="map" resultType="map">
 		SELECT t.id as taskId, t.title as title, DATE_FORMAT(t.deadline,'%Y-%m-%d') as deadline, s.name as studentName,
 		2 as userRole, s.id as studentId,
-		CAST(is_complete as SIGNED) as status
+		CAST(is_complete as SIGNED) as completeStatus
 		FROM task t
 		INNER JOIN task_student_map tsm
 		ON t.id = tsm.task_id
