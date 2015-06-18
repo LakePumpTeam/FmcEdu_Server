@@ -324,7 +324,7 @@
 			</activation>
 			<properties>
 				<!-- production -->
-				<mybatis.db.url>jdbc:mysql://127.0.0.1/fmc_edu?useUnicode=true&amp;amp;allowMultiQueries=true
+				<mybatis.db.url>jdbc:mysql://127.0.0.1/demo_fmc_edu?useUnicode=true&amp;amp;allowMultiQueries=true
 				</mybatis.db.url>
 				<mybatis.db.username>root</mybatis.db.username>
 				<mybatis.db.password>123abcABC</mybatis.db.password>
