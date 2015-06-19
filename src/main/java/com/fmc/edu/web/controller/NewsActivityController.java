@@ -378,7 +378,7 @@ public class NewsActivityController extends BaseController {
         try {
             String userIdStr = pRequest.getParameter("userId");
             String newsIdStr = pRequest.getParameter("newsId");
-            String selectionIdStr = pRequest.getParameter("selectionId");
+            String selectionIdStr = pRequest.getParameter("selectionIds");
 
             if (!RepositoryUtils.idIsValid(userIdStr)) {
                 responseBean.addBusinessMsg(ResourceManager.VALIDATION_USER_USER_ID_ERROR, userIdStr);
