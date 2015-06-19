@@ -202,9 +202,13 @@
 	</update>
 
 	<select id="queryProfileSelectionRelationshipCount" resultType="int" parameterType="int">
-       SELECT count(1)
-         FROM profile_selection_map
-         WHERE news_id = #{newsId};
+		SELECT COUNT(1)
+		FROM (
+		SELECT profile_id
+		FROM profile_selection_map
+		WHERE news_id = #{newsId}
+		GROUP BY profile_id
+		) as tmp;
     </select>
 	<select id="queryProfileSelectionRelationship" resultMap="rm.profileSelectionRelationship" parameterType="map">
         SELECT news_id,

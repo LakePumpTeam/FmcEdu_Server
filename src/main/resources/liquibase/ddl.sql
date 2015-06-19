@@ -130,8 +130,12 @@ CREATE TABLE IF NOT EXISTS `fmc_edu`.`profile` (
   `available` TINYINT(1) NOT NULL DEFAULT 1,
   `profile_type` TINYINT(1) NOT NULL DEFAULT 1,
   `last_pc_id` INT NULL,
+  `last_sdat_id` INT NULL,
+  `last_sdnf_id` INT NULL,
+  `last_sdnw_id` INT NULL,
   `last_cl_id` INT NULL,
-  `last_sc_id` INT NULL,
+  `last_pce_id` INT NULL,
+  `last_bbs_id` INT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `phone_UNIQUE` (`phone` ASC))
 ENGINE = InnoDB;
@@ -224,20 +228,21 @@ DROP TABLE IF EXISTS `fmc_edu`.`news` ;
 CREATE TABLE IF NOT EXISTS `fmc_edu`.`news` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `author` INT NULL,
-  `subject` VARCHAR(60) NOT NULL,
+  `subject` VARCHAR(60) NULL,
   `content` VARCHAR(4000) NOT NULL,
   `news_type` TINYINT(1) NOT NULL DEFAULT 0,
   `ref_id` INT NULL,
+  `available` TINYINT(1) NULL DEFAULT 1,
   `approved` TINYINT(1) NULL DEFAULT 0,
   `approved_by` INT NULL,
   `approve_date` DATETIME NULL,
   `like` INT NULL DEFAULT 0,
-  `popular` TINYINT(1) NULL DEFAULT 0,
+  `popular` TINYINT(1) NOT NULL DEFAULT 0,
   `publish_date` DATETIME NULL,
   `creation_date` DATETIME NOT NULL,
   `last_update_date` DATETIME NOT NULL,
   PRIMARY KEY (`id`))
-ENGINE = InnoDB;
+ENGINE = InnoDB
 
 
 -- -----------------------------------------------------
