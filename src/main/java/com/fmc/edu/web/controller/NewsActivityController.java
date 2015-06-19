@@ -412,8 +412,10 @@ public class NewsActivityController extends BaseController {
                     ProfileSelectionRelationship profileSelectionRelationship = getNewsManager().queryProfileSelectionRelationship(decodeNewsId, decodeUserId);
                     if (profileSelectionRelationship != null) {
                         Selection selection = getNewsManager().querySelectionById(profileSelectionRelationship.getSelectionId());
-                        responseBean.addBusinessMsg(ResourceManager.ERROR_NEWS_DUPLICATION_PARTICIPATION_ERROR, selection.getSelection());
-                        return output(responseBean);
+                        if (selection.getId() == decodeSelectionId) {
+                            responseBean.addBusinessMsg(ResourceManager.ERROR_NEWS_DUPLICATION_PARTICIPATION_ERROR, selection.getSelection());
+                            return output(responseBean);
+                        }
                     }
                     ProfileSelectionRelationship tempProfileSelectionRelationship = new ProfileSelectionRelationship();
                     tempProfileSelectionRelationship.setNewsId(decodeNewsId);
