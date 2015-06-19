@@ -1,11 +1,11 @@
-package com.fmc.edu.push;
+package com.fmc.edu.model.app;
 
 /**
  * Created by YW on 2015/5/3.
  * <p>
- * The baidu cloud push device type class
+ * Device type class
  */
-public class PushDeviceType {
+public class DeviceType {
 	public static final int WEB = 1;
 	public static final int PC = 2;
 	public static final int ANDROID = 3;
@@ -15,19 +15,19 @@ public class PushDeviceType {
 	public static String toString(final int pDevice) {
 
 		switch (pDevice) {
-			case PushDeviceType.WEB: {
+			case DeviceType.WEB: {
 				return "WEB";
 			}
-			case PushDeviceType.PC: {
+			case DeviceType.PC: {
 				return "PC";
 			}
-			case PushDeviceType.ANDROID: {
+			case DeviceType.ANDROID: {
 				return "ANDROID";
 			}
-			case PushDeviceType.IOS: {
+			case DeviceType.IOS: {
 				return "IOS";
 			}
-			case PushDeviceType.WINDOWS_PHONE: {
+			case DeviceType.WINDOWS_PHONE: {
 				return "WINDOWS_PHONE";
 			}
 			default: {

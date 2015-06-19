@@ -1,7 +1,7 @@
 package com.fmc.edu.manager;
 
+import com.fmc.edu.model.app.DeviceType;
 import com.fmc.edu.push.IBaiDuPushNotification;
-import com.fmc.edu.push.PushDeviceType;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
@@ -21,16 +21,16 @@ public class BaiDuPushManager {
 	private IBaiDuPushNotification mBaiDuIOSPushNotification;
 
 	public boolean pushNotificationMsg(final int pDevice, final long pChannelId, final String pUserId, final String pMsg) throws Exception {
-		LOG.debug("push notification message: device type is:" + PushDeviceType.toString(pDevice));
+		LOG.debug("push notification message: device type is:" + DeviceType.toString(pDevice));
 
 		boolean isPushSuccess = false;
-		if (PushDeviceType.ANDROID == pDevice) {
+		if (DeviceType.ANDROID == pDevice) {
 			isPushSuccess = getBaiDuAndroidPushNotification().pushMsg(pChannelId, pUserId, pMsg);
 		}
-		if (PushDeviceType.IOS == pDevice) {
+		if (DeviceType.IOS == pDevice) {
 			isPushSuccess = getBaiDuIOSPushNotification().pushMsg(pChannelId, pUserId, pMsg);
 		}
-		LOG.debug("push notification message: is success? " + PushDeviceType.toString(pDevice));
+		LOG.debug("push notification message: is success? " + DeviceType.toString(pDevice));
 		return isPushSuccess;
 	}
 

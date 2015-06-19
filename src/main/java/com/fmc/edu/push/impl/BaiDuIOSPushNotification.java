@@ -9,8 +9,8 @@ import com.baidu.yun.channel.model.PushUnicastMessageResponse;
 import com.baidu.yun.core.log.YunLogEvent;
 import com.baidu.yun.core.log.YunLogHandler;
 import com.fmc.edu.configuration.WebConfig;
+import com.fmc.edu.model.app.DeviceType;
 import com.fmc.edu.push.IBaiDuPushNotification;
-import com.fmc.edu.push.PushDeviceType;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
@@ -43,7 +43,7 @@ public class BaiDuIOSPushNotification implements IBaiDuPushNotification {
 		try {
 			// 3. create request object
 			PushUnicastMessageRequest request = new PushUnicastMessageRequest();
-			request.setDeviceType(PushDeviceType.IOS);
+			request.setDeviceType(DeviceType.IOS);
 			request.setDeployStatus(WebConfig.deployStatus()); // DeployStatus => 1: Developer 2:
 			// Production
 			request.setChannelId(pChannelId);

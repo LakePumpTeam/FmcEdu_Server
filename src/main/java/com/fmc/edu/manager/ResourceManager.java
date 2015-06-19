@@ -48,6 +48,8 @@ public class ResourceManager {
 
     public static final String VALIDATION_SCHOOL_CLASS_ID_ERROR = "validation.school.class.id.error";
 
+    public static final String VALIDATION_APP_DEVICE_TYPE_EMPTY = "app.device.type.empty";
+
     public static final String ERROR_NOT_FIND_USER = "profile.error.not.find.user";
 
     public static final String ERROR_RESET_PASSWORD_FAILED = "profile.error.reset.password.failed";
@@ -93,6 +95,9 @@ public class ResourceManager {
     public static final String ERROR_TEACHER_UNKNOWN = "school.error.teacher.unknown";
 
     public static final String ERROR_NOT_FOND_CLASS = "school.error.class.not.found";
+
+    public static final String ERROR_APP_UNKNOWN_DEVICE_TYPE = "app.device.type.unknown";
+
 
 
     public String getMessage(HttpServletRequest request, String pKey, String[] pArgs, String pDefaultMessage) {
