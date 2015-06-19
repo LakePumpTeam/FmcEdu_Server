@@ -388,7 +388,7 @@ public class NewsActivityController extends BaseController {
                 responseBean.addBusinessMsg(ResourceManager.VALIDATION_NEWS_ID_ERROR, newsIdStr);
                 return output(responseBean);
             }
-            if (!StringUtils.isBlank(selectionIdStr)) {
+            if (StringUtils.isBlank(selectionIdStr)) {
                 responseBean.addBusinessMsg(ResourceManager.VALIDATION_NEWS_SELECTION_EMPTY);
                 return output(responseBean);
             }
