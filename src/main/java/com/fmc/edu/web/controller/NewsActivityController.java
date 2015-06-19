@@ -388,7 +388,7 @@ public class NewsActivityController extends BaseController {
                 responseBean.addBusinessMsg(ResourceManager.VALIDATION_NEWS_ID_ERROR, newsIdStr);
                 return output(responseBean);
             }
-            if (!RepositoryUtils.idIsValid(selectionIdStr)) {
+            if (!StringUtils.isBlank(selectionIdStr)) {
                 responseBean.addBusinessMsg(ResourceManager.VALIDATION_NEWS_SELECTION_EMPTY);
                 return output(responseBean);
             }
@@ -400,6 +400,11 @@ public class NewsActivityController extends BaseController {
             if (selectionIds != null && selectionIds.length > 0) {
                 for (String selectionId : selectionIds) {
                     LOG.debug("Submit selection id:" + selectionId);
+                    if (!RepositoryUtils.idIsValid(selectionId)) {
+                        LOG.debug("The option id is invalid:" + selectionId);
+                        responseBean.addBusinessMsg(ResourceManager.VALIDATION_NEWS_SELECTION_EMPTY);
+                        return output(responseBean);
+                    }
                     decodeUserId = Integer.valueOf(userIdStr);
                     decodeNewsId = Integer.valueOf(newsIdStr);
                     decodeSelectionId = Integer.valueOf(selectionId);
