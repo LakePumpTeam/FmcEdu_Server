@@ -250,7 +250,13 @@ public class ResponseBuilder {
             pNewsMap.put("selections ", Collections.EMPTY_LIST);
             return;
         }
-        ProfileSelectionRelationship profileSelectionRelationship = getNewsManager().queryProfileSelectionRelationship(pNewsId, pCurrentUserId);
+        List<ProfileSelectionRelationship> profileSelectionRelationships = getNewsManager().queryProfileSelectionRelationships(pNewsId, pCurrentUserId);
+        List<Integer> profileSelectionRelationshipIdList = new ArrayList<Integer>();
+        if (CollectionUtils.isEmpty(profileSelectionRelationships)) {
+            for (ProfileSelectionRelationship psp : profileSelectionRelationships) {
+                profileSelectionRelationshipIdList.add(psp.getId());
+            }
+        }
         List<Map<String, Object>> convertedSelectionList = new ArrayList<Map<String, Object>>(selections.size());
         Map<String, Object> selectionMap;
         boolean isParticipation = false;
@@ -259,7 +265,7 @@ public class ResponseBuilder {
             selectionMap.put("selectionId", selection.getId());
             selectionMap.put("selection", selection.getSelection());
             selectionMap.put("sortOrder", selection.getSortOrder());
-            boolean isSelected = profileSelectionRelationship != null && profileSelectionRelationship.getSelectionId().equals(selection.getId());
+            boolean isSelected = profileSelectionRelationshipIdList.contains(selection.getId());
             if (isSelected && !isParticipation) {
                 isParticipation = true;
             }

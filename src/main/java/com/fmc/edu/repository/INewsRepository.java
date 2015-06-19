@@ -72,7 +72,7 @@ public interface INewsRepository {
 
 	String QUERY_PROFILE_SELECTION_RELATIONSHIP = "com.fmc.edu.news.queryProfileSelectionRelationship";
 
-	ProfileSelectionRelationship queryProfileSelectionRelationship(int pNewsId, int pUserId);
+	List<ProfileSelectionRelationship> queryProfileSelectionRelationships(int pNewsId, int pUserId);
 
 	String QUERY_SELECTION_BY_NEWS_ID = "com.fmc.edu.news.querySelectionByNewsId";
 

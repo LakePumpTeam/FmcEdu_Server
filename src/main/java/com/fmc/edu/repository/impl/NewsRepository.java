@@ -108,11 +108,11 @@ public class NewsRepository extends BaseRepository implements INewsRepository {
 	}
 
 	@Override
-	public ProfileSelectionRelationship queryProfileSelectionRelationship(int pNewsId, int pUserId) {
+	public List<ProfileSelectionRelationship> queryProfileSelectionRelationships(int pNewsId, int pUserId) {
 		Map<String, Object> params = new HashMap<String, Object>(1);
 		params.put("newsId", pNewsId);
 		params.put("userId", pUserId);
-		return getSqlSession().selectOne(QUERY_PROFILE_SELECTION_RELATIONSHIP, params);
+		return getSqlSession().selectList(QUERY_PROFILE_SELECTION_RELATIONSHIP, params);
 	}
 
 	@Override

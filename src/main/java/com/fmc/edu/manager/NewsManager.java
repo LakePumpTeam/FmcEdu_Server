@@ -178,8 +178,8 @@ public class NewsManager {
 		return getNewsService().queryProfileSelectionRelationshipCount(pNewsId);
 	}
 
-	public ProfileSelectionRelationship queryProfileSelectionRelationship(int pNewsId, int pUserId) {
-		return getNewsService().queryProfileSelectionRelationship(pNewsId, pUserId);
+	public List<ProfileSelectionRelationship> queryProfileSelectionRelationships(int pNewsId, int pUserId) {
+		return getNewsService().queryProfileSelectionRelationships(pNewsId, pUserId);
 	}
 
 	public List<Selection> querySelectionByNewsId(int pNewsId) {

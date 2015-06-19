@@ -83,8 +83,8 @@ public class NewsService {
 		return getNewsRepository().queryProfileSelectionRelationshipCount(pNewsId);
 	}
 
-	public ProfileSelectionRelationship queryProfileSelectionRelationship(int pNewsId, int pUserId) {
-		return getNewsRepository().queryProfileSelectionRelationship(pNewsId, pUserId);
+	public List<ProfileSelectionRelationship> queryProfileSelectionRelationships(int pNewsId, int pUserId) {
+		return getNewsRepository().queryProfileSelectionRelationships(pNewsId, pUserId);
 	}
 
 	public List<Selection> querySelectionByNewsId(int pNewsId) {

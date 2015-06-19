@@ -9,7 +9,10 @@ import com.fmc.edu.exception.ProfileException;
 import com.fmc.edu.manager.MyAccountManager;
 import com.fmc.edu.manager.NewsManager;
 import com.fmc.edu.manager.ResourceManager;
-import com.fmc.edu.model.news.*;
+import com.fmc.edu.model.news.Comments;
+import com.fmc.edu.model.news.News;
+import com.fmc.edu.model.news.NewsType;
+import com.fmc.edu.model.news.Slide;
 import com.fmc.edu.model.profile.BaseProfile;
 import com.fmc.edu.model.relationship.ProfileSelectionRelationship;
 import com.fmc.edu.util.DateUtils;
@@ -31,6 +34,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -409,13 +413,17 @@ public class NewsActivityController extends BaseController {
                     decodeNewsId = Integer.valueOf(newsIdStr);
                     decodeSelectionId = Integer.valueOf(selectionId);
 
-                    ProfileSelectionRelationship profileSelectionRelationship = getNewsManager().queryProfileSelectionRelationship(decodeNewsId, decodeUserId);
-                    if (profileSelectionRelationship != null) {
-                        Selection selection = getNewsManager().querySelectionById(profileSelectionRelationship.getSelectionId());
-                        if (selection.getId() == decodeSelectionId) {
-                            responseBean.addBusinessMsg(ResourceManager.ERROR_NEWS_DUPLICATION_PARTICIPATION_ERROR, selection.getSelection());
-                            return output(responseBean);
+                    List<ProfileSelectionRelationship> profileSelectionRelationships = getNewsManager().queryProfileSelectionRelationships(decodeNewsId, decodeUserId);
+                    List<Integer> profileSelectionRelationshipIdList = new ArrayList<Integer>();
+                    if (org.springframework.util.CollectionUtils.isEmpty(profileSelectionRelationships)) {
+                        for (ProfileSelectionRelationship psp : profileSelectionRelationships) {
+                            profileSelectionRelationshipIdList.add(psp.getId());
                         }
+                    }
+                    if (profileSelectionRelationshipIdList.contains(decodeSelectionId)) {
+                        /// Selection selection = getNewsManager().querySelectionById(decodeSelectionId);
+                        responseBean.addBusinessMsg(ResourceManager.ERROR_NEWS_DUPLICATION_PARTICIPATION_ERROR, selectionId);
+                        return output(responseBean);
                     }
                     ProfileSelectionRelationship tempProfileSelectionRelationship = new ProfileSelectionRelationship();
                     tempProfileSelectionRelationship.setNewsId(decodeNewsId);
