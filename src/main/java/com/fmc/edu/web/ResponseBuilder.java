@@ -252,9 +252,9 @@ public class ResponseBuilder {
         }
         List<ProfileSelectionRelationship> profileSelectionRelationships = getNewsManager().queryProfileSelectionRelationships(pNewsId, pCurrentUserId);
         List<Integer> profileSelectionRelationshipIdList = new ArrayList<Integer>();
-        if (CollectionUtils.isEmpty(profileSelectionRelationships)) {
+        if (!CollectionUtils.isEmpty(profileSelectionRelationships)) {
             for (ProfileSelectionRelationship psp : profileSelectionRelationships) {
-                profileSelectionRelationshipIdList.add(psp.getId());
+                profileSelectionRelationshipIdList.add(psp.getSelectionId());
             }
         }
         List<Map<String, Object>> convertedSelectionList = new ArrayList<Map<String, Object>>(selections.size());
