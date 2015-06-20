@@ -16,15 +16,15 @@
     </c:when>
 </c:choose>
 <c:choose>
-    <c:when test="${param.i eq 'sdat'}">
+    <c:when test="${param.i eq '1'}">
         <c:set var="includeJspURL" value="includes/news-school-activity.jsp" />
         <c:set var="subheading" value="活动" />
     </c:when>
-    <c:when test="${param.i eq 'sdnf'}">
+    <c:when test="${param.i eq '2'}">
         <c:set var="includeJspURL" value="includes/news-school-notification.jsp" />
         <c:set var="subheading" value="通知" />
     </c:when>
-    <c:when test="${param.i eq 'sdnw'}">
+    <c:when test="${param.i eq '3'}">
         <c:set var="includeJspURL" value="includes/news-school-news.jsp" />
         <c:set var="subheading" value="新闻" />
     </c:when>
@@ -32,7 +32,7 @@
         <c:set var="includeJspURL" value="includes/news-school-news.jsp"/>
         <c:set var="subheading" value="推荐"/>
     </c:when>
-    <c:when test="${param.i eq 'yext'}">
+    <c:when test="${param.i eq '6'}">
         <c:set var="includeJspURL" value="includes/news-parent-child-edu.jsp"/>
         <c:set var="subheading" value="发布"/>
     </c:when>

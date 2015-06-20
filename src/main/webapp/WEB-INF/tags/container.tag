@@ -295,33 +295,16 @@
                         <a href="${ctx}/admin/home"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Interfaces<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level ${template == 'interface' ? 'collapse in' : ''}">
-                            <li>
-                                <a href="${ctx}/admin/interface?i=profile">Profile Interfaces</a>
-                            </li>
-                            <li>
-                                <a href="${ctx}/admin/interface?i=location">Location Interfaces</a>
-                            </li>
-                            <li>
-                                <a href="${ctx}/admin/interface?i=school">School Interfaces</a>
-                            </li>
-                            <li>
-                                <a href="${ctx}/admin/interface?i=home">Home Interfaces</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
                         <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> 校园动态<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="${ctx}/admin/news?m=s&i=sdat">活动</a>
+                                <a href="${ctx}/admin/news?m=s&i=1">活动</a>
                             </li>
                             <li>
-                                <a href="${ctx}/admin/news?m=s&i=sdnf">通知</a>
+                                <a href="${ctx}/admin/news?m=s&i=2">通知</a>
                             </li>
                             <li>
-                                <a href="${ctx}/admin/news?m=s&i=sdnw">新闻</a>
+                                <a href="${ctx}/admin/news?m=s&i=3">新闻</a>
                             </li>
                         </ul>
                         <!-- /.nav-second-level -->
@@ -333,7 +316,7 @@
                                 <a href="${ctx}/admin/news?m=y&i=yexttj">推荐</a>
                             </li>
                             <li>
-                                <a href="${ctx}/admin/news?m=y&i=yext">发布</a>
+                                <a href="${ctx}/admin/news?m=y&i=6">发布</a>
                             </li>
                             <li>
                                 <a href="${ctx}/admin/slide">幻灯片</a>
