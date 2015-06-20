@@ -33,7 +33,7 @@
         <c:set var="subheading" value="推荐"/>
     </c:when>
     <c:when test="${param.i eq 'yext'}">
-        <c:set var="includeJspURL" value="includes/news-school-news.jsp"/>
+        <c:set var="includeJspURL" value="includes/news-parent-child-edu.jsp"/>
         <c:set var="subheading" value="发布"/>
     </c:when>
 </c:choose>
