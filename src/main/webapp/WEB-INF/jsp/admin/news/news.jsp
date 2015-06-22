@@ -28,10 +28,6 @@
         <c:set var="includeJspURL" value="includes/news-school-news.jsp" />
         <c:set var="subheading" value="新闻" />
     </c:when>
-    <c:when test="${param.i eq 'yexttj'}">
-        <c:set var="includeJspURL" value="includes/news-school-news.jsp"/>
-        <c:set var="subheading" value="推荐"/>
-    </c:when>
     <c:when test="${param.i eq '6'}">
         <c:set var="includeJspURL" value="includes/news-parent-child-edu.jsp"/>
         <c:set var="subheading" value="发布"/>

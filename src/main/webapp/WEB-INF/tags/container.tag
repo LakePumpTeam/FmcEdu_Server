@@ -313,9 +313,6 @@
                         <a href="#"><i class="fa fa-files-o fa-fw"></i> 育儿学堂<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="${ctx}/admin/news?m=y&i=yexttj">推荐</a>
-                            </li>
-                            <li>
                                 <a href="${ctx}/admin/news?m=y&i=6">发布</a>
                             </li>
                             <li>
