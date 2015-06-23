@@ -113,6 +113,12 @@
 		</dependency>
 
 		<dependency>
+			<groupId>c3p0</groupId>
+			<artifactId>c3p0</artifactId>
+			<version>0.9.1.2</version>
+		</dependency>
+
+		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysqlVersion}</version>
@@ -291,7 +297,7 @@
 				<mybatis.db.url>jdbc:mysql://127.0.0.1/fmc_edu?useUnicode=true&amp;amp;allowMultiQueries=true
 				</mybatis.db.url>
 				<mybatis.db.username>root</mybatis.db.username>
-				<mybatis.db.password>root</mybatis.db.password>
+				<mybatis.db.password>968345</mybatis.db.password>
 				<cache.disk.store.path>d:/ehcache/</cache.disk.store.path>
 				<uploadFileRootPath>d:/upload</uploadFileRootPath>
 				<tomcat.logger.path>d:/logs</tomcat.logger.path>

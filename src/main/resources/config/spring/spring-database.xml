@@ -8,14 +8,15 @@
 			location="classpath:config/mybatis/mybatis.properties" />
 
 	<!-- Datasource Configuration Start -->
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-		<property name="driverClassName" value="${mybatis.db.driver}"/>
-		<property name="url" value="${mybatis.db.url}"/>
-		<property name="username" value="${mybatis.db.username}"/>
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+		<property name="driverClass" value="${mybatis.db.driver}" />
+		<property name="jdbcUrl" value="${mybatis.db.url}" />
+		<property name="user" value="${mybatis.db.username}" />
 		<property name="password" value="${mybatis.db.password}"/>
-		<property name="testWhileIdle" value="true"/>
-		<property name="testOnBorrow" value="true"/>
-		<property name="validationQuery" value="select 1"/>
+		<property name="minPoolSize" value="5" />
+		<property name="maxPoolSize" value="30" />
+		<property name="preferredTestQuery" value="select 1" />
+		<property name="checkoutTimeout" value="30000" />
 	</bean>
 	<!-- Datasource Configuration end -->
 
