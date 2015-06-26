@@ -865,8 +865,8 @@
             <td class="parameters">
                 <table>
                     <tr>
-                        <td align="right"><label for="teacherId" title="teacherId">teacherId</label></td>
-                        <td><input type="text" class="ipt_value" id="teacherId" value="" /></td>
+                        <td align="right"><label for="classId" title="classId">classId</label></td>
+                        <td><input type="text" class="ipt_value" id="classId" value="" /></td>
                     </tr>
                 </table>
             </td>
