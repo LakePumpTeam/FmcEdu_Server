@@ -13,26 +13,31 @@ import java.util.Map;
  */
 @Service(value = "studentManager")
 public class StudentManager {
-    @Resource(name = "studentService")
-    private StudentService mStudentService;
 
-    public List<Student> queryStudentByParentId(int pParentId) {
-        return getStudentService().queryStudentByParentId(pParentId);
-    }
+	@Resource(name = "studentService")
+	private StudentService mStudentService;
 
-    public Map<String, Object> queryStudentListByTeacherId(int pTeacherId) {
-        return getStudentService().queryStudentListByTeacherId(pTeacherId);
-    }
+	public List<Student> queryStudentByParentId(int pParentId) {
+		return getStudentService().queryStudentByParentId(pParentId);
+	}
 
-    public Student queryStudentById(int pStudentId) {
-        return getStudentService().queryStudentById(pStudentId);
-    }
+	public Map<String, Object> queryStudentListByTeacherId(int pTeacherId) {
+		return getStudentService().queryStudentListByTeacherId(pTeacherId);
+	}
 
-    public StudentService getStudentService() {
-        return mStudentService;
-    }
+	public Student queryStudentById(int pStudentId) {
+		return getStudentService().queryStudentById(pStudentId);
+	}
 
-    public void setStudentService(StudentService pStudentService) {
-        mStudentService = pStudentService;
-    }
+	public Map<String, Object> queryStudentsByClassId(final int pClassId) {
+		return getStudentService().queryStudentsByClassId(pClassId);
+	}
+
+	public StudentService getStudentService() {
+		return mStudentService;
+	}
+
+	public void setStudentService(StudentService pStudentService) {
+		mStudentService = pStudentService;
+	}
 }

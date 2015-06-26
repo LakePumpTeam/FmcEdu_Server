@@ -62,4 +62,13 @@
         from student s
         where s.id = #{studentId}
     </select>
+
+    <select id="queryStudentsByClassId" resultType="map" parameterType="int">
+        select s.id as studentId, s.name as name
+        FROM student s
+        INNER JOIN parent_student_map psm
+        ON psm.student_id = s.id
+        where s.class_id = #{classId} AND psm.approved =1
+    </select>
+
 </mapper>

@@ -34,4 +34,14 @@ public class StudentRepository extends BaseRepository implements IStudentReposit
     public Student queryStudentById(int pStudentId) {
         return getSqlSession().selectOne(QUERY_STUDENT_BY_ID, pStudentId);
     }
+
+    @Override
+    public Map<String, Object> queryStudentsByClassId(final int pClassId) {
+        Map<String, Object> params = new HashMap<String, Object>(1);
+        params.put("classId", pClassId);
+        Map<String, Object> dataList = new HashMap<String, Object>(1);
+        List<Map<String, String>> queryResult = getSqlSession().selectList(QUERY_STUDENTS_BY_CLASS_ID, params);
+        dataList.put("studentList", queryResult);
+        return dataList;
+    }
 }

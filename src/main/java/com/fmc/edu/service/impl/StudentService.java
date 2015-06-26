@@ -28,6 +28,10 @@ public class StudentService {
         return getStudentRepository().queryStudentById(pStudentId);
     }
 
+    public Map<String, Object> queryStudentsByClassId(final int pClassId) {
+        return getStudentRepository().queryStudentsByClassId(pClassId);
+    }
+
     public IStudentRepository getStudentRepository() {
         return mStudentRepository;
     }

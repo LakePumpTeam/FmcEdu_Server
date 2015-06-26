@@ -21,4 +21,8 @@ public interface IStudentRepository {
     String QUERY_STUDENT_BY_ID = "com.fmc.edu.student.queryStudentById";
 
     Student queryStudentById(int pStudentId);
+
+    String QUERY_STUDENTS_BY_CLASS_ID = "com.fmc.edu.student.queryStudentsByClassId";
+
+    Map<String, Object> queryStudentsByClassId(int pClassId);
 }

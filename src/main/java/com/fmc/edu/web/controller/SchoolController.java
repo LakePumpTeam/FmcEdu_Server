@@ -190,18 +190,16 @@ public class SchoolController extends BaseController {
 
 	@RequestMapping(value = "/requestStudentList" + GlobalConstant.URL_SUFFIX)
 	@ResponseBody
-	public String requestStudentList(HttpServletRequest pRequest,
-			final HttpServletResponse pResponse,
-			final String teacherId)
-			throws IOException, ParseException {
+	public String requestStudentList(HttpServletRequest pRequest, final HttpServletResponse pResponse, final String
+			classId) throws IOException, ParseException {
 		ResponseBean responseBean = new ResponseBean(pRequest);
-		if (!RepositoryUtils.idIsValid(teacherId)) {
-			responseBean.addBusinessMsg(ResourceManager.VALIDATION_USER_TEACHER_ID_ERROR, teacherId);
+		if (!RepositoryUtils.idIsValid(classId)) {
+			responseBean.addBusinessMsg(ResourceManager.VALIDATION_SCHOOL_CLASS_ID_ERROR, classId);
 			return output(responseBean);
 		}
 		try {
-			int decodeTeacherId = Integer.valueOf(teacherId);
-			Map<String, Object> studentMap = getStudentManager().queryStudentListByTeacherId(decodeTeacherId);
+			int decodeClassId = Integer.valueOf(classId);
+			Map<String, Object> studentMap = getStudentManager().queryStudentsByClassId(decodeClassId);
 			responseBean.addData(studentMap);
 		} catch (Exception e) {
 			LOG.error(e);
