@@ -33,7 +33,7 @@ public class FMCCommonsMultipartResolver extends CommonsMultipartResolver {
 	public FMCCommonsMultipartResolver() {
 		super();
 		mBase64EncryptService = new ReplacementBase64EncryptService();
-		LOG.debug(">>>>>>>>>>>>>>>Initialized FMCCommonsMultipartResolver>>>>>>>>>>>");
+		LOG.debug("============== Initialized FMCCommonsMultipartResolver ==============");
 	}
 
 	@Override
@@ -78,12 +78,12 @@ public class FMCCommonsMultipartResolver extends CommonsMultipartResolver {
 			String decodedValue;
 			for (int i = 0; i < encodedValues.length; i++) {
 				decodedValue = encodedValues[i];
-				LOG.debug(String.format("FMCCommonsMultipartResolver >>>>>>>>>>>>>>>Obtain Parameter:%s = %s", entry.getKey(), decodedValue));
+				LOG.debug(String.format("FMCCommonsMultipartResolver - Obtain Parameter:%s = %s", entry.getKey(), decodedValue));
 				if (WebConfig.isEncodeBase64InputParam() && ReplacementBase64EncryptService.isBase64(encodedValues[i])) {
 					decodedValue = mBase64EncryptService.decrypt(encodedValues[i]);
 				}
 				decodedValues[i] = decodedValue;
-				LOG.debug(String.format("FMCCommonsMultipartResolver >>>>>>>>>>>>>>>Obtain Parameter:%s = %s", entry.getKey(), decodedValue));
+				LOG.debug(String.format("FMCCommonsMultipartResolver - Obtain Parameter:%s = %s", entry.getKey(), decodedValue));
 			}
 			encodedMultipartParameters.put(entry.getKey(), decodedValues);
 		}

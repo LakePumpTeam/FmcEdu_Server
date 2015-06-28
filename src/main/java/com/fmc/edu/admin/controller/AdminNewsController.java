@@ -30,8 +30,8 @@ import java.io.IOException;
  */
 @Controller
 @RequestMapping("/admin/news")
-public class NewsController extends BaseController {
-    private static final Logger LOG = Logger.getLogger(NewsController.class);
+public class AdminNewsController extends BaseController {
+    private static final Logger LOG = Logger.getLogger(AdminNewsController.class);
 
     @Resource(name = "newsManager")
     private NewsManager mNewsManager;
@@ -46,7 +46,7 @@ public class NewsController extends BaseController {
                               @RequestParam(value = "imgs", required = false) MultipartFile[] imgs) throws IOException {
         ResponseBean responseBean = new ResponseBean(pRequest);
         if (StringUtils.isBlank(content)) {
-            LOG.debug(">>>>Content is empty.>>>>");
+            LOG.debug("Content is empty.");
             responseBean.addBusinessMsg("Content is empty.");
             return output(responseBean);
         }
@@ -82,7 +82,7 @@ public class NewsController extends BaseController {
                 // int newsId = getNewsManager().queryLastInsertNewsTypeNewsIdByAuthor(userProfile.getId(), newsType);
                 getNewsManager().saveNewsImage(imgs, String.valueOf(userProfile.getId()), news.getId());
             } else {
-                LOG.debug(">>>>Publish news failed.>>>>");
+                LOG.debug("Publish news failed.");
                 responseBean.addBusinessMsg("Publish news failed.");
             }
         } catch (Exception e) {
