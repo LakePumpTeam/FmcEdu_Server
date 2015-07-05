@@ -35,7 +35,9 @@
         SELECT count(id)
         FROM city
         <where>
-            province_id = #{provId}
+            <if test="provId != 0">
+                province_id = #{provId}
+            </if>
             <if test="key != null">
                 and `name` LIKE CONCAT('%', #{key})
             </if>
@@ -43,10 +45,12 @@
     </select>
 
     <select id="filterCityPage" parameterType="map" resultType="map">
-        SELECT id as cityId, `name`
+        SELECT id as cityId, `name`, province_id as provinceId
         FROM city
         <where>
-            province_id = #{provId}
+            <if test="provId != 0">
+                province_id = #{provId}
+            </if>
             <if test="key != null">
                 and `name` LIKE CONCAT('%', #{key})
             </if>

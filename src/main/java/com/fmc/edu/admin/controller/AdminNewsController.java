@@ -52,23 +52,8 @@ public class AdminNewsController extends BaseController {
         }
 
         Subject currentUser = SecurityUtils.getSubject();
-        if (currentUser == null && currentUser.isAuthenticated()) {
-            LOG.debug("Anonymous user, redirect to login");
-            pResponse.sendRedirect("/admin/toLogin");
-            return output(responseBean);
-        }
         Session session = currentUser.getSession(false);
-        if (session == null) {
-            LOG.debug("Anonymous user, redirect to login");
-            pResponse.sendRedirect("/admin/toLogin");
-            return output(responseBean);
-        }
         BaseProfile userProfile = (BaseProfile) session.getAttribute(MyAccountManager.CURRENT_SESSION_USER_KEY);
-        if (userProfile == null) {
-            LOG.debug("User not exists.");
-            pResponse.sendRedirect("/admin/toLogin");
-            return output(responseBean);
-        }
 
         News news = new News();
         news.setAuthor(userProfile.getId());

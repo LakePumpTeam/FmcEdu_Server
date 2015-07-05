@@ -32,7 +32,7 @@ public class InstantiationTracingBeanPostProcessor implements ApplicationListene
 
         ApplicationContext applicationContext = pEvent.getApplicationContext();
         if (applicationContext.getDisplayName().contains(GENERIC_APPLICATION_CONTEXT)) {
-            LOG.debug("===================== SpringTestFramework initialized ApplicationContext ===============");
+            LOG.debug("===================== SpringTestFramework Initialized ApplicationContext ===============");
             return;
         }
         if (ROOT_WEB_APPLICATION_CONTEXT.equals(applicationContext.getDisplayName())) {
