@@ -1,15 +1,17 @@
 package com.fmc.edu.push.impl;
 
-import com.baidu.yun.channel.auth.ChannelKeyPair;
-import com.baidu.yun.channel.client.BaiduChannelClient;
-import com.baidu.yun.channel.exception.ChannelClientException;
-import com.baidu.yun.channel.exception.ChannelServerException;
-import com.baidu.yun.channel.model.PushUnicastMessageRequest;
-import com.baidu.yun.channel.model.PushUnicastMessageResponse;
 import com.baidu.yun.core.log.YunLogEvent;
 import com.baidu.yun.core.log.YunLogHandler;
+import com.baidu.yun.push.auth.PushKeyPair;
+import com.baidu.yun.push.client.BaiduPushClient;
+import com.baidu.yun.push.constants.BaiduPushConstants;
+import com.baidu.yun.push.exception.PushClientException;
+import com.baidu.yun.push.exception.PushServerException;
+import com.baidu.yun.push.model.PushBatchUniMsgRequest;
+import com.baidu.yun.push.model.PushBatchUniMsgResponse;
 import com.fmc.edu.configuration.WebConfig;
 import com.fmc.edu.model.app.DeviceType;
+import com.fmc.edu.model.app.PushMessageType;
 import com.fmc.edu.push.IBaiDuPushNotification;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
@@ -22,14 +24,14 @@ public class BaiDuIOSPushNotification implements IBaiDuPushNotification {
 	private static final Logger LOG = Logger.getLogger(BaiDuIOSPushNotification.class);
 
 	@Override
-	public boolean pushMsg(long pChannelId, String pUserId, String pMsg) throws Exception {
-		ChannelKeyPair pair = new ChannelKeyPair(WebConfig.getApiKey(), WebConfig.getSecretKey());
+	public boolean pushMsg(String[] pChannelIds, String pUserId, String pMsg) throws Exception {
+		PushKeyPair pair = new PushKeyPair(WebConfig.getApiKey(), WebConfig.getSecretKey());
 
 		//1. create BaiduChannelClient instance
-		BaiduChannelClient channelClient = new BaiduChannelClient(pair);
+		BaiduPushClient pushClient = new BaiduPushClient(pair, BaiduPushConstants.CHANNEL_REST_URL);
 
 		//2.this used to open the log, and we could save this message to database or log file.
-		channelClient.setChannelLogHandler(new YunLogHandler() {
+		pushClient.setChannelLogHandler(new YunLogHandler() {
 			@Override
 			public void onHandle(YunLogEvent event) {
 				if (WebConfig.isDevelopment()) {
@@ -40,32 +42,28 @@ public class BaiDuIOSPushNotification implements IBaiDuPushNotification {
 
 		LOG.debug("Pushing message:" + pMsg);
 
+		LOG.debug("Pushing message:" + pMsg);
 		try {
 			// 3. create request object
-			PushUnicastMessageRequest request = new PushUnicastMessageRequest();
-			request.setDeviceType(DeviceType.IOS);
-			request.setDeployStatus(WebConfig.deployStatus()); // DeployStatus => 1: Developer 2:
-			// Production
-			request.setChannelId(pChannelId);
-			request.setUserId(pUserId);
-
-			request.setMessageType(1);
-			request.setMessage(pMsg);
+			PushBatchUniMsgRequest request = new PushBatchUniMsgRequest().
+					addChannelIds(pChannelIds).
+					addMsgExpires(new Integer(3600)).
+					addMessageType(PushMessageType.NOTIFYCATION).
+					addMessage(pMsg).
+					addDeviceType(DeviceType.IOS);
 
 			// 4. Invoking the API to push message.
-			PushUnicastMessageResponse response = channelClient.pushUnicastMessage(request);
+			PushBatchUniMsgResponse response = pushClient.pushBatchUniMsg(request);
 
 			// 5. Checking the amount of pushing success message.
-			int pushSuccessAccount = response.getSuccessAmount();
-			System.out.println("push amount : " + pushSuccessAccount);
+			LOG.debug(String.format("msgId: %s, sendTime: %d",
+					response.getMsgId(), response.getSendTime()));
 
-		} catch (ChannelClientException e) {
-			// client exception
-			e.printStackTrace();
+		} catch (PushClientException e) {
+			LOG.error("Occur ChannelClientException exception:", e);
 			return false;
-		} catch (ChannelServerException e) {
-			// server exception
-			System.out.println(String.format("request_id: %d, error_code: %d, error_message: %s",
+		} catch (PushServerException e) {
+			LOG.error(String.format("request_id: %d, error_code: %d, error_message: %s",
 					e.getRequestId(), e.getErrorCode(), e.getErrorMsg()));
 			return false;
 		}
