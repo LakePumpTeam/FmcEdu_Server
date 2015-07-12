@@ -298,13 +298,16 @@
                         <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> 校园动态<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="${ctx}/admin/news?m=s&i=1">活动</a>
+                                <a href="${ctx}/admin/news/news-list?t=school&mode=2">列表</a>
                             </li>
                             <li>
-                                <a href="${ctx}/admin/news?m=s&i=2">通知</a>
+                                <a href="${ctx}/admin/news/news-publish?t=school&mode=2">活动</a>
                             </li>
                             <li>
-                                <a href="${ctx}/admin/news?m=s&i=3">新闻</a>
+                                <a href="${ctx}/admin/news/news-publish?t=school&mode=3">通知</a>
+                            </li>
+                            <li>
+                                <a href="${ctx}/admin/news/news-publish?t=school&mode=4">新闻</a>
                             </li>
                         </ul>
                         <!-- /.nav-second-level -->
@@ -313,7 +316,10 @@
                         <a href="#"><i class="fa fa-files-o fa-fw"></i> 育儿学堂<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="${ctx}/admin/news?m=y&i=6">发布</a>
+                                <a href="${ctx}/admin/news/news-list?t=childedu&mode=6">列表</a>
+                            </li>
+                            <li>
+                                <a href="${ctx}/admin/news/news-publish?t=childedu&mode=6">发布</a>
                             </li>
                             <li>
                                 <a href="${ctx}/admin/slide">幻灯片</a>

@@ -3,6 +3,7 @@ package com.fmc.edu.service.impl;
 import com.fmc.edu.model.course.Course;
 import com.fmc.edu.model.course.TimeTable;
 import com.fmc.edu.model.profile.TeacherProfile;
+import com.fmc.edu.model.school.FmcClass;
 import com.fmc.edu.model.student.Student;
 import com.fmc.edu.repository.ISchoolRepository;
 import com.fmc.edu.util.pagenation.Pagination;
@@ -27,6 +28,10 @@ public class SchoolService {
 
     public Map<String, Object> queryClassesPage(Pagination pPagination, int pSchoolId, String pKey) {
         return getSchoolRepository().queryClassesPage(pPagination, pSchoolId, pKey);
+    }
+
+    public FmcClass queryDefaultClassBySchoolId(int pSchoolId) {
+        return getSchoolRepository().queryDefaultClassBySchoolId(pSchoolId);
     }
 
     public Map<String, Object> queryHeadmasterPage(final int pClassId) {

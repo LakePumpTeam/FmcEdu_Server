@@ -27,4 +27,7 @@ public interface GlobalConstant {
 
 	String FALSE = "false";
 
+	int DEFAULT_PAGE_SIZE = 10;
+
+	int DEFAULT_PAGE_INDEX = 1;
 }

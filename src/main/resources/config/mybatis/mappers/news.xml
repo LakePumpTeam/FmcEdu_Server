@@ -25,8 +25,8 @@
 		<choose>
 			<when test="classId == 0"></when>
 			<when test="newsType == 5">ref_id = #{classId} AND</when>
-			<when test="newsType == 2 or newsType == 3 or newsType == 4 or newsType == 7">ref_id in (select school_id from class c where
-				c.id = #{classId}) AND
+			<when test="newsType == 2 or newsType == 3 or newsType == 4 or newsType == 7">
+				ref_id IN (SELECT school_id FROM class c WHERE c.id = #{classId}) AND
 			</when>
 		</choose>
 		approved = 1 AND n.available = 1 AND publish_date &lt;= now()

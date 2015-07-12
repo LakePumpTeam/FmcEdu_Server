@@ -19,16 +19,6 @@ public class AdminNavigationController {
 		return "admin/index";
 	}
 
-	@RequestMapping(value = "/interface" + GlobalConstant.URL_SUFFIX)
-	public String toInterface(HttpServletRequest pRequest, HttpServletResponse pResponse) {
-		return "admin/interface/interface";
-	}
-
-	@RequestMapping(value = "/news" + GlobalConstant.URL_SUFFIX)
-	public String toSchoolDynamic(HttpServletRequest pRequest, HttpServletResponse pResponse) {
-		return "admin/news/news";
-	}
-
 	@RequestMapping(value = "/login" + GlobalConstant.URL_SUFFIX)
 	public String toLogin(HttpServletRequest pRequest, HttpServletResponse pResponse) {
 		return "admin/login";

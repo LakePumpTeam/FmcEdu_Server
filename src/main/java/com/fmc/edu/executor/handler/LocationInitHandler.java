@@ -25,9 +25,9 @@ public class LocationInitHandler implements IInitializationHandler {
 
 	@Override
 	public void initialize(final WebApplicationContext pWebApplicationContext) {
-		Map<String, Object> provincePageMap = getLocationManager().queryProvincePage(SelectPaginationBuilder.getSelectiPagination(), "");
+		Map<String, Object> provincePageMap = getLocationManager().queryProvincePage(SelectPaginationBuilder.getSelectPagination(), "");
 		List<Map<String, Object>> provinceList = (List<Map<String, Object>>) provincePageMap.get("provinces");
-		Map<String, Object> cityPageMap = getLocationManager().queryCityPage(SelectPaginationBuilder.getSelectiPagination(), 0, "");
+		Map<String, Object> cityPageMap = getLocationManager().queryCityPage(SelectPaginationBuilder.getSelectPagination(), 0, "");
 		List<Map<String, Object>> cityList = (List<Map<String, Object>>) cityPageMap.get("cities");
 		// map result which would be cached in memory
 		Map<String, Object> locationMap = new HashMap();

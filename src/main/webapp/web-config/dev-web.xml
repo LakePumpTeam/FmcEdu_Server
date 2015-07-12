@@ -11,7 +11,7 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>/WEB-INF/jsp/admin/login.jsp</welcome-file>
     </welcome-file-list>
     <filter-mapping>
         <filter-name>authentication-filter</filter-name>
@@ -158,7 +158,6 @@
     </login-config-->
 
     <error-page>
-        <exception-type>java.lang.Exception</exception-type>
-        <location>/WEB-INF/jsp/error.jsp</location>
+        <location>/WEB-INF/jsp/error.jsp?dev=1</location>
     </error-page>
 </web-app>

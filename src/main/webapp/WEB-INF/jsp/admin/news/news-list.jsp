@@ -4,35 +4,17 @@
 <!-- jQuery -->
 <script src="../bower_components/jquery/dist/jquery.min.js"></script>
 
-<script type="text/javascript" charset="utf-8" src="../js/umeditor.config.js"></script>
-<script type="text/javascript" charset="utf-8" src="../js/editor_api.js"></script>
-<script type="text/javascript" src="../js/lang/zh-cn/zh-cn.js"></script>
 <c:choose>
-    <c:when test="${param.m eq 's'}">
-        <c:set var="subject" value="校园动态发布"/>
+    <c:when test="${param.t eq 'school'}">
+        <c:set var="subject" value="校园动态" />
+        <c:set var="includeJspURL" value="includes/news-list-school.jsp" />
     </c:when>
-    <c:when test="${param.m eq 'y'}">
-        <c:set var="subject" value="育儿学堂"/>
+    <c:when test="${param.t eq 'childedu'}">
+        <c:set var="subject" value="育儿学堂" />
+        <c:set var="includeJspURL" value="includes/news-list-parent-child-edu.jsp" />
     </c:when>
 </c:choose>
-<c:choose>
-    <c:when test="${param.i eq '1'}">
-        <c:set var="includeJspURL" value="includes/news-school-activity.jsp" />
-        <c:set var="subheading" value="活动" />
-    </c:when>
-    <c:when test="${param.i eq '2'}">
-        <c:set var="includeJspURL" value="includes/news-school-notification.jsp" />
-        <c:set var="subheading" value="通知" />
-    </c:when>
-    <c:when test="${param.i eq '3'}">
-        <c:set var="includeJspURL" value="includes/news-school-news.jsp" />
-        <c:set var="subheading" value="新闻" />
-    </c:when>
-    <c:when test="${param.i eq '6'}">
-        <c:set var="includeJspURL" value="includes/news-parent-child-edu.jsp"/>
-        <c:set var="subheading" value="发布"/>
-    </c:when>
-</c:choose>
+<c:set var="subheading" value="${newsType[param.mode]}" />
 
 <fmc:container template="news" subject="${subject} - ${subheading}">
     <div class="row">

@@ -23,8 +23,6 @@
                 <!--Redirect to this url when catch the exception MaxUploadSizeExceededException -->
                 <prop key="org.springframework.web.multipart.MaxUploadSizeExceededException">WEB-INF/error_fileupload
                 </prop>
-                <!---->
-                <prop key="java.lang.Throwable">/WEB-INF/jsp/error.jsp</prop>
             </props>
         </property>
     </bean>

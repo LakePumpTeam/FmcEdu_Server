@@ -17,8 +17,19 @@
 	</bean>
 
 	<bean id="newsCacheInitHandler" class="com.fmc.edu.executor.handler.NewsCacheInitHandler" />
-	<bean id="PCEduSlideCountInitHandler" class="com.fmc.edu.executor.handler.PCEduSlideCountInitHandler">
+	<bean id="PCEduSlideCountInitHandler" class="com.fmc.edu.executor.handler.NewsPropertiesInitHandler">
 		<property name="slideCount" value="5" />
+		<property name="newsTypeMap">
+			<map>
+				<entry key="1" value="育儿课堂" />
+				<entry key="2" value="校园动态" />
+				<entry key="3" value="校园通知" />
+				<entry key="4" value="校园新闻" />
+				<entry key="5" value="班级动态" />
+				<entry key="6" value="亲子教育" />
+				<entry key="7" value="校园吧" />
+			</map>
+		</property>
 	</bean>
 	<bean id="locationInitHandler" class="com.fmc.edu.executor.handler.LocationInitHandler" />
 

@@ -109,7 +109,6 @@
         INNER JOIN timetable tt
         ON cs.timetable_id = tt.id
         WHERE tt.class_id = #{classId} and tt.available = 1 AND cs.week = #{week};
-
     </select>
 
     <insert id="insertTimeTable" flushCache="true" parameterType="TimeTable" keyProperty="id" useGeneratedKeys="true">
@@ -131,4 +130,11 @@
         end_time = #{endTime}
         WHERE id = #{id}
     </update>
+
+    <select id="queryDefaultClassBySchoolId" parameterType="int" resultMap="rm.fmcClass">
+        SELECT id cls_id, school_id, grade, class, available
+        FROM class
+        WHERE school_id = #{school_id} AND available = 1
+        LIMIT 0, 1
+    </select>
 </mapper>

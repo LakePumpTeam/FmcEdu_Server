@@ -9,7 +9,7 @@ public class SelectPaginationBuilder {
 
 	private static final int DEFAULT_PAGINATION_PAGE_SIZE = Integer.MAX_VALUE;
 
-	public static final Pagination getSelectiPagination() {
+	public static final Pagination getSelectPagination() {
 		return new Pagination(1, DEFAULT_PAGINATION_PAGE_SIZE);
 	}
 }

@@ -3,6 +3,7 @@ package com.fmc.edu.repository;
 import com.fmc.edu.model.course.Course;
 import com.fmc.edu.model.course.TimeTable;
 import com.fmc.edu.model.profile.TeacherProfile;
+import com.fmc.edu.model.school.FmcClass;
 import com.fmc.edu.model.student.Student;
 import com.fmc.edu.util.pagenation.Pagination;
 
@@ -58,4 +59,8 @@ public interface ISchoolRepository {
     String UPDATE_COURSE = "com.fmc.edu.school.updateCourse";
 
     int updateCourse(Course pCourse);
+
+    String QUERY_DEFAULT_CLASS_BY_SCHOOL_ID = "com.fmc.edu.school.queryDefaultClassBySchoolId";
+
+    FmcClass queryDefaultClassBySchoolId(int pSchoolId);
 }
