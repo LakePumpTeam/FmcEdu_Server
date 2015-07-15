@@ -7,13 +7,12 @@ import com.fmc.edu.exception.IdentityCodeException;
 import com.fmc.edu.exception.InvalidIdException;
 import com.fmc.edu.exception.LoginException;
 import com.fmc.edu.exception.ProfileException;
-import com.fmc.edu.manager.MyAccountManager;
-import com.fmc.edu.manager.ProfileManager;
-import com.fmc.edu.manager.ResourceManager;
-import com.fmc.edu.manager.SchoolManager;
+import com.fmc.edu.manager.*;
 import com.fmc.edu.model.address.Address;
+import com.fmc.edu.model.app.DeviceType;
 import com.fmc.edu.model.profile.BaseProfile;
 import com.fmc.edu.model.profile.ParentProfile;
+import com.fmc.edu.model.push.PushMessage;
 import com.fmc.edu.model.relationship.ParentStudentRelationship;
 import com.fmc.edu.model.student.Student;
 import com.fmc.edu.util.DateUtils;
@@ -61,6 +60,9 @@ public class ProfileController extends BaseController {
 
     @Resource(name = "responseBuilder")
     private ResponseBuilder mResponseBuilder;
+
+    @Resource(name = "baiduPushManager")
+    private BaiDuPushManager mBaiDuPushManager;
 
 
     @RequestMapping(value = ("/requestPhoneIdentify" + GlobalConstant.URL_SUFFIX))
@@ -495,6 +497,87 @@ public class ProfileController extends BaseController {
         return output(responseBean);
     }
 
+    @RequestMapping(value = "/bindBaiDuPush" + GlobalConstant.URL_SUFFIX)
+    @ResponseBody
+    public String bindBaiDuPush(HttpServletRequest pRequest) {
+        ResponseBean responseBean = new ResponseBean(pRequest);
+        String userId = pRequest.getParameter("userId");
+        String channelId = pRequest.getParameter("channelId");
+        String baiduUserId = pRequest.getParameter("baiduUserId");
+        String deviceType = pRequest.getParameter("deviceType");
+        if (!RepositoryUtils.idIsValid(userId)) {
+            responseBean.addBusinessMsg(ResourceManager.VALIDATION_USER_USER_ID_ERROR);
+            return output(responseBean);
+        }
+        if (StringUtils.isBlank(channelId)) {
+            responseBean.addBusinessMsg(ResourceManager.VALIDATION_USER_BAIDU_CHANNEL_ID_ERROR);
+            return output(responseBean);
+        }
+        if (StringUtils.isBlank(baiduUserId)) {
+            responseBean.addBusinessMsg(ResourceManager.VALIDATION_USER_BAIDU_USER_ID_ERROR);
+            return output(responseBean);
+        }
+        if (StringUtils.isBlank(deviceType) || !DeviceType.isValidDeviceType(Integer.valueOf(deviceType))) {
+            responseBean.addBusinessMsg(ResourceManager.VALIDATION_USER_DEVICE_TYPE_ERROR, deviceType);
+            return output(responseBean);
+        }
+        BaseProfile user = getMyAccountManager().findUserById(userId);
+        if (user == null) {
+            responseBean.addBusinessMsg(ResourceManager.ERROR_NOT_FIND_USER, userId);
+            return output(responseBean);
+        }
+
+        user.setChannelId(channelId);
+        user.setAppId(baiduUserId);
+        user.setDeviceType(Integer.valueOf(deviceType));
+        TransactionStatus status = ensureTransaction();
+        try {
+            getMyAccountManager().updateBaseProfile(user);
+        } catch (Exception e) {
+            LOG.error(e);
+            responseBean.addErrorMsg(e);
+            status.setRollbackOnly();
+        } finally {
+            getTransactionManager().commit(status);
+        }
+
+        return output(responseBean);
+    }
+
+    @RequestMapping(value = "/pushMsg" + GlobalConstant.URL_SUFFIX)
+    @ResponseBody
+    public String pushMsg(HttpServletRequest pRequest) {
+        String phone = pRequest.getParameter("phone");
+        String title = pRequest.getParameter("title");
+        String content = pRequest.getParameter("content");
+        ResponseBean responseBean = new ResponseBean(pRequest);
+        if (com.fmc.edu.util.StringUtils.isBlank(phone)) {
+            responseBean.addErrorMsg("phone is empty");
+            return output(responseBean);
+        }
+        if (com.fmc.edu.util.StringUtils.isBlank(title)) {
+            responseBean.addErrorMsg("phone is empty");
+            return output(responseBean);
+        }
+        if (com.fmc.edu.util.StringUtils.isBlank(content)) {
+            responseBean.addErrorMsg("content is empty");
+            return output(responseBean);
+        }
+
+        BaseProfile user = getMyAccountManager().findUser(phone);
+        if (user == null) {
+            responseBean.addErrorMsg("user is not exist.");
+            return output(responseBean);
+        }
+        try {
+            boolean isSuccess = getBaiDuPushManager().pushNotificationMsg(user.getDeviceType(), new String[]{user.getChannelId()}, user.getAppId(), new PushMessage(title, content));
+            responseBean.addData("isSuccess", isSuccess);
+        } catch (Exception e) {
+            e.printStackTrace();
+            responseBean.addErrorMsg(e);
+        }
+        return output(responseBean);
+    }
 
     public ProfileManager getProfileManager() {
         return mProfileManager;
@@ -534,5 +617,13 @@ public class ProfileController extends BaseController {
 
     public void setResponseBuilder(ResponseBuilder pResponseBuilder) {
         mResponseBuilder = pResponseBuilder;
+    }
+
+    public BaiDuPushManager getBaiDuPushManager() {
+        return mBaiDuPushManager;
+    }
+
+    public void setBaiDuPushManager(BaiDuPushManager pBaiDuPushManager) {
+        mBaiDuPushManager = pBaiDuPushManager;
     }
 }

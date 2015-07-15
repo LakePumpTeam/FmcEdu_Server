@@ -136,6 +136,7 @@ CREATE TABLE IF NOT EXISTS `fmc_edu`.`profile` (
   `last_cl_id` INT NULL,
   `last_pce_id` INT NULL,
   `last_bbs_id` INT NULL,
+  `device_type` INT NULL DEFAULT 3,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `phone_UNIQUE` (`phone` ASC))
 ENGINE = InnoDB;

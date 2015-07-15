@@ -31,6 +31,7 @@
         <result property="lastCLId" column="last_cl_id"/>
         <result property="lastPCEId" column="last_pce_id"/>
         <result property="lastBBSId" column="last_bbs_id"/>
+        <result property="deviceType" column="device_type"/>
     </resultMap>
 
     <resultMap id="parent" type="ParentProfile">
@@ -39,6 +40,7 @@
         <result property="phone" column="phone"/>
         <result property="appId" column="app_id"/>
         <result property="channelId" column="channel_id"/>
+        <result property="deviceType" column="device_type"/>
         <result property="creationDate" column="creation_date"/>
         <result property="lastLoginDate" column="last_login_date"/>
         <result property="lastUpdateDate" column="last_update_date"/>
@@ -90,6 +92,7 @@
         <result property="phone" column="phone"/>
         <result property="appId" column="app_id"/>
         <result property="channelId" column="channel_id"/>
+        <result property="deviceType" column="device_type"/>
         <result property="creationDate" column="creation_date"/>
         <result property="lastLoginDate" column="last_login_date"/>
         <result property="lastUpdateDate" column="last_update_date"/>

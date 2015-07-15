@@ -49,7 +49,6 @@ public class BaiDuAndroidPushNotification implements IBaiDuPushNotification {
             // Checking the amount of pushing success message.
             LOG.debug(String.format("msgId: %s, sendTime: %d",
                     response.getMsgId(), response.getSendTime()));
-
         } catch (PushClientException e) {
             LOG.error("Occur ChannelClientException exception:", e);
             return false;

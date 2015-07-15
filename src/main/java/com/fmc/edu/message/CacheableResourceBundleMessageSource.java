@@ -35,6 +35,9 @@ public class CacheableResourceBundleMessageSource extends ReloadableResourceBund
     }
 
     private String decodeString(String message, String encode) {
+        if (StringUtils.isBlank(message)) {
+            return NULL;
+        }
         String encodeMessage = encodingCache.get(message);
         if (encodeMessage == null) {
             try {

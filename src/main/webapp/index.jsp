@@ -1176,6 +1176,78 @@
             <td class="result"></td>
         </tr>
     </table>
+    <fieldset>
+        <legend>推送相关</legend>
+        <table border="1">
+            <tr>
+                <th width="5%">Index#</th>
+                <th>Function</th>
+                <th>BaseURL</th>
+                <th>Parameters</th>
+                <th>Request</th>
+                <th>Reset</th>
+                <th width="56%">Result</th>
+            </tr>
+            <tr>
+                <td>#1</td>
+                <td class="function"> 注册百度推送到server</td>
+                <td class="baseUrl">${ctx}/profile/bindBaiDuPush</td>
+                <td class="parameters">
+                    <table>
+                        <tr>
+                            <td align="right"><label for="deviceType" title="deviceType">deviceType(1:WEB,2:PC,3:ANDROID,4:IOS,5:WINDOWS_PHONE)</label>
+                            </td>
+                            <td><input type="text" class="ipt_value" id="deviceType" value=""/></td>
+                        </tr>
+                        <tr>
+                            <td align="right"><label for="userId" title="userId">userId</label>
+                            </td>
+                            <td><input type="text" class="ipt_value" id="userId" value=""/></td>
+                        </tr>
+                        <tr>
+                            <td align="right"><label for="channelId" title="channelId">channelId</label>
+                            </td>
+                            <td><input type="text" class="ipt_value" id="channelId" value=""/></td>
+                        </tr>
+                        <tr>
+                            <td align="right"><label for="baiduUserId" title="baiduUserId">baiduUserId</label>
+                            </td>
+                            <td><input type="text" class="ipt_value" id="baiduUserId" value=""/></td>
+                        </tr>
+                    </table>
+                </td>
+                <td><input type="button" class="btn_request" value="Request"/></td>
+                <td><input type="button" class="btn_reset" value="Reset"/></td>
+                <td class="result"></td>
+            </tr>
+            <tr>
+                <td>#2</td>
+                <td class="function"> 测试消息推送</td>
+                <td class="baseUrl">${ctx}/profile/pushMsg</td>
+                <td class="parameters">
+                    <table>
+                        <tr>
+                            <td align="right"><label for="phone" title="phone">phone</label>
+                            </td>
+                            <td><input type="text" class="ipt_value" id="phone" value=""/></td>
+                        </tr>
+                        <tr>
+                            <td align="right"><label for="title" title="title">title</label>
+                            </td>
+                            <td><input type="text" class="ipt_value" id="title" value=""/></td>
+                        </tr>
+                        <tr>
+                            <td align="right"><label for="content" title="content">content</label>
+                            </td>
+                            <td><input type="text" class="ipt_value" id="content" value=""/></td>
+                        </tr>
+                    </table>
+                </td>
+                <td><input type="button" class="btn_request" value="Request"/></td>
+                <td><input type="button" class="btn_reset" value="Reset"/></td>
+                <td class="result"></td>
+            </tr>
+        </table>
 </fieldset>
 </body>
 </html>

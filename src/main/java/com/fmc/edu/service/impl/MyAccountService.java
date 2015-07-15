@@ -57,7 +57,6 @@ public class MyAccountService {
     public List<ParentStudentRelationship> queryStudentParentRelationByParentId(int parentId) {
         return getMyAccountRepository().queryStudentParentRelationByParentId(parentId);
     }
-
     public boolean updateBaseProfile(BaseProfile pBaseProfile) {
         return getMyAccountRepository().updateBaseProfile(pBaseProfile);
     }

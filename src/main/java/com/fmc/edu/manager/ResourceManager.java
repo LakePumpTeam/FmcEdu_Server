@@ -34,6 +34,12 @@ public class ResourceManager {
 
     public static final String VALIDATION_USER_NEW_PASSWORD_EMPTY = "validation.user.new.password.empty";
 
+    public static final String VALIDATION_USER_BAIDU_CHANNEL_ID_ERROR = "validation.user.baidu.channel.id.error";
+
+    public static final String VALIDATION_USER_BAIDU_USER_ID_ERROR = "validation.user.baidu.user.id.error";
+
+    public static final String VALIDATION_USER_DEVICE_TYPE_ERROR = "validation.user.device.type.error";
+
     public static final String VALIDATION_NEWS_CONTENT_EMPTY = "validation.news.content.empty";
 
     public static final String VALIDATION_USER_PASSWORD_EMPTY = "validation.user.password.empty";

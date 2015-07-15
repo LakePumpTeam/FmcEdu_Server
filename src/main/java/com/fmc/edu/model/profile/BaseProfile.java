@@ -43,6 +43,8 @@ public class BaseProfile extends BaseBean {
 
     private int mLastBBSId;
 
+    private int mDeviceType;
+
     public String getName() {
         return mName;
     }
@@ -177,5 +179,13 @@ public class BaseProfile extends BaseBean {
 
     public void setLastBBSId(int pLastBBSId) {
         mLastBBSId = pLastBBSId;
+    }
+
+    public int getDeviceType() {
+        return mDeviceType;
+    }
+
+    public void setDeviceType(int pDeviceType) {
+        mDeviceType = pDeviceType;
     }
 }

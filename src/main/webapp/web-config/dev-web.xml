@@ -11,6 +11,9 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
+        <welcome-file>/index.jsp</welcome-file>
+    </welcome-file-list>
+    <welcome-file-list>
         <welcome-file>/WEB-INF/jsp/admin/login.jsp</welcome-file>
     </welcome-file-list>
     <filter-mapping>

@@ -108,5 +108,4 @@ public class MyAccountRepository extends BaseRepository implements IMyAccountRep
     public boolean updateBaseProfile(BaseProfile pBaseProfile) {
         return getSqlSession().update(UPDATE_BASEPROFILE, pBaseProfile) > 0;
     }
-
 }

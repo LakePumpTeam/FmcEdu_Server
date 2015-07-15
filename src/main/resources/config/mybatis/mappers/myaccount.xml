@@ -24,7 +24,8 @@
         last_sdnw_id,
         last_cl_id,
         last_pce_id,
-        last_bbs_id
+        last_bbs_id,
+        device_type
         from
         profile
         where phone = #{userAccount}
@@ -50,7 +51,8 @@
         last_sdnw_id,
         last_cl_id,
         last_pce_id,
-        last_bbs_id
+        last_bbs_id,
+        device_type
         from
         profile
         where id = #{profileId}
@@ -167,6 +169,9 @@
             </if>
             <if test="lastBBSId !=0 ">
                 last_bbs_id = #{lastBBSId},
+            </if>
+            <if test="deviceType !=0 ">
+                device_type = #{deviceType},
             </if>
             last_update_date = now()
         </trim>
