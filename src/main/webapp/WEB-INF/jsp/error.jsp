@@ -1,21 +1,17 @@
-<%@ page isErrorPage="true" import="java.io.PrintWriter" contentType="text/plain"%><%@ page import="java.io.StringWriter"%>
-<html>
-<body>
-<%
-    response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-%>
-Some error happens....
-<br />
-Message: ${exception.message}
-<br />
-StackTrace:
-<%
-	StringWriter stringWriter = new StringWriter();
-	PrintWriter printWriter = new PrintWriter(stringWriter);
-	exception.printStackTrace(printWriter);
-	out.println(stringWriter);
-	printWriter.close();
-	stringWriter.close();
-%>
-</body>
-</html>
+<%@ page isErrorPage="true" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core"
+           prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt"
+           prefix="fmt" %>
+<p>${pageContext.errorData.throwable}</p>
+
+<p>
+    <c:choose>
+        <c:when test="${!empty pageContext.errorData.throwable.cause}">
+            : ${pageContext.errorData.throwable.cause}
+        </c:when>
+        <c:when test="${!empty pageContext.errorData.throwable.rootCause}">
+            : ${pageContext.errorData.throwable.rootCause}
+        </c:when>
+    </c:choose>
+</p>

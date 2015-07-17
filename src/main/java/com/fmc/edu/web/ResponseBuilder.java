@@ -128,7 +128,7 @@ public class ResponseBuilder {
                 newsMap.put("imageUrls", buildImageList(news.getImageUrls()));
             }
             if (news.getNewsType() == NewsType.SCHOOL_BBS) {
-                newsMap.put("popular", news.getPopular());
+                newsMap.put("popular", news.isPopular());
                 newsMap.put("participationCount", getNewsManager().queryProfileSelectionRelationshipCount(news.getId()));
             } else {
                 newsMap.put("like", news.getLike());
@@ -201,7 +201,7 @@ public class ResponseBuilder {
         newsMap.put("createDate", DateUtils.ConvertDateToString(pNews.getPublishDate()));
         newsMap.put("imageUrls", getImagePathListOfNews(pNews));
         if (pNews.getNewsType() == NewsType.SCHOOL_BBS) {
-            newsMap.put("popular ", pNews.getPopular());
+            newsMap.put("popular ", pNews.isPopular());
             newsMap.put("participationCount", getNewsManager().queryProfileSelectionRelationshipCount(pNews.getId()));
             buildSelectionForNews(pNews.getId(), newsMap, pCurrentUserId);
         } else {

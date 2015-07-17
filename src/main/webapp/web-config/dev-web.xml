@@ -161,6 +161,7 @@
     </login-config-->
 
     <error-page>
+        <error-code>500</error-code>
         <location>/WEB-INF/jsp/error.jsp?dev=1</location>
     </error-page>
 </web-app>

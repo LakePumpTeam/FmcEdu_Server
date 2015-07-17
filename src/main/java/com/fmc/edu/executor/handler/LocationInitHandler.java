@@ -38,8 +38,9 @@ public class LocationInitHandler implements IInitializationHandler {
 			Map<String, Object> cities = new HashMap<>();
 			for (Map<String, Object> cityMap : cityList) {
 				String cityProvinceId = String.valueOf(cityMap.get("provinceId"));
-				if (StringUtils.endsWith(provinceId, cityProvinceId)) {
-					cities.put(provinceId, cityMap);
+				if (StringUtils.equals(provinceId, cityProvinceId)) {
+					String cityId = String.valueOf(cityMap.get("cityId"));
+					cities.put(cityId, cityMap);
 				}
 			}
 			provinceMap.put("cities", cities);

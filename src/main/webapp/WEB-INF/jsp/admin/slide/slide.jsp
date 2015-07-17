@@ -54,7 +54,6 @@
                                             <td>${slide.id}
                                                 <input type="hidden" name="ids" value="${slide.id}" />
                                             </td>
-                                            <td><img src="${ctx}/upload/slide/${slide.imgPath}${slide.imgName}" height="80px" /></td>
                                             <td>${slide.subject}</td>
                                             <td>《${slide.news.subject}》</td>
                                             <td><select name="order" class="form-control" data-slide-count="${slideCount}">

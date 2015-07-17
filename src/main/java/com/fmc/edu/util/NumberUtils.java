@@ -4,8 +4,11 @@ package com.fmc.edu.util;
  * Created by Yu on 2015/5/16.
  */
 public class NumberUtils {
-    public static final String[] NUMBER = {};// {"零", "一", "二", "三", "四", "五", "六", "七", "八", "九"};
-    public static final String[] UNIT = {};//new String[]{"", "十", "百", "千", "万", "十", "百", "千", "亿"};
+    //    public static final String[] NUMBER = {};// {"零", "一", "二", "三", "四", "五", "六", "七", "八", "九"};
+    //    public static final String[] UNIT = {};//new String[]{"", "十", "百", "千", "万", "十", "百", "千", "亿"};
+
+    public static final String[] NUMBER = {"零", "一", "二", "三", "四", "五", "六", "七", "八", "九"};
+    public static final String[] UNIT = new String[]{"", "十", "百", "千", "万", "十", "百", "千", "亿"};
 
     public static String numberToChineseNumber(int number) {
         String s = String.valueOf(number);

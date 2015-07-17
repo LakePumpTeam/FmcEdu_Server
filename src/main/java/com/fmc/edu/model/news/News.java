@@ -15,7 +15,8 @@ public class News extends BaseBean {
 	private String mContent;
 	private Integer mNewsType;
 	private int mRefId;
-	private Boolean mApproved;
+	private boolean mAvailable;
+	private boolean mApproved;
 	private int mApprovedBy;
 	private Timestamp mApprovedDate;
 	private int mLike;
@@ -76,11 +77,11 @@ public class News extends BaseBean {
 		mRefId = pRefId;
 	}
 
-	public Boolean isApproved() {
+	public boolean isApproved() {
 		return mApproved;
 	}
 
-	public void setApproved(Boolean pApproved) {
+	public void setApproved(boolean pApproved) {
 		mApproved = pApproved;
 	}
 
@@ -108,14 +109,6 @@ public class News extends BaseBean {
 		mLike = pLike;
 	}
 
-	public boolean getPopular() {
-		return mPopular;
-	}
-
-	public void setPopular(boolean pPopular) {
-		mPopular = pPopular;
-	}
-
 	public Timestamp getPublishDate() {
 		return mPublishDate;
 	}
@@ -138,5 +131,21 @@ public class News extends BaseBean {
 
 	public void setCreationDate(Timestamp pCreationDate) {
 		mCreationDate = pCreationDate;
+	}
+
+	public boolean isAvailable() {
+		return mAvailable;
+	}
+
+	public void setAvailable(final boolean pAvailable) {
+		mAvailable = pAvailable;
+	}
+
+	public boolean isPopular() {
+		return mPopular;
+	}
+
+	public void setPopular(final boolean pPopular) {
+		mPopular = pPopular;
 	}
 }
