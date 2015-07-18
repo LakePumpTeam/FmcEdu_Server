@@ -17,7 +17,7 @@
     <select id="filterProvCount" parameterType="map" resultType="int">
         SELECT count(id)
         FROM province
-        <if test="key != null">
+        <if test="@Ognl@isNotEmpty(key)">
             WHERE `name` LIKE CONCAT('%', #{key})
         </if>
     </select>
@@ -25,7 +25,7 @@
     <select id="filterProvPage" parameterType="map" resultType="map">
         SELECT id as provId, `name`
         FROM province
-        <if test="key != null">
+        <if test="@Ognl@isNotEmpty(key)">
             WHERE `name` LIKE CONCAT('%', #{key})
         </if>
         <include refid="limit-split-page"/>
@@ -38,7 +38,7 @@
             <if test="provId != 0">
                 province_id = #{provId}
             </if>
-            <if test="key != null">
+            <if test="@Ognl@isNotEmpty(key)">
                 and `name` LIKE CONCAT('%', #{key})
             </if>
         </where>
@@ -48,7 +48,7 @@
         SELECT id as cityId, `name`, province_id as provinceId
         FROM city
         <where>
-            <if test="provId != 0">
+            <if test="@Ognl@id(provId)">
                 province_id = #{provId}
             </if>
             <if test="key != null">

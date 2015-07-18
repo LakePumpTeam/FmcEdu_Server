@@ -11,7 +11,7 @@
         FROM school
         <where>
             `city_id` = #{cityId}
-            <if test="key != null">
+            <if test="@Ognl@isNotEmpty(key)">
                 and `name` LIKE CONCAT('%', #{key})
             </if>
         </where>
@@ -23,7 +23,7 @@
         FROM school
         <where>
             `city_id` = #{cityId}
-            <if test="key != null">
+            <if test="@Ognl@isNotEmpty(key)">
                 and `name` LIKE CONCAT('%', #{key})
             </if>
         </where>
@@ -36,7 +36,7 @@
         FROM class
         <where>
             `school_id` = #{schoolId}
-            <if test="key != null">
+            <if test="@Ognl@isNotEmpty(key)">
                 and (`grade` LIKE CONCAT('%', #{key}) or `class` LIKE CONCAT('%', #{key}))
             </if>
         </where>
@@ -48,7 +48,7 @@
         FROM class
         <where>
             `school_id` = #{schoolId}
-            <if test="key != null">
+            <if test="@Ognl@isNotEmpty(key)">
                 and (`grade` LIKE CONCAT('%', #{key}) or `class` LIKE CONCAT('%', #{key}))
             </if>
         </where>

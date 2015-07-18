@@ -125,52 +125,52 @@
     <update id="updateBaseProfile" parameterType="BaseProfile">
         UPDATE profile
         <trim prefix="set" suffixOverrides=",">
-            <if test="name !=null ">
+            <if test="@Ognl@isNotEmpty(name)">
                 name = #{name},
             </if>
-            <if test="phone != null ">
+            <if test="@Ognl@isNotEmpty(phone) ">
                 phone = #{phone},
             </if>
-            <if test="password != null ">
+            <if test="@Ognl@isNotEmpty(password) ">
                 password = #{password},
             </if>
-            <if test="salt!= null ">
+            <if test="@Ognl@isNotEmpty(salt) ">
                 salt = #{salt},
             </if>
-            <if test="appId != null ">
+            <if test="@Ognl@isNotEmpty(appId) ">
                 app_id = #{appId},
             </if>
-            <if test="channelId != null ">
+            <if test="@Ognl@isNotEmpty(channelId) ">
                 channel_id = #{channelId},
             </if>
-            <if test="available != null ">
+            <if test="@Ognl@isNotEmpty(available)">
                 available = #{available},
             </if>
-            <if test="profileType != null ">
+            <if test="@Ognl@isNotEmpty(profileType)">
                 profile_type = #{profileType},
             </if>
-            <if test="lastPCId !=0 ">
+            <if test="@Ognl@id(lastPCId) ">
                 last_pc_id = #{lastPCId},
             </if>
-            <if test="lastSDATId != 0 ">
+            <if test="@Ognl@id(lastSDATId) ">
                 last_sdat_id = #{lastSDATId},
             </if>
-            <if test="lastSDNFId != 0 ">
+            <if test="@Ognl@id(lastSDNFId) ">
                 last_sdnf_id = #{lastSDNFId},
             </if>
-            <if test="lastSDNWId !=0 ">
+            <if test="@Ognl@id(lastSDNWId) ">
                 last_sdnw_id = #{lastSDNWId},
             </if>
-            <if test="lastCLId != 0 ">
+            <if test="@Ognl@id(lastCLId)">
                 last_cl_id = #{lastCLId},
             </if>
-            <if test="lastPCEId != 0 ">
+            <if test="@Ognl@id(lastPCEId)">
                 last_pce_id = #{lastPCEId},
             </if>
-            <if test="lastBBSId !=0 ">
+            <if test="@Ognl@id(lastBBSId)">
                 last_bbs_id = #{lastBBSId},
             </if>
-            <if test="deviceType !=0 ">
+            <if test="@Ognl@deviceType(deviceType)">
                 device_type = #{deviceType},
             </if>
             last_update_date = now()

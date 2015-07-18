@@ -50,11 +50,11 @@
 		INNER JOIN student s
 		ON s.id = tsm.student_id
 		WHERE psm.parent_id = #{parentId}
-		<if test="status != null">
+		<if test="@Ognl@isNotEmpty(status)">
 			AND tsm.is_complete = #{status}
 		</if>
 		AND t.available = 1 AND tsm.available = 1
-		<if test="filter != null and filter != '' ">
+		<if test="@Ognl@isNotEmpty(filter)">
 			AND title LIKE CONCAT('%', #{filter}, '%')
 		</if>
 		ORDER BY t.creation_date DESC
@@ -75,7 +75,7 @@
 		INNER JOIN teacher_class_map tcm
 		ON cls.id = tcm.class_id
 		WHERE tcm.teacher_id = #{teacherId}
-		<if test="status != null">
+		<if test="@Ognl@isNotEmpty(status)">
 			AND tsm.is_complete = #{status}
 		</if>
 		AND t.available = 1 AND tsm.available = 1

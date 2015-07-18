@@ -122,7 +122,7 @@
 		`last_update_date`
 		FROM `comments`
 		WHERE ref_id = #{newsId} AND available = 1
-		<if test="userId != null and  userId != 0">
+		<if test="@Ognl@id(userId)">
 			and profile_id = #{userId}
 		</if>
 		ORDER BY creation_date DESC
@@ -145,40 +145,40 @@
 	<update id="updateNews" parameterType="News" flushCache="true">
 		UPDATE news
 		<trim prefix="set" suffixOverrides=",">
-			<if test="author != 0 ">
+			<if test="@Ognl@id(author) ">
 				author = #{author},
 			</if>
-			<if test="subject != null ">
+			<if test="@Ognl@isNotEmpty(subject) ">
 				subject = #{subject},
 			</if>
-			<if test="content != null ">
+			<if test="@Ognl@isNotEmpty(content)">
 				content = #{content},
 			</if>
-			<if test="newsType!= null ">
+			<if test="@Ognl@isNotEmpty(newsType)">
 				news_type = #{newsType},
 			</if>
-			<if test="refId != 0 ">
+			<if test="@Ognl@id(refId)">
 				ref_id = #{refId},
 			</if>
-			<if test="approved != null ">
+			<if test="@Ognl@isNotEmpty(approved) ">
 				approved = #{approved},
 			</if>
-			<if test="approvedBy != null ">
+			<if test="@Ognl@isNotEmpty(approvedBy)">
 				approved_by = #{approvedBy},
 			</if>
-			<if test="approvedDate != null ">
+			<if test="@Ognl@isNotEmpty(approvedDate) ">
 				approve_date = #{approvedDate},
 			</if>
-			<if test="like != 0 ">
+			<if test="@Ognl@isPositiveInteger(like)">
 				`like` = #{like},
 			</if>
-			<if test="publishDate != null ">
+			<if test="@Ognl@isNotEmpty(publishDate)">
 				publish_date = #{publishDate},
 			</if>
-			<if test="creationDate !=null ">
+			<if test="@Ognl@isNotEmpty(creationDate)">
 				creation_date = #{creationDate},
 			</if>
-			<if test="lastUpdateDate !=null ">
+			<if test="@Ognl@isNotEmpty(lastUpdateDate)">
 				last_update_date = #{lastUpdateDate},
 			</if>
 		</trim>
