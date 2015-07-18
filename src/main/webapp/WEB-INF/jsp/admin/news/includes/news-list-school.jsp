@@ -1,7 +1,7 @@
-<form action="/admin/createSlide" method="post" class="form-inline">
+<form action="/admin/createSlide" method="post" class="form-horizontal">
     <div class="form-group input-group">
         <span class="input-group-addon">省份：</span>
-        <select name="provinceId" class="form-control col-xs-2" id="slt-province">
+        <select name="provinceId" class="form-control" id="slt-province">
             <c:forEach var="province" items="${locationMap}" varStatus="index">
                 <c:if test="${index.index eq '0' and empty pid}">
                     <c:set var="pid" value="${province.key}" />
@@ -9,15 +9,27 @@
                 <option value="${province.key}" ${pid eq province.key ? 'selected' : ''}>${province.value.name}</option>
             </c:forEach>
         </select>
-    </div>
-    <div class="form-group input-group">
         <span class="input-group-addon">城市：</span>
-        <select name="cityId" class="form-control col-xs-2" id="slt-cities">
+        <select name="cityId" class="form-control" id="slt-cities">
             <c:forEach var="city" items="${locationMap[pid].cities}">
                 <option value="city.key">${city.value.name}</option>
             </c:forEach>
         </select>
+        <span class="input-group-addon">学校：</span>
+        <select name="cityId" class="form-control" id="slt-schools">
+            <option value="">--</option>
+        </select>
     </div>
+    <div class="form-group input-group">
+        <span class="input-group-addon">类型：</span>
+        <select name="mode" class="form-control">
+            <option value="0">所有类型</option>
+            <option value="2">校园动态</option>
+            <option value="3">校园通知</option>
+            <option value="4">校园新闻</option>
+        </select>
+    </div>
+
 </form>
 <div class="dataTable_wrapper">
     <table class="table table-striped table-bordered table-hover" id="table-news">

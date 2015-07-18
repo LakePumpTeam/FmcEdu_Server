@@ -50,18 +50,40 @@
                 responsive: true
             });
 
-            $("#slt-province").on("change", function (e) {
-                $.getJSON(ctx + "/admin/cities?provinceId=" + $(e.target).val(), function (data) {
-                    var cityOptions = [];
-                    $.each(data, function (i, e) {
-                        cityOptions.push(new Option(e.name, e.cityId));
-                    });
-                    var citySelect = $("#slt-cities");
-                    citySelect.find("option").remove();
-                    citySelect.append(cityOptions);
-                });
-            });
+            $("#slt-province").on("change", provinceChange);
+            $("#slt-cities").on("change", cityChange);
         });
+
+        function provinceChange(e) {
+            $.getJSON(ctx + "/admin/cities?provinceId=" + $("#slt-province").val(), function (data) {
+                var cityOptions = [];
+                $.each(data, function (i, e) {
+                    cityOptions.push(new Option(e.name, e.cityId));
+                });
+                $(cityOptions[0]).prop("selected", true);
+                var citySelect = $("#slt-cities");
+                citySelect.find("option").remove();
+                citySelect.append(cityOptions);
+                // even if the event is not incorrect
+                cityChange(e);
+            });
+        }
+
+        function cityChange(e) {
+            $.getJSON(ctx + "/admin/schools?cityId=" + $("#slt-cities").val(), function (data) {
+                var schoolSelect = $("#slt-schools");
+                schoolSelect.find("option").remove();
+                if (data.length !== undefined && data.length > 0) {
+                    var schoolOptions = [];
+                    $.each(data, function (i, e) {
+                        schoolOptions.push(new Option(e.schoolName, e.schoolId));
+                    });
+                    schoolSelect.append(schoolOptions);
+                } else {
+                    schoolSelect.append(new Option("--", ""));
+                }
+            });
+        }
     </script>
     <style type="text/css">
         .ul-toolbar li {
@@ -71,6 +93,8 @@
         td.parameters table {
             float: right;
         }
+
+
     </style>
 </fmc:container>
 

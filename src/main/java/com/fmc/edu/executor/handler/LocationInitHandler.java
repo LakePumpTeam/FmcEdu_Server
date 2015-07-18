@@ -9,9 +9,9 @@ import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Created by Yove on 6/28/2015.
@@ -30,12 +30,12 @@ public class LocationInitHandler implements IInitializationHandler {
 		Map<String, Object> cityPageMap = getLocationManager().queryCityPage(SelectPaginationBuilder.getSelectPagination(), 0, "");
 		List<Map<String, Object>> cityList = (List<Map<String, Object>>) cityPageMap.get("cities");
 		// map result which would be cached in memory
-		Map<String, Object> locationMap = new HashMap();
+		Map<String, Object> locationMap = new TreeMap<>();
 		// fill data
 		for (Map<String, Object> provinceMap : provinceList) {
 			String provinceId = String.valueOf(provinceMap.get("provId"));
 			locationMap.put(provinceId, provinceMap);
-			Map<String, Object> cities = new HashMap<>();
+			Map<String, Object> cities = new TreeMap<>();
 			for (Map<String, Object> cityMap : cityList) {
 				String cityProvinceId = String.valueOf(cityMap.get("provinceId"));
 				if (StringUtils.equals(provinceId, cityProvinceId)) {

@@ -4,6 +4,7 @@ import com.fmc.edu.admin.builder.SelectPaginationBuilder;
 import com.fmc.edu.constant.GlobalConstant;
 import com.fmc.edu.manager.SchoolManager;
 import com.fmc.edu.util.pagenation.Pagination;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.commons.collections.MapUtils;
 import org.springframework.stereotype.Controller;
@@ -46,12 +47,16 @@ public class AdminLocationController {
 		return citiesJson;
 	}
 
-	@RequestMapping("/school" + GlobalConstant.URL_SUFFIX)
+	@RequestMapping("/schools" + GlobalConstant.URL_SUFFIX)
 	@ResponseBody
 	public String requestSchools(HttpServletRequest pRequest, HttpServletResponse pResponse, int cityId) {
 		Pagination pagination = SelectPaginationBuilder.getSelectPagination();
-		//getSchoolManager().queryClassesPage()
-		return null;
+		Object schools = getSchoolManager().querySchoolsPage(pagination, cityId, null).get("schools");
+		String schoolJson = "{}";
+		if (schools != null) {
+			schoolJson = JSONArray.fromObject(schools).toString();
+		}
+		return schoolJson;
 	}
 
 	public SchoolManager getSchoolManager() {
