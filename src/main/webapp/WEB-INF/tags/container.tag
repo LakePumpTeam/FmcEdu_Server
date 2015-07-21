@@ -316,10 +316,10 @@
                         <a href="#"><i class="fa fa-files-o fa-fw"></i> 育儿学堂<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="${ctx}/admin/news/news-list?t=childedu&mode=6">列表</a>
+                                <a href="${ctx}/admin/news/news-list?t=childedu&mode=1">列表</a>
                             </li>
                             <li>
-                                <a href="${ctx}/admin/news/news-publish?t=childedu&mode=6">发布</a>
+                                <a href="${ctx}/admin/news/news-publish?t=childedu&mode=1">发布</a>
                             </li>
                             <li>
                                 <a href="${ctx}/admin/slide">幻灯片</a>

@@ -21,7 +21,7 @@
 		<property name="slideCount" value="5" />
 		<property name="newsTypeMap">
 			<map>
-				<entry key="1" value="育儿课堂" />
+				<entry key="1" value="育儿学堂" />
 				<entry key="2" value="校园活动" />
 				<entry key="3" value="校园通知" />
 				<entry key="4" value="校园新闻" />

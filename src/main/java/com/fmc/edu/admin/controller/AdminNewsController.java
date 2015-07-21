@@ -95,7 +95,7 @@ public class AdminNewsController extends AdminTransactionBaseController {
 	@RequestMapping(value = "/news-list")
 	public String toNewsList(HttpServletRequest pRequest, HttpServletResponse pResponse, Model pModel, int
 			mode, String provinceId, String cityId, String schoolId, String classId) {
-		if (StringUtils.isNotBlank(schoolId) || StringUtils.isNotBlank(classId)) {
+		if (mode == 1 || StringUtils.isNotBlank(schoolId) || StringUtils.isNotBlank(classId)) {
 			int optionalId = 0;
 			if (StringUtils.isNoneBlank(classId)) {
 				optionalId = Integer.valueOf(classId);
