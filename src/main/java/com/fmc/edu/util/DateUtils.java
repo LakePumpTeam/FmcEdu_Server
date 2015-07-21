@@ -6,6 +6,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Yove on 5/8/2015.
@@ -14,7 +16,9 @@ public class DateUtils {
 
     public static final String PATTERN_STUDENT_BIRTH = "yyyy-MM-dd";
 
-    public static final String PATTERN_TIME = "HH:mm";
+    public static final String PATTERN_TIME = "HH:mm:ss";
+
+    public static final String[] WEEK = new String[]{"星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"};
 
     public static Timestamp getDaysLater(int pDays) {
         Calendar calendar = Calendar.getInstance();
@@ -30,16 +34,23 @@ public class DateUtils {
         return (new SimpleDateFormat(PATTERN_STUDENT_BIRTH)).parse(pBirthString);
     }
 
-    public static String ConvertDateToString(Date pBirth) {
-        return (new SimpleDateFormat(PATTERN_STUDENT_BIRTH)).format(pBirth);
-	}
+    public static Date convertStringToDateTime(String pBirthString) throws ParseException {
+        if (StringUtils.isBlank(pBirthString)) {
+            return null;
+        }
+        return (new SimpleDateFormat(PATTERN_STUDENT_BIRTH + " " + PATTERN_TIME)).parse(pBirthString);
+    }
 
-	public static Date addSeconds(final int pSeconds, Date pDate) {
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(pDate);
-		cal.add(Calendar.SECOND, pSeconds);
-		return cal.getTime();
-	}
+    public static String convertDateToString(Date pBirth) {
+        return (new SimpleDateFormat(PATTERN_STUDENT_BIRTH)).format(pBirth);
+    }
+
+    public static Date addSeconds(final int pSeconds, Date pDate) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(pDate);
+        cal.add(Calendar.SECOND, pSeconds);
+        return cal.getTime();
+    }
 
 
     public static Time convertStringToTime(String pTimeString) throws ParseException {
@@ -52,5 +63,60 @@ public class DateUtils {
 
     public static String convertTimeToString(Time pTime) {
         return (new SimpleDateFormat(PATTERN_TIME)).format(pTime);
+    }
+
+    public static Map<String, Date> getOneWeekDatePeriod(Timestamp pTimestamp) {
+        Map<String, Date> weekDate = new HashMap<String, Date>(2);
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(pTimestamp);
+        cal.add(Calendar.DATE, -1);
+
+        SimpleDateFormat df = new SimpleDateFormat(PATTERN_STUDENT_BIRTH);
+        cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        try {
+            weekDate.put("startDate", convertStringToDateTime(convertDateToString(new Date(cal.getTime().getTime())) + " 00:00:00"));
+            System.out.println(df.format(cal.getTime()));
+            cal.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+            cal.add(Calendar.WEEK_OF_YEAR, 1);
+            System.out.println(df.format(cal.getTime()));
+            weekDate.put("endDate", convertStringToDateTime(convertDateToString(new Date(cal.getTime().getTime())) + " 23:59:59"));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return weekDate;
+    }
+
+    public static Date addDays(Date pDate, int days) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(pDate);
+        cal.add(Calendar.DATE, days);
+        return cal.getTime();
+    }
+
+    public static Date minusDays(Date pDate, int days) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(pDate);
+        cal.add(Calendar.DATE, -days);
+        return cal.getTime();
+    }
+
+    public static int getWeek(Date pDate) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(pDate);
+        cal.add(Calendar.DATE, -1);
+        System.out.println(cal.get(Calendar.DAY_OF_WEEK));
+        return cal.get(Calendar.DAY_OF_WEEK);
+    }
+
+    public static String convertWeekToString(int pWeek) {
+        if (pWeek < 1 || pWeek > 7) {
+            return "";
+        }
+        return WEEK[pWeek - 1];
+    }
+
+    public static void main(String[] args) {
+        System.out.println(convertDateToString(new Date(minusDays(new Date(System.currentTimeMillis()), 7 + 1).getTime())));
+        System.out.println(convertWeekToString(getWeek(minusDays(new Date(System.currentTimeMillis()), 7 + 1))));
     }
 }

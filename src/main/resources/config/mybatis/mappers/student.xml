@@ -70,5 +70,14 @@
         ON psm.student_id = s.id
         where s.class_id = #{classId} AND psm.approved =1
     </select>
-
+    <select id="queryParentStudentRelationshipByStudentId" parameterType="int" resultMap="rm.parentStudentRelationship">
+        SELECT parent_id,
+        student_id,
+        relationship,
+        approved,
+        approved_date,
+        creation_date,
+        last_update_date
+        FROM parent_student_map where student_id = #{studentId};
+    </select>
 </mapper>

@@ -1,6 +1,7 @@
 package com.fmc.edu.web;
 
 import com.fmc.edu.manager.*;
+import com.fmc.edu.model.clockin.ClockInRecord;
 import com.fmc.edu.model.news.*;
 import com.fmc.edu.model.profile.BaseProfile;
 import com.fmc.edu.model.profile.ParentProfile;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.sql.Time;
 import java.util.*;
 
 /**
@@ -44,6 +46,9 @@ public class ResponseBuilder {
 
     @Resource(name = "schoolManager")
     private SchoolManager mSchoolManager;
+
+    @Resource(name = "myAccountManager")
+    private MyAccountManager mMyAccountManager;
 
     public void buildAuthorizedResponse(ResponseBean pResponseBean, final BaseProfile pProfile) {
         pResponseBean.addData("userId", pProfile.getId());
@@ -120,7 +125,7 @@ public class ResponseBuilder {
             newsMap.put("subject", news.getSubject());
             newsMap.put("author", news.getAuthor());
             newsMap.put("content", news.getContent());
-            newsMap.put("createDate", DateUtils.ConvertDateToString(news.getPublishDate()));
+            newsMap.put("createDate", DateUtils.convertDateToString(news.getPublishDate()));
             newsMap.put("type", news.getNewsType());
             if (CollectionUtils.isEmpty(news.getImageUrls())) {
                 newsMap.put("imageUrls", Collections.EMPTY_LIST);
@@ -198,7 +203,7 @@ public class ResponseBuilder {
         newsMap.put("subject", pNews.getSubject());
         newsMap.put("content", pNews.getContent());
         newsMap.put("author", pNews.getAuthor());
-        newsMap.put("createDate", DateUtils.ConvertDateToString(pNews.getPublishDate()));
+        newsMap.put("createDate", DateUtils.convertDateToString(pNews.getPublishDate()));
         newsMap.put("imageUrls", getImagePathListOfNews(pNews));
         if (pNews.getNewsType() == NewsType.SCHOOL_BBS) {
             newsMap.put("popular ", pNews.isPopular());
@@ -285,7 +290,7 @@ public class ResponseBuilder {
         if (taskStudentsRelationship != null) {
             pResponseBean.addData("completeStatus", taskStudentsRelationship.getCompleted() ? 1 : 0);
         }
-        pResponseBean.addData("deadline", DateUtils.ConvertDateToString(pTask.getDeadline()));
+        pResponseBean.addData("deadline", DateUtils.convertDateToString(pTask.getDeadline()));
         Student student = getStudentManager().queryStudentById(Integer.valueOf(pStudentId));
         if (student != null) {
             pResponseBean.addData("studentName", student.getName());
@@ -331,11 +336,37 @@ public class ResponseBuilder {
             //commentMap.put("sex", 0);
         }
         commentMap.put("comment", comment.getComment());
-        commentMap.put("date", DateUtils.ConvertDateToString(comment.getCreationDate()));
+        commentMap.put("date", DateUtils.convertDateToString(comment.getCreationDate()));
         if (baseProfile == null) {
             commentMap.put("userName", baseProfile.getName());
         }
         return commentMap;
+    }
+
+    public void buildAttendanceRecords(List<ClockInRecord> pClockInRecords, ResponseBean pResponseBean) {
+        List<Map<String, Object>> attendanceRecord = new ArrayList<Map<String, Object>>();
+        if (org.apache.commons.collections.CollectionUtils.isEmpty(pClockInRecords)) {
+            return;
+        }
+        Map<String, Object> attendance;
+        for (ClockInRecord clockInRecord : pClockInRecords) {
+            attendance = new HashMap<String, Object>();
+            attendance.put("date", DateUtils.convertDateToString(clockInRecord.getAttendanceDate()));
+            attendance.put("time", DateUtils.convertTimeToString(new Time(clockInRecord.getAttendanceDate().getTime())));
+            attendance.put("week", DateUtils.convertWeekToString(DateUtils.getWeek(clockInRecord.getAttendanceDate())));
+            attendance.put("attendance", clockInRecord.getAttendanceFlag());
+            if (clockInRecord.getType() == 1) {
+                BaseProfile baseProfile = getMyAccountManager().findUserById(String.valueOf(clockInRecord.getClockInPersionId()));
+                if (baseProfile == null) {
+                    pResponseBean.addBusinessMsg(ResourceManager.ERROR_NOT_FIND_USER);
+                    return;
+                }
+                attendance.put("name", baseProfile.getName());
+            }
+            attendanceRecord.add(attendance);
+        }
+        pResponseBean.addData("record", attendanceRecord);
+        return;
     }
 
     public ProfileManager getProfileManager() {
@@ -384,5 +415,13 @@ public class ResponseBuilder {
 
     public void setSchoolManager(SchoolManager pSchoolManager) {
         mSchoolManager = pSchoolManager;
+    }
+
+    public MyAccountManager getMyAccountManager() {
+        return mMyAccountManager;
+    }
+
+    public void setMyAccountManager(MyAccountManager pMyAccountManager) {
+        mMyAccountManager = pMyAccountManager;
     }
 }

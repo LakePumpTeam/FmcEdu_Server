@@ -31,6 +31,9 @@
         <typeAlias alias="Selection" type="com.fmc.edu.model.news.Selection"/>
         <typeAlias alias="ProfileSelectionRelationship"
                    type="com.fmc.edu.model.relationship.ProfileSelectionRelationship"/>
+        <typeAlias alias="ClockInRecord" type="com.fmc.edu.model.clockin.ClockInRecord"/>
+        <typeAlias alias="MagneticCard" type="com.fmc.edu.model.clockin.MagneticCard"/>
+        <typeAlias alias="StudentCarMagneticRelationship" type="com.fmc.edu.model.relationship.StudentCarMagneticRelationship"/>
     </typeAliases>
     <typeHandlers>
         <typeHandler handler="org.apache.ibatis.type.BlobTypeHandler" javaType="byte[]" jdbcType="BLOB"/>

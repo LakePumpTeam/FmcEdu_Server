@@ -57,6 +57,16 @@ public class ResponseBean {
         dataMap.put(JSONOutputConstant.BUSSINESS_MESSAGE, mResourceManager.getMessage(mHttpServletRequest, pMsgKey));
     }
 
+    public void addBusinessMessage(final String pMsg) {
+        if (StringUtils.isBlank(pMsg)) {
+            return;
+        }
+
+        Map<String, Object> dataMap = (Map<String, Object>) responseData.get(JSONOutputConstant.PARAM_DATA);
+        dataMap.put(JSONOutputConstant.BUSSINESS_IS_SUCCESS, GlobalConstant.STATUS_ERROR);
+        dataMap.put(JSONOutputConstant.BUSSINESS_MESSAGE, pMsg);
+    }
+
     public void addBusinessMsg(final String pMsgKey, String... pArgs) {
         if (StringUtils.isBlank(pMsgKey)) {
             return;

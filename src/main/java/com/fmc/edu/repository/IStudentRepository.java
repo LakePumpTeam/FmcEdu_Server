@@ -1,5 +1,6 @@
 package com.fmc.edu.repository;
 
+import com.fmc.edu.model.relationship.ParentStudentRelationship;
 import com.fmc.edu.model.student.Student;
 
 import java.util.List;
@@ -25,4 +26,8 @@ public interface IStudentRepository {
     String QUERY_STUDENTS_BY_CLASS_ID = "com.fmc.edu.student.queryStudentsByClassId";
 
     Map<String, Object> queryStudentsByClassId(int pClassId);
+
+    String QUERY_PARENT_STUDENT_RELATIONSHIP_BY_STUDENT_ID = "com.fmc.edu.student.queryParentStudentRelationshipByStudentId";
+
+    List<ParentStudentRelationship> queryParentStudentRelationshipByStudentId(final int pStudentId);
 }

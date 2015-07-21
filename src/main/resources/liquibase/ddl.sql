@@ -423,6 +423,54 @@ CREATE TABLE IF NOT EXISTS `fmc_edu`.`selection` (
   INDEX `fk_selection_news1_idx` (`news_id` ASC))
 ENGINE = MyISAM
 
+
+CREATE TABLE IF NOT EXISTS `fmc_edu`.`magnetic_card` (
+  `id` INT NOT NULL,
+  `card_no` VARCHAR(45) NOT NULL,
+  `comments` VARCHAR(45) NULL,
+  `last_update_date` TIMESTAMP NOT NULL,
+  `creation_date` TIMESTAMP NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+
+CREATE TABLE IF NOT EXISTS `fmc_edu`.`student_card_map` (
+  `id` INT NOT NULL,
+  `student_id` INT NOT NULL,
+  `magnetic_card_id` INT NOT NULL,
+  `available` TINYINT(1) NOT NULL DEFAULT 1,
+  `approved` TINYINT(1) NULL DEFAULT 1,
+  INDEX `student_id_fk_idx` (`student_id` ASC),
+  INDEX `magnetic_card_id_fk_idx` (`magnetic_card_id` ASC),
+  PRIMARY KEY (`id`),
+  CONSTRAINT `student_id_fk`
+    FOREIGN KEY (`student_id`)
+    REFERENCES `fmc_edu`.`student` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `magnetic_card_id_fk`
+    FOREIGN KEY (`magnetic_card_id`)
+    REFERENCES `fmc_edu`.`magnetic_card` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+
+CREATE TABLE IF NOT EXISTS `fmc_edu`.`clock_in_record` (
+  `id` INT NOT NULL,
+  `magnetic_card_id` INT NOT NULL,
+  `clock_in_person_id` INT NOT NULL,
+  `type` INT NULL COMMENT '0:考勤记录\n1:接送记录',
+  `attendance_flag` TINYINT(1) NOT NULL DEFAULT 0 COMMENT '0：表示进校打卡；\n1：表示离校打卡；',
+  `attendance_date` DATETIME NOT NULL,
+  `creation_date` DATETIME NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `check_id_record_fk_idx` (`magnetic_card_id` ASC),
+  CONSTRAINT `check_id_record_fk`
+    FOREIGN KEY (`magnetic_card_id`)
+    REFERENCES `fmc_edu`.`magnetic_card` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

@@ -1,5 +1,6 @@
 package com.fmc.edu.service.impl;
 
+import com.fmc.edu.model.relationship.ParentStudentRelationship;
 import com.fmc.edu.model.student.Student;
 import com.fmc.edu.repository.IStudentRepository;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,9 @@ public class StudentService {
         return getStudentRepository().queryStudentsByClassId(pClassId);
     }
 
+    public List<ParentStudentRelationship> queryParentStudentRelationshipByStudentId(final int pStudentId) {
+        return getStudentRepository().queryParentStudentRelationshipByStudentId(pStudentId);
+    }
     public IStudentRepository getStudentRepository() {
         return mStudentRepository;
     }

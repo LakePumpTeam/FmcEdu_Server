@@ -1,5 +1,6 @@
 package com.fmc.edu.repository.impl;
 
+import com.fmc.edu.model.relationship.ParentStudentRelationship;
 import com.fmc.edu.model.student.Student;
 import com.fmc.edu.repository.BaseRepository;
 import com.fmc.edu.repository.IStudentRepository;
@@ -44,4 +45,11 @@ public class StudentRepository extends BaseRepository implements IStudentReposit
         dataList.put("studentList", queryResult);
         return dataList;
     }
+
+    @Override
+    public List<ParentStudentRelationship> queryParentStudentRelationshipByStudentId(int pStudentId) {
+        return getSqlSession().selectList(QUERY_PARENT_STUDENT_RELATIONSHIP_BY_STUDENT_ID, pStudentId);
+    }
+
+
 }
