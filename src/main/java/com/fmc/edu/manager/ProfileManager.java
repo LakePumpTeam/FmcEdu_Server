@@ -26,8 +26,6 @@ import javax.annotation.Resource;
 public class ProfileManager {
     private static final Logger LOG = Logger.getLogger(ProfileManager.class);
 
-    public static final String ACCOUNT_EXISTS = "账号已存在.";
-
     @Resource(name = "dummyMessageIdentifyService")
     private IMessageIdentifyService mDummyMessageIdentifyService;
 
@@ -62,9 +60,9 @@ public class ProfileManager {
                     getMyAccountManager().deleteProfile(user.getId());
                 } else if (user.getProfileType() == ProfileType.TEACHER.getValue()) {
                     //FIXME add specially logic for teacher user in the future.
-                    throw new ProfileException(ProfileManager.ACCOUNT_EXISTS);
+                    throw new ProfileException(ResourceManager.VALIDATION_USER_PHONE_EXIST);
                 } else {
-                    throw new ProfileException(ProfileManager.ACCOUNT_EXISTS);
+                    throw new ProfileException(ResourceManager.VALIDATION_USER_PHONE_EXIST);
                 }
             }
             BaseProfile baseProfile = new BaseProfile();

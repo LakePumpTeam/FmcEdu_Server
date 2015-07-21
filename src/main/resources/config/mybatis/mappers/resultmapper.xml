@@ -193,12 +193,14 @@
     <resultMap id="news" type="News">
         <id property="id" column="id"/>
         <result property="author" column="author"/>
+        <result property="authorName" column="author_name" />
         <result property="subject" column="subject"/>
         <result property="content" column="content"/>
         <result property="newsType" column="news_type"/>
         <result property="refId" column="ref_id"/>
         <result property="approved" column="approved"/>
         <result property="approvedBy" column="approved_by"/>
+        <result property="approvedByName" column="approved_by_name" />
         <result property="approvedDate" column="approve_date"/>
         <result property="like" column="like"/>
         <result property="popular" column="popular"/>

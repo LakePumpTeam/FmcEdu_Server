@@ -73,14 +73,13 @@
             $.getJSON(ctx + "/admin/schools?cityId=" + $("#slt-cities").val(), function (data) {
                 var schoolSelect = $("#slt-schools");
                 schoolSelect.find("option").remove();
+                schoolSelect.append(new Option("--", ""));
                 if (data.length !== undefined && data.length > 0) {
                     var schoolOptions = [];
                     $.each(data, function (i, e) {
                         schoolOptions.push(new Option(e.schoolName, e.schoolId));
                     });
                     schoolSelect.append(schoolOptions);
-                } else {
-                    schoolSelect.append(new Option("--", ""));
                 }
             });
         }

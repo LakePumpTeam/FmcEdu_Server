@@ -26,6 +26,8 @@ public class ResourceManager {
 
     public static final String VALIDATION_USER_PHONE_ERROR = "validation.user.phone.error";
 
+    public static final String VALIDATION_USER_PHONE_EXIST = "validation.user.phone.exist";
+
     public static final String VALIDATION_USER_PHONE_EMPTY = "validation.user.phone.empty";
 
     public static final String VALIDATION_USER_SALT_EMPTY = "validation.user.salt.empty";

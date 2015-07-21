@@ -11,6 +11,7 @@ import java.util.List;
 public class News extends BaseBean {
 
 	private int mAuthor;
+	private String mAuthorName;
 	private String mSubject;
 	private String mContent;
 	private Integer mNewsType;
@@ -18,6 +19,7 @@ public class News extends BaseBean {
 	private boolean mAvailable;
 	private boolean mApproved;
 	private int mApprovedBy;
+	private String mApprovedByName;
 	private Timestamp mApprovedDate;
 	private int mLike;
 	private boolean mPopular;
@@ -147,5 +149,21 @@ public class News extends BaseBean {
 
 	public void setPopular(final boolean pPopular) {
 		mPopular = pPopular;
+	}
+
+	public String getAuthorName() {
+		return mAuthorName;
+	}
+
+	public void setAuthorName(final String pAuthorName) {
+		mAuthorName = pAuthorName;
+	}
+
+	public String getApprovedByName() {
+		return mApprovedByName;
+	}
+
+	public void setApprovedByName(final String pApprovedByName) {
+		mApprovedByName = pApprovedByName;
 	}
 }

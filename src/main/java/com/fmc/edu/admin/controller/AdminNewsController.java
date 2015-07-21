@@ -1,5 +1,6 @@
 package com.fmc.edu.admin.controller;
 
+import com.fmc.edu.admin.builder.SelectPaginationBuilder;
 import com.fmc.edu.constant.GlobalConstant;
 import com.fmc.edu.manager.MyAccountManager;
 import com.fmc.edu.manager.NewsManager;
@@ -92,20 +93,28 @@ public class AdminNewsController extends AdminTransactionBaseController {
 
 
 	@RequestMapping(value = "/news-list")
-	public String toNewsList(HttpServletRequest pRequest, HttpServletResponse pResponse, Model pModel, String mode, String optionId) {
-		if (StringUtils.isBlank(optionId)) {
-			return "admin/news/news-list";
+	public String toNewsList(HttpServletRequest pRequest, HttpServletResponse pResponse, Model pModel, int
+			mode, String provinceId, String cityId, String schoolId, String classId) {
+		if (StringUtils.isNotBlank(schoolId) || StringUtils.isNotBlank(classId)) {
+			int optionalId = 0;
+			if (StringUtils.isNoneBlank(classId)) {
+				optionalId = Integer.valueOf(classId);
+			}
+			if (mode == 2 || mode == 3 || mode == 4 || mode == 7) {
+				// Fixed the optional id to default class id by school id
+				int schoolIdInt = Integer.valueOf(schoolId);
+				optionalId = getSchoolManager().queryDefaultClassBySchoolId(schoolIdInt).getSchoolId();
+			}
+			Pagination pagination = buildPagination(pRequest);
+			List<News> newsList = getNewsManager().queryNewsListByClassId(mode, optionalId, pagination);
+			pModel.addAttribute("newsList", newsList);
 		}
-		int modeInt = Integer.valueOf(mode);
-		int classId = Integer.valueOf(optionId);
-		if (modeInt == 2 || modeInt == 3 || modeInt == 4 || modeInt == 7) {
-			// it's school id actually
-			classId = getSchoolManager().queryDefaultClassBySchoolId(classId).getSchoolId();
+		if (StringUtils.isNoneBlank(cityId)) {
+			int cityIdInt = Integer.valueOf(cityId);
+			Pagination pagination = SelectPaginationBuilder.getSelectPagination();
+			Object schools = getSchoolManager().querySchoolsPage(pagination, cityIdInt, null).get("schools");
+			pModel.addAttribute("schools", schools);
 		}
-		Pagination pagination = buildPagination(pRequest);
-		List<News> newsList = getNewsManager().queryNewsListByClassId(modeInt, classId, pagination);
-
-		pModel.addAttribute("newsList", newsList);
 		return "admin/news/news-list";
 	}
 

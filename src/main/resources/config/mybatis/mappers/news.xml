@@ -17,9 +17,11 @@
     </sql>
 
 	<select id="queryNewsListByClassId" parameterType="map" useCache="true" resultMap="rm.news">
-		SELECT n.id, author, subject, content, news_type, ref_id, approved, approved_by, approve_date, n.available, `like`, popular,
-		publish_date, creation_date, n.last_update_date
+		SELECT n.id, author, p1.name authorName, subject, content, news_type, ref_id, n.approved, approved_by, p2.name approved_by_name,
+		n.approve_date, n.available, `like`, popular, publish_date, n.creation_date, n.last_update_date
 		FROM news n
+		INNER JOIN profile p1 on p1.id = n.author
+		INNER JOIN profile p2 on p2.id = n.approved_by
 		WHERE
 		<if test="newsType != 0">news_type = #{newsType} AND</if>
 		<choose>
