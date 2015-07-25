@@ -1,5 +1,6 @@
 package com.fmc.edu.service.impl;
 
+import com.fmc.edu.model.app.AppSetting;
 import com.fmc.edu.model.profile.BaseProfile;
 import com.fmc.edu.model.relationship.ParentStudentRelationship;
 import com.fmc.edu.repository.IMyAccountRepository;
@@ -57,6 +58,7 @@ public class MyAccountService {
     public List<ParentStudentRelationship> queryStudentParentRelationByParentId(int parentId) {
         return getMyAccountRepository().queryStudentParentRelationByParentId(parentId);
     }
+
     public boolean updateBaseProfile(BaseProfile pBaseProfile) {
         return getMyAccountRepository().updateBaseProfile(pBaseProfile);
     }
@@ -71,6 +73,14 @@ public class MyAccountService {
 
     public Map<String, Object> queryLikeNewsRelation(int pProfileId, int pNewsId) {
         return getMyAccountRepository().queryLikeNewsRelation(pProfileId, pNewsId);
+    }
+
+    public boolean insertOrUpdateAppSetting(AppSetting pAppSetting) {
+        return getMyAccountRepository().insertOrUpdateAppSetting(pAppSetting);
+    }
+
+    public AppSetting queryAppSetting(int pProfileId) {
+        return getMyAccountRepository().queryAppSetting(pProfileId);
     }
 
     public IMyAccountRepository getMyAccountRepository() {

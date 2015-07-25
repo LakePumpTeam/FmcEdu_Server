@@ -178,4 +178,20 @@
 
         WHERE id = #{id};
     </update>
+
+    <update id="updateAppSetting" parameterType="AppSetting">
+        UPDATE `appsetting` set isBel=#{isBel}, isVibra=#{isVibra} WHERE id=#{id};
+    </update>
+
+    <insert id="insertAppSetting" parameterType="AppSetting">
+        INSERT INTO `appsetting` (`isBel`, `isVibra`,`profile_id`)
+        VALUES (#{isBel},#{isVibra},#{profileId});
+    </insert>
+    <select id="queryAppSetting" parameterType="int" resultMap="rm.appSetting">
+        SELECT `id`,
+        `isBel`,
+        `isVibra`,
+        `profile_id`
+        FROM `appsetting` where profile_id=#{profileId};
+    </select>
 </mapper>

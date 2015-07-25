@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fmc.edu.magnetic.card">
+    <select id="queryMagneticByStudentIdForParent" parameterType="int" resultMap="rm.magneticCard">
+              select mc.`id`as id,
+                mc.`card_no` as card_no,
+                mc.`comments` as comments,
+                mc.`last_update_date` as last_update_date,
+                mc.`creation_date` as creation_date,
+                mc.`card_type` as card_type from
+                parent_student_map psm
+                inner join student st
+                on psm.student_id = st.id
+                inner join person_card_map pcm
+                on pcm.profile_id = psm.parent_id
+                inner join magnetic_card mc
+                on mc.id=pcm.magnetic_card_id
+                where  pcm.available=1 AND pcm.approved=1
+                and  mc.card_type=0 and pcm.student_id=#{studentId};
+        </select>
+
+    <select id="queryMagneticByStudentIdForStudent" parameterType="int" resultMap="rm.magneticCard">
+          select mc.`id`as id,
+                mc.`card_no` as card_no,
+                mc.`comments` as comments,
+                mc.`last_update_date` as last_update_date,
+                mc.`creation_date` as creation_date,
+                mc.`card_type`  as card_type from magnetic_card mc
+                inner join person_card_map pcm
+                on mc.id=pcm.magnetic_card_id
+                inner join student st
+                on st.id=pcm.student_id
+          where pcm.available=1 AND pcm.approved=1
+                AND mc.card_type=0 AND pcm.student_id=#{studentId};
+    </select>
+
+    <select id="queryPersonMagneticCardRelationship" parameterType="int" resultMap="rm.personCarMagneticRelationship">
+        SELECT `id`,
+             `profile_id`,
+             `student_id`,
+             `magnetic_card_id`,
+             `available`,
+             `approved`
+      FROM `person_card_map` where magnetic_card_id=#{magneticCardId};
+    </select>
+
+    <select id="queryMagneticCardById" parameterType="int" resultMap="rm.magneticCard">
+       select mc.`id`as id,
+                mc.`card_no` as card_no,
+                mc.`comments` as comments,
+                mc.`last_update_date` as last_update_date,
+                mc.`creation_date` as creation_date,
+                mc.`card_type`  as card_type from magnetic_card mc
+                 where mc.id=#{magneticCardId};
+    </select>
+
+    <update id="updateMagneticCard" parameterType="MagneticCard">
+        UPDATE magnetic_card
+        SET comments = #{comments},
+        last_update_date = date(),
+        WHERE id=#{id} and card_no=#{cardNo}
+    </update>
+
+    <update id="updatePersonMagneticCardRelationship" parameterType="PersonCarMagneticRelationship">
+        UPDATE person_card_map
+        SET available = #{available},
+        WHERE magnetic_card_id=#{magneticCardId}
+    </update>
+</mapper>

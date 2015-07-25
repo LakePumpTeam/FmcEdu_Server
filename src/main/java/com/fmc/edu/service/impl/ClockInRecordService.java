@@ -1,7 +1,6 @@
 package com.fmc.edu.service.impl;
 
 import com.fmc.edu.model.clockin.ClockInRecord;
-import com.fmc.edu.model.clockin.MagneticCard;
 import com.fmc.edu.repository.impl.ClockInRecordRepository;
 import org.springframework.stereotype.Service;
 
@@ -20,10 +19,6 @@ public class ClockInRecordService {
 
     public List<ClockInRecord> queryClockInRecords(Map pMap) {
         return getClockInRecordRepository().queryClockInRecords(pMap);
-    }
-
-    public MagneticCard queryMagneticByStudentId(int pStudentId) {
-        return getClockInRecordRepository().queryMagneticByStudentId(pStudentId);
     }
 
     public ClockInRecordRepository getClockInRecordRepository() {

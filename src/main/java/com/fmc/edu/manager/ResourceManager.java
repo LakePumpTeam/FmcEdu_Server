@@ -107,13 +107,12 @@ public class ResourceManager {
     public static final String ERROR_APP_UNKNOWN_DEVICE_TYPE = "app.device.type.unknown";
 
 
-
-    public String getMessage(HttpServletRequest request, String pKey, String[] pArgs, String pDefaultMessage) {
+    public String getMessage(HttpServletRequest request, String pKey, Object[] pArgs, String pDefaultMessage) {
         RequestContext requestContext = new RequestContext(request);
         return requestContext.getMessage(pKey, pArgs, pDefaultMessage);
     }
 
-    public String getMessage(HttpServletRequest request, String pKey, String[] pArgs) {
+    public String getMessage(HttpServletRequest request, String pKey, Object[] pArgs) {
         RequestContext requestContext = new RequestContext(request);
         return requestContext.getMessage(pKey, pArgs, StringUtils.EMPTY);
     }

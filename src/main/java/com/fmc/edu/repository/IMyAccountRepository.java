@@ -1,5 +1,6 @@
 package com.fmc.edu.repository;
 
+import com.fmc.edu.model.app.AppSetting;
 import com.fmc.edu.model.profile.BaseProfile;
 import com.fmc.edu.model.relationship.ParentStudentRelationship;
 
@@ -62,4 +63,13 @@ public interface IMyAccountRepository {
     String UPDATE_BASEPROFILE = "com.fmc.edu.myaccount.updateBaseProfile";
 
     boolean updateBaseProfile(BaseProfile pBaseProfile);
+
+    String UPDATE_APP_SETTING = "com.fmc.edu.myaccount.updateAppSetting";
+    String INSERT_APP_SETTING = "com.fmc.edu.myaccount.insertAppSetting";
+
+    boolean insertOrUpdateAppSetting(AppSetting pAppSetting);
+
+    String QUERY_APP_SETTING = "com.fmc.edu.myaccount.queryAppSetting";
+
+    AppSetting queryAppSetting(int pProfileId);
 }

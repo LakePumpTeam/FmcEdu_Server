@@ -1305,6 +1305,72 @@
                 <td><input type="button" class="btn_reset" value="Reset"/></td>
                 <td class="result"></td>
             </tr>
+            <tr>
+                <td>#3</td>
+                <td class="function"> APP 设置</td>
+                <td class="baseUrl">${ctx}/profile/appSetting</td>
+                <td class="parameters">
+                    <table>
+                        <tr>
+                            <td align="right"><label for="userId" title="userId">userId</label>
+                            </td>
+                            <td><input type="text" class="ipt_value" id="userId" value=""/></td>
+                        </tr>
+                        <tr>
+                            <td align="right"><label for="isBel" title="isBel">isBel</label>
+                            </td>
+                            <td><input type="text" class="ipt_value" id="isBel" value=""/></td>
+                        </tr>
+                        <tr>
+                            <td align="right"><label for="isVibra" title="isVibra">isVibra</label>
+                            </td>
+                            <td><input type="text" class="ipt_value" id="isVibra" value=""/></td>
+                        </tr>
+                    </table>
+                </td>
+                <td><input type="button" class="btn_request" value="Request"/></td>
+                <td><input type="button" class="btn_reset" value="Reset"/></td>
+                <td class="result"></td>
+            </tr>
+            <tr>
+                <td>#4</td>
+                <td class="function"> 获取所有卡片信息</td>
+                <td class="baseUrl">${ctx}/magneticCard/retrieveAllMagneticCard</td>
+                <td class="parameters">
+                    <table>
+                        <tr>
+                            <td align="right"><label for="studentId" title="studentId">studentId</label>
+                            </td>
+                            <td><input type="text" class="ipt_value" id="studentId" value=""/></td>
+                        </tr>
+                    </table>
+                </td>
+                <td><input type="button" class="btn_request" value="Request"/></td>
+                <td><input type="button" class="btn_reset" value="Reset"/></td>
+                <td class="result"></td>
+            </tr>
+            <tr>
+                <td>#5</td>
+                <td class="function"> 卡片挂失</td>
+                <td class="baseUrl">${ctx}/magneticCard/reportMagneticCardLost</td>
+                <td class="parameters">
+                    <table>
+                        <tr>
+                            <td align="right"><label for="magneticCardId" title="magneticCardId">magneticCardId</label>
+                            </td>
+                            <td><input type="text" class="ipt_value" id="magneticCardId" value=""/></td>
+                        </tr>
+                        <%-- <tr>
+                             <td align="right"><label for="lost" title="lost">lost</label>
+                             </td>
+                             <td><input type="text" class="ipt_value" id="lost" value=""/></td>
+                         </tr>--%>
+                    </table>
+                </td>
+                <td><input type="button" class="btn_request" value="Request"/></td>
+                <td><input type="button" class="btn_reset" value="Reset"/></td>
+                <td class="result"></td>
+            </tr>
         </table>
     </fieldset>
 </body>

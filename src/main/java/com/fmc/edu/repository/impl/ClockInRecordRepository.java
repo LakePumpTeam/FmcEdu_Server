@@ -1,7 +1,6 @@
 package com.fmc.edu.repository.impl;
 
 import com.fmc.edu.model.clockin.ClockInRecord;
-import com.fmc.edu.model.clockin.MagneticCard;
 import com.fmc.edu.repository.BaseRepository;
 import com.fmc.edu.repository.IClockInRecordRepository;
 import org.springframework.stereotype.Repository;
@@ -18,10 +17,4 @@ public class ClockInRecordRepository extends BaseRepository implements IClockInR
     public List<ClockInRecord> queryClockInRecords(Map pMap) {
         return getSqlSession().selectList(QUERY_CLOCK_IN_RECORDS, pMap);
     }
-
-    @Override
-    public MagneticCard queryMagneticByStudentId(int pStudentId) {
-        return getSqlSession().selectOne(QUERY_MAGNETIC_BY_STUDENT_ID, pStudentId);
-    }
-
 }

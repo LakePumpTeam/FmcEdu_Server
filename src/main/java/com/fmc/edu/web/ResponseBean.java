@@ -67,7 +67,7 @@ public class ResponseBean {
         dataMap.put(JSONOutputConstant.BUSSINESS_MESSAGE, pMsg);
     }
 
-    public void addBusinessMsg(final String pMsgKey, String... pArgs) {
+    public void addBusinessMsg(final String pMsgKey, Object... pArgs) {
         if (StringUtils.isBlank(pMsgKey)) {
             return;
         }
@@ -77,7 +77,7 @@ public class ResponseBean {
         dataMap.put(JSONOutputConstant.BUSSINESS_MESSAGE, mResourceManager.getMessage(mHttpServletRequest, pMsgKey, pArgs));
     }
 
-    public void addBusinessMsg(final String pMsgKey, String[] pArgs, String pMessage) {
+    public void addBusinessMsg(final String pMsgKey, Object[] pArgs, String pMessage) {
         if (StringUtils.isBlank(pMsgKey)) {
             return;
         }
@@ -113,6 +113,11 @@ public class ResponseBean {
         }
         Map<String, Object> dataMap = (Map<String, Object>) responseData.get(JSONOutputConstant.PARAM_DATA);
         dataMap.putAll(pData);
+    }
+
+    public void clearAllData() {
+        Map<String, Object> dataMap = (Map<String, Object>) responseData.get(JSONOutputConstant.PARAM_DATA);
+        dataMap.clear();
     }
 
     public Boolean isSuccess() {
