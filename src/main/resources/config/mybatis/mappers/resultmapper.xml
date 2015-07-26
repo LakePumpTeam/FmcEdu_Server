@@ -330,4 +330,15 @@
         <result property="profileId" column="profile_id"/>
     </resultMap>
 
+    <resultMap id="pushMessage" type="PushMessage">
+        <id property="id" column="id"/>
+        <result property="profileId" column="profile_id"/>
+        <result property="title" column="title"/>
+        <result property="content" column="content"/>
+        <result property="pushType" column="push_type"/>
+        <result property="pushDeviceType" column="push_device_type"/>
+        <result property="pushStatus" column="push_status"/>
+        <result property="creationDate" column="creation_date"/>
+    </resultMap>
+
 </mapper>

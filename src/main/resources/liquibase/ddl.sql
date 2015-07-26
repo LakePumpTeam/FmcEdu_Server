@@ -518,6 +518,18 @@ CREATE TABLE IF NOT EXISTS `fmc_edu`.`appSetting` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 
+CREATE TABLE IF NOT EXISTS `fmc_edu`.`push_message` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `profile_id` INT NOT NULL,
+  `title` VARCHAR(150) NOT NULL,
+  `content` VARCHAR(1000) NOT NULL,
+  `push_type` INT NOT NULL COMMENT '1: push to all device\n2: push to single device',
+  `push_device_type` INT NOT NULL COMMENT 'WEB = 1;\nPC = 2;\nANDROID = 3;\nIOS = 4;\nWINDOWS_PHONE = 5;',
+  `push_status` TINYINT(1) NOT NULL,
+  `creation_date` TIMESTAMP NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

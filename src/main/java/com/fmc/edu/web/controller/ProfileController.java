@@ -13,7 +13,7 @@ import com.fmc.edu.model.app.AppSetting;
 import com.fmc.edu.model.app.DeviceType;
 import com.fmc.edu.model.profile.BaseProfile;
 import com.fmc.edu.model.profile.ParentProfile;
-import com.fmc.edu.model.push.PushMessage;
+import com.fmc.edu.model.push.PushMessageParameter;
 import com.fmc.edu.model.relationship.ParentStudentRelationship;
 import com.fmc.edu.model.student.Student;
 import com.fmc.edu.util.DateUtils;
@@ -510,7 +510,8 @@ public class ProfileController extends BaseController {
             responseBean.addBusinessMsg(ResourceManager.VALIDATION_USER_USER_ID_ERROR);
             return output(responseBean);
         }
-        if (StringUtils.isBlank(channelId)) {
+        //FIXME We should remove baidu information when app send blank channelId and  BaiduUserId, make sure we should not push message to this device again
+       /* if (StringUtils.isBlank(channelId)) {
             responseBean.addBusinessMsg(ResourceManager.VALIDATION_USER_BAIDU_CHANNEL_ID_ERROR);
             return output(responseBean);
         }
@@ -518,9 +519,21 @@ public class ProfileController extends BaseController {
             responseBean.addBusinessMsg(ResourceManager.VALIDATION_USER_BAIDU_USER_ID_ERROR);
             return output(responseBean);
         }
+
         if (StringUtils.isBlank(deviceType) || !DeviceType.isValidDeviceType(Integer.valueOf(deviceType))) {
             responseBean.addBusinessMsg(ResourceManager.VALIDATION_USER_DEVICE_TYPE_ERROR, deviceType);
             return output(responseBean);
+        }
+        */
+
+        if (StringUtils.isBlank(channelId)) {
+            channelId = "error";
+        }
+        if (StringUtils.isBlank(baiduUserId)) {
+            baiduUserId = "error";
+        }
+        if (StringUtils.isBlank(deviceType) || !DeviceType.isValidDeviceType(Integer.valueOf(deviceType))) {
+            deviceType = "-1";
         }
         BaseProfile user = getMyAccountManager().findUserById(userId);
         if (user == null) {
@@ -566,12 +579,12 @@ public class ProfileController extends BaseController {
         }
 
         BaseProfile user = getMyAccountManager().findUser(phone);
-        if (user == null) {
-            responseBean.addErrorMsg("user is not exist.");
+        if (user == null || com.fmc.edu.util.StringUtils.isBlank(user.getChannelId()) || !DeviceType.isValidDeviceType(user.getDeviceType())) {
+            responseBean.addErrorMsg("Pushing message failed.");
             return output(responseBean);
         }
         try {
-            boolean isSuccess = getBaiDuPushManager().pushNotificationMsg(user.getDeviceType(), new String[]{user.getChannelId()}, user.getAppId(), new PushMessage(title, content));
+            boolean isSuccess = getBaiDuPushManager().pushNotificationMsg(user.getDeviceType(), new String[]{user.getChannelId()}, /*user.getAppId()*/null, new PushMessageParameter(title, content));
             responseBean.addData("isSuccess", isSuccess);
         } catch (Exception e) {
             e.printStackTrace();

@@ -7,7 +7,7 @@ import com.fmc.edu.model.clockin.ClockInType;
 import com.fmc.edu.model.clockin.MagneticCard;
 import com.fmc.edu.model.profile.BaseProfile;
 import com.fmc.edu.model.push.MessageNotificationBasicStyle;
-import com.fmc.edu.model.push.PushMessage;
+import com.fmc.edu.model.push.PushMessageParameter;
 import com.fmc.edu.model.relationship.ParentStudentRelationship;
 import com.fmc.edu.model.student.Student;
 import com.fmc.edu.util.DateUtils;
@@ -121,7 +121,7 @@ public class ClockInController extends BaseController {
                 LOG.debug("Can not find parent for id:" + psr.getParentId());
                 continue;
             }
-            PushMessage pushMessage = new PushMessage();
+            PushMessageParameter pushMessage = new PushMessageParameter();
             pushMessage.setTitle("接学生提醒");
             pushMessage.setDescription("您还未到校接学生!");
             try {

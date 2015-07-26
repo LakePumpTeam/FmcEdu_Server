@@ -10,7 +10,7 @@ import com.baidu.yun.push.model.PushMsgToAllResponse;
 import com.fmc.edu.configuration.WebConfig;
 import com.fmc.edu.model.app.DeviceType;
 import com.fmc.edu.model.app.PushMessageType;
-import com.fmc.edu.model.push.PushMessage;
+import com.fmc.edu.model.push.PushMessageParameter;
 import com.fmc.edu.push.IBaiDuPushNotification;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
@@ -24,7 +24,7 @@ public class BaiDuIOSPushNotification implements IBaiDuPushNotification {
     private BaiDuPushClient mBaiDuPushClient;
 
     @Override
-    public boolean pushMsg(String[] pChannelIds, String pUserId, PushMessage pMsg) throws Exception {
+    public boolean pushMsg(String[] pChannelIds, String pUserId, PushMessageParameter pMsg) throws Exception {
         LOG.debug("Pushing message:" + pMsg);
         try {
             // create request object
@@ -54,7 +54,7 @@ public class BaiDuIOSPushNotification implements IBaiDuPushNotification {
     }
 
     @Override
-    public boolean pushMsgToAll(PushMessage pMsg) throws Exception {
+    public boolean pushMsgToAll(PushMessageParameter pMsg) throws Exception {
         try {
             //specify request arguments
             PushMsgToAllRequest request = new PushMsgToAllRequest()

@@ -3,7 +3,7 @@ package com.fmc.push;
 import com.fmc.edu.manager.BaiDuPushManager;
 import com.fmc.edu.model.app.DeviceType;
 import com.fmc.edu.model.push.MessageNotificationBasicStyle;
-import com.fmc.edu.model.push.PushMessage;
+import com.fmc.edu.model.push.PushMessageParameter;
 import com.fmc.edu.push.IBaiDuPushNotification;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -52,8 +52,8 @@ public class TestBaiDuPushMessage {
         System.out.println(getPushMessage().toString());
     }
 
-    public PushMessage getPushMessage() {
-        PushMessage pushMessage = new PushMessage();
+    public PushMessageParameter getPushMessage() {
+        PushMessageParameter pushMessage = new PushMessageParameter();
         pushMessage.setTitle("title 12");
         pushMessage.setDescription("description ttttttttt");
         pushMessage.setNotification_basic_style(MessageNotificationBasicStyle.BEL_ERASIBLE);

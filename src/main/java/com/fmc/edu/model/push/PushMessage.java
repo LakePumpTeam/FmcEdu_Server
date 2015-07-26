@@ -1,38 +1,28 @@
 package com.fmc.edu.model.push;
 
-import net.sf.json.JSONObject;
+import com.fmc.edu.model.BaseBean;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.security.Timestamp;
 
 /**
- * Created by Yu on 7/12/2015.
+ * Created by Yu on 2015/7/26.
  */
-public class PushMessage {
+public class PushMessage extends BaseBean {
 
-    /**
-     * message title
-     */
+    private int mProfileId;
     private String mTitle;
-    /**
-     * message content
-     */
-    private String mDescription;
+    private String mContent;
+    private int mPushType;
+    private int mPushDeviceType;
+    private boolean mPushStatus;
+    private Timestamp mCreationDate;
 
-    private int mNotification_basic_style;
-    /**
-     * please reference to the url to see the standard message format:http://push.baidu.com/doc/restapi/msg_struct
-     */
-    private Map<String, String> mCustom_content;
-
-    public PushMessage() {
-        mCustom_content = new HashMap<String, String>();
+    public int getProfileId() {
+        return mProfileId;
     }
 
-    public PushMessage(String pTitle, String pContent) {
-        this();
-        setTitle(pTitle);
-        setDescription(pContent);
+    public void setProfileId(int pProfileId) {
+        mProfileId = pProfileId;
     }
 
     public String getTitle() {
@@ -43,37 +33,43 @@ public class PushMessage {
         mTitle = pTitle;
     }
 
-    public String getDescription() {
-        return mDescription;
+    public String getContent() {
+        return mContent;
     }
 
-    public void setDescription(String pDescription) {
-        mDescription = pDescription;
+    public void setContent(String pContent) {
+        mContent = pContent;
     }
 
-    public Map<String, String> getCustom_content() {
-        return mCustom_content;
+    public int getPushType() {
+        return mPushType;
     }
 
-    public int getNotification_basic_style() {
-        if (mNotification_basic_style == 0) {
-            mNotification_basic_style = MessageNotificationBasicStyle.BEL_VIBRA_ERASIBLE;
-        }
-        return mNotification_basic_style;
+    public void setPushType(int pPushType) {
+        mPushType = pPushType;
     }
 
-    public void setNotification_basic_style(int pNotification_basic_style) {
-        mNotification_basic_style = mNotification_basic_style | pNotification_basic_style;
+    public int getPushDeviceType() {
+        return mPushDeviceType;
     }
 
-    public void addCustomContents(String pKey, String pValue) {
-        mCustom_content.put(pKey, pValue);
+    public void setPushDeviceType(int pPushDeviceType) {
+        mPushDeviceType = pPushDeviceType;
     }
 
-    @Override
-    public String toString() {
+    public boolean isPushStatus() {
+        return mPushStatus;
+    }
 
-        String message = JSONObject.fromObject(this).toString();
-        return message.replace("\\", message);
+    public void setPushStatus(boolean pPushStatus) {
+        mPushStatus = pPushStatus;
+    }
+
+    public Timestamp getCreationDate() {
+        return mCreationDate;
+    }
+
+    public void setCreationDate(Timestamp pCreationDate) {
+        mCreationDate = pCreationDate;
     }
 }
