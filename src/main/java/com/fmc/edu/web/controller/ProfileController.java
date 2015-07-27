@@ -38,10 +38,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Yove on 5/4/2015.
@@ -689,6 +686,7 @@ public class ProfileController extends BaseController {
 
         List<PushMessage> pushMessages = getPushMessageManager().queryAllPushMessageByProfileId(Integer.valueOf(userId), pagination);
         if (CollectionUtils.isEmpty(pushMessages)) {
+            responseBean.addData("pushMessage", Collections.EMPTY_LIST);
             return output(responseBean);
         }
         List<Map<String, Object>> pushMessageList = new ArrayList<Map<String, Object>>(pushMessages.size());
