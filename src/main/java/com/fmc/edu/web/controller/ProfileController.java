@@ -13,15 +13,18 @@ import com.fmc.edu.model.app.AppSetting;
 import com.fmc.edu.model.app.DeviceType;
 import com.fmc.edu.model.profile.BaseProfile;
 import com.fmc.edu.model.profile.ParentProfile;
+import com.fmc.edu.model.push.PushMessage;
 import com.fmc.edu.model.push.PushMessageParameter;
 import com.fmc.edu.model.relationship.ParentStudentRelationship;
 import com.fmc.edu.model.student.Student;
 import com.fmc.edu.util.DateUtils;
 import com.fmc.edu.util.RepositoryUtils;
 import com.fmc.edu.util.ValidationUtils;
+import com.fmc.edu.util.pagenation.Pagination;
 import com.fmc.edu.web.RequestParameterBuilder;
 import com.fmc.edu.web.ResponseBean;
 import com.fmc.edu.web.ResponseBuilder;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -35,6 +38,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -65,6 +70,8 @@ public class ProfileController extends BaseController {
     @Resource(name = "baiduPushManager")
     private BaiDuPushManager mBaiDuPushManager;
 
+    @Resource(name = "pushMessageManager")
+    private PushMessageManager mPushMessageManager;
 
     @RequestMapping(value = ("/requestPhoneIdentify" + GlobalConstant.URL_SUFFIX))
     @ResponseBody
@@ -256,6 +263,38 @@ public class ProfileController extends BaseController {
             getResponseBuilder().buildAuthorizedResponse(responseBean, user);
         }
 
+        return output(responseBean);
+    }
+
+    @RequestMapping(value = "/requestLogout" + GlobalConstant.URL_SUFFIX)
+    @ResponseBody
+    public String requestLogout(HttpServletRequest pRequest,
+                                final HttpServletResponse pResponse,
+                                final String userAccount,
+                                final String password) {
+        ResponseBean responseBean = new ResponseBean(pRequest);
+        BaseProfile user = null;
+        TransactionStatus txStatus = ensureTransaction();
+        try {
+            String userId = pRequest.getParameter("userId");
+            if (!RepositoryUtils.idIsValid(userId)) {
+                responseBean.addBusinessMsg(ResourceManager.VALIDATION_USER_USER_ID_ERROR, userId);
+                return output(responseBean);
+            }
+            user = getMyAccountManager().findUserById(userId);
+            if (user == null) {
+                responseBean.addBusinessMsg(ResourceManager.ERROR_NOT_FIND_USER, userId);
+                return output(responseBean);
+            }
+            user.setOnline(false);
+            getMyAccountManager().updateBaseProfile(user);
+        } catch (Exception e) {
+            LOG.error(e);
+            responseBean.addErrorMsg(e);
+            txStatus.setRollbackOnly();
+        } finally {
+            getTransactionManager().commit(txStatus);
+        }
         return output(responseBean);
     }
 
@@ -584,7 +623,7 @@ public class ProfileController extends BaseController {
             return output(responseBean);
         }
         try {
-            boolean isSuccess = getBaiDuPushManager().pushNotificationMsg(user.getDeviceType(), new String[]{user.getChannelId()}, /*user.getAppId()*/null, new PushMessageParameter(title, content));
+            boolean isSuccess = getBaiDuPushManager().pushNotificationMsg(user.getDeviceType(), new String[]{user.getChannelId()}, user.getId(), new PushMessageParameter(title, content));
             responseBean.addData("isSuccess", isSuccess);
         } catch (Exception e) {
             e.printStackTrace();
@@ -629,6 +668,43 @@ public class ProfileController extends BaseController {
             getTransactionManager().commit(txStatus);
             return output(responseBean);
         }
+    }
+
+    @RequestMapping(value = "/queryPushMessage" + GlobalConstant.URL_SUFFIX)
+    @ResponseBody
+    public String queryPushMessage(HttpServletRequest pRequest) {
+        ResponseBean responseBean = new ResponseBean(pRequest);
+        Pagination pagination;
+        try {
+            pagination = buildPagination(pRequest);
+        } catch (IOException e) {
+            responseBean.addErrorMsg(e);
+            return output(responseBean);
+        }
+        String userId = pRequest.getParameter("userId");
+        if (!RepositoryUtils.idIsValid(userId)) {
+            responseBean.addBusinessMsg(ResourceManager.ERROR_NOT_FIND_USER);
+            return output(responseBean);
+        }
+
+        List<PushMessage> pushMessages = getPushMessageManager().queryAllPushMessageByProfileId(Integer.valueOf(userId), pagination);
+        if (CollectionUtils.isEmpty(pushMessages)) {
+            return output(responseBean);
+        }
+        List<Map<String, Object>> pushMessageList = new ArrayList<Map<String, Object>>(pushMessages.size());
+        Map<String, Object> message;
+        for (PushMessage pushMessage : pushMessages) {
+            if (pushMessage == null) {
+                continue;
+            }
+            message = new HashMap<String, Object>(3);
+            message.put("title", pushMessage.getTitle());
+            message.put("content", pushMessage.getContent());
+            message.put("date", pushMessage.getCreationDate());
+            pushMessageList.add(message);
+        }
+        responseBean.addData("pushMessage", pushMessageList);
+        return output(responseBean);
     }
 
     public ProfileManager getProfileManager() {
@@ -677,5 +753,13 @@ public class ProfileController extends BaseController {
 
     public void setBaiDuPushManager(BaiDuPushManager pBaiDuPushManager) {
         mBaiDuPushManager = pBaiDuPushManager;
+    }
+
+    public PushMessageManager getPushMessageManager() {
+        return mPushMessageManager;
+    }
+
+    public void setPushMessageManager(PushMessageManager pPushMessageManager) {
+        mPushMessageManager = pPushMessageManager;
     }
 }

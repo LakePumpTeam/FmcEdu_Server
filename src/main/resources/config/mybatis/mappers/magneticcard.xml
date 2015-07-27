@@ -18,7 +18,7 @@
                 inner join magnetic_card mc
                 on mc.id=pcm.magnetic_card_id
                 where  pcm.available=1 AND pcm.approved=1
-                and  mc.card_type=0 and pcm.student_id=#{studentId};
+        and mc.card_type=0 and psm.student_id=#{studentId};
         </select>
 
     <select id="queryMagneticByStudentIdForStudent" parameterType="int" resultMap="rm.magneticCard">
@@ -59,13 +59,13 @@
     <update id="updateMagneticCard" parameterType="MagneticCard">
         UPDATE magnetic_card
         SET comments = #{comments},
-        last_update_date = date(),
+        last_update_date = date()
         WHERE id=#{id} and card_no=#{cardNo}
     </update>
 
     <update id="updatePersonMagneticCardRelationship" parameterType="PersonCarMagneticRelationship">
         UPDATE person_card_map
-        SET available = #{available},
+        SET available = #{available}
         WHERE magnetic_card_id=#{magneticCardId}
     </update>
 </mapper>

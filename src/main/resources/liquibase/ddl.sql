@@ -128,19 +128,19 @@ CREATE TABLE IF NOT EXISTS `fmc_edu`.`profile` (
   `last_login_date` DATETIME NULL,
   `last_update_date` DATETIME NOT NULL,
   `available` TINYINT(1) NOT NULL DEFAULT 1,
+  `online` TINYINT(1) NOT NULL DEFAULT 0,
   `profile_type` TINYINT(1) NOT NULL DEFAULT 1,
-  `last_pc_id` INT NULL,
-  `last_sdat_id` INT NULL,
-  `last_sdnf_id` INT NULL,
-  `last_sdnw_id` INT NULL,
-  `last_cl_id` INT NULL,
-  `last_pce_id` INT NULL,
-  `last_bbs_id` INT NULL,
+  `last_pc_id` INT NULL DEFAULT 0,
+  `last_sdat_id` INT NULL DEFAULT 0,
+  `last_sdnf_id` INT NULL DEFAULT 0,
+  `last_sdnw_id` INT NULL DEFAULT 0,
+  `last_cl_id` INT NULL DEFAULT 0,
+  `last_pce_id` INT NULL DEFAULT 0,
+  `last_bbs_id` INT NULL DEFAULT 0,
   `device_type` INT NULL DEFAULT 3,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `phone_UNIQUE` (`phone` ASC))
-ENGINE = InnoDB;
-
+ENGINE = InnoDB
 
 -- -----------------------------------------------------
 -- Table `fmc_edu`.`teacher`
@@ -451,17 +451,17 @@ ENGINE = MyISAM
 
 
 CREATE TABLE IF NOT EXISTS `fmc_edu`.`magnetic_card` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `card_no` VARCHAR(45) NOT NULL,
-  `card_type` TINYINT(1) NOT NULL DEFAULT 0 COMMENT '0:parent\n1:student',
   `comments` VARCHAR(45) NULL,
   `last_update_date` TIMESTAMP NOT NULL,
   `creation_date` TIMESTAMP NOT NULL,
+  `card_type` TINYINT(1) NOT NULL DEFAULT 0 COMMENT '0:parent\n1:student',
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
 
 CREATE TABLE IF NOT EXISTS `fmc_edu`.`person_card_map` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `profile_id` INT NULL,
   `student_id` INT NULL,
   `magnetic_card_id` INT NOT NULL,
@@ -487,7 +487,7 @@ CREATE TABLE IF NOT EXISTS `fmc_edu`.`person_card_map` (
 ENGINE = InnoDB
 
 CREATE TABLE IF NOT EXISTS `fmc_edu`.`clock_in_record` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `magnetic_card_id` INT NOT NULL,
   `clock_in_person_id` INT NOT NULL,
   `clock_in_person_name` VARCHAR(45) NOT NULL,

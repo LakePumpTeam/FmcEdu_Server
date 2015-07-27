@@ -17,6 +17,7 @@
         last_login_date,
         last_update_date,
         profile_type,
+        online,
         available,
         last_pc_id,
         last_sdat_id,
@@ -43,6 +44,7 @@
         creation_date,
         last_login_date,
         last_update_date,
+        online,
         profile_type,
         available,
         last_pc_id,
@@ -60,7 +62,7 @@
 
     <update id="updateLoginStatus" parameterType="BaseProfile" flushCache="true">
         update profile
-        set last_login_date = #{lastLoginDate}
+        set last_login_date = #{lastLoginDate}, online=#{online}
         where id = #{id}
     </update>
 
@@ -179,6 +181,7 @@
             <if test="@Ognl@deviceType(deviceType)">
                 device_type = #{deviceType},
             </if>
+            online=#{online},
             last_update_date = now()
         </trim>
 

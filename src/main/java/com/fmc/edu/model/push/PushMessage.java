@@ -2,7 +2,7 @@ package com.fmc.edu.model.push;
 
 import com.fmc.edu.model.BaseBean;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
 
 /**
  * Created by Yu on 2015/7/26.
@@ -12,6 +12,7 @@ public class PushMessage extends BaseBean {
     private int mProfileId;
     private String mTitle;
     private String mContent;
+    //1: push to all device  2: push to single device
     private int mPushType;
     private int mPushDeviceType;
     private boolean mPushStatus;

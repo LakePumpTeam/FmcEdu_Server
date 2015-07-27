@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fmc.edu.push.message">
+    <sql id="limit-split-page">
+        LIMIT #{start}, #{size}
+    </sql>
+
+    <select id="queryAllPushMessageByProfileId" parameterType="map" resultMap="rm.pushMessage">
+        SELECT `id`,
+        `profile_id`,
+        `title`,
+        `content`,
+        `push_type`,
+        `push_device_type`,
+        `push_status`,
+        `creation_date`
+        FROM `push_message`
+        WHERE profile_id=#{profileId} and push_status = 1
+        ORDER BY creation_date DESC
+        <include refid="limit-split-page"/>
+    </select>
+
+    <insert id="insertPushMessage" parameterType="PushMessage">
+        INSERT INTO `push_message`
+        (`profile_id`,
+        `title`,
+        `content`,
+        `push_type`,
+        `push_device_type`,
+        `push_status`,
+        `creation_date`)
+        VALUES
+        (#{profileId},
+        #{title},
+        #{content},
+        #{pushType},
+        #{pushDeviceType},
+        #{pushStatus},
+        date());
+    </insert>
+</mapper>

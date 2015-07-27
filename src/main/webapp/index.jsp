@@ -1371,6 +1371,40 @@
                 <td><input type="button" class="btn_reset" value="Reset"/></td>
                 <td class="result"></td>
             </tr>
+            <tr>
+                <td>#6</td>
+                <td class="function"> 账号登出app</td>
+                <td class="baseUrl">${ctx}/profile/requestLogout</td>
+                <td class="parameters">
+                    <table>
+                        <tr>
+                            <td align="right"><label for="userId" title="userId">userId</label>
+                            </td>
+                            <td><input type="text" class="ipt_value" id="userId" value=""/></td>
+                        </tr>
+                    </table>
+                </td>
+                <td><input type="button" class="btn_request" value="Request"/></td>
+                <td><input type="button" class="btn_reset" value="Reset"/></td>
+                <td class="result"></td>
+            </tr>
+            <tr>
+                <td>#7</td>
+                <td class="function"> 获取推送消息列表</td>
+                <td class="baseUrl">${ctx}/profile/queryPushMessage</td>
+                <td class="parameters">
+                    <table>
+                        <tr>
+                            <td align="right"><label for="userId" title="userId">userId</label>
+                            </td>
+                            <td><input type="text" class="ipt_value" id="userId" value=""/></td>
+                        </tr>
+                    </table>
+                </td>
+                <td><input type="button" class="btn_request" value="Request"/></td>
+                <td><input type="button" class="btn_reset" value="Reset"/></td>
+                <td class="result"></td>
+            </tr>
         </table>
     </fieldset>
 </body>

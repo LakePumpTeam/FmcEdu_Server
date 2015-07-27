@@ -23,6 +23,7 @@
         <result property="lastLoginDate" column="last_login_date"/>
         <result property="lastUpdateDate" column="last_update_date"/>
         <result property="available" column="available"/>
+        <result property="online" column="online"/>
         <result property="profileType" column="profile_type"/>
         <result property="lastPCId" column="last_pc_id"/>
         <result property="lastSDATId" column="last_sdat_id"/>
@@ -317,7 +318,7 @@
     <resultMap id="personCarMagneticRelationship" type="PersonCarMagneticRelationship">
         <id property="id" column="id"/>
         <result property="studentId" column="student_id"/>
-        <result property="personId" column="profile_id"/>
+        <result property="profileId" column="profile_id"/>
         <result property="magneticCardId" column="magnetic_card_id"/>
         <result property="available" column="available"/>
         <result property="approved" column="approved"/>

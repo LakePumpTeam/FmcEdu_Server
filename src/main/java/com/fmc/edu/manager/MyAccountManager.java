@@ -41,6 +41,7 @@ public class MyAccountManager {
 
         user.setLastLoginDate(new Timestamp(System.currentTimeMillis()));
         user.setLastUpdateDate(new Timestamp(System.currentTimeMillis()));
+        user.setOnline(true);
         if (!getMyAccountService().saveLoginStatus(user)) {
             LOG.error("Update login status failed.");
         }

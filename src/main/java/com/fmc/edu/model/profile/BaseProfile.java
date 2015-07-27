@@ -29,6 +29,8 @@ public class BaseProfile extends BaseBean {
 
     private Integer mProfileType;
 
+    private boolean mOnline;
+
     private int mLastPCId;
 
     private int mLastSDATId;
@@ -187,5 +189,13 @@ public class BaseProfile extends BaseBean {
 
     public void setDeviceType(int pDeviceType) {
         mDeviceType = pDeviceType;
+    }
+
+    public boolean isOnline() {
+        return mOnline;
+    }
+
+    public void setOnline(boolean pOnline) {
+        mOnline = pOnline;
     }
 }

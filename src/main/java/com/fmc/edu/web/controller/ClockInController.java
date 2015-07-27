@@ -54,6 +54,9 @@ public class ClockInController extends BaseController {
     @Resource(name = "responseBuilder")
     private ResponseBuilder mResponseBuilder;
 
+    @Resource(name = "resourceManager")
+    private ResourceManager mResourceManager;
+
     @RequestMapping("/clockInRecords")
     @ResponseBody
     public String clockInRecords(final HttpServletRequest pRequest) {
@@ -121,9 +124,15 @@ public class ClockInController extends BaseController {
                 LOG.debug("Can not find parent for id:" + psr.getParentId());
                 continue;
             }
+            //TODO if parent off line app, if we should send notification?
+            if (!parent.isOnline()) {
+                LOG.info("User off line status:" + psr.getParentId());
+                continue;
+            }
+
             PushMessageParameter pushMessage = new PushMessageParameter();
-            pushMessage.setTitle("接学生提醒");
-            pushMessage.setDescription("您还未到校接学生!");
+            pushMessage.setTitle("提醒");
+            pushMessage.setDescription(getResourceManager().getMessage(pRequest, ResourceManager.BAIDU_PUSH_MESSAGE_NOTIFY_NORTH_DELTA));
             try {
                 if (StringUtils.isBlank(parent.getChannelId())) {
                     LOG.debug("Can not find channel id for parent:" + psr.getParentId());
@@ -142,7 +151,7 @@ public class ClockInController extends BaseController {
                         pushMessage.setNotification_basic_style(MessageNotificationBasicStyle.ERASIBLE);
                     }
                 }
-                getBaiDuPushManager().pushNotificationMsg(parent.getDeviceType(), new String[]{parent.getChannelId()}, parent.getAppId(), pushMessage);
+                getBaiDuPushManager().pushNotificationMsg(parent.getDeviceType(), new String[]{parent.getChannelId()}, parent.getId(), pushMessage);
             } catch (Exception e) {
                 LOG.debug(e.getMessage());
             }
@@ -197,5 +206,15 @@ public class ClockInController extends BaseController {
 
     public void setMagneticCardManager(MagneticCardManager pMagneticCardManager) {
         mMagneticCardManager = pMagneticCardManager;
+    }
+
+    @Override
+    public ResourceManager getResourceManager() {
+        return mResourceManager;
+    }
+
+    @Override
+    public void setResourceManager(ResourceManager pResourceManager) {
+        mResourceManager = pResourceManager;
     }
 }

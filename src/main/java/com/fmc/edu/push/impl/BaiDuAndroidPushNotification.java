@@ -28,7 +28,7 @@ public class BaiDuAndroidPushNotification implements IBaiDuPushNotification {
     private BaiDuPushClient mBaiDuPushClient;
 
     @Override
-    public boolean pushMsg(String[] pChannelIds, String pUserId, PushMessageParameter pMsg) throws Exception {
+    public boolean pushMsg(String[] pChannelIds, String pAppId, PushMessageParameter pMsg) throws Exception {
         LOG.debug("Pushing message:" + pMsg);
         try {
             // 3. create request object
