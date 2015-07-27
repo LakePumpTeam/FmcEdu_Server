@@ -145,10 +145,10 @@
             <if test="@Ognl@isNotEmpty(channelId) ">
                 channel_id = #{channelId},
             </if>
-            <if test="appId==error ">
+            <if test="appId=='error'">
                 app_id = '',
             </if>
-            <if test="channelId == error">
+            <if test="channelId == 'error'">
                 channel_id = '',
             </if>
             <if test="@Ognl@isNotEmpty(available)">
