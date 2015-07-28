@@ -701,7 +701,7 @@ public class ProfileController extends BaseController {
             message.put("date", pushMessage.getCreationDate());
             pushMessageList.add(message);
         }
-        responseBean.addData("pushMessage", pushMessageList);
+        responseBean.addData("pushMessages", pushMessageList);
         return output(responseBean);
     }
 

@@ -17,8 +17,7 @@
                 on pcm.profile_id = psm.parent_id
                 inner join magnetic_card mc
                 on mc.id=pcm.magnetic_card_id
-                where  pcm.available=1 AND pcm.approved=1
-        and mc.card_type=0 and psm.student_id=#{studentId};
+        where pcm.approved=1 and mc.card_type=0 and psm.student_id=#{studentId};
         </select>
 
     <select id="queryMagneticByStudentIdForStudent" parameterType="int" resultMap="rm.magneticCard">
@@ -32,8 +31,7 @@
                 on mc.id=pcm.magnetic_card_id
                 inner join student st
                 on st.id=pcm.student_id
-          where pcm.available=1 AND pcm.approved=1
-                AND mc.card_type=0 AND pcm.student_id=#{studentId};
+        where cm.approved=1 AND mc.card_type=0 AND pcm.student_id=#{studentId};
     </select>
 
     <select id="queryPersonMagneticCardRelationship" parameterType="int" resultMap="rm.personCarMagneticRelationship">
