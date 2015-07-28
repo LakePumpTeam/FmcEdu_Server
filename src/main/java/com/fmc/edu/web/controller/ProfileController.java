@@ -563,10 +563,10 @@ public class ProfileController extends BaseController {
         */
 
         if (StringUtils.isBlank(channelId)) {
-            channelId = "0";
+            channelId = "-";
         }
         if (StringUtils.isBlank(baiduUserId)) {
-            baiduUserId = "0";
+            baiduUserId = "-";
         }
         if (StringUtils.isBlank(deviceType) || !DeviceType.isValidDeviceType(Integer.valueOf(deviceType))) {
             deviceType = "-1";
