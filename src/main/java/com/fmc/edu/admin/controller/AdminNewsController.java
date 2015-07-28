@@ -6,10 +6,13 @@ import com.fmc.edu.manager.MyAccountManager;
 import com.fmc.edu.manager.NewsManager;
 import com.fmc.edu.manager.SchoolManager;
 import com.fmc.edu.model.news.News;
+import com.fmc.edu.model.news.NewsType;
+import com.fmc.edu.model.news.Selection;
 import com.fmc.edu.model.profile.BaseProfile;
 import com.fmc.edu.util.StringUtils;
 import com.fmc.edu.util.pagenation.Pagination;
 import com.fmc.edu.web.ResponseBean;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
@@ -27,6 +30,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -50,17 +54,10 @@ public class AdminNewsController extends AdminTransactionBaseController {
 
 	@RequestMapping(value = "/publishNews" + GlobalConstant.URL_SUFFIX, method = RequestMethod.POST)
 	@ResponseBody
-	public String publishNews(HttpServletRequest pRequest,
-			HttpServletResponse pResponse,
-			@RequestParam(value = "newsType", required = true) int newsType,
-			@RequestParam(value = "subject", required = true) String subject,
-			@RequestParam(value = "content", required = true) String content,
-			@RequestParam(value = "imgs", required = false) MultipartFile[] imgs) throws IOException {
+	public String publishNews(HttpServletRequest pRequest, HttpServletResponse pResponse, int newsType, String subject, String content,
+			@RequestParam(value = "imgs", required = false) MultipartFile[] imgs,
+			@RequestParam(value = "selections", required = false) String[] selections) throws IOException {
 		ResponseBean responseBean = new ResponseBean(pRequest);
-		if (StringUtils.isBlank(content)) {
-			LOG.debug("Content is empty.");
-			return "Content is empty.";
-		}
 
 		Subject currentUser = SecurityUtils.getSubject();
 		Session session = currentUser.getSession(false);
@@ -72,10 +69,26 @@ public class AdminNewsController extends AdminTransactionBaseController {
 		news.setNewsType(newsType);
 		news.setSubject(subject);
 		news.setApproved(true);
+
+		if (newsType == NewsType.SCHOOL_BBS) {
+			// assemble selections
+			if (ArrayUtils.isEmpty(selections)) {
+				throw new IllegalArgumentException("Options should not be emtpy.");
+			}
+			List<Selection> selectionList = new ArrayList<>(selections.length);
+			int index = 1;
+			for (String selection : selections) {
+				if (StringUtils.isBlank(selection)) {
+					continue;
+				}
+				selectionList.add(new Selection(selection, index++));
+			}
+			news.setOptions(selectionList);
+		}
+
 		TransactionStatus txStatus = ensureTransaction();
 		try {
 			if (getNewsManager().insertNews(news)) {
-				// int newsId = getNewsManager().queryLastInsertNewsTypeNewsIdByAuthor(userProfile.getId(), newsType);
 				getNewsManager().saveNewsImage(imgs, String.valueOf(userProfile.getId()), news.getId());
 			} else {
 				LOG.debug("Publish news failed.");
@@ -94,7 +107,7 @@ public class AdminNewsController extends AdminTransactionBaseController {
 
 	@RequestMapping(value = "/news-list")
 	public String toNewsList(HttpServletRequest pRequest, HttpServletResponse pResponse, Model pModel, int
-			mode, String provinceId, String cityId, String schoolId, String classId) {
+			mode, String cityId, String schoolId, String classId) {
 		if (mode == 1 || StringUtils.isNotBlank(schoolId) || StringUtils.isNotBlank(classId)) {
 			int optionalId = 0;
 			if (StringUtils.isNoneBlank(classId)) {

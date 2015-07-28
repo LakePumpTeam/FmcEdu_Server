@@ -287,4 +287,11 @@
 		VALUES (#{subject}, #{newsId}, #{profileId}, #{imgName}, #{imgPath}, #{order}, now(), #{endDate}, #{available}, now(),
 		#{lastUpdateDate})
     </insert>
+
+	<insert id="createOptions" useGeneratedKeys="true" parameterType="Selection" flushCache="true">
+		<foreach collection="list" item="item" index="index" open="" close="" separator=";">
+			INSERT INTO selection ( news_id, selection, sort_order, creation_date, last_update_date)
+			VALUES (#{item.newsId}, #{item.selection}, #{index}, now(), now())
+		</foreach>
+	</insert>
 </mapper>

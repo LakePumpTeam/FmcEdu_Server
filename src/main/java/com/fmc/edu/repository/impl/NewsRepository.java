@@ -151,4 +151,9 @@ public class NewsRepository extends BaseRepository implements INewsRepository {
 		params.put("available", pAvailable);
 		return getSqlSession().update(UPDATE_NEWS_AVAILABLE, params) > 0;
 	}
+
+	@Override
+	public boolean createOptions(final List<Selection> pOptions) {
+		return getSqlSession().insert(CREATE_OPTIONS, pOptions) > 0;
+	}
 }

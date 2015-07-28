@@ -101,4 +101,8 @@ public interface INewsRepository {
 	String UPDATE_NEWS_AVAILABLE = "com.fmc.edu.news.updateNewsAvailable";
 
 	boolean updateNewsAvailable(int pNewsId, final boolean pAvailable);
+
+	String CREATE_OPTIONS = "com.fmc.edu.news.createOptions";
+
+	boolean createOptions(List<Selection> pOptions);
 }
