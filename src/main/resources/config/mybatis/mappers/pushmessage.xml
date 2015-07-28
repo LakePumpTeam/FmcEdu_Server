@@ -38,6 +38,6 @@
         #{pushType},
         #{pushDeviceType},
         #{pushStatus},
-        date());
+        now());
     </insert>
 </mapper>
