@@ -118,4 +118,8 @@ public class NewsService {
 	public boolean updateNewsAvailable(final int pNewsId, final boolean pAvailable) {
 		return getNewsRepository().updateNewsAvailable(pNewsId, pAvailable);
 	}
+
+	public boolean createOptions(final List<Selection> pOptions) {
+		return getNewsRepository().createOptions(pOptions);
+	}
 }

@@ -34,7 +34,6 @@
 	<bean id="locationInitHandler" class="com.fmc.edu.executor.handler.LocationInitHandler" />
 
 	<task:scheduled-tasks>
-		<!-- every 10 mins -->
 		<task:scheduled ref="newsLikeCacheContent" method="handleCacheExpiration" fixed-delay="600000" />
 	</task:scheduled-tasks>
 </beans>

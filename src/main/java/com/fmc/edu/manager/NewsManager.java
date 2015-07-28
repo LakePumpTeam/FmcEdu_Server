@@ -52,7 +52,14 @@ public class NewsManager {
 	}
 
 	public boolean insertNews(News pNews) {
-		return getNewsService().insertNews(pNews);
+		boolean success = getNewsService().insertNews(pNews);
+		if (success && pNews.getNewsType() == NewsType.SCHOOL_BBS) {
+			for (Selection selection : pNews.getOptions()) {
+				selection.setNewsId(pNews.getId());
+			}
+			return getNewsService().createOptions(pNews.getOptions());
+		}
+		return success;
 	}
 
 	public News queryNewsDetail(int pNewsId) {
@@ -143,7 +150,7 @@ public class NewsManager {
 		for (MultipartFile img : pImages) {
 			LOG.debug("Processing image, size:" + img.getSize() + " >>> image original name:" + img.getOriginalFilename());
 			if (img.getSize() == 0) {
-				return;
+				continue;
 			}
 			synchronized (NewsManager.WRITE_FILE_LOCK) {
 				String fileName = System.currentTimeMillis() + ImageUtils.getSuffixFromFileName(img.getOriginalFilename());

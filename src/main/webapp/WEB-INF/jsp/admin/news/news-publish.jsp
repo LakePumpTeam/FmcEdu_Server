@@ -14,6 +14,9 @@
     <c:when test="${param.t eq 'childedu'}">
         <c:set var="subject" value="育儿学堂" />
     </c:when>
+    <c:when test="${param.t eq 'ballot'}">
+        <c:set var="subject" value="校园吧" />
+    </c:when>
 </c:choose>
 <c:choose>
     <c:when test="${param.mode eq '2'}">
@@ -30,6 +33,10 @@
     </c:when>
     <c:when test="${param.mode eq '1'}">
         <c:set var="includeJspURL" value="includes/news-parent-child-edu.jsp" />
+        <c:set var="subheading" value="发布" />
+    </c:when>
+    <c:when test="${param.mode eq '7'}">
+        <c:set var="includeJspURL" value="includes/news-ballot.jsp" />
         <c:set var="subheading" value="发布" />
     </c:when>
 </c:choose>

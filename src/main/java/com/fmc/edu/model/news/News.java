@@ -25,6 +25,7 @@ public class News extends BaseBean {
 	private boolean mPopular;
 	private Timestamp mPublishDate;
 	private Timestamp mCreationDate;
+	private List<Selection> mOptions;
 
 	private List<Image> mImageUrls;
 
@@ -165,5 +166,13 @@ public class News extends BaseBean {
 
 	public void setApprovedByName(final String pApprovedByName) {
 		mApprovedByName = pApprovedByName;
+	}
+
+	public List<Selection> getOptions() {
+		return mOptions;
+	}
+
+	public void setOptions(final List<Selection> pOptions) {
+		mOptions = pOptions;
 	}
 }

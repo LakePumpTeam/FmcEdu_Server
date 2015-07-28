@@ -8,40 +8,49 @@ import java.sql.Timestamp;
  * Created by Yu on 6/2/2015.
  */
 public class Selection extends BaseBean {
-    private Integer mNewsId;
-    private String mSelection;
-    private int mSortOrder;
-    private Timestamp mCreationDate;
 
-    public Integer getNewsId() {
-        return mNewsId;
-    }
+	private Integer mNewsId;
+	private String mSelection;
+	private int mSortOrder;
+	private Timestamp mCreationDate;
 
-    public void setNewsId(Integer pNewsId) {
-        mNewsId = pNewsId;
-    }
+	public Selection() {
+	}
 
-    public String getSelection() {
-        return mSelection;
-    }
+	public Selection(final String pSelection, final int pSortOrder) {
+		mSelection = pSelection;
+		mSortOrder = pSortOrder;
+	}
 
-    public void setSelection(String pSelection) {
-        mSelection = pSelection;
-    }
+	public Integer getNewsId() {
+		return mNewsId;
+	}
 
-    public int getSortOrder() {
-        return mSortOrder;
-    }
+	public void setNewsId(Integer pNewsId) {
+		mNewsId = pNewsId;
+	}
 
-    public void setSortOrder(int pSortOrder) {
-        mSortOrder = pSortOrder;
-    }
+	public String getSelection() {
+		return mSelection;
+	}
 
-    public Timestamp getCreationDate() {
-        return mCreationDate;
-    }
+	public void setSelection(String pSelection) {
+		mSelection = pSelection;
+	}
 
-    public void setCreationDate(Timestamp pCreationDate) {
-        mCreationDate = pCreationDate;
-    }
+	public int getSortOrder() {
+		return mSortOrder;
+	}
+
+	public void setSortOrder(int pSortOrder) {
+		mSortOrder = pSortOrder;
+	}
+
+	public Timestamp getCreationDate() {
+		return mCreationDate;
+	}
+
+	public void setCreationDate(Timestamp pCreationDate) {
+		mCreationDate = pCreationDate;
+	}
 }
