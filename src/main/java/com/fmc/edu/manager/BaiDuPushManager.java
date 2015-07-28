@@ -1,6 +1,8 @@
 package com.fmc.edu.manager;
 
+import com.fmc.edu.model.app.AppSetting;
 import com.fmc.edu.model.app.DeviceType;
+import com.fmc.edu.model.push.MessageNotificationBasicStyle;
 import com.fmc.edu.model.push.PushMessage;
 import com.fmc.edu.model.push.PushMessageParameter;
 import com.fmc.edu.push.IBaiDuPushNotification;
@@ -25,7 +27,22 @@ public class BaiDuPushManager {
     @Resource(name = "pushMessageManager")
     private PushMessageManager mPushMessageManager;
 
+    @Resource(name = "myAccountManager")
+    private MyAccountManager mMyAccountManager;
+
     public boolean pushNotificationMsg(final int pDevice, final String[] pChannelIds, final int pUserId, final PushMessageParameter pMsg) throws Exception {
+        AppSetting appSetting = getMyAccountManager().queryAppSetting(pUserId);
+        if (appSetting != null) {
+            if (appSetting.isIsBel() && appSetting.isIsVibra()) {
+                pMsg.setNotification_basic_style(MessageNotificationBasicStyle.BEL_VIBRA_ERASIBLE);
+            } else if (appSetting.isIsBel() && !appSetting.isIsVibra()) {
+                pMsg.setNotification_basic_style(MessageNotificationBasicStyle.BEL_ERASIBLE);
+            } else if (appSetting.isIsVibra() && !appSetting.isIsBel()) {
+                pMsg.setNotification_basic_style(MessageNotificationBasicStyle.VIBRA_ERASIBLE);
+            } else {
+                pMsg.setNotification_basic_style(MessageNotificationBasicStyle.ERASIBLE);
+            }
+        }
         boolean isSuccess = pushNotificationMsg(pDevice, pChannelIds, pMsg);
         PushMessage pushMessage = new PushMessage();
         pushMessage.setProfileId(pUserId);
@@ -90,5 +107,13 @@ public class BaiDuPushManager {
 
     public void setPushMessageManager(PushMessageManager pPushMessageManager) {
         mPushMessageManager = pPushMessageManager;
+    }
+
+    public MyAccountManager getMyAccountManager() {
+        return mMyAccountManager;
+    }
+
+    public void setMyAccountManager(MyAccountManager pMyAccountManager) {
+        mMyAccountManager = pMyAccountManager;
     }
 }

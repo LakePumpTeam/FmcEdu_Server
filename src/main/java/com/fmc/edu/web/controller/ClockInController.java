@@ -1,12 +1,10 @@
 package com.fmc.edu.web.controller;
 
 import com.fmc.edu.manager.*;
-import com.fmc.edu.model.app.AppSetting;
 import com.fmc.edu.model.clockin.ClockInRecord;
 import com.fmc.edu.model.clockin.ClockInType;
 import com.fmc.edu.model.clockin.MagneticCard;
 import com.fmc.edu.model.profile.BaseProfile;
-import com.fmc.edu.model.push.MessageNotificationBasicStyle;
 import com.fmc.edu.model.push.PushMessageParameter;
 import com.fmc.edu.model.relationship.ParentStudentRelationship;
 import com.fmc.edu.model.student.Student;
@@ -140,19 +138,6 @@ public class ClockInController extends BaseController {
                 if (StringUtils.isBlank(parent.getChannelId())) {
                     LOG.debug("Can not find channel id for parent:" + psr.getParentId());
                     continue;
-                }
-
-                AppSetting appSetting = getMyAccountManager().queryAppSetting(parent.getId());
-                if (appSetting != null) {
-                    if (appSetting.isIsBel() && appSetting.isIsVibra()) {
-                        pushMessage.setNotification_basic_style(MessageNotificationBasicStyle.BEL_VIBRA_ERASIBLE);
-                    } else if (appSetting.isIsBel() && !appSetting.isIsVibra()) {
-                        pushMessage.setNotification_basic_style(MessageNotificationBasicStyle.BEL_ERASIBLE);
-                    } else if (appSetting.isIsVibra() && !appSetting.isIsBel()) {
-                        pushMessage.setNotification_basic_style(MessageNotificationBasicStyle.VIBRA_ERASIBLE);
-                    } else {
-                        pushMessage.setNotification_basic_style(MessageNotificationBasicStyle.ERASIBLE);
-                    }
                 }
                 getBaiDuPushManager().pushNotificationMsg(parent.getDeviceType(), new String[]{parent.getChannelId()}, parent.getId(), pushMessage);
             } catch (Exception e) {
