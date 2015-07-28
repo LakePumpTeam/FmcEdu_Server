@@ -2,6 +2,7 @@ package com.fmc.edu.manager;
 
 import com.fmc.edu.model.app.DeviceType;
 import com.fmc.edu.model.push.PushMessage;
+import com.fmc.edu.model.push.PushMessageParameter;
 import com.fmc.edu.push.IBaiDuPushNotification;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -21,22 +22,38 @@ public class BaiDuPushManager {
     @Resource(name = "IOSPushNotification")
     private IBaiDuPushNotification mBaiDuIOSPushNotification;
 
-    public boolean pushNotificationMsg(final int pDevice, final String[] pChannelIds, final String pUserId, final PushMessage pMsg) throws Exception {
+    @Resource(name = "pushMessageManager")
+    private PushMessageManager mPushMessageManager;
+
+    public boolean pushNotificationMsg(final int pDevice, final String[] pChannelIds, final int pUserId, final PushMessageParameter pMsg) throws Exception {
+        boolean isSuccess = pushNotificationMsg(pDevice, pChannelIds, pMsg);
+        PushMessage pushMessage = new PushMessage();
+        pushMessage.setProfileId(pUserId);
+        pushMessage.setTitle(pMsg.getTitle());
+        pushMessage.setContent(pMsg.getDescription());
+        pushMessage.setPushDeviceType(pDevice);
+        pushMessage.setPushType(2);
+        pushMessage.setPushStatus(isSuccess);
+        return getPushMessageManager().insertPushMessage(pushMessage);
+    }
+
+    private boolean pushNotificationMsg(final int pDevice, final String[] pChannelIds, final PushMessageParameter pMsg) throws Exception {
         LOG.debug("push notification message: device type is:" + DeviceType.toString(pDevice));
         LOG.debug("push notification message: push message is:" + pMsg.toString());
 
         boolean isPushSuccess = false;
         if (DeviceType.ANDROID == pDevice) {
-            isPushSuccess = getBaiDuAndroidPushNotification().pushMsg(pChannelIds, pUserId, pMsg);
+            isPushSuccess = getBaiDuAndroidPushNotification().pushMsg(pChannelIds, null, pMsg);
         }
         if (DeviceType.IOS == pDevice) {
-            isPushSuccess = getBaiDuIOSPushNotification().pushMsg(pChannelIds, pUserId, pMsg);
+            isPushSuccess = getBaiDuIOSPushNotification().pushMsg(pChannelIds, null, pMsg);
         }
+
         LOG.debug("push notification message: is success? " + DeviceType.toString(pDevice));
         return isPushSuccess;
     }
 
-    public boolean pushNotificationMsgToAll(final int pDevice, final PushMessage pMsg) throws Exception {
+    public boolean pushNotificationMsgToAll(final int pDevice, final PushMessageParameter pMsg) throws Exception {
         LOG.debug("push notification message: device type is:" + DeviceType.toString(pDevice));
         LOG.debug("push notification message: push message is:" + pMsg.toString());
 
@@ -65,5 +82,13 @@ public class BaiDuPushManager {
 
     public void setBaiDuIOSPushNotification(IBaiDuPushNotification pBaiDuIOSPushNotification) {
         mBaiDuIOSPushNotification = pBaiDuIOSPushNotification;
+    }
+
+    public PushMessageManager getPushMessageManager() {
+        return mPushMessageManager;
+    }
+
+    public void setPushMessageManager(PushMessageManager pPushMessageManager) {
+        mPushMessageManager = pPushMessageManager;
     }
 }

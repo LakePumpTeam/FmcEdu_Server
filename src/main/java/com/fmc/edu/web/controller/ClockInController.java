@@ -1,10 +1,13 @@
 package com.fmc.edu.web.controller;
 
 import com.fmc.edu.manager.*;
+import com.fmc.edu.model.app.AppSetting;
 import com.fmc.edu.model.clockin.ClockInRecord;
+import com.fmc.edu.model.clockin.ClockInType;
 import com.fmc.edu.model.clockin.MagneticCard;
 import com.fmc.edu.model.profile.BaseProfile;
-import com.fmc.edu.model.push.PushMessage;
+import com.fmc.edu.model.push.MessageNotificationBasicStyle;
+import com.fmc.edu.model.push.PushMessageParameter;
 import com.fmc.edu.model.relationship.ParentStudentRelationship;
 import com.fmc.edu.model.student.Student;
 import com.fmc.edu.util.DateUtils;
@@ -45,8 +48,14 @@ public class ClockInController extends BaseController {
     @Resource(name = "myAccountManager")
     private MyAccountManager mMyAccountManager;
 
+    @Resource(name = "magneticCardManager")
+    private MagneticCardManager mMagneticCardManager;
+
     @Resource(name = "responseBuilder")
     private ResponseBuilder mResponseBuilder;
+
+    @Resource(name = "resourceManager")
+    private ResourceManager mResourceManager;
 
     @RequestMapping("/clockInRecords")
     @ResponseBody
@@ -60,22 +69,30 @@ public class ClockInController extends BaseController {
             responseBean.addBusinessMsg(ResourceManager.VALIDATION_USER_USER_ID_EMPTY);
             return output(responseBean);
         }
-        MagneticCard magneticCard = getClockInRecordManager().queryMagneticByStudentId(Integer.valueOf(studentId));
-        if (magneticCard == null) {
+        List<MagneticCard> magneticCards = null;
+        if (Integer.valueOf(type) == ClockInType.PARENT_CLOCK_IN) {
+            magneticCards = getMagneticCardManager().queryMagneticByStudentIdForParent(Integer.valueOf(studentId));
+        } else {
+            magneticCards = getMagneticCardManager().queryMagneticByStudentIdForStudent(Integer.valueOf(studentId));
+        }
+
+        if (CollectionUtils.isEmpty(magneticCards)) {
             responseBean.addBusinessMessage("未绑定有效磁卡.");
             return output(responseBean);
         }
 
-        Map<String, Object> parameter = new HashMap<String, Object>();
-        parameter.put("type", type);
-        parameter.put("magneticCardId", magneticCard.getId());
-        parameter.put("attendanceFlag", attendanceFlag);
-        Map<String, Date> currentOneWeekDate = DateUtils.getOneWeekDatePeriod(new Timestamp(new Date().getTime()));
-        Date currentWeekEndDate = currentOneWeekDate.get("endDate");
-        currentOneWeekDate = DateUtils.getOneWeekDatePeriod(new Timestamp(DateUtils.minusDays(currentWeekEndDate, 7 * (Integer.valueOf(pageIndex) - 1)).getTime()));
-        parameter.putAll(currentOneWeekDate);
-        List<ClockInRecord> clockInRecords = getClockInRecordManager().queryClockInRecords(parameter);
-        getResponseBuilder().buildAttendanceRecords(clockInRecords, responseBean);
+        for (MagneticCard magneticCard : magneticCards) {
+            Map<String, Object> parameter = new HashMap<String, Object>();
+            parameter.put("type", type);
+            parameter.put("magneticCardId", magneticCard.getId());
+            parameter.put("attendanceFlag", attendanceFlag);
+            Map<String, Date> currentOneWeekDate = DateUtils.getOneWeekDatePeriod(new Timestamp(new Date().getTime()));
+            Date currentWeekEndDate = currentOneWeekDate.get("endDate");
+            currentOneWeekDate = DateUtils.getOneWeekDatePeriod(new Timestamp(DateUtils.minusDays(currentWeekEndDate, 7 * (Integer.valueOf(pageIndex) - 1)).getTime()));
+            parameter.putAll(currentOneWeekDate);
+            List<ClockInRecord> clockInRecords = getClockInRecordManager().queryClockInRecords(parameter);
+            getResponseBuilder().buildAttendanceRecords(clockInRecords, responseBean);
+        }
         return responseBean.toString();
     }
 
@@ -107,15 +124,34 @@ public class ClockInController extends BaseController {
                 LOG.debug("Can not find parent for id:" + psr.getParentId());
                 continue;
             }
-            PushMessage pushMessage = new PushMessage();
-            pushMessage.setTitle("接学生提醒");
-            pushMessage.setDescription("请准时到校接学生");
+            //TODO if parent off line app, if we should send notification?
+            if (!parent.isOnline()) {
+                LOG.info("User off line status:" + psr.getParentId());
+                continue;
+            }
+
+            PushMessageParameter pushMessage = new PushMessageParameter();
+            pushMessage.setTitle("提醒");
+            pushMessage.setDescription(getResourceManager().getMessage(pRequest, ResourceManager.BAIDU_PUSH_MESSAGE_NOTIFY_NORTH_DELTA));
             try {
                 if (StringUtils.isBlank(parent.getChannelId())) {
                     LOG.debug("Can not find channel id for parent:" + psr.getParentId());
                     continue;
                 }
-                getBaiDuPushManager().pushNotificationMsg(parent.getDeviceType(), new String[]{parent.getChannelId()}, parent.getAppId(), pushMessage);
+
+                AppSetting appSetting = getMyAccountManager().queryAppSetting(parent.getId());
+                if (appSetting != null) {
+                    if (appSetting.isIsBel() && appSetting.isIsVibra()) {
+                        pushMessage.setNotification_basic_style(MessageNotificationBasicStyle.BEL_VIBRA_ERASIBLE);
+                    } else if (appSetting.isIsBel() && !appSetting.isIsVibra()) {
+                        pushMessage.setNotification_basic_style(MessageNotificationBasicStyle.BEL_ERASIBLE);
+                    } else if (appSetting.isIsVibra() && !appSetting.isIsBel()) {
+                        pushMessage.setNotification_basic_style(MessageNotificationBasicStyle.VIBRA_ERASIBLE);
+                    } else {
+                        pushMessage.setNotification_basic_style(MessageNotificationBasicStyle.ERASIBLE);
+                    }
+                }
+                getBaiDuPushManager().pushNotificationMsg(parent.getDeviceType(), new String[]{parent.getChannelId()}, parent.getId(), pushMessage);
             } catch (Exception e) {
                 LOG.debug(e.getMessage());
             }
@@ -162,5 +198,23 @@ public class ClockInController extends BaseController {
 
     public void setMyAccountManager(MyAccountManager pMyAccountManager) {
         mMyAccountManager = pMyAccountManager;
+    }
+
+    public MagneticCardManager getMagneticCardManager() {
+        return mMagneticCardManager;
+    }
+
+    public void setMagneticCardManager(MagneticCardManager pMagneticCardManager) {
+        mMagneticCardManager = pMagneticCardManager;
+    }
+
+    @Override
+    public ResourceManager getResourceManager() {
+        return mResourceManager;
+    }
+
+    @Override
+    public void setResourceManager(ResourceManager pResourceManager) {
+        mResourceManager = pResourceManager;
     }
 }

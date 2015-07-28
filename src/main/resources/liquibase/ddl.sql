@@ -128,19 +128,19 @@ CREATE TABLE IF NOT EXISTS `fmc_edu`.`profile` (
   `last_login_date` DATETIME NULL,
   `last_update_date` DATETIME NOT NULL,
   `available` TINYINT(1) NOT NULL DEFAULT 1,
+  `online` TINYINT(1) NOT NULL DEFAULT 0,
   `profile_type` TINYINT(1) NOT NULL DEFAULT 1,
-  `last_pc_id` INT NULL,
-  `last_sdat_id` INT NULL,
-  `last_sdnf_id` INT NULL,
-  `last_sdnw_id` INT NULL,
-  `last_cl_id` INT NULL,
-  `last_pce_id` INT NULL,
-  `last_bbs_id` INT NULL,
+  `last_pc_id` INT NULL DEFAULT 0,
+  `last_sdat_id` INT NULL DEFAULT 0,
+  `last_sdnf_id` INT NULL DEFAULT 0,
+  `last_sdnw_id` INT NULL DEFAULT 0,
+  `last_cl_id` INT NULL DEFAULT 0,
+  `last_pce_id` INT NULL DEFAULT 0,
+  `last_bbs_id` INT NULL DEFAULT 0,
   `device_type` INT NULL DEFAULT 3,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `phone_UNIQUE` (`phone` ASC))
-ENGINE = InnoDB;
-
+ENGINE = InnoDB
 
 -- -----------------------------------------------------
 -- Table `fmc_edu`.`teacher`
@@ -352,6 +352,32 @@ CREATE TABLE IF NOT EXISTS `fmc_edu`.`slide` (
 ENGINE = MyISAM;
 
 -- -----------------------------------------------------
+-- Table `fmc_edu`.`profile_like_map`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `fmc_edu`.`profile_like_map` ;
+
+CREATE TABLE IF NOT EXISTS `demo_fmc_edu`.`profile_like_map` (
+  `profile_id` INT NOT NULL,
+  `news_id` INT NOT NULL,
+  `creation_date` DATETIME NULL)
+ENGINE = MyISAM;
+
+
+-- -----------------------------------------------------
+-- Table `fmc_edu`.`permission`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `fmc_edu`.`permission` ;
+
+CREATE TABLE IF NOT EXISTS `fmc_edu`.`permission` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `permission` VARCHAR(45) NOT NULL,
+  `description` VARCHAR(200) NULL,
+  `available` TINYINT(1) NOT NULL DEFAULT 1,
+  `last_update_date` DATETIME NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
 -- Table `fmc_edu`.`task`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `fmc_edu`.`task` ;
@@ -425,25 +451,26 @@ ENGINE = MyISAM
 
 
 CREATE TABLE IF NOT EXISTS `fmc_edu`.`magnetic_card` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `card_no` VARCHAR(45) NOT NULL,
   `comments` VARCHAR(45) NULL,
   `last_update_date` TIMESTAMP NOT NULL,
   `creation_date` TIMESTAMP NOT NULL,
+  `card_type` TINYINT(1) NOT NULL DEFAULT 0 COMMENT '0:parent\n1:student',
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
 
-CREATE TABLE IF NOT EXISTS `fmc_edu`.`student_card_map` (
-  `id` INT NOT NULL,
-  `student_id` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS `fmc_edu`.`person_card_map` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `profile_id` INT NULL,
+  `student_id` INT NULL,
   `magnetic_card_id` INT NOT NULL,
   `available` TINYINT(1) NOT NULL DEFAULT 1,
-  `approved` TINYINT(1) NULL DEFAULT 1,
-  INDEX `student_id_fk_idx` (`student_id` ASC),
+  `approved` TINYINT(1) NOT NULL DEFAULT 1,
   INDEX `magnetic_card_id_fk_idx` (`magnetic_card_id` ASC),
   PRIMARY KEY (`id`),
   CONSTRAINT `student_id_fk`
-    FOREIGN KEY (`student_id`)
+    FOREIGN KEY (`id`)
     REFERENCES `fmc_edu`.`student` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
@@ -451,13 +478,19 @@ CREATE TABLE IF NOT EXISTS `fmc_edu`.`student_card_map` (
     FOREIGN KEY (`magnetic_card_id`)
     REFERENCES `fmc_edu`.`magnetic_card` (`id`)
     ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `person_id_fk`
+    FOREIGN KEY (`id`)
+    REFERENCES `fmc_edu`.`profile` (`id`)
+    ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 
 CREATE TABLE IF NOT EXISTS `fmc_edu`.`clock_in_record` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `magnetic_card_id` INT NOT NULL,
   `clock_in_person_id` INT NOT NULL,
+  `clock_in_person_name` VARCHAR(45) NOT NULL,
   `type` INT NULL COMMENT '0:考勤记录\n1:接送记录',
   `attendance_flag` TINYINT(1) NOT NULL DEFAULT 0 COMMENT '0：表示进校打卡；\n1：表示离校打卡；',
   `attendance_date` DATETIME NOT NULL,
@@ -469,6 +502,32 @@ CREATE TABLE IF NOT EXISTS `fmc_edu`.`clock_in_record` (
     REFERENCES `fmc_edu`.`magnetic_card` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
+ENGINE = InnoDB
+
+CREATE TABLE IF NOT EXISTS `fmc_edu`.`appSetting` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `isBel` TINYINT(1) NOT NULL DEFAULT 1,
+  `isVibra` TINYINT(1) NOT NULL DEFAULT 1,
+  `profile_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `profile_appsetting_pk_idx` (`profile_id` ASC),
+  CONSTRAINT `profile_appsetting_pk`
+    FOREIGN KEY (`profile_id`)
+    REFERENCES `fmc_edu`.`profile` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+
+CREATE TABLE IF NOT EXISTS `fmc_edu`.`push_message` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `profile_id` INT NOT NULL,
+  `title` VARCHAR(150) NOT NULL,
+  `content` VARCHAR(1000) NOT NULL,
+  `push_type` INT NOT NULL COMMENT '1: push to all device\n2: push to single device',
+  `push_device_type` INT NOT NULL COMMENT 'WEB = 1;\nPC = 2;\nANDROID = 3;\nIOS = 4;\nWINDOWS_PHONE = 5;',
+  `push_status` TINYINT(1) NOT NULL,
+  `creation_date` TIMESTAMP NOT NULL,
+  PRIMARY KEY (`id`))
 ENGINE = InnoDB
 
 SET SQL_MODE=@OLD_SQL_MODE;

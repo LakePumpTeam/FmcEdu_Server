@@ -1,9 +1,11 @@
 package com.fmc.edu.repository.impl;
 
+import com.fmc.edu.model.app.AppSetting;
 import com.fmc.edu.model.profile.BaseProfile;
 import com.fmc.edu.model.relationship.ParentStudentRelationship;
 import com.fmc.edu.repository.BaseRepository;
 import com.fmc.edu.repository.IMyAccountRepository;
+import com.fmc.edu.util.RepositoryUtils;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
@@ -107,5 +109,18 @@ public class MyAccountRepository extends BaseRepository implements IMyAccountRep
     @Override
     public boolean updateBaseProfile(BaseProfile pBaseProfile) {
         return getSqlSession().update(UPDATE_BASEPROFILE, pBaseProfile) > 0;
+    }
+
+    @Override
+    public boolean insertOrUpdateAppSetting(AppSetting pAppSetting) {
+        if (RepositoryUtils.idIsValid(pAppSetting.getId())) {
+            return getSqlSession().update(UPDATE_APP_SETTING, pAppSetting) > 0;
+        }
+        return getSqlSession().insert(INSERT_APP_SETTING, pAppSetting) > 0;
+    }
+
+    @Override
+    public AppSetting queryAppSetting(int pProfileId) {
+        return getSqlSession().selectOne(QUERY_APP_SETTING, pProfileId);
     }
 }

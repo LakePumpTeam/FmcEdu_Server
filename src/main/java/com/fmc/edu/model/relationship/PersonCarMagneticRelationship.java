@@ -3,8 +3,9 @@ package com.fmc.edu.model.relationship;
 /**
  * Created by Yu on 7/18/2015.
  */
-public class StudentCarMagneticRelationship extends BaseRelationship {
+public class PersonCarMagneticRelationship extends BaseRelationship {
     private int mStudentId;
+    private int mProfileId;
     private int mMagneticCardId;
     private boolean mAvailable;
     private boolean mApproved;
@@ -39,5 +40,13 @@ public class StudentCarMagneticRelationship extends BaseRelationship {
 
     public void setApproved(boolean pApproved) {
         mApproved = pApproved;
+    }
+
+    public int getProfileId() {
+        return mProfileId;
+    }
+
+    public void setProfileId(int pProfileId) {
+        mProfileId = pProfileId;
     }
 }

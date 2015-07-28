@@ -1,6 +1,5 @@
 package com.fmc.edu.push.impl;
 
-import com.baidu.yun.push.auth.PushKeyPair;
 import com.baidu.yun.push.constants.BaiduPushConstants;
 import com.baidu.yun.push.exception.PushClientException;
 import com.baidu.yun.push.exception.PushServerException;
@@ -11,7 +10,7 @@ import com.baidu.yun.push.model.PushMsgToAllResponse;
 import com.fmc.edu.configuration.WebConfig;
 import com.fmc.edu.model.app.DeviceType;
 import com.fmc.edu.model.app.PushMessageType;
-import com.fmc.edu.model.push.PushMessage;
+import com.fmc.edu.model.push.PushMessageParameter;
 import com.fmc.edu.push.IBaiDuPushNotification;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
@@ -29,15 +28,12 @@ public class BaiDuAndroidPushNotification implements IBaiDuPushNotification {
     private BaiDuPushClient mBaiDuPushClient;
 
     @Override
-    public boolean pushMsg(String[] pChannelIds, String pUserId, PushMessage pMsg) throws Exception {
-
-        PushKeyPair pair = new PushKeyPair(WebConfig.getApiKey(), WebConfig.getSecretKey());
-
+    public boolean pushMsg(String[] pChannelIds, String pAppId, PushMessageParameter pMsg) throws Exception {
         LOG.debug("Pushing message:" + pMsg);
         try {
             // 3. create request object
-            PushBatchUniMsgRequest request = new PushBatchUniMsgRequest().
-                    addChannelIds(pChannelIds).
+            PushBatchUniMsgRequest request = new PushBatchUniMsgRequest()
+                    .addChannelIds(pChannelIds).
                     addMsgExpires(WebConfig.getBaiDuMsgExpires()).
                     addMessageType(PushMessageType.NOTIFYCATION).
                     addMessage(pMsg.toString()).
@@ -60,7 +56,7 @@ public class BaiDuAndroidPushNotification implements IBaiDuPushNotification {
         return true;
     }
 
-    public boolean pushMsgToAll(PushMessage pMsg) throws Exception {
+    public boolean pushMsgToAll(PushMessageParameter pMsg) throws Exception {
         try {
             //specify request arguments
             PushMsgToAllRequest request = new PushMsgToAllRequest()

@@ -107,13 +107,24 @@ public class ResourceManager {
     public static final String ERROR_APP_UNKNOWN_DEVICE_TYPE = "app.device.type.unknown";
 
 
+    public static final String BAIDU_PUSH_MESSAGE_NOTIFY_NORTH_DELTA = "baidu.push.message.notify.north.delta";
 
-    public String getMessage(HttpServletRequest request, String pKey, String[] pArgs, String pDefaultMessage) {
+    public static final String BAIDU_PUSH_MESSAGE_SENT_CHILD = "baidu.push.message.sent.child";
+
+    public static final String BAIDU_PUSH_MESSAGE_NORTH_DELTA = "baidu.push.message.north.delta";
+
+    public static final String BAIDU_PUSH_MESSAGE_WARNING_USING_LOST_CARD = "baidu.push.message.warning.using.lost.card";
+
+    public static final String BAIDU_PUSH_MESSAGE_STUDENT_TO_SCHOOL = "baidu.push.message.student.to.school";
+
+    public static final String BAIDU_PUSH_MESSAGE_STUDENT_LEFT_SCHOOL = "baidu.push.message.student.left.school";
+
+    public String getMessage(HttpServletRequest request, String pKey, Object[] pArgs, String pDefaultMessage) {
         RequestContext requestContext = new RequestContext(request);
         return requestContext.getMessage(pKey, pArgs, pDefaultMessage);
     }
 
-    public String getMessage(HttpServletRequest request, String pKey, String[] pArgs) {
+    public String getMessage(HttpServletRequest request, String pKey, Object[] pArgs) {
         RequestContext requestContext = new RequestContext(request);
         return requestContext.getMessage(pKey, pArgs, StringUtils.EMPTY);
     }

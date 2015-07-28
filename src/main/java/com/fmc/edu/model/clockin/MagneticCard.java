@@ -11,6 +11,7 @@ public class MagneticCard extends BaseBean {
     private String mCardNo;
     private String mComments;
     private Timestamp mCreationDate;
+    private Integer mCardType;
 
     public String getCardNo() {
         return mCardNo;
@@ -34,5 +35,16 @@ public class MagneticCard extends BaseBean {
 
     public void setCreationDate(Timestamp pCreationDate) {
         mCreationDate = pCreationDate;
+    }
+
+    /**
+     * 0:Parent 1:Student
+     */
+    public Integer getCardType() {
+        return mCardType;
+    }
+
+    public void setCardType(Integer pCardType) {
+        mCardType = pCardType;
     }
 }

@@ -1,6 +1,7 @@
 package com.fmc.edu.manager;
 
 import com.fmc.edu.exception.LoginException;
+import com.fmc.edu.model.app.AppSetting;
 import com.fmc.edu.model.profile.BaseProfile;
 import com.fmc.edu.service.impl.MyAccountService;
 import org.apache.commons.collections.CollectionUtils;
@@ -40,6 +41,7 @@ public class MyAccountManager {
 
         user.setLastLoginDate(new Timestamp(System.currentTimeMillis()));
         user.setLastUpdateDate(new Timestamp(System.currentTimeMillis()));
+        user.setOnline(true);
         if (!getMyAccountService().saveLoginStatus(user)) {
             LOG.error("Update login status failed.");
         }
@@ -94,6 +96,14 @@ public class MyAccountManager {
 
     public Map<String, Object> queryLikeNewsRelation(int pProfileId, int pNewsId) {
         return getMyAccountService().queryLikeNewsRelation(pProfileId, pNewsId);
+    }
+
+    public boolean insertOrUpdateAppSetting(AppSetting pAppSetting) {
+        return getMyAccountService().insertOrUpdateAppSetting(pAppSetting);
+    }
+
+    public AppSetting queryAppSetting(int pProfileId) {
+        return getMyAccountService().queryAppSetting(pProfileId);
     }
 
     public MyAccountService getMyAccountService() {

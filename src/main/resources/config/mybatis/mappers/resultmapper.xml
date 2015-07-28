@@ -23,6 +23,7 @@
         <result property="lastLoginDate" column="last_login_date"/>
         <result property="lastUpdateDate" column="last_update_date"/>
         <result property="available" column="available"/>
+        <result property="online" column="online"/>
         <result property="profileType" column="profile_type"/>
         <result property="lastPCId" column="last_pc_id"/>
         <result property="lastSDATId" column="last_sdat_id"/>
@@ -193,14 +194,14 @@
     <resultMap id="news" type="News">
         <id property="id" column="id"/>
         <result property="author" column="author"/>
-        <result property="authorName" column="author_name" />
+        <result property="authorName" column="author_name"/>
         <result property="subject" column="subject"/>
         <result property="content" column="content"/>
         <result property="newsType" column="news_type"/>
         <result property="refId" column="ref_id"/>
         <result property="approved" column="approved"/>
         <result property="approvedBy" column="approved_by"/>
-        <result property="approvedByName" column="approved_by_name" />
+        <result property="approvedByName" column="approved_by_name"/>
         <result property="approvedDate" column="approve_date"/>
         <result property="like" column="like"/>
         <result property="popular" column="popular"/>
@@ -222,7 +223,7 @@
         <result property="available" column="available"/>
         <result property="creationDate" column="creation_date"/>
         <result property="lastUpdateDate" column="last_update_date"/>
-        <association property="news" column="news_id" select="com.fmc.edu.news.queryNewsDetail" />
+        <association property="news" column="news_id" select="com.fmc.edu.news.queryNewsDetail"/>
     </resultMap>
 
     <resultMap id="userMessage" type="UserMessage">
@@ -299,7 +300,8 @@
         <result property="magneticCardId" column="magnetic_card_id"/>
         <result property="type" column="type"/>
         <result property="attendanceFlag" column="attendance_flag"/>
-        <result property="clockInPersionId" column="clock_in_person_id"/>
+        <result property="clockInPersonId" column="clock_in_person_id"/>
+        <result property="clockInPersonName" column="clock_in_person_name"/>
         <result property="attendanceDate" column="attendance_date"/>
         <result property="creationDate" column="creation_date"/>
     </resultMap>
@@ -308,15 +310,36 @@
         <id property="id" column="id"/>
         <result property="cardNo" column="card_no"/>
         <result property="comments" column="comments"/>
+        <result property="cardType" column="card_type"/>
         <result property="creationDate" column="creation_date"/>
         <result property="lastUpdateDate" column="last_update_date"/>
     </resultMap>
 
-    <resultMap id="studentCarMagneticRelationship" type="StudentCarMagneticRelationship">
+    <resultMap id="personCarMagneticRelationship" type="PersonCarMagneticRelationship">
         <id property="id" column="id"/>
         <result property="studentId" column="student_id"/>
+        <result property="profileId" column="profile_id"/>
         <result property="magneticCardId" column="magnetic_card_id"/>
         <result property="available" column="available"/>
         <result property="approved" column="approved"/>
     </resultMap>
+
+    <resultMap id="appSetting" type="AppSetting">
+        <id property="id" column="id"/>
+        <result property="isBel" column="isBel"/>
+        <result property="isVibra" column="isVibra"/>
+        <result property="profileId" column="profile_id"/>
+    </resultMap>
+
+    <resultMap id="pushMessage" type="PushMessage">
+        <id property="id" column="id"/>
+        <result property="profileId" column="profile_id"/>
+        <result property="title" column="title"/>
+        <result property="content" column="content"/>
+        <result property="pushType" column="push_type"/>
+        <result property="pushDeviceType" column="push_device_type"/>
+        <result property="pushStatus" column="push_status"/>
+        <result property="creationDate" column="creation_date"/>
+    </resultMap>
+
 </mapper>

@@ -2,12 +2,15 @@ package com.fmc.edu.web;
 
 import com.fmc.edu.manager.*;
 import com.fmc.edu.model.clockin.ClockInRecord;
+import com.fmc.edu.model.clockin.ClockInType;
+import com.fmc.edu.model.clockin.MagneticCard;
 import com.fmc.edu.model.news.*;
 import com.fmc.edu.model.profile.BaseProfile;
 import com.fmc.edu.model.profile.ParentProfile;
 import com.fmc.edu.model.profile.ProfileType;
 import com.fmc.edu.model.profile.TeacherProfile;
 import com.fmc.edu.model.relationship.ParentStudentRelationship;
+import com.fmc.edu.model.relationship.PersonCarMagneticRelationship;
 import com.fmc.edu.model.relationship.ProfileSelectionRelationship;
 import com.fmc.edu.model.relationship.TaskStudentsRelationship;
 import com.fmc.edu.model.student.Student;
@@ -49,6 +52,9 @@ public class ResponseBuilder {
 
     @Resource(name = "myAccountManager")
     private MyAccountManager mMyAccountManager;
+
+    @Resource(name = "magneticCardManager")
+    private MagneticCardManager mMagneticCardManager;
 
     public void buildAuthorizedResponse(ResponseBean pResponseBean, final BaseProfile pProfile) {
         pResponseBean.addData("userId", pProfile.getId());
@@ -355,18 +361,44 @@ public class ResponseBuilder {
             attendance.put("time", DateUtils.convertTimeToString(new Time(clockInRecord.getAttendanceDate().getTime())));
             attendance.put("week", DateUtils.convertWeekToString(DateUtils.getWeek(clockInRecord.getAttendanceDate())));
             attendance.put("attendance", clockInRecord.getAttendanceFlag());
-            if (clockInRecord.getType() == 1) {
-                BaseProfile baseProfile = getMyAccountManager().findUserById(String.valueOf(clockInRecord.getClockInPersionId()));
-                if (baseProfile == null) {
-                    pResponseBean.addBusinessMsg(ResourceManager.ERROR_NOT_FIND_USER);
-                    return;
-                }
-                attendance.put("name", baseProfile.getName());
+            if (clockInRecord.getType() == ClockInType.PARENT_CLOCK_IN) {
+                attendance.put("name", clockInRecord.getClockInPersonName());
             }
             attendanceRecord.add(attendance);
         }
         pResponseBean.addData("record", attendanceRecord);
         return;
+    }
+
+    public void buildMagneticCardList(ParentStudentRelationship pParentStudentRelationship, List<Map<String, Object>> pMagneticCardList, ResponseBean pResponseBean) {
+        if (pParentStudentRelationship == null) {
+            return;
+        }
+        BaseProfile parent = getMyAccountManager().findUserById(String.valueOf(pParentStudentRelationship.getParentId()));
+        if (parent == null) {
+            pResponseBean.clearAllData();
+            pResponseBean.addBusinessMsg(ResourceManager.ERROR_NOT_FIND_USER, pParentStudentRelationship.getParentId());
+            return;
+        }
+        List<MagneticCard> magneticCards = getMagneticCardManager().queryMagneticByStudentIdForParent(pParentStudentRelationship.getStudentId());
+        if (magneticCards == null) {
+            return;
+        }
+        Map<String, Object> magneticMap;
+        for (MagneticCard mc : magneticCards) {
+            PersonCarMagneticRelationship pcmr = getMagneticCardManager().queryPersonMagneticCardRelationship(mc.getId());
+            if (pcmr == null) {
+                continue;
+            }
+
+            magneticMap = new HashMap<String, Object>(4);
+            magneticMap.put("magneticCardId", mc.getId());
+            magneticMap.put("cardNo", mc.getCardNo());
+            magneticMap.put("parentName", parent.getName());
+            magneticMap.put("status", pcmr.isAvailable());
+            magneticMap.put("comment", mc.getComments());
+            pMagneticCardList.add(magneticMap);
+        }
     }
 
     public ProfileManager getProfileManager() {
@@ -423,5 +455,13 @@ public class ResponseBuilder {
 
     public void setMyAccountManager(MyAccountManager pMyAccountManager) {
         mMyAccountManager = pMyAccountManager;
+    }
+
+    public MagneticCardManager getMagneticCardManager() {
+        return mMagneticCardManager;
+    }
+
+    public void setMagneticCardManager(MagneticCardManager pMagneticCardManager) {
+        mMagneticCardManager = pMagneticCardManager;
     }
 }

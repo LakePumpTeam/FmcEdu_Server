@@ -13,7 +13,8 @@ public class ClockInRecord extends BaseBean {
     private int mAttendanceFlag;
     private Timestamp mAttendanceDate;
     private Timestamp mCreationDate;
-    private int mClockInPersionId;
+    private int mClockInPersonId;
+    private String mClockInPersonName;
 
     public int getMagneticCardId() {
         return mMagneticCardId;
@@ -55,11 +56,19 @@ public class ClockInRecord extends BaseBean {
         mCreationDate = pCreationDate;
     }
 
-    public int getClockInPersionId() {
-        return mClockInPersionId;
+    public int getClockInPersonId() {
+        return mClockInPersonId;
     }
 
-    public void setClockInPersionId(int pClockInPersionId) {
-        mClockInPersionId = pClockInPersionId;
+    public void setClockInPersonId(int pClockInPersonId) {
+        mClockInPersonId = pClockInPersonId;
+    }
+
+    public String getClockInPersonName() {
+        return mClockInPersonName;
+    }
+
+    public void setClockInPersonName(String pClockInPersonName) {
+        mClockInPersonName = pClockInPersonName;
     }
 }
