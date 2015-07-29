@@ -1308,7 +1308,7 @@
             <tr>
                 <td>#3</td>
                 <td class="function"> APP 设置</td>
-                <td class="baseUrl">${ctx}/profile/appSetting</td>
+                <td class="baseUrl">${ctx}/app/appSetting</td>
                 <td class="parameters">
                     <table>
                         <tr>
@@ -1334,6 +1334,23 @@
             </tr>
             <tr>
                 <td>#4</td>
+                <td class="function"> 获取 APP 设置</td>
+                <td class="baseUrl">${ctx}/app/getAppSetting</td>
+                <td class="parameters">
+                    <table>
+                        <tr>
+                            <td align="right"><label for="userId" title="userId">userId</label>
+                            </td>
+                            <td><input type="text" class="ipt_value" id="userId" value=""/></td>
+                        </tr>
+                    </table>
+                </td>
+                <td><input type="button" class="btn_request" value="Request"/></td>
+                <td><input type="button" class="btn_reset" value="Reset"/></td>
+                <td class="result"></td>
+            </tr>
+            <tr>
+                <td>#5</td>
                 <td class="function"> 获取所有卡片信息</td>
                 <td class="baseUrl">${ctx}/magneticCard/retrieveAllMagneticCard</td>
                 <td class="parameters">
@@ -1350,7 +1367,7 @@
                 <td class="result"></td>
             </tr>
             <tr>
-                <td>#5</td>
+                <td>#6</td>
                 <td class="function"> 卡片挂失</td>
                 <td class="baseUrl">${ctx}/magneticCard/reportMagneticCardLost</td>
                 <td class="parameters">
@@ -1372,7 +1389,7 @@
                 <td class="result"></td>
             </tr>
             <tr>
-                <td>#6</td>
+                <td>#7</td>
                 <td class="function"> 账号登出app</td>
                 <td class="baseUrl">${ctx}/profile/requestLogout</td>
                 <td class="parameters">
@@ -1389,7 +1406,7 @@
                 <td class="result"></td>
             </tr>
             <tr>
-                <td>#7</td>
+                <td>#8</td>
                 <td class="function"> 获取推送消息列表</td>
                 <td class="baseUrl">${ctx}/profile/queryPushMessage</td>
                 <td class="parameters">

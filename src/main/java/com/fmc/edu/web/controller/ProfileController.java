@@ -9,7 +9,6 @@ import com.fmc.edu.exception.LoginException;
 import com.fmc.edu.exception.ProfileException;
 import com.fmc.edu.manager.*;
 import com.fmc.edu.model.address.Address;
-import com.fmc.edu.model.app.AppSetting;
 import com.fmc.edu.model.app.DeviceType;
 import com.fmc.edu.model.profile.BaseProfile;
 import com.fmc.edu.model.profile.ParentProfile;
@@ -627,44 +626,6 @@ public class ProfileController extends BaseController {
             responseBean.addErrorMsg(e);
         }
         return output(responseBean);
-    }
-
-    @RequestMapping(value = "/appSetting" + GlobalConstant.URL_SUFFIX)
-    @ResponseBody
-    public String appSetting(HttpServletRequest pRequest) {
-        ResponseBean responseBean = new ResponseBean(pRequest);
-        TransactionStatus txStatus = ensureTransaction();
-
-        try {
-            String userId = pRequest.getParameter("userId");
-            String isBel = pRequest.getParameter("isBel");
-            String isVibra = pRequest.getParameter("isVibra");
-            if (com.fmc.edu.util.StringUtils.isBlank(isBel) && com.fmc.edu.util.StringUtils.isBlank(isVibra)) {
-                return output(responseBean);
-            }
-
-            BaseProfile user = getMyAccountManager().findUserById(userId);
-            if (user == null) {
-                responseBean.addBusinessMsg(ResourceManager.ERROR_NOT_FIND_USER, userId);
-                return output(responseBean);
-            }
-
-            AppSetting appSetting = getMyAccountManager().queryAppSetting(user.getId());
-            if (appSetting == null) {
-                appSetting = new AppSetting();
-                appSetting.setProfileId(user.getId());
-            }
-            appSetting.setIsBel(Boolean.valueOf(isBel));
-            appSetting.setIsVibra(Boolean.valueOf(isVibra));
-            getMyAccountManager().insertOrUpdateAppSetting(appSetting);
-        } catch (Exception ex) {
-            txStatus.setRollbackOnly();
-            LOG.error(ex.getMessage());
-            responseBean.addErrorMsg(ex);
-        } finally {
-            getTransactionManager().commit(txStatus);
-            return output(responseBean);
-        }
     }
 
     @RequestMapping(value = "/queryPushMessage" + GlobalConstant.URL_SUFFIX)
