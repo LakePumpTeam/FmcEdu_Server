@@ -339,6 +339,7 @@
         <result property="pushType" column="push_type"/>
         <result property="pushDeviceType" column="push_device_type"/>
         <result property="pushStatus" column="push_status"/>
+        <result property="messageType" column="message_type"/>
         <result property="creationDate" column="creation_date"/>
     </resultMap>
 

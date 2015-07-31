@@ -1430,6 +1430,44 @@
             <td><input type="button" class="btn_reset" value="Reset"/></td>
             <td class="result"></td>
             </tr>
+            <tr>
+                <td>#9</td>
+                <td class="function"> 已到家长列表</td>
+                <td class="baseUrl">${ctx}/clock/in/queryClockInParent</td>
+                <td class="parameters">
+                    <table>
+                        <tr>
+                            <td align="right"><label for="classId" title="classId">classId</label>
+                            </td>
+                            <td><input type="text" class="ipt_value" id="classId" value=""/></td>
+                        </tr>
+                        <tr>
+                            <td align="right"><label for="pageIndex" title="pageIndex">pageIndex(从1开始)</label></td>
+                            <td><input type="text" class="ipt_value" id="pageIndex" value=""/></td>
+                        </tr>
+                    </table>
+                </td>
+                <td><input type="button" class="btn_request" value="Request"/></td>
+                <td><input type="button" class="btn_reset" value="Reset"/></td>
+                <td class="result"></td>
+            </tr>
+            <tr>
+                <td>#10</td>
+                <td class="function"> 已到未到家长列表</td>
+                <td class="baseUrl">${ctx}/clock/in/queryNotClockInParent</td>
+                <td class="parameters">
+                    <table>
+                        <tr>
+                            <td align="right"><label for="classId" title="classId">classId</label>
+                            </td>
+                            <td><input type="text" class="ipt_value" id="classId" value=""/></td>
+                        </tr>
+                    </table>
+                </td>
+                <td><input type="button" class="btn_request" value="Request"/></td>
+                <td><input type="button" class="btn_reset" value="Reset"/></td>
+                <td class="result"></td>
+            </tr>
         </table>
     </fieldset>
 </body>

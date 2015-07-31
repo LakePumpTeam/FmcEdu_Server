@@ -2,6 +2,7 @@ package com.fmc.edu.service.impl;
 
 import com.fmc.edu.model.course.Course;
 import com.fmc.edu.model.course.TimeTable;
+import com.fmc.edu.model.profile.BaseProfile;
 import com.fmc.edu.model.profile.TeacherProfile;
 import com.fmc.edu.model.school.FmcClass;
 import com.fmc.edu.model.student.Student;
@@ -73,6 +74,10 @@ public class SchoolService {
 
     public int updateCourse(Course pCourse) {
         return getSchoolRepository().updateCourse(pCourse);
+    }
+
+    public List<BaseProfile> queryAllParentByClassId(int pClassId) {
+        return getSchoolRepository().queryAllParentByClassId(pClassId);
     }
 
     public ISchoolRepository getSchoolRepository() {

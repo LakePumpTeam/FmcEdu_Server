@@ -137,4 +137,35 @@
         WHERE school_id = #{school_id} AND available = 1
         LIMIT 0, 1
     </select>
+
+    <select id="queryAllParentByClassId" parameterType="int" resultMap="rm.profile">
+     select
+          p.id,
+          p.name,
+          p.password,
+          p.phone,
+          p.salt,
+          p.app_id,
+          p.channel_id,
+          p.creation_date,
+          p.last_login_date,
+          p.last_update_date,
+          p.profile_type,
+          p.online,
+          p.available,
+          p.last_pc_id,
+          p.last_sdat_id,
+          p.last_sdnf_id,
+          p.last_sdnw_id,
+          p.last_cl_id,
+          p.last_pce_id,
+          p.last_bbs_id,
+          p.device_type
+        from student std
+        inner join parent_student_map psm
+        on std.id=psm.student_id
+        inner join profile p
+        on p.id = psm.parent_id
+        where std.class_id=#{classId};
+            </select>
 </mapper>

@@ -50,6 +50,7 @@ public class BaiDuPushManager {
         pushMessage.setContent(pMsg.getDescription());
         pushMessage.setPushDeviceType(pDevice);
         pushMessage.setPushType(2);
+        pushMessage.setMessageType(Integer.parseInt(pMsg.getCustom_content().get(PushMessageParameter.MSG_TYPE).toString()));
         pushMessage.setPushStatus(isSuccess);
         return getPushMessageManager().insertPushMessage(pushMessage);
     }

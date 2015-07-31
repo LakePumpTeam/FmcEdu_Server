@@ -15,6 +15,7 @@
         `push_type`,
         `push_device_type`,
         `push_status`,
+        `message_type`,
         `creation_date`
         FROM `push_message`
         WHERE profile_id=#{profileId} and push_status = 1
@@ -29,6 +30,7 @@
         `content`,
         `push_type`,
         `push_device_type`,
+        `message_type`,
         `push_status`,
         `creation_date`)
         VALUES
@@ -37,6 +39,7 @@
         #{content},
         #{pushType},
         #{pushDeviceType},
+        #{messageType},
         #{pushStatus},
         now());
     </insert>

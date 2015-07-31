@@ -198,4 +198,28 @@ public class BaseProfile extends BaseBean {
     public void setOnline(boolean pOnline) {
         mOnline = pOnline;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof BaseProfile)) {
+            return false;
+        }
+
+        if (this == obj) {
+            return true;
+        }
+
+        if (this.getId() == ((BaseProfile) obj).getId()) {
+            return true;
+        }
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return Integer.valueOf(getId()).hashCode();
+    }
 }

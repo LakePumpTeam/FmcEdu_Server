@@ -9,6 +9,7 @@ import java.util.Map;
  * Created by Yu on 7/12/2015.
  */
 public class PushMessageParameter {
+    public static final String MSG_TYPE = "msgType";
 
     /**
      * message title
@@ -23,10 +24,10 @@ public class PushMessageParameter {
     /**
      * please reference to the url to see the standard message format:http://push.baidu.com/doc/restapi/msg_struct
      */
-    private Map<String, String> mCustom_content;
+    private Map<String, Object> mCustom_content;
 
     public PushMessageParameter() {
-        mCustom_content = new HashMap<String, String>();
+        mCustom_content = new HashMap<String, Object>();
     }
 
     public PushMessageParameter(String pTitle, String pContent) {
@@ -51,7 +52,7 @@ public class PushMessageParameter {
         mDescription = pDescription;
     }
 
-    public Map<String, String> getCustom_content() {
+    public Map<String, Object> getCustom_content() {
         return mCustom_content;
     }
 
@@ -66,7 +67,7 @@ public class PushMessageParameter {
         mNotification_basic_style = mNotification_basic_style | pNotification_basic_style;
     }
 
-    public void addCustomContents(String pKey, String pValue) {
+    public void addCustomContents(String pKey, Object pValue) {
         mCustom_content.put(pKey, pValue);
     }
 

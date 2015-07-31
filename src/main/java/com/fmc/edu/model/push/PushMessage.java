@@ -17,6 +17,7 @@ public class PushMessage extends BaseBean {
     private int mPushDeviceType;
     private boolean mPushStatus;
     private Timestamp mCreationDate;
+    private int mMessageType;
 
     public int getProfileId() {
         return mProfileId;
@@ -72,5 +73,13 @@ public class PushMessage extends BaseBean {
 
     public void setCreationDate(Timestamp pCreationDate) {
         mCreationDate = pCreationDate;
+    }
+
+    public int getMessageType() {
+        return mMessageType;
+    }
+
+    public void setMessageType(int pMessageType) {
+        mMessageType = pMessageType;
     }
 }

@@ -2,6 +2,7 @@ package com.fmc.edu.repository.impl;
 
 import com.fmc.edu.model.course.Course;
 import com.fmc.edu.model.course.TimeTable;
+import com.fmc.edu.model.profile.BaseProfile;
 import com.fmc.edu.model.profile.TeacherProfile;
 import com.fmc.edu.model.school.FmcClass;
 import com.fmc.edu.model.student.Student;
@@ -99,6 +100,11 @@ public class SchoolRepository extends BaseRepository implements ISchoolRepositor
     @Override
     public FmcClass queryDefaultClassBySchoolId(final int pSchoolId) {
         return getSqlSession().selectOne(QUERY_DEFAULT_CLASS_BY_SCHOOL_ID, pSchoolId);
+    }
+
+    @Override
+    public List<BaseProfile> queryAllParentByClassId(int pClassId) {
+        return getSqlSession().selectList(QUERY_ALL_PARENT_BY_CLASS_ID, pClassId);
     }
 
     @Override

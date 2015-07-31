@@ -2,6 +2,7 @@ package com.fmc.edu.repository;
 
 import com.fmc.edu.model.course.Course;
 import com.fmc.edu.model.course.TimeTable;
+import com.fmc.edu.model.profile.BaseProfile;
 import com.fmc.edu.model.profile.TeacherProfile;
 import com.fmc.edu.model.school.FmcClass;
 import com.fmc.edu.model.student.Student;
@@ -63,4 +64,8 @@ public interface ISchoolRepository {
     String QUERY_DEFAULT_CLASS_BY_SCHOOL_ID = "com.fmc.edu.school.queryDefaultClassBySchoolId";
 
     FmcClass queryDefaultClassBySchoolId(int pSchoolId);
+
+    String QUERY_ALL_PARENT_BY_CLASS_ID = "com.fmc.edu.school.queryAllParentByClassId";
+
+    List<BaseProfile> queryAllParentByClassId(int pClassId);
 }

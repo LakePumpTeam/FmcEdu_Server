@@ -20,4 +20,34 @@
             and attendance_flag = #{attendanceFlag}
         </if>
     </select>
+
+    <select id="queryClockInRecordsAttendances" parameterType="map" resultType="map">
+        SELECT std.name AS studentName,
+        date_format(cir.attendance_date,'%Y.%m.%d') AS attendanceDate,
+        date_format(cir.attendance_date,'%H:%I:%S') AS attendanceTime,
+        cir.clock_in_person_id AS parentId,
+        cir.clock_in_person_name as parentName
+        FROM clock_in_record cir
+        INNER JOIN parent_student_map psm ON cir.clock_in_person_id = psm.parent_id
+        INNER JOIN student std ON psm.student_id = std.id
+        WHERE <![CDATA[ cir.attendance_date >= #{startDate}
+              AND cir.attendance_date <= #{endDate}
+              AND cir.type=1 ]]>
+        AND std.class_id=#{classId}
+        <foreach collection="profileIds" item="id" open=" AND cir.clock_in_person_id in (" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="queryNotAttendancesRecords" parameterType="map" resultType="map">
+        SELECT std.name AS studentName,
+        psm.parent_id AS parentId,
+        date_format(now(),'%Y.%m.%d') AS date
+        FROM student std
+        INNER JOIN parent_student_map psm ON std.id=psm.student_id
+        WHERE std.class_id=#{classId}
+        <foreach collection="profileIds" item="id" open=" AND psm.parent_id in (" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
 </mapper>

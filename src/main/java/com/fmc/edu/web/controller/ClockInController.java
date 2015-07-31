@@ -6,8 +6,10 @@ import com.fmc.edu.model.clockin.ClockInType;
 import com.fmc.edu.model.clockin.MagneticCard;
 import com.fmc.edu.model.profile.BaseProfile;
 import com.fmc.edu.model.push.PushMessageParameter;
+import com.fmc.edu.model.push.PushMessageType;
 import com.fmc.edu.model.relationship.ParentStudentRelationship;
 import com.fmc.edu.model.student.Student;
+import com.fmc.edu.util.BeanUtils;
 import com.fmc.edu.util.DateUtils;
 import com.fmc.edu.util.RepositoryUtils;
 import com.fmc.edu.util.StringUtils;
@@ -21,10 +23,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.servlet.http.HttpServletResponse;
+import java.sql.Timestamp;
+import java.util.*;
 
 /**
  * Created by Yu on 7/18/2015.
@@ -51,8 +52,8 @@ public class ClockInController extends BaseController {
     @Resource(name = "responseBuilder")
     private ResponseBuilder mResponseBuilder;
 
-    @Resource(name = "resourceManager")
-    private ResourceManager mResourceManager;
+    @Resource(name = "schoolManager")
+    private SchoolManager mSchoolManager;
 
     @RequestMapping("/clockInRecords")
     @ResponseBody
@@ -132,6 +133,7 @@ public class ClockInController extends BaseController {
             }
 
             PushMessageParameter pushMessage = new PushMessageParameter();
+            pushMessage.addCustomContents(PushMessageParameter.MSG_TYPE, PushMessageType.TYPE_TEACHER_NOTIFY_PARENT_NORTH_DELTA.getValue());
             pushMessage.setTitle("提醒");
             pushMessage.setDescription(getResourceManager().getMessage(pRequest, ResourceManager.BAIDU_PUSH_MESSAGE_NOTIFY_NORTH_DELTA));
             try {
@@ -146,6 +148,98 @@ public class ClockInController extends BaseController {
         }
         return output(responseBean);
 
+    }
+
+
+    @RequestMapping("/queryClockInParent")
+    @ResponseBody
+    public String queryClockInParent(HttpServletRequest pRequest,
+                                     HttpServletResponse pResponse) {
+        ResponseBean responseBean = new ResponseBean(pRequest);
+        String classId = pRequest.getParameter("classId");
+        String pageIndexStr = pRequest.getParameter("pageIndex");
+
+        if (!RepositoryUtils.idIsValid(classId)) {
+            responseBean.addBusinessMsg(ResourceManager.VALIDATION_SCHOOL_CLASS_ID_ERROR, classId);
+            return output(responseBean);
+        }
+        int pageIndex = 1;
+        if (BeanUtils.isNumber(pageIndexStr)) {
+            pageIndex = Integer.valueOf(pageIndexStr);
+        }
+        Set<BaseProfile> allParent = getSchoolManager().queryAllParentByClassId(Integer.valueOf(classId));
+        if (CollectionUtils.isEmpty(allParent)) {
+            responseBean.addBusinessMessage("未找到任何家长信息.");
+            return output(responseBean);
+        }
+        List<Integer> parentProfileIds = new ArrayList<Integer>(allParent.size());
+        for (BaseProfile parent : allParent) {
+            if (parent == null) {
+                continue;
+            }
+            parentProfileIds.add(parent.getId());
+        }
+        if (CollectionUtils.isEmpty(parentProfileIds)) {
+            responseBean.addBusinessMessage("未找到任何家长信息.");
+            return output(responseBean);
+        }
+
+        List<Map> records = getClockInRecordManager().queryClockInRecordsAttendances(parentProfileIds, Integer.valueOf(classId), DateUtils.getDaysLater(1 - pageIndex), 0);
+        responseBean.addData("records", records);
+        responseBean.addData("parentCount", parentProfileIds.size());
+        return output(responseBean);
+    }
+
+
+    @RequestMapping("/queryNotClockInParent")
+    @ResponseBody
+    public String queryNotClockInParent(HttpServletRequest pRequest,
+                                        HttpServletResponse pResponse) {
+        ResponseBean responseBean = new ResponseBean(pRequest);
+        String classId = pRequest.getParameter("classId");
+        if (!RepositoryUtils.idIsValid(classId)) {
+            responseBean.addBusinessMsg(ResourceManager.VALIDATION_SCHOOL_CLASS_ID_ERROR, classId);
+            return output(responseBean);
+        }
+        Set<BaseProfile> allParent = getSchoolManager().queryAllParentByClassId(Integer.valueOf(classId));
+        if (CollectionUtils.isEmpty(allParent)) {
+            responseBean.addBusinessMessage("未找到任何家长信息.");
+            return output(responseBean);
+        }
+        List<Integer> parentProfileIds = new ArrayList<Integer>(allParent.size());
+        for (BaseProfile parent : allParent) {
+            if (parent == null) {
+                continue;
+            }
+            parentProfileIds.add(parent.getId());
+        }
+        Date currentDate = DateUtils.getDaysLater(0);
+        int period;
+        if (DateUtils.isMorning(currentDate)) {
+            period = 1;//morning
+        } else {
+            period = 2;//afternoon
+        }
+        List<Map> records = getClockInRecordManager().queryClockInRecordsAttendances(parentProfileIds, Integer.valueOf(classId), new Timestamp(currentDate.getTime()), period);
+        List<Integer> notAttendancesParents = new ArrayList<Integer>();
+        List<Integer> attendancesParents = new ArrayList<Integer>(records.size());
+        if (CollectionUtils.isEmpty(records)) {
+            notAttendancesParents.addAll(parentProfileIds);
+        } else {
+            for (Map record : records) {
+                attendancesParents.add((Integer) record.get("parentId"));
+            }
+            parentProfileIds.removeAll(attendancesParents);
+            notAttendancesParents.addAll(parentProfileIds);
+        }
+
+        if (CollectionUtils.isEmpty(notAttendancesParents)) {
+            return output(responseBean);
+        }
+        List<Map> notAttendancesParentsRecords = getClockInRecordManager().queryNotAttendancesRecords(notAttendancesParents, Integer.valueOf(classId));
+        responseBean.addData("records", notAttendancesParentsRecords);
+        responseBean.addData("parentCount", parentProfileIds.size());
+        return output(responseBean);
     }
 
     public BaiDuPushManager getBaiDuPushManager() {
@@ -196,13 +290,11 @@ public class ClockInController extends BaseController {
         mMagneticCardManager = pMagneticCardManager;
     }
 
-    @Override
-    public ResourceManager getResourceManager() {
-        return mResourceManager;
+    public SchoolManager getSchoolManager() {
+        return mSchoolManager;
     }
 
-    @Override
-    public void setResourceManager(ResourceManager pResourceManager) {
-        mResourceManager = pResourceManager;
+    public void setSchoolManager(SchoolManager pSchoolManager) {
+        mSchoolManager = pSchoolManager;
     }
 }

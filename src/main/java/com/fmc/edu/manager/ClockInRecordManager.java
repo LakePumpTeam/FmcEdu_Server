@@ -5,6 +5,7 @@ import com.fmc.edu.service.impl.ClockInRecordService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +19,14 @@ public class ClockInRecordManager {
 
     public List<ClockInRecord> queryClockInRecords(Map pMap) {
         return getClockInRecordService().queryClockInRecords(pMap);
+    }
+
+    public List<Map> queryClockInRecordsAttendances(List<Integer> pProfiles, Integer pClassId, Timestamp pDate, int pPeriod) {
+        return getClockInRecordService().queryClockInRecordsAttendances(pProfiles, pClassId, pDate, pPeriod);
+    }
+
+    public List<Map> queryNotAttendancesRecords(List<Integer> pProfileIds, Integer pClassId) {
+        return getClockInRecordService().queryNotAttendancesRecords(pProfileIds, pClassId);
     }
 
     public ClockInRecordService getClockInRecordService() {

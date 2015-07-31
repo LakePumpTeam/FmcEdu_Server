@@ -86,6 +86,43 @@ public class DateUtils {
         return weekDate;
     }
 
+    public static Date getDateTimeStart(Timestamp pTimestamp) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(pTimestamp);
+        try {
+            return convertStringToDateTime(convertDateToString(new Date(cal.getTime().getTime())) + " 00:00:00");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static Date getDateTimeEnd(Timestamp pTimestamp) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(pTimestamp);
+        try {
+            return convertStringToDateTime(convertDateToString(new Date(cal.getTime().getTime())) + " 23:59:59");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static Date getDateTimeMiddle(Timestamp pTimestamp) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(pTimestamp);
+        try {
+            return convertStringToDateTime(convertDateToString(new Date(cal.getTime().getTime())) + " 12:00:00");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static boolean isMorning(Date pDate) {
+        return pDate.before(getDateTimeMiddle(new Timestamp(pDate.getTime())));
+    }
+
     public static Date addDays(Date pDate, int days) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(pDate);
