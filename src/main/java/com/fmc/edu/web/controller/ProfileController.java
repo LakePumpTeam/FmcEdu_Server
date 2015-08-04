@@ -14,8 +14,10 @@ import com.fmc.edu.model.profile.BaseProfile;
 import com.fmc.edu.model.profile.ParentProfile;
 import com.fmc.edu.model.push.PushMessage;
 import com.fmc.edu.model.push.PushMessageParameter;
+import com.fmc.edu.model.push.PushMessageType;
 import com.fmc.edu.model.relationship.ParentStudentRelationship;
 import com.fmc.edu.model.student.Student;
+import com.fmc.edu.util.BeanUtils;
 import com.fmc.edu.util.DateUtils;
 import com.fmc.edu.util.RepositoryUtils;
 import com.fmc.edu.util.ValidationUtils;
@@ -599,6 +601,7 @@ public class ProfileController extends BaseController {
         String phone = pRequest.getParameter("phone");
         String title = pRequest.getParameter("title");
         String content = pRequest.getParameter("content");
+        String msgTypeStr = pRequest.getParameter("msgType");
         ResponseBean responseBean = new ResponseBean(pRequest);
         if (com.fmc.edu.util.StringUtils.isBlank(phone)) {
             responseBean.addErrorMsg("phone is empty");
@@ -612,14 +615,19 @@ public class ProfileController extends BaseController {
             responseBean.addErrorMsg("content is empty");
             return output(responseBean);
         }
-
+        int msgType = PushMessageType.TYPE_CLOCK_IN_STUDENT_IN.getValue();
+        if (BeanUtils.isNumber(msgTypeStr)) {
+            msgType = Integer.valueOf(msgTypeStr);
+        }
         BaseProfile user = getMyAccountManager().findUser(phone);
         if (user == null || com.fmc.edu.util.StringUtils.isBlank(user.getChannelId()) || !DeviceType.isValidDeviceType(user.getDeviceType())) {
             responseBean.addErrorMsg("Pushing message failed.");
             return output(responseBean);
         }
         try {
-            boolean isSuccess = getBaiDuPushManager().pushNotificationMsg(user.getDeviceType(), new String[]{user.getChannelId()}, user.getId(), new PushMessageParameter(title, content));
+            PushMessageParameter pushMessageParameter = new PushMessageParameter(title, content);
+            pushMessageParameter.addCustomContents(PushMessageParameter.MSG_TYPE, msgType);
+            boolean isSuccess = getBaiDuPushManager().pushNotificationMsg(user.getDeviceType(), new String[]{user.getChannelId()}, user.getId(), pushMessageParameter);
             responseBean.addData("isSuccess", isSuccess);
         } catch (Exception e) {
             e.printStackTrace();

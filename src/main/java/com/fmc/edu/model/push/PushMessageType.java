@@ -8,8 +8,8 @@ public enum PushMessageType {
     TYPE_PARENT_NORTH_DELTA(1),
     TYPE_PARENT_SEND_CHILD(2),
     TYPE_WARNING_LOST_CARD(3),
-    TYPE_CLOCK_IN_CHILD_IN(4),
-    TYPE_CLOCK_IN_CHILD_OUT(5);
+    TYPE_CLOCK_IN_STUDENT_IN(4),
+    TYPE_CLOCK_IN_STUDENT_OUT(5);
 
     private Integer mValue;
 

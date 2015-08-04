@@ -1241,6 +1241,12 @@
                             </td>
                             <td><input type="text" class="ipt_value" id="content" value=""/></td>
                         </tr>
+                        <tr>
+                            <td align="right"><label for="msgType" title="msgType">msgType(0:提醒接小孩, 1:接小孩，2:送小孩,
+                                3:挂失卡被使用提醒, 4:学生到校，5:学生离校)</label>
+                            </td>
+                            <td><input type="text" class="ipt_value" id="msgType" value=""/></td>
+                        </tr>
                     </table>
                 </td>
                 <td><input type="button" class="btn_request" value="Request"/></td>
