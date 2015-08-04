@@ -20,6 +20,7 @@
         <if test="@Ognl@isNotEmpty(attendanceFlag)">
             and attendance_flag = #{attendanceFlag}
         </if>
+        ORDER BY attendance_date desc
     </select>
 
     <select id="queryClockInRecordsAttendances" parameterType="map" resultType="map">

@@ -2,7 +2,7 @@ package com.fmc.edu.model.clockin;
 
 import com.fmc.edu.model.BaseBean;
 
-import java.sql.Date;
+import java.util.Date;
 
 /**
  * Created by Yu on 7/18/2015.
