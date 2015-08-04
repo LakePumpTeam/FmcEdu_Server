@@ -23,8 +23,8 @@
 
     <select id="queryClockInRecordsAttendances" parameterType="map" resultType="map">
         SELECT std.name AS studentName,
-        date_format(cir.attendance_date,'%Y.%m.%d') AS attendanceDate,
-        date_format(cir.attendance_date,'%H:%I:%S') AS attendanceTime,
+        date_format(cir.attendance_date,'%Y.%m.%d') AS `date`,
+        date_format(cir.attendance_date,'%H:%I:%S') AS `time`,
         cir.clock_in_person_id AS parentId,
         cir.clock_in_person_name as parentName
         FROM clock_in_record cir

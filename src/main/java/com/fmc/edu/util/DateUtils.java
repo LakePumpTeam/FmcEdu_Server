@@ -86,7 +86,7 @@ public class DateUtils {
         return weekDate;
     }
 
-    public static Date getDateTimeStart(Timestamp pTimestamp) {
+    public static Date getDateTimeStart(Date pTimestamp) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(pTimestamp);
         try {
@@ -97,7 +97,7 @@ public class DateUtils {
         return null;
     }
 
-    public static Date getDateTimeEnd(Timestamp pTimestamp) {
+    public static Date getDateTimeEnd(Date pTimestamp) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(pTimestamp);
         try {

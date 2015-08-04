@@ -89,8 +89,9 @@ public class ClockInController extends BaseController {
             //Date currentWeekEndDate = currentOneWeekDate.get("endDate");
             // currentOneWeekDate = DateUtils.getOneWeekDatePeriod(new Timestamp(DateUtils.minusDays(currentWeekEndDate, 7 * (Integer.valueOf(pageIndex) - 1)).getTime()));
             Map<String, Date> currentOneWeekDate = new HashMap<String, Date>(2);
-            currentOneWeekDate.put("startDate", DateUtils.getDaysLater((Integer.valueOf(pageIndex) - 1) * 7));
-            currentOneWeekDate.put("endDate", DateUtils.getDaysLater((Integer.valueOf(pageIndex) * 7) - 1));
+            Date endDate = DateUtils.getDaysLater((Integer.valueOf(pageIndex) - 1) * 7);
+            currentOneWeekDate.put("startDate", DateUtils.getDateTimeStart(DateUtils.addDays(endDate, -7)));
+            currentOneWeekDate.put("endDate", DateUtils.getDateTimeEnd(endDate));
             parameter.putAll(currentOneWeekDate);
             List<ClockInRecord> clockInRecords = getClockInRecordManager().queryClockInRecords(parameter);
             getResponseBuilder().buildAttendanceRecords(clockInRecords, responseBean);
