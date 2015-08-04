@@ -65,7 +65,7 @@ public class DateUtils {
         return (new SimpleDateFormat(PATTERN_TIME)).format(pTime);
     }
 
-    public static Map<String, Date> getOneWeekDatePeriod(Timestamp pTimestamp) {
+    public static Map<String, Date> getOneWeekDatePeriod(Date pTimestamp) {
         Map<String, Date> weekDate = new HashMap<String, Date>(2);
         Calendar cal = Calendar.getInstance();
         cal.setTime(pTimestamp);
@@ -108,7 +108,7 @@ public class DateUtils {
         return null;
     }
 
-    public static Date getDateTimeMiddle(Timestamp pTimestamp) {
+    public static Date getDateTimeMiddle(Date pTimestamp) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(pTimestamp);
         try {

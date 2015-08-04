@@ -10,7 +10,8 @@
         `attendance_flag`,
         `attendance_date`,
         `creation_date`,
-        `clock_in_person_id`
+        `clock_in_person_id`,
+        `clock_in_person_name`
         FROM clock_in_record
         WHERE <![CDATA[ attendance_date >= #{startDate}
                 and attendance_date <= #{endDate}

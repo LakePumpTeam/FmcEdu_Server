@@ -2,7 +2,7 @@ package com.fmc.edu.model.clockin;
 
 import com.fmc.edu.model.BaseBean;
 
-import java.sql.Timestamp;
+import java.sql.Date;
 
 /**
  * Created by Yu on 7/18/2015.
@@ -11,8 +11,8 @@ public class ClockInRecord extends BaseBean {
     private int mMagneticCardId;
     private int mType;
     private int mAttendanceFlag;
-    private Timestamp mAttendanceDate;
-    private Timestamp mCreationDate;
+    private Date mAttendanceDate;
+    private Date mCreationDate;
     private int mClockInPersonId;
     private String mClockInPersonName;
 
@@ -40,19 +40,19 @@ public class ClockInRecord extends BaseBean {
         mAttendanceFlag = pAttendanceFlag;
     }
 
-    public Timestamp getAttendanceDate() {
+    public Date getAttendanceDate() {
         return mAttendanceDate;
     }
 
-    public void setAttendanceDate(Timestamp pAttendanceDate) {
+    public void setAttendanceDate(Date pAttendanceDate) {
         mAttendanceDate = pAttendanceDate;
     }
 
-    public Timestamp getCreationDate() {
+    public Date getCreationDate() {
         return mCreationDate;
     }
 
-    public void setCreationDate(Timestamp pCreationDate) {
+    public void setCreationDate(Date pCreationDate) {
         mCreationDate = pCreationDate;
     }
 
