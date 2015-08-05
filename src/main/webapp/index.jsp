@@ -1284,6 +1284,11 @@
                             <td><input type="text" class="ipt_value" id="studentId" value=""/></td>
                         </tr>
                         <tr>
+                            <td align="right"><label for="classId" title="classId">classId</label>
+                            </td>
+                            <td><input type="text" class="ipt_value" id="classId" value=""/></td>
+                        </tr>
+                        <tr>
                             <td align="right"><label for="pageIndex" title="pageIndex">pageIndex</label>
                             </td>
                             <td><input type="text" class="ipt_value" id="pageIndex" value=""/></td>

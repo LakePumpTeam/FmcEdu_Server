@@ -15,8 +15,12 @@
         FROM clock_in_record
         WHERE <![CDATA[ attendance_date >= #{startDate}
                 and attendance_date <= #{endDate}
-                and type=#{type} and magnetic_card_id=#{magneticCardId}
+                and type=#{type}
                 ]]>
+        <foreach collection="magneticCardIds" item="magneticCardId" open="AND magnetic_card_id IN( " close=" )"
+                 separator=",">
+            #{magneticCardId}
+        </foreach>
         <if test="@Ognl@isNotEmpty(attendanceFlag)">
             and attendance_flag = #{attendanceFlag}
         </if>

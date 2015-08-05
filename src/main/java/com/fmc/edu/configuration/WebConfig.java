@@ -20,9 +20,13 @@ public class WebConfig {
     private static final String DEPLOY_STATUS = "deployStatus";
     private static final String ENCODE_BASE64_INPUT_PARAM = "encodeBase64InputParam";
 
-    private static final String API_KEY = "apiKey";
+    private static final String API_KEY_ANDROID = "apiKey_android";
 
-    private static final String SECRET_KEY = "secretKey";
+    private static final String SECRET_KEY_ANDROID = "secretKey_android";
+
+    private static final String API_KEY_IOS = "apiKey_ios";
+
+    private static final String SECRET_KEY_IOS = "secretKey_ios";
 
     private static final String DES_PASSWORD = "desPassword";
 
@@ -72,18 +76,32 @@ public class WebConfig {
         return !isDevelopment();
     }
 
-    public static String getApiKey() throws Exception {
+    public static String getAndroidApiKey() throws Exception {
         if (props == null) {
-            throw new Exception("Bai Du apiKey not was configured.");
+            throw new Exception("Bai Du android apiKey not was configured.");
         }
-        return props.getProperty(WebConfig.API_KEY);
+        return props.getProperty(WebConfig.API_KEY_ANDROID);
     }
 
-    public static String getSecretKey() throws Exception {
+    public static String getAndroidSecretKey() throws Exception {
         if (props == null) {
-            throw new Exception("Bai Du secretKey not was configured.");
+            throw new Exception("Bai Du android secretKey not was configured.");
         }
-        return props.getProperty(WebConfig.SECRET_KEY);
+        return props.getProperty(WebConfig.SECRET_KEY_ANDROID);
+    }
+
+    public static String getIOSApiKey() throws Exception {
+        if (props == null) {
+            throw new Exception("Bai Du ios apiKey not was configured.");
+        }
+        return props.getProperty(WebConfig.API_KEY_IOS);
+    }
+
+    public static String getIOSSecretKey() throws Exception {
+        if (props == null) {
+            throw new Exception("Bai Du ios secretKey not was configured.");
+        }
+        return props.getProperty(WebConfig.SECRET_KEY_IOS);
     }
 
     public static Integer getBaiDuMsgExpires() throws Exception {

@@ -11,10 +11,10 @@ import org.springframework.stereotype.Service;
 /**
  * Created by Yu on 7/13/2015.
  */
-@Service("baiduPushClient")
-public class BaiDuPushClient extends BaiduPushClient {
-    public BaiDuPushClient() throws Exception {
-        super(new PushKeyPair(WebConfig.getApiKey(), WebConfig.getSecretKey()), BaiduPushConstants.CHANNEL_REST_URL);
+@Service("androidBaiduPushClient")
+public class AndroidBaiDuPushClient extends BaiduPushClient {
+    public AndroidBaiDuPushClient() throws Exception {
+        super(new PushKeyPair(WebConfig.getAndroidApiKey(), WebConfig.getAndroidSecretKey()), BaiduPushConstants.CHANNEL_REST_URL);
         this.setChannelLogHandler(new YunLogHandler() {
             @Override
             public void onHandle(YunLogEvent event) {

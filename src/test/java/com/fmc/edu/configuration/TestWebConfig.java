@@ -18,7 +18,5 @@ public class TestWebConfig {
 		System.out.println("deployStatus:" + WebConfig.deployStatus());
 		System.out.println("Is development:" + WebConfig.isDevelopment());
 		System.out.println("Is production:" + WebConfig.isProduction());
-		System.out.println("apiKey:" + WebConfig.getApiKey());
-		System.out.println("secretKey:" + WebConfig.getSecretKey());
 	}
 }

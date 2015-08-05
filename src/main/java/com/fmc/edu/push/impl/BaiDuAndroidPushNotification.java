@@ -1,5 +1,6 @@
 package com.fmc.edu.push.impl;
 
+import com.baidu.yun.push.client.BaiduPushClient;
 import com.baidu.yun.push.constants.BaiduPushConstants;
 import com.baidu.yun.push.exception.PushClientException;
 import com.baidu.yun.push.exception.PushServerException;
@@ -24,8 +25,8 @@ import javax.annotation.Resource;
 public class BaiDuAndroidPushNotification implements IBaiDuPushNotification {
     private static final Logger LOG = Logger.getLogger(BaiDuAndroidPushNotification.class);
 
-    @Resource(name = "baiduPushClient")
-    private BaiDuPushClient mBaiDuPushClient;
+    @Resource(name = "androidBaiduPushClient")
+    private BaiduPushClient mBaiDuPushClient;
 
     @Override
     public boolean pushMsg(String[] pChannelIds, String pAppId, PushMessageParameter pMsg) throws Exception {
@@ -89,11 +90,11 @@ public class BaiDuAndroidPushNotification implements IBaiDuPushNotification {
         return true;
     }
 
-    public BaiDuPushClient getBaiDuPushClient() {
+    public BaiduPushClient getBaiDuPushClient() {
         return mBaiDuPushClient;
     }
 
-    public void setBaiDuPushClient(BaiDuPushClient pBaiDuPushClient) {
+    public void setBaiDuPushClient(BaiduPushClient pBaiDuPushClient) {
         mBaiDuPushClient = pBaiDuPushClient;
     }
 }

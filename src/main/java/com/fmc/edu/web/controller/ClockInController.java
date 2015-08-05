@@ -59,14 +59,21 @@ public class ClockInController extends BaseController {
     @ResponseBody
     public String clockInRecords(final HttpServletRequest pRequest) {
         ResponseBean responseBean = new ResponseBean(pRequest);
-        String type = pRequest.getParameter("type");
         String studentId = pRequest.getParameter("studentId");
+        String classId = pRequest.getParameter("classId");
         String attendanceFlag = pRequest.getParameter("attendanceFlag");
-        String pageIndex = pRequest.getParameter("pageIndex");
-        if (!RepositoryUtils.idIsValid(studentId)) {
-            responseBean.addBusinessMsg(ResourceManager.VALIDATION_USER_USER_ID_EMPTY);
-            return output(responseBean);
+        if (RepositoryUtils.idIsValid(studentId)) {
+            queryParentOrStudentClockInRecord(pRequest, studentId, attendanceFlag, responseBean);
+        } else if (RepositoryUtils.idIsValid(classId)) {
+            queryClassClockInRecord(pRequest, classId, responseBean);
+        } else {
+            responseBean.addBusinessMessage("参数错误.");
         }
+        return output(responseBean);
+    }
+
+    private void queryParentOrStudentClockInRecord(final HttpServletRequest pRequest, String studentId, String attendanceFlag, ResponseBean responseBean) {
+        String type = pRequest.getParameter("type");
         List<MagneticCard> magneticCards = null;
         if (Integer.valueOf(type) == ClockInType.PARENT_CLOCK_IN) {
             magneticCards = getMagneticCardManager().queryMagneticByStudentIdForParent(Integer.valueOf(studentId));
@@ -76,27 +83,64 @@ public class ClockInController extends BaseController {
 
         if (CollectionUtils.isEmpty(magneticCards)) {
             responseBean.addBusinessMessage("未绑定有效磁卡.");
-            return output(responseBean);
+            return;
         }
+        obtainClockInRecords(pRequest, responseBean, magneticCards);
+        return;
+    }
 
-        for (MagneticCard magneticCard : magneticCards) {
-            Map<String, Object> parameter = new HashMap<String, Object>();
-            parameter.put("type", type);
-            parameter.put("magneticCardId", magneticCard.getId());
-            parameter.put("attendanceFlag", attendanceFlag);
-            //query records by week
-            //Map<String, Date> currentOneWeekDate = DateUtils.getOneWeekDatePeriod(new Timestamp(new Date().getTime()));
-            //Date currentWeekEndDate = currentOneWeekDate.get("endDate");
-            // currentOneWeekDate = DateUtils.getOneWeekDatePeriod(new Timestamp(DateUtils.minusDays(currentWeekEndDate, 7 * (Integer.valueOf(pageIndex) - 1)).getTime()));
-            Map<String, Date> currentOneWeekDate = new HashMap<String, Date>(2);
-            Date endDate = DateUtils.getDaysLater((Integer.valueOf(pageIndex) - 1) * 7);
-            currentOneWeekDate.put("startDate", DateUtils.getDateTimeStart(DateUtils.addDays(endDate, -7)));
-            currentOneWeekDate.put("endDate", DateUtils.getDateTimeEnd(endDate));
-            parameter.putAll(currentOneWeekDate);
-            List<ClockInRecord> clockInRecords = getClockInRecordManager().queryClockInRecords(parameter);
-            getResponseBuilder().buildAttendanceRecords(clockInRecords, responseBean);
+    private void queryClassClockInRecord(final HttpServletRequest pRequest, String classId, ResponseBean responseBean) {
+        Map<String, Object> studentMap = getStudentManager().queryStudentsByClassId(Integer.valueOf(classId));
+        if (studentMap == null || studentMap.size() == 0) {
+            return;
         }
-        return responseBean.toString();
+        List<Map<String, Object>> studentList = (List<Map<String, Object>>) studentMap.get("studentList");
+
+        if (CollectionUtils.isEmpty(studentList)) {
+            return;
+        }
+        List<Integer> studentIdList = new ArrayList<Integer>();
+        for (Map<String, Object> student : studentList) {
+            if (student == null) {
+                continue;
+            }
+            Integer studentId = (Integer) student.get("studentId");
+            if (!RepositoryUtils.idIsValid(studentId)) {
+                continue;
+            }
+            studentIdList.add(studentId);
+        }
+        List<MagneticCard> magneticCards = getMagneticCardManager().queryMagneticByStudentIdForStudents(studentIdList);
+        obtainClockInRecords(pRequest, responseBean, magneticCards);
+    }
+
+    private void obtainClockInRecords(final HttpServletRequest pRequest, ResponseBean responseBean, List<MagneticCard> pMagneticCards) {
+        if (CollectionUtils.isEmpty(pMagneticCards)) {
+            LOG.warn(">>>>>>>>无有效持卡<<<<<<<<<<<");
+            return;
+        }
+        String type = pRequest.getParameter("type");
+        String pageIndex = pRequest.getParameter("pageIndex");
+
+        List<Integer> magneticCardIds = new ArrayList<Integer>();
+        for (MagneticCard magneticCard : pMagneticCards) {
+            magneticCardIds.add(magneticCard.getId());
+        }
+        Map<String, Object> parameter = new HashMap<String, Object>();
+        parameter.put("type", type);
+        parameter.put("magneticCardIds", magneticCardIds);
+        parameter.put("attendanceFlag", null);
+        //query records by week
+        //Map<String, Date> currentOneWeekDate = DateUtils.getOneWeekDatePeriod(new Timestamp(new Date().getTime()));
+        //Date currentWeekEndDate = currentOneWeekDate.get("endDate");
+        // currentOneWeekDate = DateUtils.getOneWeekDatePeriod(new Timestamp(DateUtils.minusDays(currentWeekEndDate, 7 * (Integer.valueOf(pageIndex) - 1)).getTime()));
+        Map<String, Date> currentOneWeekDate = new HashMap<String, Date>(2);
+        Date endDate = DateUtils.getDaysLater((Integer.valueOf(pageIndex) - 1));
+        currentOneWeekDate.put("startDate", DateUtils.getDateTimeStart(endDate));
+        currentOneWeekDate.put("endDate", DateUtils.getDateTimeEnd(endDate));
+        parameter.putAll(currentOneWeekDate);
+        List<ClockInRecord> clockInRecords = getClockInRecordManager().queryClockInRecords(parameter);
+        getResponseBuilder().buildAttendanceRecords(clockInRecords, responseBean);
     }
 
     @RequestMapping("/notifyParentNorthDelta")
