@@ -18,6 +18,8 @@ public class DateUtils {
 
     public static final String PATTERN_TIME = "HH:mm:ss";
 
+    public static final String PATTERN_DATE = "yyyy-MM-dd HH:mm:ss";
+
     public static final String[] WEEK = new String[]{"星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"};
 
     public static Timestamp getDaysLater(int pDays) {
@@ -150,6 +152,14 @@ public class DateUtils {
             return "";
         }
         return WEEK[pWeek - 1];
+    }
+
+    public static String convertDateToDateTimeString(Date pDate) {
+        if (pDate == null) {
+            return "";
+        }
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(PATTERN_DATE);
+        return simpleDateFormat.format(pDate);
     }
 
     public static void main(String[] args) {
