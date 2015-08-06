@@ -20,35 +20,40 @@
 </c:choose>
 <c:choose>
     <c:when test="${param.mode eq '2'}">
-        <c:set var="includeJspURL" value="includes/news-school-activity.jsp" />
-        <c:set var="subheading" value="活动发布" />
+        <c:set var="includeJspURL" value="includes/news-publish-school.jsp" />
+        <c:set var="subheading" value="活动" />
     </c:when>
     <c:when test="${param.mode eq '3'}">
-        <c:set var="includeJspURL" value="includes/news-school-notification.jsp" />
-        <c:set var="subheading" value="通知发布" />
+        <c:set var="includeJspURL" value="includes/news-publish-school.jsp" />
+        <c:set var="subheading" value="通知" />
     </c:when>
     <c:when test="${param.mode eq '4'}">
-        <c:set var="includeJspURL" value="includes/news-school-news.jsp" />
-        <c:set var="subheading" value="新闻发布" />
+        <c:set var="includeJspURL" value="includes/news-publish-school.jsp" />
+        <c:set var="subheading" value="新闻" />
     </c:when>
     <c:when test="${param.mode eq '1'}">
-        <c:set var="includeJspURL" value="includes/news-parent-child-edu.jsp" />
-        <c:set var="subheading" value="发布" />
+        <c:set var="includeJspURL" value="includes/news-publish-school.jsp" />
     </c:when>
     <c:when test="${param.mode eq '7'}">
         <c:set var="includeJspURL" value="includes/news-ballot.jsp" />
-        <c:set var="subheading" value="发布" />
     </c:when>
 </c:choose>
 
-<fmc:container template="news" subject="${subject} - ${subheading}">
+<fmc:container template="news" subject="${subject} - ${subheading}发布">
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default" style="align-content: center;">
                 <div class="panel-heading">&nbsp;</div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
-                    <jsp:include page="${includeJspURL}" />
+                    <div id="news_content">
+                        <form action="${ctx}/admin/news/publishNews" method="post" enctype="multipart/form-data" id="news_form">
+                            <jsp:include page="includes/fragment/fragement-province-city-school.jsp" flush="true" />
+                            <jsp:include page="${includeJspURL}" flush="true">
+                                <jsp:param name="subheading" value="${subheading}" />
+                            </jsp:include>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
