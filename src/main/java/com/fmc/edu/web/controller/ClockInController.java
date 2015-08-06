@@ -67,7 +67,7 @@ public class ClockInController extends BaseController {
         } else if (RepositoryUtils.idIsValid(classId)) {
             queryClassClockInRecord(pRequest, classId, responseBean);
         } else {
-            responseBean.addBusinessMessage("参数错误.");
+            responseBean.addBusinessMessage("Error parameters.");
         }
         return output(responseBean);
     }

@@ -48,6 +48,7 @@
     <select id="queryNotAttendancesRecords" parameterType="map" resultType="map">
         SELECT std.name AS studentName,
         psm.parent_id AS parentId,
+        std.id as studentId,
         date_format(now(),'%Y.%m.%d') AS date
         FROM student std
         INNER JOIN parent_student_map psm ON std.id=psm.student_id
