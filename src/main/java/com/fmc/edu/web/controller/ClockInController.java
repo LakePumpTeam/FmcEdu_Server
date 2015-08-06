@@ -549,7 +549,7 @@ public class ClockInController extends BaseController {
         pushMessage.setDescription(getResourceManager().getMessage(pRequest, ResourceManager.BAIDU_PUSH_MESSAGE_WARNING_USING_LOST_CARD,
                 new String[]{DateUtils.convertDateToDateTimeString(clockInRecord.getAttendanceDate()),
                         student.getName(),
-                        String.valueOf(magneticCard.getId()),
+                        String.valueOf(magneticCard.getCardNo()),
                         parent.getName()}));
         try {
             getBaiDuPushManager().pushNotificationMsg(personCarMagneticRelationship.getProfileId(), pushMessage);
