@@ -40,6 +40,11 @@ public class MagneticCardRepository extends BaseRepository implements IMagneticC
     }
 
     @Override
+    public MagneticCard queryMagneticCardByCardNo(String pCardNo) {
+        return getSqlSession().selectOne(QUERY_MAGNETIC_CARD_BY_CARD_NO, pCardNo);
+    }
+
+    @Override
     public boolean updateMagneticCard(MagneticCard pMagneticCard) {
         return getSqlSession().update(UPDATE_MAGETIC_CARD, pMagneticCard) > 0;
     }

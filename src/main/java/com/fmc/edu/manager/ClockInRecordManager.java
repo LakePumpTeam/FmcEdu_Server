@@ -29,6 +29,10 @@ public class ClockInRecordManager {
         return getClockInRecordService().queryNotAttendancesRecords(pProfileIds, pClassId);
     }
 
+    public boolean insertClockInRecord(ClockInRecord pClockInRecord) {
+        return getClockInRecordService().insertClockInRecord(pClockInRecord);
+    }
+
     public ClockInRecordService getClockInRecordService() {
         return mClockInRecordService;
     }

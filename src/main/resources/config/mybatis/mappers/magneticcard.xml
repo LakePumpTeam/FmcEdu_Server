@@ -57,6 +57,16 @@
                  where mc.id=#{magneticCardId};
     </select>
 
+    <select id="queryMagneticCardByCardNo" parameterType="int" resultMap="rm.magneticCard">
+        select mc.`id`as id,
+        mc.`card_no` as card_no,
+        mc.`comments` as comments,
+        mc.`last_update_date` as last_update_date,
+        mc.`creation_date` as creation_date,
+        mc.`card_type` as card_type from magnetic_card mc
+        where mc.card_no=#{cardNo};
+    </select>
+
     <update id="updateMagneticCard" parameterType="MagneticCard">
         UPDATE magnetic_card
         SET comments = #{comments},

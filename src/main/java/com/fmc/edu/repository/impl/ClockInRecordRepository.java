@@ -47,4 +47,9 @@ public class ClockInRecordRepository extends BaseRepository implements IClockInR
         paramter.put("classId", pClassId);
         return getSqlSession().selectList(QUERY_NOT_ATTENDANCE_RECORDS, paramter);
     }
+
+    @Override
+    public boolean insertClockInRecord(ClockInRecord pClockInRecord) {
+        return getSqlSession().insert(INSERT_CLOCK_IN_RECORD, pClockInRecord) > 0;
+    }
 }

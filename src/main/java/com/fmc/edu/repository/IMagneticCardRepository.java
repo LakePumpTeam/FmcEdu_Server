@@ -25,6 +25,10 @@ public interface IMagneticCardRepository {
 
     MagneticCard queryMagneticCardById(int pMagneticCardId);
 
+    String QUERY_MAGNETIC_CARD_BY_CARD_NO = "com.fmc.edu.magnetic.card.queryMagneticCardByCardNo";
+
+    MagneticCard queryMagneticCardByCardNo(String pCardNo);
+
     String UPDATE_MAGETIC_CARD = "com.fmc.edu.magnetic.card.updateMagneticCard";
 
     boolean updateMagneticCard(MagneticCard pMagneticCard);

@@ -39,6 +39,10 @@ public class MagneticCardService {
         return getMagneticCardRepository().queryMagneticCardById(pMagneticCardId);
     }
 
+    public MagneticCard queryMagneticCardByCardNo(String pCardNo) {
+        return getMagneticCardRepository().queryMagneticCardByCardNo(pCardNo);
+    }
+
     public boolean updateMagneticCard(MagneticCard pMagneticCard) {
         return getMagneticCardRepository().updateMagneticCard(pMagneticCard);
     }

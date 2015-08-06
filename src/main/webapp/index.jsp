@@ -1437,9 +1437,9 @@
                         </tr>
                     </table>
                 </td>
-            <td><input type="button" class="btn_request" value="Request"/></td>
-            <td><input type="button" class="btn_reset" value="Reset"/></td>
-            <td class="result"></td>
+                <td><input type="button" class="btn_request" value="Request"/></td>
+                <td><input type="button" class="btn_reset" value="Reset"/></td>
+                <td class="result"></td>
             </tr>
             <tr>
                 <td>#9</td>
@@ -1472,6 +1472,32 @@
                             <td align="right"><label for="classId" title="classId">classId</label>
                             </td>
                             <td><input type="text" class="ipt_value" id="classId" value=""/></td>
+                        </tr>
+                    </table>
+                </td>
+                <td><input type="button" class="btn_request" value="Request"/></td>
+                <td><input type="button" class="btn_reset" value="Reset"/></td>
+                <td class="result"></td>
+            </tr>
+            <tr>
+                <td>#11</td>
+                <td class="function"> 上次打卡记录</td>
+                <td class="baseUrl">${ctx}/clock/in/updateClockInRecord</td>
+                <td class="parameters">
+                    <table>
+                        <tr>
+                            <td align="right"><label for="cardId" title="cardId">cardId</label>
+                            </td>
+                            <td><input type="text" class="ipt_value" id="cardId" value=""/></td>
+                        </tr>
+                        <tr>
+                            <td align="right"><label for="dateTime" title="dateTime">dateTime</label></td>
+                            <td><input type="text" class="ipt_value" id="dateTime" value=""/></td>
+                        </tr>
+                        <tr>
+                            <td align="right"><label for="clockInType" title="clockInType">clockInType(1: 学生进校 2:学生离校
+                                3:家长送小孩到校 4:家长接小孩离校 5:挂失卡被使用)</label></td>
+                            <td><input type="text" class="ipt_value" id="clockInType" value=""/></td>
                         </tr>
                     </table>
                 </td>

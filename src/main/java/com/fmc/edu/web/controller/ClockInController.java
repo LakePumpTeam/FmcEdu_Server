@@ -8,6 +8,7 @@ import com.fmc.edu.model.profile.BaseProfile;
 import com.fmc.edu.model.push.PushMessageParameter;
 import com.fmc.edu.model.push.PushMessageType;
 import com.fmc.edu.model.relationship.ParentStudentRelationship;
+import com.fmc.edu.model.relationship.PersonCarMagneticRelationship;
 import com.fmc.edu.model.student.Student;
 import com.fmc.edu.util.BeanUtils;
 import com.fmc.edu.util.DateUtils;
@@ -18,6 +19,7 @@ import com.fmc.edu.web.ResponseBuilder;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.TransactionStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -166,27 +168,12 @@ public class ClockInController extends BaseController {
             if (psr == null) {
                 continue;
             }
-            BaseProfile parent = getMyAccountManager().findUserById(String.valueOf(psr.getParentId()));
-            if (parent == null) {
-                LOG.debug("Can not find parent for id:" + psr.getParentId());
-                continue;
-            }
-            //TODO if parent off line app, if we should send notification?
-            if (!parent.isOnline()) {
-                LOG.info("User off line status:" + psr.getParentId());
-                continue;
-            }
-
             PushMessageParameter pushMessage = new PushMessageParameter();
             pushMessage.addCustomContents(PushMessageParameter.MSG_TYPE, PushMessageType.TYPE_TEACHER_NOTIFY_PARENT_NORTH_DELTA.getValue());
             pushMessage.setTitle("提醒");
             pushMessage.setDescription(getResourceManager().getMessage(pRequest, ResourceManager.BAIDU_PUSH_MESSAGE_NOTIFY_NORTH_DELTA));
             try {
-                if (StringUtils.isBlank(parent.getChannelId())) {
-                    LOG.debug("Can not find channel id for parent:" + psr.getParentId());
-                    continue;
-                }
-                getBaiDuPushManager().pushNotificationMsg(parent.getDeviceType(), new String[]{parent.getChannelId()}, parent.getId(), pushMessage);
+                getBaiDuPushManager().pushNotificationMsg(psr.getParentId(), pushMessage);
             } catch (Exception e) {
                 LOG.debug(e.getMessage());
             }
@@ -285,6 +272,320 @@ public class ClockInController extends BaseController {
         responseBean.addData("records", notAttendancesParentsRecords);
         responseBean.addData("parentCount", parentProfileIds.size());
         return output(responseBean);
+    }
+
+    @RequestMapping("/updateClockInRecord")
+    @ResponseBody
+    public String updateClockInRecord(HttpServletRequest pRequest,
+                                      HttpServletResponse pResponse) {
+        ResponseBean responseBean = new ResponseBean(pRequest);
+
+        String cardId = pRequest.getParameter("cardId");
+        if (StringUtils.isBlank(cardId)) {
+            responseBean.addBusinessMessage("Magnetic card id is blank.");
+            return output(responseBean);
+        }
+
+        String dateTime = pRequest.getParameter("dateTime");
+        if (StringUtils.isBlank(dateTime) || DateUtils.convertStringToDateTime(dateTime) == null) {
+
+            responseBean.addBusinessMessage("DateTime field is invalid format:" + dateTime);
+            return output(responseBean);
+        }
+        //1: in 2:out 3:send 4:take back 5:lost card reuse
+        String clockInType = pRequest.getParameter("clockInType");
+        if (!BeanUtils.isValidClockInType(clockInType)) {
+            responseBean.addBusinessMessage("Clock in type is invalid value: " + clockInType);
+            return output(responseBean);
+        }
+
+        MagneticCard magneticCard = getMagneticCardManager().queryMagneticCardByCardNo(cardId);
+        if (magneticCard == null) {
+            responseBean.addBusinessMessage("Can not find magnetic card for card id: " + cardId);
+            return output(responseBean);
+        }
+        PersonCarMagneticRelationship personCarMagneticRelationship = getMagneticCardManager().queryPersonMagneticCardRelationship(magneticCard.getId());
+        if (personCarMagneticRelationship == null) {
+            responseBean.addBusinessMessage("Can not find any relationship with person for the card: " + cardId);
+            return output(responseBean);
+        }
+        switch (clockInType) {
+            case "1": {
+                saveStudentClockInInRecord(pRequest, pResponse, magneticCard, personCarMagneticRelationship, responseBean);
+                break;
+            }
+            case "2": {
+                saveStudentClockInOutRecord(pRequest, pResponse, magneticCard, personCarMagneticRelationship, responseBean);
+                break;
+            }
+            case "3": {
+                saveParentSendChildRecord(pRequest, pResponse, magneticCard, personCarMagneticRelationship, responseBean);
+                break;
+            }
+            case "4": {
+                saveParentTakeBackChildRecord(pRequest, pResponse, magneticCard, personCarMagneticRelationship, responseBean);
+                break;
+            }
+            case "5": {
+                lostCardReuseNotify(pRequest, pResponse, magneticCard, personCarMagneticRelationship, responseBean);
+            }
+        }
+
+        return output(responseBean);
+    }
+
+    private void saveStudentClockInInRecord(HttpServletRequest pRequest,
+                                            HttpServletResponse pResponse,
+                                            MagneticCard magneticCard,
+                                            PersonCarMagneticRelationship personCarMagneticRelationship,
+                                            ResponseBean pResponseBean) {
+        String dateTime = pRequest.getParameter("dateTime");
+        Date attendanceDate;
+        attendanceDate = DateUtils.convertStringToDateTime(dateTime);
+        if (attendanceDate == null) {
+            attendanceDate = DateUtils.getDaysLater(0);
+        }
+        TransactionStatus txStatus = ensureTransaction();
+        ClockInRecord clockInRecord = createClockInRecord(ClockInType.STUDENT_CLOCK_IN, magneticCard.getId(), personCarMagneticRelationship.getStudentId(), 0, attendanceDate);
+        boolean isSuccess = false;
+        try {
+            getClockInRecordManager().insertClockInRecord(clockInRecord);
+            isSuccess = true;
+        } catch (Exception ex) {
+            pResponseBean.addErrorMsg(ex);
+            txStatus.setRollbackOnly();
+        } finally {
+            getTransactionManager().commit(txStatus);
+        }
+
+        if (!isSuccess) {
+            LOG.error("saveStudentClockInInRecord(): Save clock in record failed.");
+            return;
+        }
+        PushMessageParameter pushMessage = new PushMessageParameter();
+        pushMessage.addCustomContents(PushMessageParameter.MSG_TYPE, PushMessageType.TYPE_CLOCK_IN_STUDENT_IN.getValue());
+        pushMessage.setTitle("提示");
+        pushMessage.setDescription(getResourceManager().getMessage(pRequest, ResourceManager.BAIDU_PUSH_MESSAGE_STUDENT_TO_SCHOOL,
+                new String[]{clockInRecord.getClockInPersonName(), DateUtils.convertDateToDateTimeString(clockInRecord.getAttendanceDate())}));
+        try {
+            getBaiDuPushManager().pushNotificationMsg(personCarMagneticRelationship.getProfileId(), pushMessage);
+        } catch (Exception e) {
+            LOG.error(e);
+        }
+    }
+
+    private void saveStudentClockInOutRecord(HttpServletRequest pRequest,
+                                             HttpServletResponse pResponse,
+                                             MagneticCard magneticCard,
+                                             PersonCarMagneticRelationship personCarMagneticRelationship,
+                                             ResponseBean pResponseBean) {
+        String dateTime = pRequest.getParameter("dateTime");
+        Date attendanceDate;
+        attendanceDate = DateUtils.convertStringToDateTime(dateTime);
+        if (attendanceDate == null) {
+            attendanceDate = DateUtils.getDaysLater(0);
+        }
+        TransactionStatus txStatus = ensureTransaction();
+        ClockInRecord clockInRecord = createClockInRecord(ClockInType.STUDENT_CLOCK_IN, magneticCard.getId(), personCarMagneticRelationship.getStudentId(), 1, attendanceDate);
+        boolean isSuccess = false;
+        try {
+            getClockInRecordManager().insertClockInRecord(clockInRecord);
+            isSuccess = true;
+        } catch (Exception ex) {
+            pResponseBean.addErrorMsg(ex);
+            txStatus.setRollbackOnly();
+        } finally {
+            getTransactionManager().commit(txStatus);
+        }
+
+        if (!isSuccess) {
+            LOG.error("saveStudentClockInOutRecord(): Save clock in record failed.");
+            return;
+        }
+        PushMessageParameter pushMessage = new PushMessageParameter();
+        pushMessage.addCustomContents(PushMessageParameter.MSG_TYPE, PushMessageType.TYPE_CLOCK_IN_STUDENT_OUT.getValue());
+        pushMessage.setTitle("提示");
+        pushMessage.setDescription(getResourceManager().getMessage(pRequest, ResourceManager.BAIDU_PUSH_MESSAGE_STUDENT_LEFT_SCHOOL,
+                new String[]{clockInRecord.getClockInPersonName(), DateUtils.convertDateToDateTimeString(clockInRecord.getAttendanceDate())}));
+        try {
+            getBaiDuPushManager().pushNotificationMsg(personCarMagneticRelationship.getProfileId(), pushMessage);
+        } catch (Exception e) {
+            LOG.error(e);
+        }
+    }
+
+    private void saveParentSendChildRecord(HttpServletRequest pRequest,
+                                           HttpServletResponse pResponse,
+                                           MagneticCard magneticCard,
+                                           PersonCarMagneticRelationship personCarMagneticRelationship,
+                                           ResponseBean pResponseBean) {
+        String dateTime = pRequest.getParameter("dateTime");
+        Date attendanceDate;
+        attendanceDate = DateUtils.convertStringToDateTime(dateTime);
+        if (attendanceDate == null) {
+            attendanceDate = DateUtils.getDaysLater(0);
+        }
+        TransactionStatus txStatus = ensureTransaction();
+        ClockInRecord clockInRecord = createClockInRecord(ClockInType.PARENT_CLOCK_IN, magneticCard.getId(), personCarMagneticRelationship.getProfileId(), -1, attendanceDate);
+        boolean isSuccess = false;
+        try {
+            getClockInRecordManager().insertClockInRecord(clockInRecord);
+            isSuccess = true;
+        } catch (Exception ex) {
+            pResponseBean.addErrorMsg(ex);
+            txStatus.setRollbackOnly();
+        } finally {
+            getTransactionManager().commit(txStatus);
+        }
+
+        if (!isSuccess) {
+            LOG.error("saveParentSendChildRecord(): Save clock in record failed.");
+            return;
+        }
+        Student student = getStudentManager().queryStudentById(personCarMagneticRelationship.getStudentId());
+        if (student == null) {
+            LOG.error("saveParentSendChildRecord():Can not find student: " + personCarMagneticRelationship.getId() + " for parent: " + personCarMagneticRelationship.getProfileId());
+            return;
+        }
+        PushMessageParameter pushMessage = new PushMessageParameter();
+        pushMessage.addCustomContents(PushMessageParameter.MSG_TYPE, PushMessageType.TYPE_PARENT_SEND_CHILD.getValue());
+        pushMessage.setTitle("提示");
+        pushMessage.setDescription(getResourceManager().getMessage(pRequest, ResourceManager.BAIDU_PUSH_MESSAGE_SENT_CHILD,
+                new String[]{clockInRecord.getClockInPersonName(), student.getName()}));
+        try {
+            getBaiDuPushManager().pushNotificationMsg(personCarMagneticRelationship.getProfileId(), pushMessage);
+        } catch (Exception e) {
+            LOG.error(e);
+        }
+    }
+
+    private void saveParentTakeBackChildRecord(HttpServletRequest pRequest,
+                                               HttpServletResponse pResponse,
+                                               MagneticCard magneticCard,
+                                               PersonCarMagneticRelationship personCarMagneticRelationship,
+                                               ResponseBean pResponseBean) {
+        String dateTime = pRequest.getParameter("dateTime");
+        Date attendanceDate;
+        attendanceDate = DateUtils.convertStringToDateTime(dateTime);
+        if (attendanceDate == null) {
+            attendanceDate = DateUtils.getDaysLater(0);
+        }
+        TransactionStatus txStatus = ensureTransaction();
+        ClockInRecord clockInRecord = createClockInRecord(ClockInType.PARENT_CLOCK_IN, magneticCard.getId(), personCarMagneticRelationship.getProfileId(), -1, attendanceDate);
+        boolean isSuccess = false;
+        try {
+            getClockInRecordManager().insertClockInRecord(clockInRecord);
+            isSuccess = true;
+        } catch (Exception ex) {
+            pResponseBean.addErrorMsg(ex);
+            txStatus.setRollbackOnly();
+        } finally {
+            getTransactionManager().commit(txStatus);
+        }
+
+        if (!isSuccess) {
+            LOG.error("saveParentSendChildRecord(): Save clock in record failed.");
+            return;
+        }
+        Student student = getStudentManager().queryStudentById(personCarMagneticRelationship.getStudentId());
+        if (student == null) {
+            LOG.error("saveParentSendChildRecord():Can not find student: " + personCarMagneticRelationship.getId() + " for parent: " + personCarMagneticRelationship.getProfileId());
+            return;
+        }
+        PushMessageParameter pushMessage = new PushMessageParameter();
+        pushMessage.addCustomContents(PushMessageParameter.MSG_TYPE, PushMessageType.TYPE_PARENT_NORTH_DELTA.getValue());
+        pushMessage.setTitle("提示");
+        pushMessage.setDescription(getResourceManager().getMessage(pRequest, ResourceManager.BAIDU_PUSH_MESSAGE_NORTH_DELTA,
+                new String[]{clockInRecord.getClockInPersonName(), student.getName()}));
+        try {
+            getBaiDuPushManager().pushNotificationMsg(personCarMagneticRelationship.getProfileId(), pushMessage);
+        } catch (Exception e) {
+            LOG.error(e);
+        }
+    }
+
+    private void lostCardReuseNotify(HttpServletRequest pRequest,
+                                     HttpServletResponse pResponse,
+                                     MagneticCard magneticCard,
+                                     PersonCarMagneticRelationship personCarMagneticRelationship,
+                                     ResponseBean pResponseBean) {
+        String dateTime = pRequest.getParameter("dateTime");
+        Date attendanceDate;
+        attendanceDate = DateUtils.convertStringToDateTime(dateTime);
+        if (attendanceDate == null) {
+            attendanceDate = DateUtils.getDaysLater(0);
+        }
+        TransactionStatus txStatus = ensureTransaction();
+        ClockInRecord clockInRecord = createClockInRecord(-1, magneticCard.getId(), -1, -1, attendanceDate);
+        boolean isSuccess = false;
+        try {
+            getClockInRecordManager().insertClockInRecord(clockInRecord);
+            isSuccess = true;
+        } catch (Exception ex) {
+            pResponseBean.addErrorMsg(ex);
+            LOG.error(ex);
+            txStatus.setRollbackOnly();
+        } finally {
+            getTransactionManager().commit(txStatus);
+        }
+
+        if (!isSuccess) {
+            LOG.error("saveParentSendChildRecord(): Save clock in record failed.");
+            return;
+        }
+        BaseProfile parent = getMyAccountManager().findUserById(String.valueOf(personCarMagneticRelationship.getProfileId()));
+        if (parent == null) {
+            LOG.error("createClockInRecord(): Cannot find parent: " + personCarMagneticRelationship.getProfileId());
+            return;
+        }
+        Student student = getStudentManager().queryStudentById(personCarMagneticRelationship.getStudentId());
+        if (student == null) {
+            LOG.error("saveParentSendChildRecord():Can not find student: " + personCarMagneticRelationship.getId() + " for parent: " + personCarMagneticRelationship.getProfileId());
+            return;
+        }
+        PushMessageParameter pushMessage = new PushMessageParameter();
+        pushMessage.addCustomContents(PushMessageParameter.MSG_TYPE, PushMessageType.TYPE_WARNING_LOST_CARD.getValue());
+        pushMessage.setTitle("警告!!!");
+        pushMessage.setDescription(getResourceManager().getMessage(pRequest, ResourceManager.BAIDU_PUSH_MESSAGE_WARNING_USING_LOST_CARD,
+                new String[]{DateUtils.convertDateToDateTimeString(clockInRecord.getAttendanceDate()),
+                        student.getName(),
+                        String.valueOf(magneticCard.getId()),
+                        parent.getName()}));
+        try {
+            getBaiDuPushManager().pushNotificationMsg(personCarMagneticRelationship.getProfileId(), pushMessage);
+        } catch (Exception e) {
+            LOG.error(e);
+        }
+    }
+
+    private ClockInRecord createClockInRecord(int pClockInType, int cardId, int clockInPersonId, int attendanceFlag, Date attendanceDate) {
+
+        ClockInRecord clockInRecord = new ClockInRecord();
+        clockInRecord.setAttendanceDate(attendanceDate);
+        clockInRecord.setAttendanceFlag(attendanceFlag);
+        clockInRecord.setClockInPersonId(clockInPersonId);
+        if (pClockInType == ClockInType.STUDENT_CLOCK_IN) {
+            Student student = getStudentManager().queryStudentById(clockInPersonId);
+            if (student == null) {
+                LOG.error("createClockInRecord(): Cannot find student: " + clockInPersonId);
+            } else {
+                clockInRecord.setClockInPersonName(student.getName());
+            }
+        } else if (pClockInType == ClockInType.PARENT_CLOCK_IN) {
+            BaseProfile parent = getMyAccountManager().findUserById(String.valueOf(clockInPersonId));
+            if (parent == null) {
+                LOG.error("createClockInRecord(): Cannot find parent: " + clockInPersonId);
+            } else {
+                clockInRecord.setClockInPersonName(parent.getName());
+            }
+        } else {
+            clockInRecord.setClockInPersonName("[非法操作]");
+        }
+        clockInRecord.setCreationDate(DateUtils.getDaysLater(0));
+        clockInRecord.setMagneticCardId(cardId);
+        clockInRecord.setType(pClockInType);
+
+        return clockInRecord;
     }
 
     public BaiDuPushManager getBaiDuPushManager() {

@@ -22,4 +22,7 @@ public interface IClockInRecordRepository {
 
     List<Map> queryNotAttendancesRecords(List<Integer> pProfileIds, Integer pClassId);
 
+    String INSERT_CLOCK_IN_RECORD = "com.fmc.edu.clockin.insertClockInRecord";
+
+    boolean insertClockInRecord(ClockInRecord pClockInRecord);
 }

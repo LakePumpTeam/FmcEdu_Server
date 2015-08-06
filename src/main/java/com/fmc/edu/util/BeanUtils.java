@@ -69,4 +69,11 @@ public class BeanUtils {
         }
         return false;
     }
+
+    public static boolean isValidClockInType(String pType) {
+        if (!isNumber(pType)) {
+            return false;
+        }
+        return !(!pType.equalsIgnoreCase("1") && !pType.equalsIgnoreCase("2") && !pType.equalsIgnoreCase("3") && !pType.equalsIgnoreCase("4") && !pType.equalsIgnoreCase("5"));
+    }
 }

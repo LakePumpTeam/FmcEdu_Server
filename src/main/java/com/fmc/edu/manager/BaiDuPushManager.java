@@ -2,6 +2,7 @@ package com.fmc.edu.manager;
 
 import com.fmc.edu.model.app.AppSetting;
 import com.fmc.edu.model.app.DeviceType;
+import com.fmc.edu.model.profile.BaseProfile;
 import com.fmc.edu.model.push.MessageNotificationBasicStyle;
 import com.fmc.edu.model.push.PushMessage;
 import com.fmc.edu.model.push.PushMessageParameter;
@@ -30,7 +31,17 @@ public class BaiDuPushManager {
     @Resource(name = "myAccountManager")
     private MyAccountManager mMyAccountManager;
 
-    public boolean pushNotificationMsg(final int pDevice, final String[] pChannelIds, final int pUserId, final PushMessageParameter pMsg) throws Exception {
+    public boolean pushNotificationMsg(final int pUserId, final PushMessageParameter pMsg) throws Exception {
+        BaseProfile baseProfile = getMyAccountManager().findUserById(String.valueOf(pUserId));
+        if (baseProfile == null) {
+            LOG.info("pushNotificationMsg():Can not find user: " + pUserId);
+            return false;
+        }
+        //TODO if parent off line app, if we should send notification?
+        if (!baseProfile.isOnline()) {
+            LOG.info("User off line status:" + pUserId);
+            return false;
+        }
         AppSetting appSetting = getMyAccountManager().queryAppSetting(pUserId);
         if (appSetting != null) {
             if (appSetting.isIsBel() && appSetting.isIsVibra()) {
@@ -43,12 +54,12 @@ public class BaiDuPushManager {
                 pMsg.setNotification_basic_style(MessageNotificationBasicStyle.ERASIBLE);
             }
         }
-        boolean isSuccess = pushNotificationMsg(pDevice, pChannelIds, pMsg);
+        boolean isSuccess = pushNotificationMsg(baseProfile.getDeviceType(), new String[]{baseProfile.getChannelId()}, pMsg);
         PushMessage pushMessage = new PushMessage();
         pushMessage.setProfileId(pUserId);
         pushMessage.setTitle(pMsg.getTitle());
         pushMessage.setContent(pMsg.getDescription());
-        pushMessage.setPushDeviceType(pDevice);
+        pushMessage.setPushDeviceType(baseProfile.getDeviceType());
         pushMessage.setPushType(2);
         pushMessage.setMessageType(Integer.parseInt(pMsg.getCustom_content().get(PushMessageParameter.MSG_TYPE).toString()));
         pushMessage.setPushStatus(isSuccess);

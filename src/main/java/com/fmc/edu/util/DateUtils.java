@@ -1,5 +1,7 @@
 package com.fmc.edu.util;
 
+import org.apache.log4j.Logger;
+
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -13,6 +15,7 @@ import java.util.Map;
  * Created by Yove on 5/8/2015.
  */
 public class DateUtils {
+    private static final Logger LOG = Logger.getLogger(DateUtils.class);
 
     public static final String PATTERN_STUDENT_BIRTH = "yyyy-MM-dd";
 
@@ -36,11 +39,16 @@ public class DateUtils {
         return (new SimpleDateFormat(PATTERN_STUDENT_BIRTH)).parse(pBirthString);
     }
 
-    public static Date convertStringToDateTime(String pBirthString) throws ParseException {
+    public static Date convertStringToDateTime(String pBirthString) {
         if (StringUtils.isBlank(pBirthString)) {
             return null;
         }
-        return (new SimpleDateFormat(PATTERN_STUDENT_BIRTH + " " + PATTERN_TIME)).parse(pBirthString);
+        try {
+            return (new SimpleDateFormat(PATTERN_STUDENT_BIRTH + " " + PATTERN_TIME)).parse(pBirthString);
+        } catch (ParseException e) {
+            LOG.error(e);
+        }
+        return null;
     }
 
     public static String convertDateToString(Date pBirth) {
@@ -55,11 +63,17 @@ public class DateUtils {
     }
 
 
-    public static Time convertStringToTime(String pTimeString) throws ParseException {
+    public static Time convertStringToTime(String pTimeString) {
         if (StringUtils.isBlank(pTimeString)) {
             return null;
         }
-        Date date = (new SimpleDateFormat(PATTERN_TIME)).parse(pTimeString);
+        Date date = null;
+        try {
+            date = (new SimpleDateFormat(PATTERN_TIME)).parse(pTimeString);
+        } catch (ParseException e) {
+            LOG.error(e);
+            return null;
+        }
         return new Time(date.getTime());
     }
 
@@ -75,50 +89,31 @@ public class DateUtils {
 
         SimpleDateFormat df = new SimpleDateFormat(PATTERN_STUDENT_BIRTH);
         cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-        try {
-            weekDate.put("startDate", convertStringToDateTime(convertDateToString(new Date(cal.getTime().getTime())) + " 00:00:00"));
-            System.out.println(df.format(cal.getTime()));
-            cal.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
-            cal.add(Calendar.WEEK_OF_YEAR, 1);
-            System.out.println(df.format(cal.getTime()));
-            weekDate.put("endDate", convertStringToDateTime(convertDateToString(new Date(cal.getTime().getTime())) + " 23:59:59"));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        weekDate.put("startDate", convertStringToDateTime(convertDateToString(new Date(cal.getTime().getTime())) + " 00:00:00"));
+        System.out.println(df.format(cal.getTime()));
+        cal.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+        cal.add(Calendar.WEEK_OF_YEAR, 1);
+        System.out.println(df.format(cal.getTime()));
+        weekDate.put("endDate", convertStringToDateTime(convertDateToString(new Date(cal.getTime().getTime())) + " 23:59:59"));
         return weekDate;
     }
 
     public static Date getDateTimeStart(Date pTimestamp) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(pTimestamp);
-        try {
-            return convertStringToDateTime(convertDateToString(new Date(cal.getTime().getTime())) + " 00:00:00");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return convertStringToDateTime(convertDateToString(new Date(cal.getTime().getTime())) + " 00:00:00");
     }
 
     public static Date getDateTimeEnd(Date pTimestamp) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(pTimestamp);
-        try {
-            return convertStringToDateTime(convertDateToString(new Date(cal.getTime().getTime())) + " 23:59:59");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return convertStringToDateTime(convertDateToString(new Date(cal.getTime().getTime())) + " 23:59:59");
     }
 
     public static Date getDateTimeMiddle(Date pTimestamp) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(pTimestamp);
-        try {
-            return convertStringToDateTime(convertDateToString(new Date(cal.getTime().getTime())) + " 12:00:00");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return convertStringToDateTime(convertDateToString(new Date(cal.getTime().getTime())) + " 12:00:00");
     }
 
     public static boolean isMorning(Date pDate) {

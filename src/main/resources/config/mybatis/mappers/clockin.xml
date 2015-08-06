@@ -57,4 +57,26 @@
             #{id}
         </foreach>
     </select>
+
+    <insert id="insertClockInRecord" parameterType="ClockInRecord">
+      INSERT INTO `clock_in_record`
+            (
+            `magnetic_card_id`,
+            `clock_in_person_id`,
+            `clock_in_person_name`,
+            `type`,
+            `attendance_flag`,
+            `attendance_date`,
+            `creation_date`)
+            VALUES
+            (#{magneticCardId},
+            #{clockInPersonId},
+            #{clockInPersonName},
+            #{type},
+            #{attendanceFlag},
+            #{attendanceDate},
+            #{creationDate}
+            );
+
+    </insert>
 </mapper>

@@ -627,7 +627,7 @@ public class ProfileController extends BaseController {
         try {
             PushMessageParameter pushMessageParameter = new PushMessageParameter(title, content);
             pushMessageParameter.addCustomContents(PushMessageParameter.MSG_TYPE, msgType);
-            boolean isSuccess = getBaiDuPushManager().pushNotificationMsg(user.getDeviceType(), new String[]{user.getChannelId()}, user.getId(), pushMessageParameter);
+            boolean isSuccess = getBaiDuPushManager().pushNotificationMsg(user.getId(), pushMessageParameter);
             responseBean.addData("isSuccess", isSuccess);
         } catch (Exception e) {
             e.printStackTrace();
