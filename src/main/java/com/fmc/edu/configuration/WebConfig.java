@@ -17,7 +17,7 @@ public class WebConfig {
 
     public static final int DEPLOY_STATUS_DEVELOPER = 1;
     public static final int DEPLOY_STATUS_PRODUCTION = 2;
-    private static final String DEPLOY_STATUS = "deployStatus";
+    private static final String DEPLOY_STATUS = "envStatus";
     private static final String ENCODE_BASE64_INPUT_PARAM = "encodeBase64InputParam";
 
     private static final String API_KEY_ANDROID = "apiKey_android";

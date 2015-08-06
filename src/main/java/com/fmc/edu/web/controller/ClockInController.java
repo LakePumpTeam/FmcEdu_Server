@@ -1,5 +1,6 @@
 package com.fmc.edu.web.controller;
 
+import com.fmc.edu.configuration.WebConfig;
 import com.fmc.edu.manager.*;
 import com.fmc.edu.model.clockin.ClockInRecord;
 import com.fmc.edu.model.clockin.ClockInType;
@@ -309,26 +310,31 @@ public class ClockInController extends BaseController {
             responseBean.addBusinessMessage("Can not find any relationship with person for the card: " + cardId);
             return output(responseBean);
         }
-        if (!personCarMagneticRelationship.isAvailable()) {//marked lost card
-            lostCardReuseNotify(pRequest, pResponse, magneticCard, personCarMagneticRelationship, responseBean);
-        } else {
-            switch (clockInType) {
-                case "1": {
-                    saveStudentClockInInRecord(pRequest, pResponse, magneticCard, personCarMagneticRelationship, responseBean);
-                    break;
-                }
-                case "2": {
-                    saveStudentClockInOutRecord(pRequest, pResponse, magneticCard, personCarMagneticRelationship, responseBean);
-                    break;
-                }
-                case "3": {
-                    saveParentSendChildRecord(pRequest, pResponse, magneticCard, personCarMagneticRelationship, responseBean);
-                    break;
-                }
-                case "4": {
-                    saveParentTakeBackChildRecord(pRequest, pResponse, magneticCard, personCarMagneticRelationship, responseBean);
-                    break;
-                }
+        if (!WebConfig.isDevelopment()) {
+            if (!personCarMagneticRelationship.isAvailable()) {//marked lost card
+                clockInType = "5";
+            }
+        }
+        switch (clockInType) {
+            case "1": {
+                saveStudentClockInInRecord(pRequest, pResponse, magneticCard, personCarMagneticRelationship, responseBean);
+                break;
+            }
+            case "2": {
+                saveStudentClockInOutRecord(pRequest, pResponse, magneticCard, personCarMagneticRelationship, responseBean);
+                break;
+            }
+            case "3": {
+                saveParentSendChildRecord(pRequest, pResponse, magneticCard, personCarMagneticRelationship, responseBean);
+                break;
+            }
+            case "4": {
+                saveParentTakeBackChildRecord(pRequest, pResponse, magneticCard, personCarMagneticRelationship, responseBean);
+                break;
+            }
+            case "5": {
+                lostCardReuseNotify(pRequest, pResponse, magneticCard, personCarMagneticRelationship, responseBean);
+                break;
             }
         }
 
