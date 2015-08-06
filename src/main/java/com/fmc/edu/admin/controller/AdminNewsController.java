@@ -5,6 +5,7 @@ import com.fmc.edu.constant.GlobalConstant;
 import com.fmc.edu.manager.MyAccountManager;
 import com.fmc.edu.manager.NewsManager;
 import com.fmc.edu.manager.SchoolManager;
+import com.fmc.edu.model.news.FmcNewsType;
 import com.fmc.edu.model.news.News;
 import com.fmc.edu.model.news.NewsType;
 import com.fmc.edu.model.news.Selection;
@@ -55,6 +56,8 @@ public class AdminNewsController extends AdminTransactionBaseController {
 	@RequestMapping(value = "/publishNews" + GlobalConstant.URL_SUFFIX, method = RequestMethod.POST)
 	@ResponseBody
 	public String publishNews(HttpServletRequest pRequest, HttpServletResponse pResponse, int newsType, String subject, String content,
+			@RequestParam(value = "schoolId", required = false, defaultValue = "0") int schoolId,
+			@RequestParam(value = "classId", required = false, defaultValue = "0") int classId,
 			@RequestParam(value = "imgs", required = false) MultipartFile[] imgs,
 			@RequestParam(value = "selections", required = false) String[] selections) throws IOException {
 		ResponseBean responseBean = new ResponseBean(pRequest);
@@ -70,20 +73,28 @@ public class AdminNewsController extends AdminTransactionBaseController {
 		news.setSubject(subject);
 		news.setApproved(true);
 
-		if (newsType == NewsType.SCHOOL_BBS) {
+		if (!FmcNewsType.isGlobalLevel(newsType)) {
+			// set reference id for school/class level news
+			if (FmcNewsType.isSchoolLevel(newsType)) {
+				news.setRefId(schoolId);
+			} else if (FmcNewsType.isClassLevel(newsType)) {
+				news.setRefId(classId);
+			}
 			// assemble selections
-			if (ArrayUtils.isEmpty(selections)) {
-				throw new IllegalArgumentException("Options should not be emtpy.");
-			}
-			List<Selection> selectionList = new ArrayList<>(selections.length);
-			int index = 1;
-			for (String selection : selections) {
-				if (StringUtils.isBlank(selection)) {
-					continue;
+			if (newsType == NewsType.SCHOOL_BBS) {
+				if (ArrayUtils.isEmpty(selections)) {
+					throw new IllegalArgumentException("Options for school bbs news should not be empty.");
 				}
-				selectionList.add(new Selection(selection, index++));
+				List<Selection> selectionList = new ArrayList<>(selections.length);
+				int index = 1;
+				for (String selection : selections) {
+					if (StringUtils.isBlank(selection)) {
+						continue;
+					}
+					selectionList.add(new Selection(selection, index++));
+				}
+				news.setOptions(selectionList);
 			}
-			news.setOptions(selectionList);
 		}
 
 		TransactionStatus txStatus = ensureTransaction();

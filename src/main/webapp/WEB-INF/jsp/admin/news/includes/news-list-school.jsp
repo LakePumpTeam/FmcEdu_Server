@@ -1,34 +1,9 @@
 <c:set var="provinceId" value="${param.provinceId}" />
 <form action="/admin/news/news-list" method="get" class="form-inline">
     <input type="hidden" name="t" value="${param.t}" />
-    <div class="form-group input-group">
-        <span class="input-group-addon">省份：</span>
-        <select name="provinceId" class="form-control" id="slt-province">
-            <c:forEach var="province" items="${locationMap}" varStatus="index">
-                <c:if test="${index.index eq '0' and empty provinceId}">
-                    <c:set var="provinceId" value="${province.key}" />
-                </c:if>
-                <option value="${province.key}" ${provinceId eq province.key ? 'selected' : ''}>${province.value.name}</option>
-            </c:forEach>
-        </select>
-    </div>
-    <div class="form-group input-group">
-        <span class="input-group-addon">城市：</span>
-        <select name="cityId" class="form-control" id="slt-cities">
-            <c:forEach var="city" items="${locationMap[provinceId].cities}">
-                <option value="${city.key}">${city.value.name}</option>
-            </c:forEach>
-        </select>
-    </div>
-    <div class="form-group input-group">
-        <span class="input-group-addon">学校：</span>
-        <select name="schoolId" class="form-control" id="slt-schools">
-            <option value="" ${empty param.schoolId ? 'selected' : ''}>--</option>
-            <c:forEach var="school" items="${schools}">
-                <option value="${school.schoolId}" ${school.schoolId eq param.schoolId ? 'selected' : ''}>${school.schoolName}</option>
-            </c:forEach>
-        </select>
-    </div>
+
+    <jsp:include page="fragment/fragement-province-city-school.jsp" flush="true"></jsp:include>
+
     <div class="form-group input-group">
         <span class="input-group-addon">类型：</span>
         <select name="mode" class="form-control">
