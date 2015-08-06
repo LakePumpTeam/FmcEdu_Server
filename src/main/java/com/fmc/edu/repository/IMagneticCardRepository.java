@@ -13,9 +13,9 @@ public interface IMagneticCardRepository {
 
     List<MagneticCard> queryMagneticByStudentIdForParent(int pStudentId);
 
-    String QUERY_MAGNETIC_BY_STUDENT_ID_FOR_STUDENT = "com.fmc.edu.magnetic.card.queryMagneticByStudentIdForStudent";
+    String QUERY_MAGNETIC_BY_STUDENT_ID_FOR_STUDENTS = "com.fmc.edu.magnetic.card.queryMagneticByStudentIdForStudents";
 
-    List<MagneticCard> queryMagneticByStudentIdForStudent(int pStudentId);
+    List<MagneticCard> queryMagneticByStudentIdForStudents(List<Integer> pStudentIds);
 
     String QUERY_PERSON_MAGNETIC_CARD_RELATIONSHIP = "com.fmc.edu.magnetic.card.queryPersonMagneticCardRelationship";
 

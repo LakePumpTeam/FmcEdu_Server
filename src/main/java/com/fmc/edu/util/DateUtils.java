@@ -18,6 +18,8 @@ public class DateUtils {
 
     public static final String PATTERN_TIME = "HH:mm:ss";
 
+    public static final String PATTERN_DATE = "yyyy-MM-dd HH:mm:ss";
+
     public static final String[] WEEK = new String[]{"星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"};
 
     public static Timestamp getDaysLater(int pDays) {
@@ -65,7 +67,7 @@ public class DateUtils {
         return (new SimpleDateFormat(PATTERN_TIME)).format(pTime);
     }
 
-    public static Map<String, Date> getOneWeekDatePeriod(Timestamp pTimestamp) {
+    public static Map<String, Date> getOneWeekDatePeriod(Date pTimestamp) {
         Map<String, Date> weekDate = new HashMap<String, Date>(2);
         Calendar cal = Calendar.getInstance();
         cal.setTime(pTimestamp);
@@ -86,7 +88,7 @@ public class DateUtils {
         return weekDate;
     }
 
-    public static Date getDateTimeStart(Timestamp pTimestamp) {
+    public static Date getDateTimeStart(Date pTimestamp) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(pTimestamp);
         try {
@@ -97,7 +99,7 @@ public class DateUtils {
         return null;
     }
 
-    public static Date getDateTimeEnd(Timestamp pTimestamp) {
+    public static Date getDateTimeEnd(Date pTimestamp) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(pTimestamp);
         try {
@@ -108,7 +110,7 @@ public class DateUtils {
         return null;
     }
 
-    public static Date getDateTimeMiddle(Timestamp pTimestamp) {
+    public static Date getDateTimeMiddle(Date pTimestamp) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(pTimestamp);
         try {
@@ -150,6 +152,14 @@ public class DateUtils {
             return "";
         }
         return WEEK[pWeek - 1];
+    }
+
+    public static String convertDateToDateTimeString(Date pDate) {
+        if (pDate == null) {
+            return "";
+        }
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(PATTERN_DATE);
+        return simpleDateFormat.format(pDate);
     }
 
     public static void main(String[] args) {

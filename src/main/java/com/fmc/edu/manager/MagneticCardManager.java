@@ -25,6 +25,10 @@ public class MagneticCardManager {
         return getMagneticCardService().queryMagneticByStudentIdForStudent(pStudentId);
     }
 
+    public List<MagneticCard> queryMagneticByStudentIdForStudents(List<Integer> pStudentIds) {
+        return getMagneticCardService().queryMagneticByStudentIdForStudents(pStudentIds);
+    }
+
     public PersonCarMagneticRelationship queryPersonMagneticCardRelationship(int pMagneticCardId) {
         return getMagneticCardService().queryPersonMagneticCardRelationship(pMagneticCardId);
     }

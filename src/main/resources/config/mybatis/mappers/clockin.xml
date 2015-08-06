@@ -10,21 +10,27 @@
         `attendance_flag`,
         `attendance_date`,
         `creation_date`,
-        `clock_in_person_id`
+        `clock_in_person_id`,
+        `clock_in_person_name`
         FROM clock_in_record
         WHERE <![CDATA[ attendance_date >= #{startDate}
                 and attendance_date <= #{endDate}
-                and type=#{type} and magnetic_card_id=#{magneticCardId}
+                and type=#{type}
                 ]]>
+        <foreach collection="magneticCardIds" item="magneticCardId" open="AND magnetic_card_id IN( " close=" )"
+                 separator=",">
+            #{magneticCardId}
+        </foreach>
         <if test="@Ognl@isNotEmpty(attendanceFlag)">
             and attendance_flag = #{attendanceFlag}
         </if>
+        ORDER BY attendance_date desc
     </select>
 
     <select id="queryClockInRecordsAttendances" parameterType="map" resultType="map">
         SELECT std.name AS studentName,
-        date_format(cir.attendance_date,'%Y.%m.%d') AS attendanceDate,
-        date_format(cir.attendance_date,'%H:%I:%S') AS attendanceTime,
+        date_format(cir.attendance_date,'%Y.%m.%d') AS `date`,
+        date_format(cir.attendance_date,'%H:%I:%S') AS `time`,
         cir.clock_in_person_id AS parentId,
         cir.clock_in_person_name as parentName
         FROM clock_in_record cir
@@ -42,6 +48,7 @@
     <select id="queryNotAttendancesRecords" parameterType="map" resultType="map">
         SELECT std.name AS studentName,
         psm.parent_id AS parentId,
+        std.id as studentId,
         date_format(now(),'%Y.%m.%d') AS date
         FROM student std
         INNER JOIN parent_student_map psm ON std.id=psm.student_id

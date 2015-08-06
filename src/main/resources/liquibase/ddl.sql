@@ -270,7 +270,7 @@ DROP TABLE IF EXISTS `fmc_edu`.`user_message` ;
 
 CREATE TABLE IF NOT EXISTS `fmc_edu`.`user_message` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `message_type` TINYINT(2) NOT NULL DEFAULT 0,
+  `message_type` TINYINT(1) NOT NULL DEFAULT 0,
   `content` VARCHAR(400) NOT NULL,
   `ref_id` INT NOT NULL,
   `creation_date` DATETIME NULL,

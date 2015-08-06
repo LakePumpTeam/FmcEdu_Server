@@ -6,7 +6,9 @@ import com.fmc.edu.repository.BaseRepository;
 import com.fmc.edu.repository.IMagneticCardRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Yu on 2015/7/23.
@@ -21,8 +23,10 @@ public class MagneticCardRepository extends BaseRepository implements IMagneticC
     }
 
     @Override
-    public List<MagneticCard> queryMagneticByStudentIdForStudent(int pStudentId) {
-        return getSqlSession().selectList(QUERY_MAGNETIC_BY_STUDENT_ID_FOR_STUDENT, pStudentId);
+    public List<MagneticCard> queryMagneticByStudentIdForStudents(List<Integer> pStudentIds) {
+        Map<String, Object> parameter = new HashMap<String, Object>(1);
+        parameter.put("studentIds", pStudentIds);
+        return getSqlSession().selectList(QUERY_MAGNETIC_BY_STUDENT_ID_FOR_STUDENTS, parameter);
     }
 
     @Override

@@ -6,6 +6,7 @@ import com.fmc.edu.repository.impl.MagneticCardRepository;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,7 +22,13 @@ public class MagneticCardService {
     }
 
     public List<MagneticCard> queryMagneticByStudentIdForStudent(int pStudentId) {
-        return getMagneticCardRepository().queryMagneticByStudentIdForParent(pStudentId);
+        List<Integer> studentIds = new ArrayList<Integer>(1);
+        studentIds.add(pStudentId);
+        return queryMagneticByStudentIdForStudents(studentIds);
+    }
+
+    public List<MagneticCard> queryMagneticByStudentIdForStudents(List<Integer> pStudentIds) {
+        return getMagneticCardRepository().queryMagneticByStudentIdForStudents(pStudentIds);
     }
 
     public PersonCarMagneticRelationship queryPersonMagneticCardRelationship(int pMagneticCardId) {
