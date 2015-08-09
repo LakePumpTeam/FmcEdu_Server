@@ -13,6 +13,10 @@
         <c:set var="subject" value="育儿学堂" />
         <c:set var="includeJspURL" value="includes/news-list-parent-child-edu.jsp" />
     </c:when>
+    <c:when test="${param.t eq 'ballot'}">
+        <c:set var="subject" value="校园吧" />
+        <c:set var="includeJspURL" value="includes/news-list-ballot.jsp" />
+    </c:when>
 </c:choose>
 <c:set var="subheading" value="${newsType[param.mode]}" />
 
@@ -49,51 +53,15 @@
             $('#table-news').DataTable({
                 responsive: true
             });
-
-//            $("#slt-province").on("change", provinceChange);
-//            $("#slt-cities").on("change", cityChange);
         });
-
-        //        function provinceChange(e) {
-        //            $.getJSON(ctx + "/admin/cities?provinceId=" + $("#slt-province").val(), function (data) {
-        //                var cityOptions = [];
-        //                $.each(data, function (i, e) {
-        //                    cityOptions.push(new Option(e.name, e.cityId));
-        //                });
-        //                $(cityOptions[0]).prop("selected", true);
-        //                var citySelect = $("#slt-cities");
-        //                citySelect.find("option").remove();
-        //                citySelect.append(cityOptions);
-        //                // even if the event is not incorrect
-        //                cityChange(e);
-        //            });
-        //        }
-        //
-        //        function cityChange(e) {
-        //            $.getJSON(ctx + "/admin/schools?cityId=" + $("#slt-cities").val(), function (data) {
-        //                var schoolSelect = $("#slt-schools");
-        //                schoolSelect.find("option").remove();
-        //                schoolSelect.append(new Option("--", ""));
-        //                if (data.length !== undefined && data.length > 0) {
-        //                    var schoolOptions = [];
-        //                    $.each(data, function (i, e) {
-        //                        schoolOptions.push(new Option(e.schoolName, e.schoolId));
-        //                    });
-        //                    schoolSelect.append(schoolOptions);
-        //                }
-        //            });
-        //        }
     </script>
     <style type="text/css">
         .ul-toolbar li {
             margin-bottom: 4px;
         }
-
         td.parameters table {
             float: right;
         }
-
-
     </style>
 </fmc:container>
 

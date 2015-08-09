@@ -35,7 +35,7 @@
         <c:set var="includeJspURL" value="includes/news-publish-school.jsp" />
     </c:when>
     <c:when test="${param.mode eq '7'}">
-        <c:set var="includeJspURL" value="includes/news-ballot.jsp" />
+        <c:set var="includeJspURL" value="includes/news-publish-ballot.jsp" />
     </c:when>
 </c:choose>
 
