@@ -8,7 +8,6 @@ import com.fmc.edu.model.clockin.MagneticCard;
 import com.fmc.edu.model.profile.BaseProfile;
 import com.fmc.edu.model.push.PushMessageParameter;
 import com.fmc.edu.model.push.PushMessageType;
-import com.fmc.edu.model.relationship.ParentStudentRelationship;
 import com.fmc.edu.model.relationship.PersonCarMagneticRelationship;
 import com.fmc.edu.model.student.Student;
 import com.fmc.edu.util.BeanUtils;
@@ -64,9 +63,8 @@ public class ClockInController extends BaseController {
         ResponseBean responseBean = new ResponseBean(pRequest);
         String studentId = pRequest.getParameter("studentId");
         String classId = pRequest.getParameter("classId");
-        String attendanceFlag = pRequest.getParameter("attendanceFlag");
         if (RepositoryUtils.idIsValid(studentId)) {
-            queryParentOrStudentClockInRecord(pRequest, studentId, attendanceFlag, responseBean);
+            queryParentOrStudentClockInRecord(pRequest, studentId, responseBean);
         } else if (RepositoryUtils.idIsValid(classId)) {
             queryClassClockInRecord(pRequest, classId, responseBean);
         } else {
@@ -75,14 +73,8 @@ public class ClockInController extends BaseController {
         return output(responseBean);
     }
 
-    private void queryParentOrStudentClockInRecord(final HttpServletRequest pRequest, String studentId, String attendanceFlag, ResponseBean responseBean) {
-        String type = pRequest.getParameter("type");
-        List<MagneticCard> magneticCards = null;
-        if (Integer.valueOf(type) == ClockInType.PARENT_CLOCK_IN) {
-            magneticCards = getMagneticCardManager().queryMagneticByStudentIdForParent(Integer.valueOf(studentId));
-        } else {
-            magneticCards = getMagneticCardManager().queryMagneticByStudentIdForStudent(Integer.valueOf(studentId));
-        }
+    private void queryParentOrStudentClockInRecord(final HttpServletRequest pRequest, String studentId, ResponseBean responseBean) {
+        List<MagneticCard> magneticCards = getMagneticCardManager().queryMagneticCardsByStudentId(Integer.valueOf(studentId));
 
         if (CollectionUtils.isEmpty(magneticCards)) {
             responseBean.addBusinessMessage("未绑定有效磁卡.");
@@ -113,7 +105,7 @@ public class ClockInController extends BaseController {
             }
             studentIdList.add(studentId);
         }
-        List<MagneticCard> magneticCards = getMagneticCardManager().queryMagneticByStudentIdForStudents(studentIdList);
+        List<MagneticCard> magneticCards = getMagneticCardManager().queryMagneticCardsByStudentId(studentIdList);
         obtainClockInRecords(pRequest, responseBean, magneticCards);
     }
 
@@ -122,17 +114,23 @@ public class ClockInController extends BaseController {
             LOG.warn(">>>>>>>>无有效持卡<<<<<<<<<<<");
             return;
         }
-        String type = pRequest.getParameter("type");
         String pageIndex = pRequest.getParameter("pageIndex");
 
         List<Integer> magneticCardIds = new ArrayList<Integer>();
+        Set<Integer> cardType = new HashSet<Integer>();
         for (MagneticCard magneticCard : pMagneticCards) {
             magneticCardIds.add(magneticCard.getId());
+            cardType.add(magneticCard.getCardType());
+        }
+        if (cardType.size() != 1) {
+            LOG.error("错误卡类型:" + cardType.size() + " cardType:" + cardType);
+            responseBean.addBusinessMessage("错误类型卡!");
+            return;
         }
         Map<String, Object> parameter = new HashMap<String, Object>();
-        parameter.put("type", type);
+        parameter.put("type", cardType.iterator().next());
         parameter.put("magneticCardIds", magneticCardIds);
-        parameter.put("attendanceFlag", null);
+        // parameter.put("attendanceFlag", null);
         //query records by week
         //Map<String, Date> currentOneWeekDate = DateUtils.getOneWeekDatePeriod(new Timestamp(new Date().getTime()));
         //Date currentWeekEndDate = currentOneWeekDate.get("endDate");
@@ -155,29 +153,18 @@ public class ClockInController extends BaseController {
             responseBean.addBusinessMsg(ResourceManager.VALIDATION_USER_USER_ID_EMPTY);
             return output(responseBean);
         }
-        Student student = getStudentManager().queryStudentById(Integer.valueOf(studentId));
-        if (student == null) {
-            responseBean.addBusinessMsg(ResourceManager.ERROR_NOT_FIND_USER);
+        if (getStudentManager().queryStudentById(Integer.valueOf(studentId)) == null) {
+            responseBean.addBusinessMsg("学生不存在:" + studentId);
             return output(responseBean);
         }
-        List<ParentStudentRelationship> parentStudentRelationships = getStudentManager().queryParentStudentRelationshipByStudentId(Integer.valueOf(studentId));
-        if (CollectionUtils.isEmpty(parentStudentRelationships)) {
-            LOG.debug("Can not find parent student relationship for student:" + studentId);
-            return output(responseBean);
-        }
-        for (ParentStudentRelationship psr : parentStudentRelationships) {
-            if (psr == null) {
-                continue;
-            }
-            PushMessageParameter pushMessage = new PushMessageParameter();
-            pushMessage.addCustomContents(PushMessageParameter.MSG_TYPE, PushMessageType.TYPE_TEACHER_NOTIFY_PARENT_NORTH_DELTA.getValue());
-            pushMessage.setTitle("提醒");
-            pushMessage.setDescription(getResourceManager().getMessage(pRequest, ResourceManager.BAIDU_PUSH_MESSAGE_NOTIFY_NORTH_DELTA));
-            try {
-                getBaiDuPushManager().pushNotificationMsg(psr.getParentId(), pushMessage);
-            } catch (Exception e) {
-                LOG.debug(e.getMessage());
-            }
+        PushMessageParameter pushMessage = new PushMessageParameter();
+        pushMessage.addCustomContents(PushMessageType.TYPE_TEACHER_NOTIFY_PARENT_NORTH_DELTA.getValue());
+        pushMessage.setTitle("提醒");
+        pushMessage.setDescription(getResourceManager().getMessage(pRequest, ResourceManager.BAIDU_PUSH_MESSAGE_NOTIFY_NORTH_DELTA));
+        try {
+            getBaiDuPushManager().pushNotificationMsg(Integer.valueOf(studentId), pushMessage);
+        } catch (Exception e) {
+            LOG.debug(e.getMessage());
         }
         return output(responseBean);
 
@@ -311,7 +298,7 @@ public class ClockInController extends BaseController {
             return output(responseBean);
         }
         if (!WebConfig.isDevelopment()) {
-            if (!personCarMagneticRelationship.isAvailable()) {//marked lost card
+            if (personCarMagneticRelationship.isAvailable() == -1) {//marked lost card
                 clockInType = "5";
             }
         }
@@ -370,12 +357,12 @@ public class ClockInController extends BaseController {
             return;
         }
         PushMessageParameter pushMessage = new PushMessageParameter();
-        pushMessage.addCustomContents(PushMessageParameter.MSG_TYPE, PushMessageType.TYPE_CLOCK_IN_STUDENT_IN.getValue());
+        pushMessage.addCustomContents(PushMessageType.TYPE_CLOCK_IN_STUDENT_IN.getValue());
         pushMessage.setTitle("提示");
         pushMessage.setDescription(getResourceManager().getMessage(pRequest, ResourceManager.BAIDU_PUSH_MESSAGE_STUDENT_TO_SCHOOL,
                 new String[]{clockInRecord.getClockInPersonName(), DateUtils.convertDateToDateTimeString(clockInRecord.getAttendanceDate())}));
         try {
-            getBaiDuPushManager().pushNotificationMsg(personCarMagneticRelationship.getProfileId(), pushMessage);
+            getBaiDuPushManager().pushNotificationMsg(personCarMagneticRelationship.getStudentId(), pushMessage);
         } catch (Exception e) {
             LOG.error(e);
         }
@@ -410,12 +397,12 @@ public class ClockInController extends BaseController {
             return;
         }
         PushMessageParameter pushMessage = new PushMessageParameter();
-        pushMessage.addCustomContents(PushMessageParameter.MSG_TYPE, PushMessageType.TYPE_CLOCK_IN_STUDENT_OUT.getValue());
+        pushMessage.addCustomContents(PushMessageType.TYPE_CLOCK_IN_STUDENT_OUT.getValue());
         pushMessage.setTitle("提示");
         pushMessage.setDescription(getResourceManager().getMessage(pRequest, ResourceManager.BAIDU_PUSH_MESSAGE_STUDENT_LEFT_SCHOOL,
                 new String[]{clockInRecord.getClockInPersonName(), DateUtils.convertDateToDateTimeString(clockInRecord.getAttendanceDate())}));
         try {
-            getBaiDuPushManager().pushNotificationMsg(personCarMagneticRelationship.getProfileId(), pushMessage);
+            getBaiDuPushManager().pushNotificationMsg(personCarMagneticRelationship.getStudentId(), pushMessage);
         } catch (Exception e) {
             LOG.error(e);
         }
@@ -433,7 +420,7 @@ public class ClockInController extends BaseController {
             attendanceDate = DateUtils.getDaysLater(0);
         }
         TransactionStatus txStatus = ensureTransaction();
-        ClockInRecord clockInRecord = createClockInRecord(ClockInType.PARENT_CLOCK_IN, magneticCard.getId(), personCarMagneticRelationship.getProfileId(), -1, attendanceDate);
+        ClockInRecord clockInRecord = createClockInRecord(ClockInType.PARENT_CLOCK_IN, magneticCard.getId(), personCarMagneticRelationship.getStudentId(), -1, attendanceDate);
         boolean isSuccess = false;
         try {
             getClockInRecordManager().insertClockInRecord(clockInRecord);
@@ -451,16 +438,16 @@ public class ClockInController extends BaseController {
         }
         Student student = getStudentManager().queryStudentById(personCarMagneticRelationship.getStudentId());
         if (student == null) {
-            LOG.error("saveParentSendChildRecord():Can not find student: " + personCarMagneticRelationship.getId() + " for parent: " + personCarMagneticRelationship.getProfileId());
+            LOG.error("saveParentSendChildRecord():Can not find student: " + personCarMagneticRelationship.getStudentId());
             return;
         }
         PushMessageParameter pushMessage = new PushMessageParameter();
-        pushMessage.addCustomContents(PushMessageParameter.MSG_TYPE, PushMessageType.TYPE_PARENT_SEND_CHILD.getValue());
+        pushMessage.addCustomContents(PushMessageType.TYPE_PARENT_SEND_CHILD.getValue());
         pushMessage.setTitle("提示");
         pushMessage.setDescription(getResourceManager().getMessage(pRequest, ResourceManager.BAIDU_PUSH_MESSAGE_SENT_CHILD,
                 new String[]{clockInRecord.getClockInPersonName(), student.getName()}));
         try {
-            getBaiDuPushManager().pushNotificationMsg(personCarMagneticRelationship.getProfileId(), pushMessage);
+            getBaiDuPushManager().pushNotificationMsg(personCarMagneticRelationship.getStudentId(), pushMessage);
         } catch (Exception e) {
             LOG.error(e);
         }
@@ -478,7 +465,7 @@ public class ClockInController extends BaseController {
             attendanceDate = DateUtils.getDaysLater(0);
         }
         TransactionStatus txStatus = ensureTransaction();
-        ClockInRecord clockInRecord = createClockInRecord(ClockInType.PARENT_CLOCK_IN, magneticCard.getId(), personCarMagneticRelationship.getProfileId(), -1, attendanceDate);
+        ClockInRecord clockInRecord = createClockInRecord(ClockInType.PARENT_CLOCK_IN, magneticCard.getId(), personCarMagneticRelationship.getStudentId(), -1, attendanceDate);
         boolean isSuccess = false;
         try {
             getClockInRecordManager().insertClockInRecord(clockInRecord);
@@ -496,16 +483,16 @@ public class ClockInController extends BaseController {
         }
         Student student = getStudentManager().queryStudentById(personCarMagneticRelationship.getStudentId());
         if (student == null) {
-            LOG.error("saveParentSendChildRecord():Can not find student: " + personCarMagneticRelationship.getId() + " for parent: " + personCarMagneticRelationship.getProfileId());
+            LOG.error("saveParentSendChildRecord():Can not find student: " + personCarMagneticRelationship.getStudentId());
             return;
         }
         PushMessageParameter pushMessage = new PushMessageParameter();
-        pushMessage.addCustomContents(PushMessageParameter.MSG_TYPE, PushMessageType.TYPE_PARENT_NORTH_DELTA.getValue());
+        pushMessage.addCustomContents(PushMessageType.TYPE_PARENT_NORTH_DELTA.getValue());
         pushMessage.setTitle("提示");
         pushMessage.setDescription(getResourceManager().getMessage(pRequest, ResourceManager.BAIDU_PUSH_MESSAGE_NORTH_DELTA,
                 new String[]{clockInRecord.getClockInPersonName(), student.getName()}));
         try {
-            getBaiDuPushManager().pushNotificationMsg(personCarMagneticRelationship.getProfileId(), pushMessage);
+            getBaiDuPushManager().pushNotificationMsg(personCarMagneticRelationship.getStudentId(), pushMessage);
         } catch (Exception e) {
             LOG.error(e);
         }
@@ -540,18 +527,18 @@ public class ClockInController extends BaseController {
             LOG.error("saveParentSendChildRecord(): Save clock in record failed.");
             return;
         }
-        BaseProfile parent = getMyAccountManager().findUserById(String.valueOf(personCarMagneticRelationship.getProfileId()));
+        BaseProfile parent = getMyAccountManager().findUserById(String.valueOf(personCarMagneticRelationship.getParentId()));
         if (parent == null) {
-            LOG.error("createClockInRecord(): Cannot find parent: " + personCarMagneticRelationship.getProfileId());
+            LOG.error("createClockInRecord(): Cannot find parent: " + personCarMagneticRelationship.getParentId());
             return;
         }
         Student student = getStudentManager().queryStudentById(personCarMagneticRelationship.getStudentId());
         if (student == null) {
-            LOG.error("saveParentSendChildRecord():Can not find student: " + personCarMagneticRelationship.getId() + " for parent: " + personCarMagneticRelationship.getProfileId());
+            LOG.error("saveParentSendChildRecord():Can not find student: " + personCarMagneticRelationship.getStudentId());
             return;
         }
         PushMessageParameter pushMessage = new PushMessageParameter();
-        pushMessage.addCustomContents(PushMessageParameter.MSG_TYPE, PushMessageType.TYPE_WARNING_LOST_CARD.getValue());
+        pushMessage.addCustomContents(PushMessageType.TYPE_WARNING_LOST_CARD.getValue());
         pushMessage.setTitle("警告!!!");
         pushMessage.setDescription(getResourceManager().getMessage(pRequest, ResourceManager.BAIDU_PUSH_MESSAGE_WARNING_USING_LOST_CARD,
                 new String[]{DateUtils.convertDateToDateTimeString(clockInRecord.getAttendanceDate()),
@@ -559,7 +546,7 @@ public class ClockInController extends BaseController {
                         String.valueOf(magneticCard.getCardNo()),
                         parent.getName()}));
         try {
-            getBaiDuPushManager().pushNotificationMsg(personCarMagneticRelationship.getProfileId(), pushMessage);
+            getBaiDuPushManager().pushNotificationMsg(personCarMagneticRelationship.getStudentId(), pushMessage);
         } catch (Exception e) {
             LOG.error(e);
         }

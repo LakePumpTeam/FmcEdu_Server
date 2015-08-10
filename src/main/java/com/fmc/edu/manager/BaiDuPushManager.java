@@ -6,11 +6,14 @@ import com.fmc.edu.model.profile.BaseProfile;
 import com.fmc.edu.model.push.MessageNotificationBasicStyle;
 import com.fmc.edu.model.push.PushMessage;
 import com.fmc.edu.model.push.PushMessageParameter;
+import com.fmc.edu.model.relationship.ParentStudentRelationship;
 import com.fmc.edu.push.IBaiDuPushNotification;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.*;
 
 /**
  * The service class used to push message to app.
@@ -31,40 +34,73 @@ public class BaiDuPushManager {
     @Resource(name = "myAccountManager")
     private MyAccountManager mMyAccountManager;
 
-    public boolean pushNotificationMsg(final int pUserId, final PushMessageParameter pMsg) throws Exception {
-        BaseProfile baseProfile = getMyAccountManager().findUserById(String.valueOf(pUserId));
-        if (baseProfile == null) {
-            LOG.info("pushNotificationMsg():Can not find user: " + pUserId);
+    @Resource(name = "studentManager")
+    private StudentManager mStudentManager;
+
+    public boolean pushNotificationMsg(final int studentId, final PushMessageParameter pMsg) throws Exception {
+        List<ParentStudentRelationship> parentStudentRelationships = getStudentManager().queryParentStudentRelationshipByStudentId(Integer.valueOf(studentId));
+        if (CollectionUtils.isEmpty(parentStudentRelationships)) {
+            LOG.debug("Can not find parent student relationship for student:" + studentId);
             return false;
         }
-        //TODO if parent off line app, if we should send notification?
-        if (!baseProfile.isOnline()) {
-            LOG.info("User off line status:" + pUserId);
-            return false;
-        }
-        AppSetting appSetting = getMyAccountManager().queryAppSetting(pUserId);
-        if (appSetting != null) {
-            if (appSetting.isIsBel() && appSetting.isIsVibra()) {
-                pMsg.setNotification_basic_style(MessageNotificationBasicStyle.BEL_VIBRA_ERASIBLE);
-            } else if (appSetting.isIsBel() && !appSetting.isIsVibra()) {
-                pMsg.setNotification_basic_style(MessageNotificationBasicStyle.BEL_ERASIBLE);
-            } else if (appSetting.isIsVibra() && !appSetting.isIsBel()) {
-                pMsg.setNotification_basic_style(MessageNotificationBasicStyle.VIBRA_ERASIBLE);
-            } else {
-                pMsg.setNotification_basic_style(MessageNotificationBasicStyle.ERASIBLE);
+        Set<BaseProfile> parentList = new HashSet<BaseProfile>();
+        BaseProfile parent = null;
+        for (ParentStudentRelationship psr : parentStudentRelationships) {
+            if (psr == null) {
+                continue;
             }
+            //TODO can refactor for this query: batch query
+            parent = getMyAccountManager().findUserById(String.valueOf(psr.getParentId()));
+            parentList.add(parent);
         }
-        boolean isSuccess = pushNotificationMsg(baseProfile.getDeviceType(), new String[]{baseProfile.getChannelId()}, pMsg);
-        PushMessage pushMessage = new PushMessage();
-        pushMessage.setProfileId(pUserId);
-        pushMessage.setTitle(pMsg.getTitle());
-        pushMessage.setContent(pMsg.getDescription());
-        pushMessage.setPushDeviceType(baseProfile.getDeviceType());
-        pushMessage.setPushType(2);
-        pushMessage.setMessageType(Integer.parseInt(pMsg.getCustom_content().get(PushMessageParameter.MSG_TYPE).toString()));
-        pushMessage.setPushStatus(isSuccess);
+        if (CollectionUtils.isEmpty(parentList)) {
+            LOG.warn("pushNotificationMsg(): Cannot find parent for student: " + studentId);
+            return false;
+        }
+
+        Iterator<BaseProfile> parentIterator = parentList.iterator();
+        List<PushMessage> pushMessageList = new ArrayList<PushMessage>(parentList.size());
+        PushMessage pushMessage;
+        while (parentIterator.hasNext()) {
+            parent = parentIterator.next();
+            if (parent == null) {
+                continue;
+            }
+            //TODO if parent off line app, if we should send notification?
+            if (!parent.isOnline()) {
+                LOG.info("pushNotificationMsg(): User off line status:" + parent);
+                return false;
+            }
+            AppSetting appSetting = getMyAccountManager().queryAppSetting(parent.getId());
+            if (appSetting != null) {
+                if (appSetting.isIsBel() && appSetting.isIsVibra()) {
+                    pMsg.setNotification_basic_style(MessageNotificationBasicStyle.BEL_VIBRA_ERASIBLE);
+                } else if (appSetting.isIsBel() && !appSetting.isIsVibra()) {
+                    pMsg.setNotification_basic_style(MessageNotificationBasicStyle.BEL_ERASIBLE);
+                } else if (appSetting.isIsVibra() && !appSetting.isIsBel()) {
+                    pMsg.setNotification_basic_style(MessageNotificationBasicStyle.VIBRA_ERASIBLE);
+                } else {
+                    pMsg.setNotification_basic_style(MessageNotificationBasicStyle.ERASIBLE);
+                }
+            }
+            boolean isSuccess = pushNotificationMsg(parent.getDeviceType(), new String[]{parent.getChannelId()}, pMsg);
+            LOG.debug("pushNotificationMsg(): Pushed message to parent:[[" + parent.getName() + "]] SUCCESS.");
+            pushMessage = new PushMessage();
+            pushMessage.setProfileId(parent.getId());
+            pushMessage.setTitle(pMsg.getTitle());
+            pushMessage.setContent(pMsg.getDescription());
+            pushMessage.setPushDeviceType(parent.getDeviceType());
+            pushMessage.setPushType(2);
+            pushMessage.setMessageType(Integer.parseInt(pMsg.getCustom_content().get(PushMessageParameter.MSG_TYPE).toString()));
+            pushMessage.setPushStatus(isSuccess);
+            pushMessageList.add(pushMessage);
+        }
+        if (CollectionUtils.isEmpty(pushMessageList)) {
+            LOG.info("pushNotificationMsg(): No any push message need to be saved.");
+            return false;
+        }
         try {
-            return getPushMessageManager().insertPushMessage(pushMessage);
+            return getPushMessageManager().insertPushMessages(pushMessageList);
         } catch (Exception ex) {
             LOG.error(ex);
         }
@@ -132,5 +168,13 @@ public class BaiDuPushManager {
 
     public void setMyAccountManager(MyAccountManager pMyAccountManager) {
         mMyAccountManager = pMyAccountManager;
+    }
+
+    public StudentManager getStudentManager() {
+        return mStudentManager;
+    }
+
+    public void setStudentManager(StudentManager pStudentManager) {
+        mStudentManager = pStudentManager;
     }
 }

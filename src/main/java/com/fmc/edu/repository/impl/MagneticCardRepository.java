@@ -17,16 +17,12 @@ import java.util.Map;
 @Repository("magneticCardRepository")
 public class MagneticCardRepository extends BaseRepository implements IMagneticCardRepository {
 
-    @Override
-    public List<MagneticCard> queryMagneticByStudentIdForParent(int pStudentId) {
-        return getSqlSession().selectList(QUERY_MAGNETIC_BY_STUDENT_ID_FOR_PANRENT, pStudentId);
-    }
 
     @Override
-    public List<MagneticCard> queryMagneticByStudentIdForStudents(List<Integer> pStudentIds) {
+    public List<MagneticCard> queryMagneticCardsByStudentId(List<Integer> pStudentIds) {
         Map<String, Object> parameter = new HashMap<String, Object>(1);
         parameter.put("studentIds", pStudentIds);
-        return getSqlSession().selectList(QUERY_MAGNETIC_BY_STUDENT_ID_FOR_STUDENTS, parameter);
+        return getSqlSession().selectList(QUERY_MAGNETIC_CARDS_BY_STUDENT_ID, parameter);
     }
 
     @Override

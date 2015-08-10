@@ -105,9 +105,9 @@ public class MagneticCardController extends BaseController {
             PersonCarMagneticRelationship pcmr = getMagneticCardManager().queryPersonMagneticCardRelationship(magneticCard.getId());
             if (pcmr != null) {
                 if ("true".equalsIgnoreCase(lost)) {
-                    pcmr.setAvailable(false);
+                    pcmr.setAvailable(-1);
                 } else {
-                    pcmr.setAvailable(true);
+                    pcmr.setAvailable(1);
                 }
                 getMagneticCardManager().updatePersonMagneticCardRelationship(pcmr);
                 isSuccess = true;

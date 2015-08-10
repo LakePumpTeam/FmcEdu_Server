@@ -5,9 +5,9 @@ package com.fmc.edu.model.relationship;
  */
 public class PersonCarMagneticRelationship extends BaseRelationship {
     private int mStudentId;
-    private int mProfileId;
+    private int mParentId;
     private int mMagneticCardId;
-    private boolean mAvailable;
+    private int mAvailable;
     private boolean mApproved;
 
     public int getStudentId() {
@@ -18,6 +18,14 @@ public class PersonCarMagneticRelationship extends BaseRelationship {
         mStudentId = pStudentId;
     }
 
+    public int getParentId() {
+        return mParentId;
+    }
+
+    public void setParentId(int pParentId) {
+        mParentId = pParentId;
+    }
+
     public int getMagneticCardId() {
         return mMagneticCardId;
     }
@@ -26,11 +34,11 @@ public class PersonCarMagneticRelationship extends BaseRelationship {
         mMagneticCardId = pMagneticCardId;
     }
 
-    public boolean isAvailable() {
+    public int isAvailable() {
         return mAvailable;
     }
 
-    public void setAvailable(boolean pAvailable) {
+    public void setAvailable(int pAvailable) {
         mAvailable = pAvailable;
     }
 
@@ -40,13 +48,5 @@ public class PersonCarMagneticRelationship extends BaseRelationship {
 
     public void setApproved(boolean pApproved) {
         mApproved = pApproved;
-    }
-
-    public int getProfileId() {
-        return mProfileId;
-    }
-
-    public void setProfileId(int pProfileId) {
-        mProfileId = pProfileId;
     }
 }

@@ -9,13 +9,10 @@ import java.util.List;
  * Created by Yu on 2015/7/23.
  */
 public interface IMagneticCardRepository {
-    String QUERY_MAGNETIC_BY_STUDENT_ID_FOR_PANRENT = "com.fmc.edu.magnetic.card.queryMagneticByStudentIdForParent";
 
-    List<MagneticCard> queryMagneticByStudentIdForParent(int pStudentId);
+    String QUERY_MAGNETIC_CARDS_BY_STUDENT_ID = "com.fmc.edu.magnetic.card.queryMagneticCardsByStudentId";
 
-    String QUERY_MAGNETIC_BY_STUDENT_ID_FOR_STUDENTS = "com.fmc.edu.magnetic.card.queryMagneticByStudentIdForStudents";
-
-    List<MagneticCard> queryMagneticByStudentIdForStudents(List<Integer> pStudentIds);
+    List<MagneticCard> queryMagneticCardsByStudentId(List<Integer> pStudentIds);
 
     String QUERY_PERSON_MAGNETIC_CARD_RELATIONSHIP = "com.fmc.edu.magnetic.card.queryPersonMagneticCardRelationship";
 

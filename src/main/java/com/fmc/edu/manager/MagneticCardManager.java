@@ -17,16 +17,12 @@ public class MagneticCardManager {
     @Resource(name = "magneticCardService")
     private MagneticCardService mMagneticCardService;
 
-    public List<MagneticCard> queryMagneticByStudentIdForParent(int pStudentId) {
-        return getMagneticCardService().queryMagneticByStudentIdForParent(pStudentId);
+    public List<MagneticCard> queryMagneticCardsByStudentId(int pStudentId) {
+        return getMagneticCardService().queryMagneticCardsByStudentId(pStudentId);
     }
 
-    public List<MagneticCard> queryMagneticByStudentIdForStudent(int pStudentId) {
-        return getMagneticCardService().queryMagneticByStudentIdForStudent(pStudentId);
-    }
-
-    public List<MagneticCard> queryMagneticByStudentIdForStudents(List<Integer> pStudentIds) {
-        return getMagneticCardService().queryMagneticByStudentIdForStudents(pStudentIds);
+    public List<MagneticCard> queryMagneticCardsByStudentId(List<Integer> pStudentIds) {
+        return getMagneticCardService().queryMagneticCardsByStudentId(pStudentIds);
     }
 
     public PersonCarMagneticRelationship queryPersonMagneticCardRelationship(int pMagneticCardId) {

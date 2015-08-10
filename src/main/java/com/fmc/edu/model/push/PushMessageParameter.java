@@ -71,6 +71,10 @@ public class PushMessageParameter {
         mCustom_content.put(pKey, pValue);
     }
 
+    public void addCustomContents(Object pValue) {
+        addCustomContents(MSG_TYPE, pValue);
+    }
+
     @Override
     public String toString() {
 

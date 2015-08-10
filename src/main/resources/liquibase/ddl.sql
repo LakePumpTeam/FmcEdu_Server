@@ -456,14 +456,14 @@ CREATE TABLE IF NOT EXISTS `fmc_edu`.`magnetic_card` (
   `comments` VARCHAR(45) NULL,
   `last_update_date` TIMESTAMP NOT NULL,
   `creation_date` TIMESTAMP NOT NULL,
-  `card_type` TINYINT(1) NOT NULL DEFAULT 0 COMMENT '0:parent\n1:student',
+  `card_type` TINYINT(1) NOT NULL DEFAULT 0 COMMENT '0:student\n1:parent\n',
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
 
-CREATE TABLE IF NOT EXISTS `fmc_edu`.`person_card_map` (
+CREATE TABLE IF NOT EXISTS `fmc_edu`.`student_card_map` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `profile_id` INT NULL,
   `student_id` INT NULL,
+  `parent_id` INT NOT NULL,
   `magnetic_card_id` INT NOT NULL,
   `available` TINYINT(1) NOT NULL DEFAULT 1,
   `approved` TINYINT(1) NOT NULL DEFAULT 1,
@@ -477,11 +477,6 @@ CREATE TABLE IF NOT EXISTS `fmc_edu`.`person_card_map` (
   CONSTRAINT `magnetic_card_id_fk`
     FOREIGN KEY (`magnetic_card_id`)
     REFERENCES `fmc_edu`.`magnetic_card` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `person_id_fk`
-    FOREIGN KEY (`id`)
-    REFERENCES `fmc_edu`.`profile` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB

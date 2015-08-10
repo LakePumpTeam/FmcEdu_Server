@@ -1,6 +1,7 @@
 package com.fmc.edu.model.profile;
 
 import com.fmc.edu.model.BaseBean;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.sql.Timestamp;
 
@@ -221,5 +222,10 @@ public class BaseProfile extends BaseBean {
     @Override
     public int hashCode() {
         return Integer.valueOf(getId()).hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
     }
 }
