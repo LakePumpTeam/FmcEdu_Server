@@ -1,17 +1,10 @@
 <c:set var="provinceId" value="${param.provinceId}" />
 <form action="/admin/news/news-list" method="get" class="form-inline">
     <input type="hidden" name="t" value="${param.t}" />
+    <input type="hidden" name="mode" value="${param.mode}" />
 
     <jsp:include page="fragment/fragement-province-city-school.jsp" flush="true" />
 
-    <div class="form-group input-group">
-        <span class="input-group-addon">类型：</span>
-        <select name="mode" class="form-control">
-            <option value="2" ${param.mode eq 2 ? 'selected' : ''}>校园动态</option>
-            <option value="3" ${param.mode eq 3 ? 'selected' : ''}>校园通知</option>
-            <option value="4" ${param.mode eq 4 ? 'selected' : ''}>校园新闻</option>
-        </select>
-    </div>
     <div class="form-group input-group">
         <input type="submit" value="查找" class="btn btn-primary" />
     </div>
