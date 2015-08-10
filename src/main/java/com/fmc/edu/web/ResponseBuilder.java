@@ -360,7 +360,7 @@ public class ResponseBuilder {
             attendance.put("date", DateUtils.convertDateToString(clockInRecord.getAttendanceDate()));
             attendance.put("time", DateUtils.convertTimeToString(new Time(clockInRecord.getAttendanceDate().getTime())));
             attendance.put("week", DateUtils.convertWeekToString(DateUtils.getWeek(clockInRecord.getAttendanceDate())));
-            attendance.put("attendance", clockInRecord.getAttendanceFlag());
+            attendance.put("attendance", clockInRecord.getAttendanceFlag() == 1 ? true : false);
             if (clockInRecord.getType() == ClockInType.PARENT_CLOCK_IN) {
                 attendance.put("name", clockInRecord.getClockInPersonName());
             }
