@@ -13,7 +13,7 @@ public interface IPushMessageRepository {
 
     List<PushMessage> queryAllPushMessageByProfileId(int pProfileId, Pagination pPagination);
 
-    String INSERT_PUSH_MESSAGE = "com.fmc.edu.push.message.insertPushMessage";
+    String INSERT_PUSH_MESSAGES = "com.fmc.edu.push.message.insertPushMessages";
 
-    boolean insertPushMessage(PushMessage pPushMessage);
+    boolean insertPushMessages(List<PushMessage> pPushMessages);
 }

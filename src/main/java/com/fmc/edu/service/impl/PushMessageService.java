@@ -21,8 +21,8 @@ public class PushMessageService {
         return getPushMessageRepository().queryAllPushMessageByProfileId(pProfileId, pPagination);
     }
 
-    public boolean insertPushMessage(PushMessage pPushMessage) {
-        return getPushMessageRepository().insertPushMessage(pPushMessage);
+    public boolean insertPushMessages(List<PushMessage> pPushMessages) {
+        return getPushMessageRepository().insertPushMessages(pPushMessages);
     }
 
     public PushMessageRepository getPushMessageRepository() {

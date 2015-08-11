@@ -1,6 +1,5 @@
 package com.fmc.edu.web.controller;
 
-import com.fmc.edu.configuration.WebConfig;
 import com.fmc.edu.manager.*;
 import com.fmc.edu.model.clockin.ClockInRecord;
 import com.fmc.edu.model.clockin.ClockInType;
@@ -116,32 +115,36 @@ public class ClockInController extends BaseController {
         }
         String pageIndex = pRequest.getParameter("pageIndex");
 
-        List<Integer> magneticCardIds = new ArrayList<Integer>();
-        Set<Integer> cardType = new HashSet<Integer>();
+        List<Integer> magneticCardIds;
+        Map<Integer, List<Integer>> magneticCardIdsMap = new HashMap<Integer, List<Integer>>();
         for (MagneticCard magneticCard : pMagneticCards) {
+            magneticCardIds = magneticCardIdsMap.get(magneticCard.getCardType());
+            if (magneticCardIds == null) {
+                magneticCardIds = new ArrayList<Integer>();
+                magneticCardIdsMap.put(magneticCard.getCardType(), magneticCardIds);
+            }
             magneticCardIds.add(magneticCard.getId());
-            cardType.add(magneticCard.getCardType());
         }
-        if (cardType.size() != 1) {
-            LOG.error("错误卡类型:" + cardType.size() + " cardType:" + cardType);
-            responseBean.addBusinessMessage("错误类型卡!");
-            return;
+        Iterator<Integer> cardTypeIterator = magneticCardIdsMap.keySet().iterator();
+        Integer cardType;
+        while (cardTypeIterator.hasNext()) {
+            cardType = cardTypeIterator.next();
+            Map<String, Object> parameter = new HashMap<String, Object>();
+            parameter.put("type", cardType);
+            parameter.put("magneticCardIds", magneticCardIdsMap.get(cardType));
+            // parameter.put("attendanceFlag", null);
+            //query records by week
+            //Map<String, Date> currentOneWeekDate = DateUtils.getOneWeekDatePeriod(new Timestamp(new Date().getTime()));
+            //Date currentWeekEndDate = currentOneWeekDate.get("endDate");
+            // currentOneWeekDate = DateUtils.getOneWeekDatePeriod(new Timestamp(DateUtils.minusDays(currentWeekEndDate, 7 * (Integer.valueOf(pageIndex) - 1)).getTime()));
+            Map<String, Date> currentOneWeekDate = new HashMap<String, Date>(2);
+            Date endDate = DateUtils.getDaysLater((Integer.valueOf(pageIndex) - 1));
+            currentOneWeekDate.put("startDate", DateUtils.getDateTimeStart(endDate));
+            currentOneWeekDate.put("endDate", DateUtils.getDateTimeEnd(endDate));
+            parameter.putAll(currentOneWeekDate);
+            List<ClockInRecord> clockInRecords = getClockInRecordManager().queryClockInRecords(parameter);
+            getResponseBuilder().buildAttendanceRecords(clockInRecords, responseBean);
         }
-        Map<String, Object> parameter = new HashMap<String, Object>();
-        parameter.put("type", cardType.iterator().next());
-        parameter.put("magneticCardIds", magneticCardIds);
-        // parameter.put("attendanceFlag", null);
-        //query records by week
-        //Map<String, Date> currentOneWeekDate = DateUtils.getOneWeekDatePeriod(new Timestamp(new Date().getTime()));
-        //Date currentWeekEndDate = currentOneWeekDate.get("endDate");
-        // currentOneWeekDate = DateUtils.getOneWeekDatePeriod(new Timestamp(DateUtils.minusDays(currentWeekEndDate, 7 * (Integer.valueOf(pageIndex) - 1)).getTime()));
-        Map<String, Date> currentOneWeekDate = new HashMap<String, Date>(2);
-        Date endDate = DateUtils.getDaysLater((Integer.valueOf(pageIndex) - 1));
-        currentOneWeekDate.put("startDate", DateUtils.getDateTimeStart(endDate));
-        currentOneWeekDate.put("endDate", DateUtils.getDateTimeEnd(endDate));
-        parameter.putAll(currentOneWeekDate);
-        List<ClockInRecord> clockInRecords = getClockInRecordManager().queryClockInRecords(parameter);
-        getResponseBuilder().buildAttendanceRecords(clockInRecords, responseBean);
     }
 
     @RequestMapping("/notifyParentNorthDelta")
@@ -287,6 +290,7 @@ public class ClockInController extends BaseController {
             return output(responseBean);
         }
 
+        clockInType = clockInType.trim();
         MagneticCard magneticCard = getMagneticCardManager().queryMagneticCardByCardNo(cardId);
         if (magneticCard == null) {
             responseBean.addBusinessMessage("Can not find magnetic card for card id: " + cardId);
@@ -297,11 +301,32 @@ public class ClockInController extends BaseController {
             responseBean.addBusinessMessage("Can not find any relationship with person for the card: " + cardId);
             return output(responseBean);
         }
-        if (!WebConfig.isDevelopment()) {
-            if (personCarMagneticRelationship.isAvailable() == -1) {//marked lost card
-                clockInType = "5";
-            }
+
+        if (personCarMagneticRelationship.isAvailable() == -1) {//marked lost card
+            clockInType = "5";
         }
+
+        if (clockInType.equalsIgnoreCase("5")) {
+            lostCardReuseNotify(pRequest, pResponse, magneticCard, personCarMagneticRelationship, responseBean);
+            return output(responseBean);
+        }
+
+        if (magneticCard.getCardType() == ClockInType.STUDENT_CLOCK_IN) {
+            if (!clockInType.equalsIgnoreCase("1") && !clockInType.equalsIgnoreCase("2")) {
+                responseBean.addBusinessMessage("磁卡使用错误，此卡为学生门禁卡.");
+                return output(responseBean);
+            }
+        } else if (magneticCard.getCardType() == ClockInType.PARENT_CLOCK_IN) {
+            if (!clockInType.equalsIgnoreCase("3") && !clockInType.equalsIgnoreCase("4")) {
+                responseBean.addBusinessMessage("磁卡使用错误，此卡为家长接送学生用卡.");
+                return output(responseBean);
+            }
+        } else {
+            responseBean.addBusinessMessage("磁卡类型错误.");
+            LOG.error("Invalid card type:" + magneticCard.getCardType() + " clock type:" + clockInType);
+            return output(responseBean);
+        }
+
         switch (clockInType) {
             case "1": {
                 saveStudentClockInInRecord(pRequest, pResponse, magneticCard, personCarMagneticRelationship, responseBean);
@@ -317,10 +342,6 @@ public class ClockInController extends BaseController {
             }
             case "4": {
                 saveParentTakeBackChildRecord(pRequest, pResponse, magneticCard, personCarMagneticRelationship, responseBean);
-                break;
-            }
-            case "5": {
-                lostCardReuseNotify(pRequest, pResponse, magneticCard, personCarMagneticRelationship, responseBean);
                 break;
             }
         }

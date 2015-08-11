@@ -115,6 +115,14 @@ public class ResponseBean {
         dataMap.putAll(pData);
     }
 
+    public Object getData(final String pKey) {
+        if (StringUtils.isBlank(pKey)) {
+            return null;
+        }
+        Map<String, Object> dataMap = (Map<String, Object>) responseData.get(JSONOutputConstant.PARAM_DATA);
+        return dataMap.get(pKey);
+    }
+
     public void clearAllData() {
         Map<String, Object> dataMap = (Map<String, Object>) responseData.get(JSONOutputConstant.PARAM_DATA);
         dataMap.clear();

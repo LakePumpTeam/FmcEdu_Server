@@ -23,7 +23,8 @@
         <include refid="limit-split-page"/>
     </select>
 
-    <insert id="insertPushMessage" parameterType="PushMessage">
+    <insert id="insertPushMessages" parameterType="PushMessage">
+        <foreach collection="pushMessages" item="pm" separator=";" close="" open="">
         INSERT INTO `push_message`
         (`profile_id`,
         `title`,
@@ -34,13 +35,14 @@
         `push_status`,
         `creation_date`)
         VALUES
-        (#{profileId},
-        #{title},
-        #{content},
-        #{pushType},
-        #{pushDeviceType},
-        #{messageType},
-        #{pushStatus},
+            (#{pm.profileId},
+            #{pm.title},
+            #{pm.content},
+            #{pm.pushType},
+            #{pm.pushDeviceType},
+            #{pm.messageType},
+            #{pm.pushStatus},
         now());
+        </foreach>
     </insert>
 </mapper>

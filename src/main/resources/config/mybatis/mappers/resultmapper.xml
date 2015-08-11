@@ -318,7 +318,7 @@
     <resultMap id="personCarMagneticRelationship" type="PersonCarMagneticRelationship">
         <id property="id" column="id"/>
         <result property="studentId" column="student_id"/>
-        <result property="profileId" column="profile_id"/>
+        <result property="parentId" column="parent_id"/>
         <result property="magneticCardId" column="magnetic_card_id"/>
         <result property="available" column="available"/>
         <result property="approved" column="approved"/>

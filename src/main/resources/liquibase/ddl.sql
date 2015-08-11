@@ -457,7 +457,8 @@ CREATE TABLE IF NOT EXISTS `fmc_edu`.`magnetic_card` (
   `last_update_date` TIMESTAMP NOT NULL,
   `creation_date` TIMESTAMP NOT NULL,
   `card_type` TINYINT(1) NOT NULL DEFAULT 0 COMMENT '0:student\n1:parent\n',
-  PRIMARY KEY (`id`))
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `card_no_UNIQUE` (`card_no` ASC))
 ENGINE = InnoDB
 
 CREATE TABLE IF NOT EXISTS `fmc_edu`.`student_card_map` (
@@ -465,7 +466,7 @@ CREATE TABLE IF NOT EXISTS `fmc_edu`.`student_card_map` (
   `student_id` INT NULL,
   `parent_id` INT NOT NULL,
   `magnetic_card_id` INT NOT NULL,
-  `available` TINYINT(1) NOT NULL DEFAULT 1,
+  `available` TINYINT(1) NOT NULL DEFAULT 1 COMMENT '-1: lost\n 0: unregister\n 1: register',
   `approved` TINYINT(1) NOT NULL DEFAULT 1,
   INDEX `magnetic_card_id_fk_idx` (`magnetic_card_id` ASC),
   PRIMARY KEY (`id`),

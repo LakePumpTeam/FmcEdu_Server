@@ -13,9 +13,9 @@
         inner join student_card_map scm
         on mc.id=scm.magnetic_card_id
         inner join student st
-        on st.id=pcm.student_id
+        on st.id=scm.student_id
         where 1=1
-        <foreach collection="studentIds" item="studentId" separator="," open="AND pcm.student_id IN ( " close=" )">
+        <foreach collection="studentIds" item="studentId" separator="," open="AND scm.student_id IN ( " close=" )">
             #{studentId}
         </foreach>
     </select>
@@ -25,7 +25,7 @@
              `student_id`,
         `parent_id`,
              `magnetic_card_id`,
-        CAST(available AS INTEGER) as available,
+        CAST(available AS SIGNED) as available,
              `approved`
         FROM `student_card_map` where magnetic_card_id=#{magneticCardId};
     </select>

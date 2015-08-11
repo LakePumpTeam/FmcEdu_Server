@@ -350,9 +350,14 @@ public class ResponseBuilder {
     }
 
     public void buildAttendanceRecords(List<ClockInRecord> pClockInRecords, ResponseBean pResponseBean) {
-        List<Map<String, Object>> attendanceRecord = new ArrayList<Map<String, Object>>();
         if (org.apache.commons.collections.CollectionUtils.isEmpty(pClockInRecords)) {
             return;
+        }
+        List<Map<String, Object>> attendanceRecord;
+        attendanceRecord = (List<Map<String, Object>>) pResponseBean.getData("record");
+        if (attendanceRecord == null) {
+            attendanceRecord = new ArrayList<Map<String, Object>>();
+            pResponseBean.addData("record", attendanceRecord);
         }
         Map<String, Object> attendance;
         for (ClockInRecord clockInRecord : pClockInRecords) {
@@ -360,13 +365,12 @@ public class ResponseBuilder {
             attendance.put("date", DateUtils.convertDateToString(clockInRecord.getAttendanceDate()));
             attendance.put("time", DateUtils.convertTimeToString(new Time(clockInRecord.getAttendanceDate().getTime())));
             attendance.put("week", DateUtils.convertWeekToString(DateUtils.getWeek(clockInRecord.getAttendanceDate())));
-            attendance.put("attendance", clockInRecord.getAttendanceFlag() == 1 ? true : false);
+            attendance.put("attendance", clockInRecord.getAttendanceFlag() == 0 ? true : false);
             if (clockInRecord.getType() == ClockInType.PARENT_CLOCK_IN) {
                 attendance.put("name", clockInRecord.getClockInPersonName());
             }
             attendanceRecord.add(attendance);
         }
-        pResponseBean.addData("record", attendanceRecord);
         return;
     }
 
@@ -380,7 +384,7 @@ public class ResponseBuilder {
             pResponseBean.addBusinessMsg(ResourceManager.ERROR_NOT_FIND_USER, pParentStudentRelationship.getParentId());
             return;
         }
-        List<MagneticCard> magneticCards = getMagneticCardManager().queryMagneticByStudentIdForParent(pParentStudentRelationship.getStudentId());
+        List<MagneticCard> magneticCards = getMagneticCardManager().queryMagneticCardsByStudentId(pParentStudentRelationship.getStudentId());
         if (magneticCards == null) {
             return;
         }

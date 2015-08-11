@@ -22,7 +22,7 @@ public class PushMessageRepository extends BaseRepository implements IPushMessag
     }
 
     @Override
-    public boolean insertPushMessage(PushMessage pPushMessage) {
-        return getSqlSession().insert(INSERT_PUSH_MESSAGE, pPushMessage) > 0;
+    public boolean insertPushMessages(List<PushMessage> pPushMessages) {
+        return getSqlSession().insert(INSERT_PUSH_MESSAGES, pPushMessages) > 0;
     }
 }
