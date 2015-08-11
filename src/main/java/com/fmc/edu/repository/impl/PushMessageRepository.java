@@ -6,6 +6,7 @@ import com.fmc.edu.repository.IPushMessageRepository;
 import com.fmc.edu.util.pagenation.Pagination;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +24,8 @@ public class PushMessageRepository extends BaseRepository implements IPushMessag
 
     @Override
     public boolean insertPushMessages(List<PushMessage> pPushMessages) {
-        return getSqlSession().insert(INSERT_PUSH_MESSAGES, pPushMessages) > 0;
+        Map<String, List<PushMessage>> parameter = new HashMap<String, List<PushMessage>>(1);
+        parameter.put("pushMessages", pPushMessages);
+        return getSqlSession().insert(INSERT_PUSH_MESSAGES, parameter) > 0;
     }
 }
