@@ -26,8 +26,8 @@ public class News extends BaseBean {
 	private Timestamp mPublishDate;
 	private Timestamp mCreationDate;
 	private List<Selection> mOptions;
-
 	private List<Image> mImageUrls;
+	private List<Comments> mComments;
 
 	public News() {
 
@@ -174,5 +174,13 @@ public class News extends BaseBean {
 
 	public void setOptions(final List<Selection> pOptions) {
 		mOptions = pOptions;
+	}
+
+	public List<Comments> getComments() {
+		return mComments;
+	}
+
+	public void setComments(final List<Comments> pComments) {
+		mComments = pComments;
 	}
 }

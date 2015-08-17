@@ -47,8 +47,10 @@
                 <!-- /.panel-heading -->
                 <div class="panel-body">
                     <div id="news_content">
-                        <form action="${ctx}/admin/news/publishNews" method="post" enctype="multipart/form-data" id="news_form">
-                            <jsp:include page="includes/fragment/fragement-province-city-school.jsp" flush="true" />
+                        <form action="${ctx}/admin/news/do-news-publish" method="post" enctype="multipart/form-data" id="news_form">
+                            <jsp:include page="../fragment/fragement-province-city-school.jsp" flush="true">
+                                <jsp:param name="enableSchool" value="true" />
+                            </jsp:include>
                             <jsp:include page="${includeJspURL}" flush="true">
                                 <jsp:param name="subheading" value="${subheading}" />
                             </jsp:include>

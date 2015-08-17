@@ -1,53 +1,70 @@
 package com.fmc.edu.model.school;
 
 import com.fmc.edu.model.BaseBean;
+import com.fmc.edu.model.address.Address;
 
 /**
  * Created by Yu on 5/12/2015.
  */
 public class School extends BaseBean {
 
-    private String mName;
+	private String mName;
 
-    private int mProvinceId;
+	private int mProvinceId;
 
-    private int mCityId;
+	private int mCityId;
 
-    private int mAddressId;
+	private int mAddressId;
 
-    public School() {
+	private String mAddress;
 
-    }
+	public School() {
 
-    public String getName() {
-        return mName;
-    }
+	}
 
-    public void setName(String pName) {
-        mName = pName;
-    }
+	public Address extractAddress() {
+		Address address = new Address(mProvinceId, mCityId, mAddress);
+		address.setId(mAddressId);
+		return address;
+	}
 
-    public int getProvinceId() {
-        return mProvinceId;
-    }
+	public String getName() {
+		return mName;
+	}
 
-    public void setProvinceId(int pProvinceId) {
-        mProvinceId = pProvinceId;
-    }
+	public void setName(String pName) {
+		mName = pName;
+	}
 
-    public int getCityId() {
-        return mCityId;
-    }
+	public int getProvinceId() {
+		return mProvinceId;
+	}
 
-    public void setCityId(int pCityId) {
-        mCityId = pCityId;
-    }
+	public void setProvinceId(int pProvinceId) {
+		mProvinceId = pProvinceId;
+	}
 
-    public int getAddressId() {
-        return mAddressId;
-    }
+	public int getCityId() {
+		return mCityId;
+	}
 
-    public void setAddressId(int pAddressId) {
-        mAddressId = pAddressId;
-    }
+	public void setCityId(int pCityId) {
+		mCityId = pCityId;
+	}
+
+	public int getAddressId() {
+		return mAddressId;
+	}
+
+	public void setAddressId(int pAddressId) {
+		mAddressId = pAddressId;
+	}
+
+	public String getAddress() {
+		return mAddress;
+	}
+
+	public void setAddress(final String pAddress) {
+		mAddress = pAddress;
+	}
 }

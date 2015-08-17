@@ -58,4 +58,15 @@
         <include refid="limit-split-page"/>
     </select>
 
+    <insert id="createAddress" useGeneratedKeys="true" keyProperty="id" flushCache="true">
+        INSERT INTO address (province_id, city_id, full_address, creation_date, last_update_date)
+        VALUES (#{provinceId}, #{cityId}, #{address}, now(), now())
+    </insert>
+
+    <update id="updateAddress" flushCache="true">
+        UPDATE address
+        SET province_id = #{provinceId}, city_id = #{cityId}, full_address = #{address}, last_update_date = now()
+        WHERE id = #{id}
+    </update>
+
 </mapper>

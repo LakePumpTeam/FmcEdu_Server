@@ -1,5 +1,6 @@
 package com.fmc.edu.service.impl;
 
+import com.fmc.edu.model.address.Address;
 import com.fmc.edu.repository.ILocationRepository;
 import com.fmc.edu.util.pagenation.Pagination;
 import org.springframework.stereotype.Service;
@@ -29,5 +30,13 @@ public class LocationService {
 
 	public void setLocationRepository(final ILocationRepository pLocationRepository) {
 		mLocationRepository = pLocationRepository;
+	}
+
+	public boolean updateAddress(final Address pAddress) {
+		return getLocationRepository().updateAddress(pAddress);
+	}
+
+	public boolean createAddress(final Address pAddress) {
+		return getLocationRepository().createAddress(pAddress);
 	}
 }

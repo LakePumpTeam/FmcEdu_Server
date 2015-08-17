@@ -10,6 +10,8 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 /**
  * Created by Yove on 6/7/2015.
@@ -40,6 +42,14 @@ public abstract class AdminTransactionBaseController {
 
 	protected Pagination buildDefaultPagination() {
 		return new Pagination(1, Integer.MAX_VALUE);
+	}
+
+	protected String getCurrentRequestURIWithParameters(HttpServletRequest pRequest) throws UnsupportedEncodingException {
+		StringBuffer sb = new StringBuffer(pRequest.getRequestURI());
+		if (StringUtils.isNoneBlank(pRequest.getQueryString())) {
+			sb.append("?").append(pRequest.getQueryString());
+		}
+		return URLEncoder.encode(sb.toString(), "UTF-8");
 	}
 
 	public DataSourceTransactionManager getTransactionManager() {

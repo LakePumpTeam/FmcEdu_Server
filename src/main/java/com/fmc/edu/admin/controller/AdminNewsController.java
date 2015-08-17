@@ -24,7 +24,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -40,6 +39,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/admin/news")
 public class AdminNewsController extends AdminTransactionBaseController {
+
 	private static final Logger LOG = Logger.getLogger(AdminNewsController.class);
 
 	@Resource(name = "newsManager")
@@ -49,12 +49,11 @@ public class AdminNewsController extends AdminTransactionBaseController {
 	private SchoolManager mSchoolManager;
 
 	@RequestMapping(value = "/news-publish" + GlobalConstant.URL_SUFFIX)
-	public String toNewsPublish(HttpServletRequest pRequest, HttpServletResponse pResponse) {
+	public String forwardPublishNews(HttpServletRequest pRequest, HttpServletResponse pResponse) {
 		return "admin/news/news-publish";
 	}
 
-	@RequestMapping(value = "/publishNews" + GlobalConstant.URL_SUFFIX, method = RequestMethod.POST)
-	@ResponseBody
+	@RequestMapping(value = "/do-news-publish" + GlobalConstant.URL_SUFFIX, method = RequestMethod.POST)
 	public String publishNews(HttpServletRequest pRequest, HttpServletResponse pResponse, int newsType, String subject, String content,
 			@RequestParam(value = "schoolId", required = false, defaultValue = "0") int schoolId,
 			@RequestParam(value = "classId", required = false, defaultValue = "0") int classId,
@@ -116,8 +115,8 @@ public class AdminNewsController extends AdminTransactionBaseController {
 	}
 
 
-	@RequestMapping(value = "/news-list")
-	public String toNewsList(HttpServletRequest pRequest, HttpServletResponse pResponse, Model pModel, int
+	@RequestMapping(value = "/news-list" + GlobalConstant.URL_SUFFIX)
+	public String forwardNewsList(HttpServletRequest pRequest, HttpServletResponse pResponse, Model pModel, int
 			mode, String cityId, String schoolId, String classId) {
 		if (mode == 1 || StringUtils.isNotBlank(schoolId) || StringUtils.isNotBlank(classId)) {
 			int optionalId = 0;
@@ -140,6 +139,12 @@ public class AdminNewsController extends AdminTransactionBaseController {
 			pModel.addAttribute("schools", schools);
 		}
 		return "admin/news/news-list";
+	}
+
+	@RequestMapping(value = "/news-detail" + GlobalConstant.URL_SUFFIX)
+	public String forwardNewsDetail(HttpServletRequest pRequest, HttpServletResponse pResponse, Model pModel, int newsId) {
+		//News news = getNewsManager().queryNewsCompleteDetail(newsId);
+		return "admin/news/news-defail";
 	}
 
 	public SchoolManager getSchoolManager() {

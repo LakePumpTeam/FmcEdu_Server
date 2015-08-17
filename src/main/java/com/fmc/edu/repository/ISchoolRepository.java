@@ -5,6 +5,7 @@ import com.fmc.edu.model.course.TimeTable;
 import com.fmc.edu.model.profile.BaseProfile;
 import com.fmc.edu.model.profile.TeacherProfile;
 import com.fmc.edu.model.school.FmcClass;
+import com.fmc.edu.model.school.School;
 import com.fmc.edu.model.student.Student;
 import com.fmc.edu.util.pagenation.Pagination;
 
@@ -15,57 +16,72 @@ import java.util.Map;
  * Created by Yu on 2015/5/10.
  */
 public interface ISchoolRepository {
-    String QUERY_SCHOOL_COUNT = "com.fmc.edu.school.querySchoolCount";
-    String QUERY_SCHOOL_PAGE = "com.fmc.edu.school.querySchoolPage";
 
-    Map<String, Object> querySchoolsPage(final Pagination pPagination, final int pCityId, final String pKey);
+	String QUERY_SCHOOL_COUNT = "com.fmc.edu.school.querySchoolCount";
+	String QUERY_SCHOOL_PAGE = "com.fmc.edu.school.querySchoolPage";
 
-    String QUERY_CLASS_COUNT = "com.fmc.edu.school.queryClassCount";
-    String QUERY_CLASS_PAGE = "com.fmc.edu.school.queryClassPage";
+	Map<String, Object> querySchoolsPage(final Pagination pPagination, final int pCityId, final String pKey);
 
-    Map<String, Object> queryClassesPage(final Pagination pPagination, final int pSchoolId, final String pKey);
+	List querySchools(int pCityId, String pKey);
 
-    String QUERY_HEADMASTER = "com.fmc.edu.school.queryHeadmaster";
+	String QUERY_CLASS_COUNT = "com.fmc.edu.school.queryClassCount";
+	String QUERY_CLASS_PAGE = "com.fmc.edu.school.queryClassPage";
 
-    Map<String, Object> queryHeadmasterPage(final int pSchoolId);
+	Map<String, Object> queryClassesPage(final Pagination pPagination, final int pSchoolId, final String pKey);
 
-    String UPDATE_STUDENT_BY_ID = "com.fmc.edu.school.updateStudentById";
+	String QUERY_HEADMASTER = "com.fmc.edu.school.queryHeadmaster";
 
-    boolean updateStudentById(Student pStudent);
+	Map<String, Object> queryHeadmasterPage(final int pSchoolId);
 
-    String QUERY_STUDENT_BY_FIELDS = "com.fmc.edu.school.queryStudentIdByFields";
+	String UPDATE_STUDENT_BY_ID = "com.fmc.edu.school.updateStudentById";
 
-    int queryStudentIdByFields(Student pStudent);
+	boolean updateStudentById(Student pStudent);
 
-    String INITIAL_STUDENT = "com.fmc.edu.school.initialStudent";
+	String QUERY_STUDENT_BY_FIELDS = "com.fmc.edu.school.queryStudentIdByFields";
 
-    boolean initialStudent(Student pStudent);
+	int queryStudentIdByFields(Student pStudent);
 
-    String QUERY_TEACHER_BY_ID = "com.fmc.edu.school.queryTeacherById";
+	String INITIAL_STUDENT = "com.fmc.edu.school.initialStudent";
 
-    TeacherProfile queryTeacherById(int pTeacherId);
+	boolean initialStudent(Student pStudent);
 
-    String QUERY_COURSE_LIST_BY_CLASS_ID = "com.fmc.edu.school.queryCourseListByClassId";
+	String QUERY_TEACHER_BY_ID = "com.fmc.edu.school.queryTeacherById";
 
-    List<Course> queryCourseListByClassId(int pClassId, int pWeek);
+	TeacherProfile queryTeacherById(int pTeacherId);
 
-    String INSERT_TIME_TABLE = "com.fmc.edu.school.insertTimeTable";
+	String QUERY_COURSE_LIST_BY_CLASS_ID = "com.fmc.edu.school.queryCourseListByClassId";
 
-    int insertTimeTable(TimeTable pTimeTable);
+	List<Course> queryCourseListByClassId(int pClassId, int pWeek);
 
-    String INSERT_COURSE = "com.fmc.edu.school.insertCourse";
+	String INSERT_TIME_TABLE = "com.fmc.edu.school.insertTimeTable";
 
-    int insertCourse(Course pCourse);
+	int insertTimeTable(TimeTable pTimeTable);
 
-    String UPDATE_COURSE = "com.fmc.edu.school.updateCourse";
+	String INSERT_COURSE = "com.fmc.edu.school.insertCourse";
 
-    int updateCourse(Course pCourse);
+	int insertCourse(Course pCourse);
 
-    String QUERY_DEFAULT_CLASS_BY_SCHOOL_ID = "com.fmc.edu.school.queryDefaultClassBySchoolId";
+	String UPDATE_COURSE = "com.fmc.edu.school.updateCourse";
 
-    FmcClass queryDefaultClassBySchoolId(int pSchoolId);
+	int updateCourse(Course pCourse);
 
-    String QUERY_ALL_PARENT_BY_CLASS_ID = "com.fmc.edu.school.queryAllParentByClassId";
+	String QUERY_DEFAULT_CLASS_BY_SCHOOL_ID = "com.fmc.edu.school.queryDefaultClassBySchoolId";
 
-    List<BaseProfile> queryAllParentByClassId(int pClassId);
+	FmcClass queryDefaultClassBySchoolId(int pSchoolId);
+
+	String QUERY_ALL_PARENT_BY_CLASS_ID = "com.fmc.edu.school.queryAllParentByClassId";
+
+	List<BaseProfile> queryAllParentByClassId(int pClassId);
+
+	String LOAD_SCHOOL = "com.fmc.edu.school.loadSchool";
+
+	School loadSchool(int pSchoolId);
+
+	String CREATE_SCHOOL = "com.fmc.edu.school.createSchool";
+
+	boolean createSchool(School pSchool);
+
+	String UPDATE_SCHOOL = "com.fmc.edu.school.updateSchool";
+
+	boolean updateSchool(School pSchool);
 }

@@ -22,19 +22,23 @@
             </c:forEach>
         </select>
     </div>
-    <div class="input-group">
-        <span class="input-group-addon">学校：</span>
-        <select name="schoolId" class="form-control" id="slt-schools">
-            <c:forEach var="school" items="${schools}">
-                <option value="${school.schoolId}" ${school.schoolId eq param.schoolId ? 'selected' : ''}>${school.schoolName}</option>
-            </c:forEach>
-        </select>
-    </div>
+    <c:if test="${param.enableSchool}">
+        <div class="input-group">
+            <span class="input-group-addon">学校：</span>
+            <select name="schoolId" class="form-control" id="slt-schools">
+                <c:forEach var="school" items="${schools}">
+                    <option value="${school.schoolId}" ${school.schoolId eq param.schoolId ? 'selected' : ''}>${school.schoolName}</option>
+                </c:forEach>
+            </select>
+        </div>
+    </c:if>
 
     <script>
         $(document).ready(function () {
             $("#slt-province").on("change", provinceChange);
+            <c:if test="${param.enableSchool}">
             $("#slt-cities").on("change", cityChange);
+            </c:if>
         });
 
         function provinceChange(e) {
@@ -51,7 +55,7 @@
                 cityChange(e);
             });
         }
-
+        <c:if test="${param.enableSchool}">
         function cityChange(e) {
             $.getJSON(ctx + "/admin/schools?cityId=" + $("#slt-cities").val(), function (data) {
                 var schoolSelect = $("#slt-schools");
@@ -65,5 +69,6 @@
                 }
             });
         }
+        </c:if>
     </script>
 </div>

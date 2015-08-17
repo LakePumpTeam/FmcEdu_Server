@@ -3,9 +3,11 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fmc.edu.school">
+
     <sql id="limit-split-page">
         limit #{start}, #{size}
     </sql>
+
     <select id="querySchoolCount" parameterType="map" resultType="int">
         SELECT count(id)
         FROM school
@@ -15,7 +17,13 @@
                 and `name` LIKE CONCAT('%', #{key})
             </if>
         </where>
+    </select>
 
+    <select id="loadSchool" parameterType="int" resultMap="rm.school">
+        SELECT s.id, s.name, s.province_id, s.city_id, s.address_id, a.full_address
+        FROM school s
+        LEFT JOIN address a on s.address_id = a.id
+        WHERE s.id = #{id}
     </select>
 
     <select id="querySchoolPage" parameterType="map" resultType="map">
@@ -27,8 +35,9 @@
                 and `name` LIKE CONCAT('%', #{key})
             </if>
         </where>
-
-        <include refid="limit-split-page"/>
+        <if test="@Ognl@isNotEmpty(start) and @Ognl@isNotEmpty(size)">
+            <include refid="limit-split-page" />
+        </if>
     </select>
 
     <select id="queryClassCount" parameterType="map" resultType="int">
@@ -167,5 +176,27 @@
         inner join profile p
         on p.id = psm.parent_id
         where std.class_id=#{classId};
-            </select>
+    </select>
+
+    <insert id="createSchool" useGeneratedKeys="true" keyProperty="id" flushCache="true">
+        INSERT INTO school (`name`, province_id, city_id,
+        <if test="@Ognl@id(addressId)">
+            address_id,
+        </if>
+        last_update_date)
+        VALUES (#{name}, #{provinceId}, #{cityId},
+        <if test="@Ognl@id(addressId)">
+            #{addressId},
+        </if>
+        now())
+    </insert>
+
+    <update id="updateSchool">
+        UPDATE school
+        SET name = #{name}, province_id = #{provinceId}, city_id = #{cityId}, last_update_date = now()
+        <if test="@Ognl@id(addressId)">
+            ,address_id = #{addressId}
+        </if>
+        WHERE id = #{id}
+    </update>
 </mapper>

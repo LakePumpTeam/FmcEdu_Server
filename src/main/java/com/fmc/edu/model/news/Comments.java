@@ -9,53 +9,58 @@ import java.sql.Timestamp;
  */
 public class Comments extends BaseBean {
 
-    private int mRefId;
+	private int mRefId;
+	private int mProfileId;
+	private int mAuthorName;
+	private String mComment;
+	private Timestamp mCreationDate;
+	private Boolean mAvailable;
 
-    private int mProfileId;
+	public int getRefId() {
+		return mRefId;
+	}
 
-    private String mComment;
+	public void setRefId(int pRefId) {
+		mRefId = pRefId;
+	}
 
-    private Timestamp mCreationDate;
+	public int getProfileId() {
+		return mProfileId;
+	}
 
-    private Boolean mAvailable;
+	public void setProfileId(int pProfileId) {
+		mProfileId = pProfileId;
+	}
 
-    public int getRefId() {
-        return mRefId;
-    }
+	public int getAuthorName() {
+		return mAuthorName;
+	}
 
-    public void setRefId(int pRefId) {
-        mRefId = pRefId;
-    }
+	public void setAuthorName(final int pAuthorName) {
+		mAuthorName = pAuthorName;
+	}
 
-    public int getProfileId() {
-        return mProfileId;
-    }
+	public String getComment() {
+		return mComment;
+	}
 
-    public void setProfileId(int pProfileId) {
-        mProfileId = pProfileId;
-    }
+	public void setComment(String pComment) {
+		mComment = pComment;
+	}
 
-    public String getComment() {
-        return mComment;
-    }
+	public Timestamp getCreationDate() {
+		return mCreationDate;
+	}
 
-    public void setComment(String pComment) {
-        mComment = pComment;
-    }
+	public void setCreationDate(final Timestamp pCreationDate) {
+		mCreationDate = pCreationDate;
+	}
 
-    public Timestamp getCreationDate() {
-        return mCreationDate;
-    }
+	public Boolean getAvailable() {
+		return mAvailable;
+	}
 
-    public void setCreationDate(final Timestamp pCreationDate) {
-        mCreationDate = pCreationDate;
-    }
-
-    public Boolean getAvailable() {
-        return mAvailable;
-    }
-
-    public void setAvailable(Boolean pAvailable) {
-        mAvailable = pAvailable;
-    }
+	public void setAvailable(Boolean pAvailable) {
+		mAvailable = pAvailable;
+	}
 }

@@ -45,7 +45,6 @@ public class InstantiationTracingBeanPostProcessor implements ApplicationListene
 			// get the parent context
 			WebApplicationContext webApplicationContext = ContextLoader.getCurrentWebApplicationContext();
 			ServletContext servletContext = webApplicationContext.getServletContext();
-			// TODO load init attributes to application context
 			servletContext.setAttribute("launchDate", new Date());
 			servletContext.setAttribute(FMC_ROOT_WEB_CURRENT_WEBAPPLICATIONCONTEXT, webApplicationContext);
 

@@ -1,5 +1,6 @@
 package com.fmc.edu.repository.impl;
 
+import com.fmc.edu.model.address.Address;
 import com.fmc.edu.repository.BaseRepository;
 import com.fmc.edu.repository.ILocationRepository;
 import com.fmc.edu.util.pagenation.Pagination;
@@ -51,5 +52,15 @@ public class LocationRepository extends BaseRepository implements ILocationRepos
 		dataMap.put("cities", queryResult);
 		addIsLastPageFlag(dataMap, queryResult, pPagination.getPageSize());
 		return dataMap;
+	}
+
+	@Override
+	public boolean createAddress(final Address pAddress) {
+		return getSqlSession().insert(CREATE_ADDRESS, pAddress) > 0;
+	}
+
+	@Override
+	public boolean updateAddress(final Address pAddress) {
+		return getSqlSession().update(UPDATE_ADDRESS, pAddress) > 0;
 	}
 }

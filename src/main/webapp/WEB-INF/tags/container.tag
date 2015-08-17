@@ -295,6 +295,15 @@
                         <a href="${ctx}/admin/home"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                     </li>
                     <li>
+                        <a href="#"><i class="fa fa-sitemap fa-fw"></i> 校园管理<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="${ctx}/admin/school/school-list">列表</a>
+                            </li>
+                        </ul>
+                        <!-- /.nav-second-level -->
+                    </li>
+                    <li>
                         <a href="#"><i class="fa fa-rss fa-fw"></i> 校园动态<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>

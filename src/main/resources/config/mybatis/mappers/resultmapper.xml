@@ -144,10 +144,11 @@
 
     <resultMap id="school" type="School">
         <id property="id" column="scl_id"/>
-        <id property="name" column="schoolName"/>
+        <id property="name" column="name" />
         <result property="provinceId" column="province_id"/>
         <result property="cityId" column="city_id"/>
         <result property="addressId" column="address_id"/>
+        <result property="address" column="full_address" />
     </resultMap>
 
     <resultMap id="address" type="Address">

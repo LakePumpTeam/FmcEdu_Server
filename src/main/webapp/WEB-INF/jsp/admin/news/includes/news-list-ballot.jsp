@@ -1,9 +1,11 @@
 <c:set var="provinceId" value="${param.provinceId}" />
-<form action="/admin/news/news-list" method="get" class="form-inline">
+<form action="${ctx}/admin/news/news-list" method="get" class="form-inline">
     <input type="hidden" name="t" value="${param.t}" />
     <input type="hidden" name="mode" value="${param.mode}" />
 
-    <jsp:include page="fragment/fragement-province-city-school.jsp" flush="true" />
+    <jsp:include page="../../fragment/fragement-province-city-school.jsp" flush="true">
+        <jsp:param name="enableSchool" value="true" />
+    </jsp:include>
 
     <div class="form-group input-group">
         <input type="submit" value="查找" class="btn btn-primary" />
