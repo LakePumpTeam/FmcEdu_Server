@@ -79,7 +79,7 @@
 			AND tsm.is_complete = #{status}
 		</if>
 		AND t.available = 1 AND tsm.available = 1
-		<if test="Ognl@isNotEmpty(filter)">
+		<if test="@Ognl@isNotEmpty(filter)">
 			AND title LIKE CONCAT('%', #{filter}, '%')
 		</if>
 		ORDER BY t.creation_date DESC
