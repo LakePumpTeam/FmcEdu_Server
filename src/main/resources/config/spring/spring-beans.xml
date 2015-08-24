@@ -19,6 +19,7 @@
 	<bean id="newsCacheInitHandler" class="com.fmc.edu.executor.handler.NewsCacheInitHandler" />
 	<bean id="PCEduSlideCountInitHandler" class="com.fmc.edu.executor.handler.NewsPropertiesInitHandler">
 		<property name="slideCount" value="5" />
+		<property name="datetimePattern" value="yyyy-MM-dd HH:mm:ss" />
 		<property name="newsTypeMap">
 			<map>
 				<entry key="1" value="育儿学堂" />

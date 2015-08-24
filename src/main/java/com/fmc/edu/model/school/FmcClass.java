@@ -19,6 +19,8 @@ public class FmcClass extends BaseBean {
 
 	private String mHeadTeacherName;
 
+	private int mStudentCount;
+
 	public FmcClass() {
 	}
 
@@ -68,5 +70,13 @@ public class FmcClass extends BaseBean {
 
 	public void setHeadTeacherName(final String pHeadTeacherName) {
 		mHeadTeacherName = pHeadTeacherName;
+	}
+
+	public int getStudentCount() {
+		return mStudentCount;
+	}
+
+	public void setStudentCount(final int pStudentCount) {
+		mStudentCount = pStudentCount;
 	}
 }

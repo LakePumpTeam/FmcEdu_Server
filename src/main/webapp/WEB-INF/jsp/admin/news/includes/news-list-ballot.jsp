@@ -39,14 +39,14 @@
                 <td>${news.subject}</td>
                 <td>${news.authorName}</td>
                 <td>${news.available ? '是' : '否'}</td>
-                <td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${news.publishDate}" /></td>
+                <td><fmt:formatDate pattern="${datetimePattern}" value="${news.publishDate}" /></td>
                 <td>${news.approved ? '已' : '未'}审核</td>
-                <td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${news.approvedDate}" /></td>
+                <td><fmt:formatDate pattern="${datetimePattern}" value="${news.approvedDate}" /></td>
                 <td>${news.approvedByName}</td>
                 <td>${news.like}</td>
                 <td>${news.popular ? '是' : '否'}</td>
-                <td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${news.creationDate}" /></td>
-                <td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${news.lastUpdateDate}" /></td>
+                <td><fmt:formatDate pattern="${datetimePattern}" value="${news.creationDate}" /></td>
+                <td><fmt:formatDate pattern="${datetimePattern}" value="${news.lastUpdateDate}" /></td>
             </tr>
         </c:forEach>
         </tbody>

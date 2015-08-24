@@ -61,7 +61,7 @@
                 and (`grade` LIKE CONCAT('%', #{key}) or `class` LIKE CONCAT('%', #{key}))
             </if>
         </where>
-        <include refid="limit-split-page"/>
+        <include refid="limit-split-page" />
     </select>
 
     <select id="queryHeadmaster" parameterType="map" resultType="map">
@@ -199,4 +199,29 @@
         </if>
         WHERE id = #{id}
     </update>
+
+    <select id="queryClassesBySchoolId" resultMap="rm.fmcClass">
+        SELECT c.id `cls_id`, c.school_id, c.grade, c.class, c.available, c.head_teacher_id, c.last_update_date,
+            p.name `teacherName`, count(s.id) `student_count`
+        FROM class c
+        LEFT JOIN profile p on c.head_teacher_id = p.id
+        LEFT JOIN student s on s.class_id = c.id
+        WHERE c.school_id = #{schoolId}
+        GROUP BY c.id
+    </select>
+
+    <select id="queryClassByTeacherId" resultMap="rm.teacherClassRelationship">
+        SELECT c.id `cls_id`, c.school_id, c.grade, c.class, c.available, c.head_teacher_id, c.last_update_date,
+            p.name `teacherName`, count(s.id) `student_count`
+        FROM class c
+        LEFT JOIN teacher_class_map tcm ON tcm.class_id = c.id AND tcm.teacher_id = #{teacherId}
+    </select>
+
+    <select id="queryClassById" resultMap="rm.fmcClass">
+        SELECT c.id `cls_id`, c.school_id, c.grade, c.class, c.available, c.head_teacher_id, c.last_update_date,
+        p.name `teacherName`, count(s.id) `student_count`
+        FROM class c
+        LEFT JOIN student s on s.class_id = c.id
+        WHERE c.school_id = #{schoolId}
+    </select>
 </mapper>

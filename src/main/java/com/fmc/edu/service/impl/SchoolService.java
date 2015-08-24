@@ -105,4 +105,8 @@ public class SchoolService {
 	public boolean createSchool(final School pSchool) {
 		return getSchoolRepository().createSchool(pSchool);
 	}
+
+	public List<FmcClass> queryClassesBySchoolId(final int pSchoolId) {
+		return getSchoolRepository().queryClassesBySchoolId(pSchoolId);
+	}
 }

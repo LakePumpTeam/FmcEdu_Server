@@ -56,6 +56,11 @@ public class SchoolManager {
 		return getSchoolService().queryDefaultClassBySchoolId(pSchoolId);
 	}
 
+	public List<FmcClass> queryClassesBySchoolId(int pSchoolId) {
+		return getSchoolService().queryClassesBySchoolId(pSchoolId);
+	}
+
+
 	public String getClassString(String grade, String cls) {
 		if (StringUtils.isBlank(grade) || StringUtils.isBlank(cls)) {
 			return "";

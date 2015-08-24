@@ -147,4 +147,9 @@ public class SchoolRepository extends BaseRepository implements ISchoolRepositor
 	public boolean updateSchool(final School pSchool) {
 		return getSqlSession().update(UPDATE_SCHOOL, pSchool) > 0;
 	}
+
+	@Override
+	public List<FmcClass> queryClassesBySchoolId(final int pSchoolId) {
+		return getSqlSession().selectList(QUERY_CLASSES_BY_SCHOOL_ID, pSchoolId);
+	}
 }

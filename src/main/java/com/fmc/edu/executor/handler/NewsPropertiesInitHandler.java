@@ -16,6 +16,8 @@ public class NewsPropertiesInitHandler implements IInitializationHandler {
 
 	private int mSlideCount;
 
+	private String mDatetimePattern;
+
 	private Map<String, String> mNewsTypeMap;
 
 	@Override
@@ -27,6 +29,9 @@ public class NewsPropertiesInitHandler implements IInitializationHandler {
 		// init news type map
 		servletContext.setAttribute("newsType", getNewsTypeMap());
 		LOG.debug("Set new types: " + getNewsTypeMap().toString());
+		// init date time pattern
+		servletContext.setAttribute("datetimePattern", getDatetimePattern());
+		LOG.debug("Set datetime pattern: " + getDatetimePattern());
 	}
 
 	public int getSlideCount() {
@@ -43,5 +48,13 @@ public class NewsPropertiesInitHandler implements IInitializationHandler {
 
 	public void setNewsTypeMap(final Map<String, String> pNewsTypeMap) {
 		mNewsTypeMap = pNewsTypeMap;
+	}
+
+	public String getDatetimePattern() {
+		return mDatetimePattern;
+	}
+
+	public void setDatetimePattern(final String pDatetimePattern) {
+		mDatetimePattern = pDatetimePattern;
 	}
 }

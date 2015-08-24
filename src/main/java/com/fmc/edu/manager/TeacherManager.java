@@ -2,6 +2,7 @@ package com.fmc.edu.manager;
 
 import com.fmc.edu.exception.ProfileException;
 import com.fmc.edu.model.profile.TeacherProfile;
+import com.fmc.edu.model.relationship.TeacherClassRelationship;
 import com.fmc.edu.model.school.FmcClass;
 import com.fmc.edu.service.impl.TeacherService;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import java.util.Map;
  */
 @Service(value = "teacherManager")
 public class TeacherManager {
+
     public static final String ERROR_NOT_FOUND_TEACHER = "老师不存在.";
 
     @Resource(name = "teacherService")
@@ -39,6 +41,10 @@ public class TeacherManager {
         return getTeacherService().updateTeacher(pTeacher);
     }
 
+    public List<TeacherProfile> queryTeachersBySchoolId(int pSchoolId) {
+        return getTeacherService().queryTeachersBySchoolId(pSchoolId);
+    }
+
     public FmcClass queryClassById(int pClassId) {
         return getTeacherService().queryClassById(pClassId);
     }
@@ -49,5 +55,9 @@ public class TeacherManager {
 
     public void setTeacherService(TeacherService pTeacherService) {
         mTeacherService = pTeacherService;
+    }
+
+    public List<TeacherClassRelationship> queryTeacherClassRelationships(final int pTeacherId) {
+        return getTeacherService().queryTeacherClassRelationships(pTeacherId);
     }
 }

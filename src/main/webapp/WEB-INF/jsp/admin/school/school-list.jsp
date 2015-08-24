@@ -4,7 +4,7 @@
 <!-- jQuery -->
 <script src="/bower_components/jquery/dist/jquery.min.js"></script>
 
-<fmc:container template="news" subject="区域 - 学校管理">
+<fmc:container template="school" subject="校园管理 - 学校管理">
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default" style="align-content: center;">

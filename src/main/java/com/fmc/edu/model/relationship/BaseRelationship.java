@@ -7,6 +7,7 @@ import java.sql.Timestamp;
  * Created by Yove on 5/12/2015.
  */
 public class BaseRelationship implements Serializable {
+
     private int mId;
 
     private Timestamp mCreationDate = new Timestamp(System.currentTimeMillis());

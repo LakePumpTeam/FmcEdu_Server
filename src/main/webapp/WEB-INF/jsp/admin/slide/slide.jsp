@@ -65,7 +65,7 @@
                                                 <option ${slide.available ? 'selected' : ''} value="true">启用</option>
                                                 <option ${not slide.available ? 'selected' : ''} value="false">禁用</option>
                                             </select></td>
-                                            <td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${slide.creationDate}" /></td>
+                                            <td><fmt:formatDate pattern="${datetimePattern}" value="${slide.creationDate}" /></td>
                                         </tr>
                                     </c:forEach>
                                     </tbody>
@@ -113,7 +113,7 @@
                                                 <option ${slide.available ? 'selected' : ''} value="true">启用</option>
                                                 <option ${not slide.available ? 'selected' : ''} value="false">禁用</option>
                                             </select></td>
-                                            <td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${slide.creationDate}" /></td>
+                                            <td><fmt:formatDate pattern="${datetimePattern}" value="${slide.creationDate}" /></td>
                                         </tr>
                                     </c:forEach>
                                     </tbody>
@@ -170,8 +170,8 @@
                                             <td>${news.subject}</td>
                                             <td>${fn:substring(news.content, 0, 25)}...</td>
                                             <td>${news.like}</td>
-                                            <td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${news.creationDate}" /></td>
-                                            <td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${news.publishDate}" /></td>
+                                            <td><fmt:formatDate pattern="${datetimePattern}" value="${news.creationDate}" /></td>
+                                            <td><fmt:formatDate pattern="${datetimePattern}" value="${news.publishDate}" /></td>
                                         </tr>
                                     </c:forEach>
                                     </tbody>

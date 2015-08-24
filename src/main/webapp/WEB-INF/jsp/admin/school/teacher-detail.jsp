@@ -4,25 +4,32 @@
 <!-- jQuery -->
 <script src="/bower_components/jquery/dist/jquery.min.js"></script>
 
-<fmc:container template="school" subject="校园管理 - 学校编辑">
+<fmc:container template="teacher" subject="校园管理 - 教师编辑">
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default" style="align-content: center;">
-                <div class="panel-heading">学校信息</div>
+                <div class="panel-heading">教师信息</div>
                 <div class="panel-body">
-                    <form action="${ctx}/admin/school/school-detail-save" method="post">
+                    <form action="${ctx}/admin/school/teacher-detail-save" method="post">
                         <div class="form-group input-group">
-                            <span class="input-group-addon">学校名称：</span>
-                            <input type="text" id="name" name="name" class="form-control" value="${school.name}" />
+                            <span class="input-group-addon">姓名：</span>
+                            <input type="text" id="name" name="name" class="form-control" value="${teacher.name}" />
                         </div>
-                        <jsp:include page="../fragment/fragement-province-city-school.jsp" flush="true">
-                            <jsp:param name="provinceId" value="${school.provinceId}" />
-                            <jsp:param name="cityId" value="${school.cityId}" />
-                        </jsp:include>
                         <div class="form-group input-group">
                             <span class="input-group-addon">地址：</span>
                             <input type="text" id="address" name="address" class="form-control" value="${school.address}" />
-                            <input type="hidden" name="addressId" value="${not empty school.addressId ? school.addressId : 0}" />
+                        </div>
+                        <div class="form-group input-group">
+                            <span class="input-group-addon">地址：</span>
+                            <input type="text" id="address" name="address" class="form-control" value="${school.address}" />
+                        </div>
+                        <div class="form-group input-group">
+                            <span class="input-group-addon">地址：</span>
+                            <input type="text" id="address" name="address" class="form-control" value="${school.address}" />
+                        </div>
+                        <div class="form-group input-group">
+                            <span class="input-group-addon">地址：</span>
+                            <input type="text" id="address" name="address" class="form-control" value="${school.address}" />
                         </div>
                         <div class="form-inline">
                             <div class="form-group input-group">
@@ -78,25 +85,22 @@
                                 <th>电话号码</th>
                                 <th>性别</th>
                                 <th>出生日期</th>
-                                <th>班主任老师</th>
-                                <th>已初始化</th>
-                                <th>最后登录日期</th>
+                                <th>出生日期</th>
+                                <th>出生日期</th>
                                 <th>最后更新日期</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <c:forEach var="teacher" items="${teachers}" varStatus="index">
+                            <c:forEach var="fmcClass" items="${classes}" varStatus="index">
                                 <tr align="right">
-                                    <td>${teacher.id}</td>
-                                    <td><a href="${ctx}/admin/school/teacher-detail?teacherId=${teacher.id}">${teacher.name}</a></td>
-                                    <td>${teacher.phone}</td>
-                                    <td>${teacher.male ? '男' : '女'}</td>
-                                    <td><fmt:formatDate pattern="${datetimePattern}" value="${teacher.birth}" /></td>
-                                    <td>${teacher.headTeacher ? '是' : '否'}</td>
-                                    <td>${teacher.initialized ? '已初始化' : '未初始化'}</td>
-                                        <%--<td>${fmcClass.available ? '是' : '否'}</td>--%>
-                                    <td><fmt:formatDate pattern="${datetimePattern}" value="${teacher.lastLoginDate}" /></td>
-                                    <td><fmt:formatDate pattern="${datetimePattern}" value="${teacher.lastUpdateDate}" /></td>
+                                    <td>${fmcClass.id}</td>
+                                    <td><a href="${ctx}/admin/school/class-detail?classId=${fmcClass.id}">
+                                            ${fmcClass.grade}年级 / ${fmcClass.realClass}班</a></td>
+                                    <td><a href="${ctx}/admin/school/teacher-detail?teacherId=${fmcClass.headTeacherId}">
+                                            ${fmcClass.headTeacherName}</a></td>
+                                    <td>${fmcClass.studentCount}</td>
+                                    <td>${fmcClass.available ? '是' : '否'}</td>
+                                    <td><fmt:formatDate pattern="${datetimePattern}" value="${fmcClass.lastUpdateDate}" /></td>
                                 </tr>
                             </c:forEach>
                             </tbody>

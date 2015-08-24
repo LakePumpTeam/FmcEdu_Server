@@ -84,4 +84,8 @@ public interface ISchoolRepository {
 	String UPDATE_SCHOOL = "com.fmc.edu.school.updateSchool";
 
 	boolean updateSchool(School pSchool);
+
+	String QUERY_CLASSES_BY_SCHOOL_ID = "com.fmc.edu.school.queryClassesBySchoolId";
+
+	List<FmcClass> queryClassesBySchoolId(int pSchoolId);
 }

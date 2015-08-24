@@ -59,4 +59,12 @@
         SET name = #{name}, phone = #{phone}, sex = #{male}, resume = #{resume}, course = #{course}, birth = #{birth}
         WHERE id = #{id}
     </update>
+
+    <select id="queryTeachersBySchoolId" resultMap="rm.teacher">
+        SELECT id, name, phone, sex, head_teacher, initialized, birth, resume, course, app_id, available, channel_id, device_type,
+            creation_date, last_login_date, last_update_date
+        FROM profile p
+        LEFT JOIN teacher t ON p.id = t.profile_id AND p.profile_type = 1
+        WHERE t.school_id = #{schoolId}
+    </select>
 </mapper>
