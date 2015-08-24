@@ -1,6 +1,5 @@
 package com.fmc.edu.manager;
 
-import com.fmc.edu.configuration.WebConfig;
 import com.fmc.edu.exception.IdentityCodeException;
 import com.fmc.edu.exception.ProfileException;
 import com.fmc.edu.model.address.Address;
@@ -140,9 +139,9 @@ public class ProfileManager {
      * @return
      */
     public IMessageIdentifyService getMessageIdentifyService() {
-        if (WebConfig.isDevelopment()) {
+       /* if (WebConfig.isDevelopment()) {
             return mDummyMessageIdentifyService;
-        }
+        }*/
         return mMessageIdentifyService;
     }
 

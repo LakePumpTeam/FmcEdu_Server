@@ -43,6 +43,25 @@ public class WebConfig {
     private static final String FMC_WEB_CONTEXT = "webContext";
 
     private static final String BAIDU_MSG_EXPIRES = "msgExpires";
+
+    private static final String CCP_SMS_SANDBOX_REST_URL = "ccpSandboxUrl";
+
+    private static final String CCP_SMS_SANDBOX_REST_PORT = "ccpSandboxPort";
+
+    private static final String CCP_SMS_REST_URL = "ccpSMSRestUrl";
+
+    private static final String CCP_SMS_REST_PORT = "ccpSMSRestPort";
+
+    private static final String CCP_ACCOUNT_SID = "ccpAccountSID";
+
+    private static final String CCP_AUTH_TOKEN = "ccpAuthToken";
+
+    private static final String CCP_APP_ID = "ccpAppId";
+
+    private static final String CCP_APP_TOKEN = "ccpAppToken";
+
+    private static final String CCP_SMS_TEMPLATE_ID = "ccpSMSTemplateId";
+
     private static Properties props;
 
     static {
@@ -175,5 +194,45 @@ public class WebConfig {
             return "/";
         }
         return webContext;
+    }
+
+    public static String getCCPSMSRestUrl() {
+        String ccpSMSRestUrl;
+        if (WebConfig.isDevelopment()) {
+            ccpSMSRestUrl = props.getProperty(WebConfig.CCP_SMS_SANDBOX_REST_URL);
+        } else {
+            ccpSMSRestUrl = props.getProperty(WebConfig.CCP_SMS_REST_URL);
+        }
+        return ccpSMSRestUrl;
+    }
+
+    public static String getCCPSMSRestPort() {
+        String ccpSMSRestUrl;
+        if (WebConfig.isDevelopment()) {
+            ccpSMSRestUrl = props.getProperty(WebConfig.CCP_SMS_SANDBOX_REST_PORT);
+        } else {
+            ccpSMSRestUrl = props.getProperty(WebConfig.CCP_SMS_REST_PORT);
+        }
+        return ccpSMSRestUrl;
+    }
+
+    public static String getCCPAccountSID() {
+        return props.getProperty(WebConfig.CCP_ACCOUNT_SID);
+    }
+
+    public static String getCCPAuthToken() {
+        return props.getProperty(WebConfig.CCP_AUTH_TOKEN);
+    }
+
+    public static String getCCPAppId() {
+        return props.getProperty(WebConfig.CCP_APP_ID);
+    }
+
+    public static String getCCPAppToken() {
+        return props.getProperty(WebConfig.CCP_AUTH_TOKEN);
+    }
+
+    public static String getCCPSMSTemplateId() {
+        return props.getProperty(WebConfig.CCP_SMS_TEMPLATE_ID);
     }
 }
