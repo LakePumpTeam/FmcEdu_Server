@@ -116,6 +116,7 @@ public class RequestParameterBuilder {
                 //Need to verify again
                 psr.setApproved(0);
             }
+            psr.setRelationship(relationship);
         } else {
             psr = new ParentStudentRelationship(phone, relationship);
         }
