@@ -7,6 +7,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -50,7 +51,6 @@ public class MessageIdentifyService implements IMessageIdentifyService {
     private boolean parseSMSResponse(HashMap<String, Object> pResponse) {
         boolean sendSMSStatus = false;
         if ("000000".equals(pResponse.get("statusCode"))) {
-            //正常返回输出data包体信息（map）
             HashMap<String, Object> data = (HashMap<String, Object>) pResponse.get("data");
             Set<String> keySet = data.keySet();
             for (String key : keySet) {
@@ -59,7 +59,11 @@ public class MessageIdentifyService implements IMessageIdentifyService {
             }
             sendSMSStatus = true;
         } else {
-            LOG.debug("错误码=" + pResponse.get("statusCode") + " 错误信息= " + pResponse.get("statusMsg"));
+            try {
+                LOG.debug("错误码=" + pResponse.get("statusCode") + " 错误信息= " + new String(pResponse.get("statusMsg").toString().getBytes(), "UTF-8"));
+            } catch (UnsupportedEncodingException e) {
+                LOG.error("parseSMSResponse:" + e.getMessage());
+            }
             sendSMSStatus = false;
         }
         return sendSMSStatus;

@@ -198,21 +198,21 @@ public class WebConfig {
 
     public static String getCCPSMSRestUrl() {
         String ccpSMSRestUrl;
-        if (WebConfig.isDevelopment()) {
+       /* if (WebConfig.isDevelopment()) {
             ccpSMSRestUrl = props.getProperty(WebConfig.CCP_SMS_SANDBOX_REST_URL);
-        } else {
-            ccpSMSRestUrl = props.getProperty(WebConfig.CCP_SMS_REST_URL);
-        }
+        } else {*/
+        ccpSMSRestUrl = props.getProperty(WebConfig.CCP_SMS_REST_URL);
+        //}
         return ccpSMSRestUrl;
     }
 
     public static String getCCPSMSRestPort() {
         String ccpSMSRestUrl;
-        if (WebConfig.isDevelopment()) {
+       /* if (WebConfig.isDevelopment()) {
             ccpSMSRestUrl = props.getProperty(WebConfig.CCP_SMS_SANDBOX_REST_PORT);
-        } else {
-            ccpSMSRestUrl = props.getProperty(WebConfig.CCP_SMS_REST_PORT);
-        }
+        } else {*/
+        ccpSMSRestUrl = props.getProperty(WebConfig.CCP_SMS_REST_PORT);
+        // }
         return ccpSMSRestUrl;
     }
 
