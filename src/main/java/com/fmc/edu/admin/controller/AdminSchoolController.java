@@ -89,6 +89,22 @@ public class AdminSchoolController extends AdminTransactionBaseController {
 		return "admin/school/teacher-detail";
 	}
 
+	@RequestMapping(value = "/teacher-detail-save" + GlobalConstant.URL_SUFFIX)
+	public String saveTeacherDetail(HttpServletRequest pRequest, HttpServletResponse pResponse, Model pModel, TeacherProfile teacher) {
+		TransactionStatus status = ensureTransaction();
+		try {
+			boolean result = getTeacherManager().persistTeacherDetail(teacher);
+			if (!result) {
+				status.setRollbackOnly();
+			}
+		} catch (Exception e) {
+			status.setRollbackOnly();
+		} finally {
+			getTransactionManager().commit(status);
+		}
+		return "admin/school/teacher-detail";
+	}
+
 	public SchoolManager getSchoolManager() {
 		return mSchoolManager;
 	}

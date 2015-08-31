@@ -44,6 +44,13 @@
         <dispatcher>FORWARD</dispatcher>
         <dispatcher>INCLUDE</dispatcher>
     </filter-mapping>
+    <filter-mapping>
+        <filter-name>log4j-mdc-filter</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>INCLUDE</dispatcher>
+    </filter-mapping>
     <filter>
         <filter-name>authentication-filter</filter-name>
         <filter-class>com.fmc.edu.admin.filter.AuthenticationFilter</filter-class>
@@ -77,6 +84,11 @@
     <filter>
         <filter-name>html-escape-filter</filter-name>
         <filter-class>com.fmc.edu.web.filter.HTMLEscapeFilter</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>log4j-mdc-filter</filter-name>
+        <filter-class>com.fmc.edu.web.filter.Log4jMdcFilter</filter-class>
     </filter>
     <!-- spring config start -->
 

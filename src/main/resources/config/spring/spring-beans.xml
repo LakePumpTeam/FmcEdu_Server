@@ -12,6 +12,7 @@
 				<ref bean="newsCacheInitHandler" />
 				<ref bean="PCEduSlideCountInitHandler" />
 				<ref bean="locationInitHandler" />
+				<ref bean="FMCPropertiesInitHandler" />
 			</array>
 		</property>
 	</bean>
@@ -31,6 +32,18 @@
 				<entry key="7" value="校园吧" />
 			</map>
 		</property>
+	</bean>
+	<bean id="FMCPropertiesInitHandler" class="com.fmc.edu.executor.handler.FMCPropertiesInitHandler">
+		<property name="deviceTypeMap">
+			<map>
+				<entry key="1" value="网站访问" />
+				<entry key="2" value="电脑PC" />
+				<entry key="3" value="Android" />
+				<entry key="4" value="iPhone" />
+				<entry key="5" value="Windows Phone" />
+			</map>
+		</property>
+		<property name="datePattern" value="yyyy-MM-dd" />
 	</bean>
 	<bean id="locationInitHandler" class="com.fmc.edu.executor.handler.LocationInitHandler" />
 

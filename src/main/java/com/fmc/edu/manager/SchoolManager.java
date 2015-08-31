@@ -132,7 +132,7 @@ public class SchoolManager {
 	}
 
 	public boolean persistSchool(final School pSchool) {
-		boolean result = false;
+		boolean result;
 		Address schoolAddress = pSchool.extractAddress();
 		if (RepositoryUtils.idIsValid(schoolAddress.getId())) {
 			result = getLocationService().updateAddress(schoolAddress);

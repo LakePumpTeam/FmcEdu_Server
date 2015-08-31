@@ -104,7 +104,10 @@
         <result property="resume" column="resume"/>
         <result property="course" column="course"/>
         <result property="birth" column="birth"/>
-        <association property="school" resultMap="school" />
+        <association property="school" javaType="School" column="scl_id">
+            <id property="id" column="scl_id"/>
+            <result property="name" column="schoolName"/>
+        </association>
     </resultMap>
 
     <resultMap id="parentStudentRelationship" type="ParentStudentRelationship">
@@ -353,6 +356,6 @@
         <result property="headTeacher" column="head_teacher" />
         <result property="creationDate" column="creation_date" />
         <result property="lastUpdateDate" column="last_update_date" />
-        <association property="fmcClass" column="class_id" select="com.fmc.edu.school.queryClassById" />
+        <association property="fmcClass" column="class_id" select="com.fmc.edu.school.loadClass" />
     </resultMap>
 </mapper>

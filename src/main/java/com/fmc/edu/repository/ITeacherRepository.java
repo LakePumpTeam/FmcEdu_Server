@@ -39,4 +39,20 @@ public interface ITeacherRepository {
 	String QUERY_TEACHER_CLASS_RELATIONSHIPS = "com.fmc.edu.teacher.queryTeacherClassRelationships";
 
 	List<TeacherClassRelationship> queryTeacherClassRelationships(int pTeacherId);
+
+	String UPDATE_TEACHER_PROFILE = "com.fmc.edu.teacher.updateTeacherProfile";
+
+	boolean updateTeacherProfile(TeacherProfile pTeacher);
+
+	String UPDATE_TEACHER_DETAIL = "com.fmc.edu.teacher.updateTeacherDetail";
+
+	boolean updateTeacherDetail(TeacherProfile pTeacher);
+
+	String INITIAL_TEACHER_PROFILE = "com.fmc.edu.teacher.initialTeacherProfile";
+
+	boolean createTeacherProfile(final TeacherProfile pTeacher);
+
+	String INITIAL_TEACHER = "com.fmc.edu.teacher.initialTeacher";
+
+	boolean createTeacherDetail(TeacherProfile pTeacher);
 }

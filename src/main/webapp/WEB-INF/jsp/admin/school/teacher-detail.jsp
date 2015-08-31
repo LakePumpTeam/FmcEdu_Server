@@ -11,25 +11,57 @@
                 <div class="panel-heading">教师信息</div>
                 <div class="panel-body">
                     <form action="${ctx}/admin/school/teacher-detail-save" method="post">
-                        <div class="form-group input-group">
-                            <span class="input-group-addon">姓名：</span>
-                            <input type="text" id="name" name="name" class="form-control" value="${teacher.name}" />
+                        <div class="form-inline">
+                            <div class="form-group input-group">
+                                <span class="input-group-addon">姓名：</span>
+                                <input type="text" id="name" name="name" class="form-control" value="${teacher.name}" />
+                            </div>
+                            <div class="form-group input-group">
+                                <span class="input-group-addon">状态：</span>
+                                <input type="text" id="_initialized" name="_initialized" class="form-control"
+                                       value="${teacher.initialized ? '已启用' : '未启用'}" readonly="readonly" />
+                            </div>
+                            <div class="form-group input-group">
+                                <span class="input-group-addon">所在学校：</span>
+                                <input type="text" id="_school" name="_school" class="form-control"
+                                       value="${teacher.school.name}" readonly="readonly" />
+                            </div>
+                        </div>
+                        <div class="form-inline">
+                            <div class="form-group input-group">
+                                <span class="input-group-addon">手机：</span>
+                                <input type="text" id="phone" name="phone" class="form-control" value="${teacher.phone}" />
+                            </div>
+                            <div class="form-group input-group">
+                                <span class="input-group-addon">科目：</span>
+                                <input type="text" id="address" name="address" class="form-control" value="${teacher.course}" />
+                            </div>
+                            <div class="form-group input-group">
+                                <span class="input-group-addon">出生日期：</span>
+                                <input type="text" id="birth" name="birth" class="form-control"
+                                       value="<fmt:formatDate pattern="${datePattern}" value="${teacher.birth}" />" />
+                            </div>
                         </div>
                         <div class="form-group input-group">
-                            <span class="input-group-addon">地址：</span>
-                            <input type="text" id="address" name="address" class="form-control" value="${school.address}" />
+                            <span class="input-group-addon">简介：</span>
+                            <input type="text" id="resume" name="resume" class="form-control" value="${teacher.resume}" />
                         </div>
-                        <div class="form-group input-group">
-                            <span class="input-group-addon">地址：</span>
-                            <input type="text" id="address" name="address" class="form-control" value="${school.address}" />
-                        </div>
-                        <div class="form-group input-group">
-                            <span class="input-group-addon">地址：</span>
-                            <input type="text" id="address" name="address" class="form-control" value="${school.address}" />
-                        </div>
-                        <div class="form-group input-group">
-                            <span class="input-group-addon">地址：</span>
-                            <input type="text" id="address" name="address" class="form-control" value="${school.address}" />
+                        <div class="form-inline">
+                            <div class="form-group input-group">
+                                <span class="input-group-addon">设备：</span>
+                                <input type="text" id="_deviceType" name="_deviceType" class="form-control"
+                                       value="${deviceTypeMap[teacher.deviceType]}" readonly="readonly" />
+                            </div>
+                            <div class="form-group input-group">
+                                <span class="input-group-addon">app id：</span>
+                                <input type="text" id="_appId" name="_appId" class="form-control" value="${teacher.appId}"
+                                       readonly="readonly" />
+                            </div>
+                            <div class="form-group input-group">
+                                <span class="input-group-addon">channel id：</span>
+                                <input type="text" id="_channelId" name="_channelId" class="form-control" value="${teacher.channelId}"
+                                       readonly="readonly" />
+                            </div>
                         </div>
                         <div class="form-inline">
                             <div class="form-group input-group">
@@ -48,59 +80,23 @@
                             <thead>
                             <tr>
                                 <th>#</th>
+                                <th>学校</th>
                                 <th>班级</th>
-                                <th>班主任老师</th>
                                 <th>学生人数</th>
                                 <th>启用</th>
-                                <th>最后更新日期</th>
+                                <th>最后更新</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <c:forEach var="fmcClass" items="${classes}" varStatus="index">
+                            <c:forEach var="relationship" items="${relationships}" varStatus="index">
                                 <tr align="right">
-                                    <td>${fmcClass.id}</td>
-                                    <td><a href="${ctx}/admin/school/class-detail?classId=${fmcClass.id}">
-                                            ${fmcClass.grade}年级 / ${fmcClass.realClass}班</a></td>
-                                    <td><a href="${ctx}/admin/school/teacher-detail?teacherId=${fmcClass.headTeacherId}">
-                                            ${fmcClass.headTeacherName}</a></td>
-                                    <td>${fmcClass.studentCount}</td>
-                                    <td>${fmcClass.available ? '是' : '否'}</td>
-                                    <td><fmt:formatDate pattern="${datetimePattern}" value="${fmcClass.lastUpdateDate}" /></td>
-                                </tr>
-                            </c:forEach>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <div class="panel panel-default" style="align-content: center;">
-                <div class="panel-heading">教师列表</div>
-                <div class="panel-body">
-                    <div class="dataTable_wrapper">
-                        <table class="table table-striped table-bordered table-hover" id="table-teachers">
-                            <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>姓名</th>
-                                <th>电话号码</th>
-                                <th>性别</th>
-                                <th>出生日期</th>
-                                <th>出生日期</th>
-                                <th>出生日期</th>
-                                <th>最后更新日期</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <c:forEach var="fmcClass" items="${classes}" varStatus="index">
-                                <tr align="right">
-                                    <td>${fmcClass.id}</td>
-                                    <td><a href="${ctx}/admin/school/class-detail?classId=${fmcClass.id}">
-                                            ${fmcClass.grade}年级 / ${fmcClass.realClass}班</a></td>
-                                    <td><a href="${ctx}/admin/school/teacher-detail?teacherId=${fmcClass.headTeacherId}">
-                                            ${fmcClass.headTeacherName}</a></td>
-                                    <td>${fmcClass.studentCount}</td>
-                                    <td>${fmcClass.available ? '是' : '否'}</td>
-                                    <td><fmt:formatDate pattern="${datetimePattern}" value="${fmcClass.lastUpdateDate}" /></td>
+                                    <td>${relationship.classId}</td>
+                                    <td>${teacher.school.name}</td>
+                                    <td><a href="${ctx}/admin/school/class-detail?classId=${relationship.classId}">
+                                            ${relationship.fmcClass.grade}年级 / ${relationship.fmcClass.realClass}班</a></td>
+                                    <td>${relationship.fmcClass.studentCount}</td>
+                                    <td>${relationship.fmcClass.available ? '是' : '否'}</td>
+                                    <td><fmt:formatDate pattern="${datetimePattern}" value="${relationship.fmcClass.lastUpdateDate}" /></td>
                                 </tr>
                             </c:forEach>
                             </tbody>
@@ -110,8 +106,6 @@
             </div>
         </div>
         <!-- /.panel-heading -->
-    </div>
-    </div>
     </div>
     <!-- Bootstrap Core JavaScript -->
     <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>

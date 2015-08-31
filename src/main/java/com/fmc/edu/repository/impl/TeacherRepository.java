@@ -50,4 +50,24 @@ public class TeacherRepository extends BaseRepository implements ITeacherReposit
 	public List<TeacherClassRelationship> queryTeacherClassRelationships(final int pTeacherId) {
 		return getSqlSession().selectList(QUERY_TEACHER_CLASS_RELATIONSHIPS, pTeacherId);
 	}
+
+	@Override
+	public boolean updateTeacherProfile(final TeacherProfile pTeacher) {
+		return getSqlSession().update(UPDATE_TEACHER_PROFILE, pTeacher) > 0;
+	}
+
+	@Override
+	public boolean updateTeacherDetail(TeacherProfile pTeacher) {
+		return getSqlSession().update(UPDATE_TEACHER_DETAIL, pTeacher) > 0;
+	}
+
+	@Override
+	public boolean createTeacherDetail(final TeacherProfile pTeacher) {
+		return getSqlSession().insert(INITIAL_TEACHER, pTeacher) > 0;
+	}
+
+	@Override
+	public boolean createTeacherProfile(final TeacherProfile pTeacher) {
+		return getSqlSession().insert(INITIAL_TEACHER_PROFILE, pTeacher) > 0;
+	}
 }

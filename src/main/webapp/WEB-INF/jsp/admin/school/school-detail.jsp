@@ -45,7 +45,7 @@
                                 <th>班主任老师</th>
                                 <th>学生人数</th>
                                 <th>启用</th>
-                                <th>最后更新日期</th>
+                                <th>最后更新</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -78,10 +78,11 @@
                                 <th>电话号码</th>
                                 <th>性别</th>
                                 <th>出生日期</th>
-                                <th>班主任老师</th>
+                                <th>班主任</th>
+                                <th>科目</th>
                                 <th>已初始化</th>
-                                <th>最后登录日期</th>
-                                <th>最后更新日期</th>
+                                <th>最后登录</th>
+                                <th>最后更新</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -91,10 +92,10 @@
                                     <td><a href="${ctx}/admin/school/teacher-detail?teacherId=${teacher.id}">${teacher.name}</a></td>
                                     <td>${teacher.phone}</td>
                                     <td>${teacher.male ? '男' : '女'}</td>
-                                    <td><fmt:formatDate pattern="${datetimePattern}" value="${teacher.birth}" /></td>
+                                    <td><fmt:formatDate pattern="${datePattern}" value="${teacher.birth}" /></td>
                                     <td>${teacher.headTeacher ? '是' : '否'}</td>
+                                    <td>${teacher.course}</td>
                                     <td>${teacher.initialized ? '已初始化' : '未初始化'}</td>
-                                        <%--<td>${fmcClass.available ? '是' : '否'}</td>--%>
                                     <td><fmt:formatDate pattern="${datetimePattern}" value="${teacher.lastLoginDate}" /></td>
                                     <td><fmt:formatDate pattern="${datetimePattern}" value="${teacher.lastUpdateDate}" /></td>
                                 </tr>
@@ -128,6 +129,9 @@
     <script>
         $(document).ready(function () {
             $('#table-classes').DataTable({
+                responsive: true
+            });
+            $('#table-teachers').DataTable({
                 responsive: true
             });
         });

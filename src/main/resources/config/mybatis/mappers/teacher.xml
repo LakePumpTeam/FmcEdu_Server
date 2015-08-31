@@ -5,7 +5,7 @@
 <mapper namespace="com.fmc.edu.teacher">
     <select id="queryTeacherById" parameterType="int" resultMap="rm.teacher">
         select p.id, p.name, p.phone, p.app_id, p.channel_id, p.creation_date, p.last_login_date, p.last_update_date,
-        p.available,
+        p.available, p.device_type,
         t.head_teacher, t.initialized, t.sex, t.resume, t.course, t.birth,
         scl.id as scl_id, scl.name as schoolName, scl.province_id, scl.city_id, scl.address_id
         from profile p
@@ -67,4 +67,35 @@
         LEFT JOIN teacher t ON p.id = t.profile_id AND p.profile_type = 1
         WHERE t.school_id = #{schoolId}
     </select>
+
+    <select id="queryTeacherClassRelationships" resultMap="rm.teacherClassRelationship">
+        SELECT class_id, teacher_id, sub_title, available, head_teacher, creation_date, last_update_date
+        FROM teacher_class_map tcm
+        WHERE tcm.teacher_id = #{teacherId}
+    </select>
+
+    <insert id="initialTeacherProfile" parameterType="BaseProfile">
+        INSERT INTO profile (`name`, phone, password, salt, available, profile_type, creation_date, last_update_date)
+        VALUES (#{name}, #{phone}, #{password}, #{salt}, #{available}, #{profileType}, now(), now())
+    </insert>
+
+    <insert id="initialTeacher" parameterType="TeacherProfile" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO teacher (profile_id, school_id, sex, head_teacher, course, resume, birth)
+        VALUES (#{id}, #{schoolId}, #{male}, #{headTeacher}, #{course}, #{resume}, #{birth})
+    </insert>
+
+    <update id="updateTeacherProfile" parameterType="BaseProfile">
+        UPDATE profile SET `name` = #{name}, available = #{available}, last_update_date = now()
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateTeacherDetail" parameterType="TeacherProfile">
+        UPDATE teacher SET head_teacher = #{headTeacher}, initialized = #{initialized}, resume = #{resume}, course = #{course}, birth = #{birth}
+        WHERE profile_id = #{id}
+    </update>
+
+    <update id="updateTeacherAccount" parameterType="BaseProfile">
+        UPDATE profile SET phone = #{phone}, password = #{password}, salt = #{salt}
+        WHERE id = #{id}
+    </update>
 </mapper>

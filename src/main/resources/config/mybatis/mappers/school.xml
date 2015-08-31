@@ -217,11 +217,12 @@
         LEFT JOIN teacher_class_map tcm ON tcm.class_id = c.id AND tcm.teacher_id = #{teacherId}
     </select>
 
-    <select id="queryClassById" resultMap="rm.fmcClass">
+    <select id="loadClass" resultMap="rm.fmcClass">
         SELECT c.id `cls_id`, c.school_id, c.grade, c.class, c.available, c.head_teacher_id, c.last_update_date,
         p.name `teacherName`, count(s.id) `student_count`
         FROM class c
         LEFT JOIN student s on s.class_id = c.id
-        WHERE c.school_id = #{schoolId}
+        LEFT JOIN profile p on p.id = c.head_teacher_id
+        WHERE c.id = #{classId}
     </select>
 </mapper>

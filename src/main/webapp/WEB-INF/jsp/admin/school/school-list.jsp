@@ -34,8 +34,7 @@
                                 <tr>
                                     <td align="right">${index.count} </td>
                                     <td>
-                                        <a href="${ctx}/admin/school/school-detail?schoolId=${school.schoolId}&back=${originalURI}">
-                                                ${school.schoolName}</a>
+                                        <a href="${ctx}/admin/school/school-detail?schoolId=${school.schoolId}">${school.schoolName}</a>
                                     </td>
                                 </tr>
                             </c:forEach>
