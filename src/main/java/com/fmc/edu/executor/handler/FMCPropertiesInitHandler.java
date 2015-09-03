@@ -12,36 +12,36 @@ import java.util.Map;
  */
 public class FMCPropertiesInitHandler implements IInitializationHandler {
 
-    private static final Logger LOG = Logger.getLogger(FMCPropertiesInitHandler.class);
+	private static final Logger LOG = Logger.getLogger(FMCPropertiesInitHandler.class);
 
-    private Map<Integer, String> mDeviceTypeMap;
+	private Map<Integer, String> mDeviceTypeMap;
 
-    private String mDatePattern;
+	private String mDatePattern;
 
-    @Override
-    public void initialize(final WebApplicationContext pWebApplicationContext) {
-        ServletContext servletContext = pWebApplicationContext.getServletContext();
-        // init device types map
-        servletContext.setAttribute("deviceTypeMap", getDeviceTypeMap());
-        LOG.debug("Set device type map: " + getDeviceTypeMap());
-        // init date pattern
-        servletContext.setAttribute("datePattern", getDatePattern());
-        LOG.debug("Set date pattern: " + getDatePattern());
-    }
+	@Override
+	public void initialize(final WebApplicationContext pWebApplicationContext) {
+		ServletContext servletContext = pWebApplicationContext.getServletContext();
+		// init device types map
+		servletContext.setAttribute("deviceTypeMap", getDeviceTypeMap());
+		LOG.debug("Set device type map: " + getDeviceTypeMap());
+		// init date pattern
+		servletContext.setAttribute("datePattern", getDatePattern());
+		LOG.debug("Set date pattern: " + getDatePattern());
+	}
 
-    public Map<Integer, String> getDeviceTypeMap() {
-        return mDeviceTypeMap;
-    }
+	public Map<Integer, String> getDeviceTypeMap() {
+		return mDeviceTypeMap;
+	}
 
-    public void setDeviceTypeMap(final Map<Integer, String> pDeviceTypeMap) {
-        mDeviceTypeMap = pDeviceTypeMap;
-    }
+	public void setDeviceTypeMap(final Map<Integer, String> pDeviceTypeMap) {
+		mDeviceTypeMap = pDeviceTypeMap;
+	}
 
-    public String getDatePattern() {
-        return mDatePattern;
-    }
+	public String getDatePattern() {
+		return mDatePattern;
+	}
 
-    public void setDatePattern(final String pDatePattern) {
-        mDatePattern = pDatePattern;
-    }
+	public void setDatePattern(final String pDatePattern) {
+		mDatePattern = pDatePattern;
+	}
 }
