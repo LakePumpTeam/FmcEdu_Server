@@ -16,11 +16,6 @@
                                 <input type="text" id="name" name="name" class="form-control" value="${teacher.name}" />
                             </div>
                             <div class="form-group input-group">
-                                <span class="input-group-addon">状态：</span>
-                                <input type="text" id="_initialized" name="_initialized" class="form-control"
-                                       value="${teacher.initialized ? '已启用' : '未启用'}" disabled="disabled" />
-                            </div>
-                            <div class="form-group input-group">
                                 <span class="input-group-addon">所在学校：</span>
                                 <c:choose>
                                     <c:when test="${teacher.id gt 0}">
@@ -34,12 +29,12 @@
                                     </c:otherwise>
                                 </c:choose>
                             </div>
-                        </div>
-                        <div class="form-inline">
                             <div class="form-group input-group">
                                 <span class="input-group-addon">手机：</span>
                                 <input type="text" id="phone" name="phone" class="form-control" value="${teacher.phone}" />
                             </div>
+                        </div>
+                        <div class="form-inline">
                             <div class="form-group input-group">
                                 <span class="input-group-addon">科目：</span>
                                 <input type="text" id="address" name="course" class="form-control" value="${teacher.course}" />
@@ -49,12 +44,24 @@
                                 <input type="text" id="birth" name="birthStr" class="form-control"
                                        value="<fmt:formatDate pattern="${datePattern}" value="${teacher.birth}" />" />
                             </div>
+                            <div class="form-group input-group">
+                                <span class="input-group-addon">性别：</span>
+                                <select name="male" class="form-control">
+                                    <option value="false" ${not teacher.male ? 'selected' : ''}>女</option>
+                                    <option value="true" ${teacher.male ? 'selected' : ''}>男</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="form-group input-group">
                             <span class="input-group-addon">简介：</span>
                             <input type="text" id="resume" name="resume" class="form-control" value="${teacher.resume}" />
                         </div>
                         <div class="form-inline">
+                            <div class="form-group input-group">
+                                <span class="input-group-addon">状态：</span>
+                                <input type="text" id="_initialized" name="_initialized" class="form-control"
+                                       value="${teacher.initialized ? '已启用' : '未启用'}" disabled="disabled" />
+                            </div>
                             <div class="form-group input-group">
                                 <span class="input-group-addon">设备：</span>
                                 <input type="text" id="_deviceType" name="_deviceType" class="form-control"

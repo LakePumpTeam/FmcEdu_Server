@@ -91,7 +91,8 @@
     </update>
 
     <update id="updateTeacherDetail" parameterType="TeacherProfile">
-        UPDATE teacher SET head_teacher = #{headTeacher}, initialized = #{initialized}, resume = #{resume}, course = #{course}, birth = #{birth}
+        UPDATE teacher SET head_teacher = #{headTeacher}, sex = #{male}, initialized = #{initialized}, resume = #{resume}, course =
+        #{course}, birth = #{birth}
         WHERE profile_id = #{id}
     </update>
 
