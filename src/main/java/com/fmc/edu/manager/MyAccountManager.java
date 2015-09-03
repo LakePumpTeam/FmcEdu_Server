@@ -32,7 +32,7 @@ public class MyAccountManager {
         if (user == null) {
             throw new LoginException(ResourceManager.ERROR_NOT_FIND_USER, pAccount);
         }
-        if (!user.isAvailable()) {
+        if (!user.getAvailable()) {
             throw new LoginException(ResourceManager.ERROR_ACCOUNT_UNAVAILABLE);
         }
         if (StringUtils.isBlank(pPassword) || !pPassword.equals(user.getPassword())) {

@@ -105,8 +105,8 @@ public class ProfileManager {
         }
     }
 
-    public boolean verifyIdentityCode(String pPhone, String pAuthoCode) throws IdentityCodeException {
-        return getIdentityCodeManager().verifyIdentityCode(pPhone, pAuthoCode);
+    public boolean verifyIdentityCode(String pPhone, String pAuthCode) throws IdentityCodeException {
+        return getIdentityCodeManager().verifyIdentityCode(pPhone, pAuthCode);
     }
 
     public ParentProfile queryParentByPhone(String pParentPhone) {

@@ -47,7 +47,7 @@
 
     <link href="/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css"
           rel="stylesheet">
-    <!-- Page-Level Demo Scripts - Tables - Use for refer ence -->
+    <!-- Page-Level Demo Scripts - Tables - Use for reference -->
     <script>
         $(document).ready(function () {
             $('#table-news').DataTable({

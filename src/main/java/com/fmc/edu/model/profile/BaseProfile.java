@@ -112,7 +112,7 @@ public class BaseProfile extends BaseBean {
         mLastLoginDate = pLastLoginDate;
     }
 
-    public Boolean isAvailable() {
+    public Boolean getAvailable() {
         return mAvailable;
     }
 

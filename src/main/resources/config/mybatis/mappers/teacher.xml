@@ -3,6 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fmc.edu.teacher">
+
     <select id="queryTeacherById" parameterType="int" resultMap="rm.teacher">
         select p.id, p.name, p.phone, p.app_id, p.channel_id, p.creation_date, p.last_login_date, p.last_update_date,
         p.available, p.device_type,
@@ -74,14 +75,14 @@
         WHERE tcm.teacher_id = #{teacherId}
     </select>
 
-    <insert id="initialTeacherProfile" parameterType="BaseProfile">
-        INSERT INTO profile (`name`, phone, password, salt, available, profile_type, creation_date, last_update_date)
-        VALUES (#{name}, #{phone}, #{password}, #{salt}, #{available}, #{profileType}, now(), now())
+    <insert id="initialTeacherProfile" parameterType="BaseProfile" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO profile (`name`, phone, password, salt, available, profile_type, creation_date, last_update_date, device_type)
+        VALUES (#{name}, #{phone}, #{password}, #{salt}, #{available}, #{profileType}, now(), now(), null)
     </insert>
 
-    <insert id="initialTeacher" parameterType="TeacherProfile" keyProperty="id" useGeneratedKeys="true">
+    <insert id="initialTeacher" parameterType="TeacherProfile">
         INSERT INTO teacher (profile_id, school_id, sex, head_teacher, course, resume, birth)
-        VALUES (#{id}, #{schoolId}, #{male}, #{headTeacher}, #{course}, #{resume}, #{birth})
+        VALUES (#{id}, #{school.id}, #{male}, #{headTeacher}, #{course}, #{resume}, #{birth})
     </insert>
 
     <update id="updateTeacherProfile" parameterType="BaseProfile">

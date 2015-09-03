@@ -203,4 +203,8 @@
         `profile_id`
         FROM `appsetting` where profile_id=#{profileId};
     </select>
+
+    <select id="phoneExist" parameterType="string" resultType="boolean">
+        SELECT count(1) FROM profile
+    </select>
 </mapper>

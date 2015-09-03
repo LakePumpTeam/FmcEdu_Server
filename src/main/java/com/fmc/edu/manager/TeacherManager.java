@@ -69,6 +69,7 @@ public class TeacherManager {
 		boolean result;
 		if (RepositoryUtils.idIsValid(pTeacher.getId())) {
 			LOG.debug("Persist teacher changes by doing update.");
+			//TODO Add logic to set initial password/salt for teacher
 			result = getTeacherService().updateTeacherDetail(pTeacher);
 		} else {
 			LOG.debug("Persist teacher changes by doing creation.");

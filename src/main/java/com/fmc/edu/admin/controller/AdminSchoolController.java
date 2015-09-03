@@ -70,11 +70,12 @@ public class AdminSchoolController extends AdminTransactionBaseController {
 				status.setRollbackOnly();
 			}
 		} catch (Exception e) {
+			LOG.error(e);
 			status.setRollbackOnly();
 		} finally {
 			getTransactionManager().commit(status);
 		}
-		return "admin/school/school-detail";
+		return "redirect:school-detail?schoolId=" + school.getId();
 	}
 
 	@RequestMapping(value = "/teacher-detail" + GlobalConstant.URL_SUFFIX)
@@ -93,16 +94,18 @@ public class AdminSchoolController extends AdminTransactionBaseController {
 	public String saveTeacherDetail(HttpServletRequest pRequest, HttpServletResponse pResponse, Model pModel, TeacherProfile teacher) {
 		TransactionStatus status = ensureTransaction();
 		try {
+			teacher.convertBirth();
 			boolean result = getTeacherManager().persistTeacherDetail(teacher);
 			if (!result) {
 				status.setRollbackOnly();
 			}
 		} catch (Exception e) {
+			LOG.error(e);
 			status.setRollbackOnly();
 		} finally {
 			getTransactionManager().commit(status);
 		}
-		return "admin/school/teacher-detail";
+		return "redirect:teacher-detail?teacherId=" + teacher.getId();
 	}
 
 	public SchoolManager getSchoolManager() {

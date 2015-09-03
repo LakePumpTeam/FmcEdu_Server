@@ -1,8 +1,10 @@
 package com.fmc.edu.model.profile;
 
 import com.fmc.edu.model.school.School;
+import com.fmc.edu.util.DateUtils;
 
 import java.io.Serializable;
+import java.text.ParseException;
 import java.util.Date;
 
 /**
@@ -23,6 +25,16 @@ public class TeacherProfile extends BaseProfile implements Serializable {
 	private String mCourse;
 
 	private Date mBirth;
+
+	private String mBirthStr;
+
+	public TeacherProfile() {
+		setProfileType(ProfileType.TEACHER.getValue());
+	}
+
+	public void convertBirth() throws ParseException {
+		mBirth = DateUtils.convertStringToDate(getBirthStr());
+	}
 
 	public School getSchool() {
 		return mSchool;
@@ -78,5 +90,13 @@ public class TeacherProfile extends BaseProfile implements Serializable {
 
 	public void setBirth(final Date pBirth) {
 		mBirth = pBirth;
+	}
+
+	public String getBirthStr() {
+		return mBirthStr;
+	}
+
+	public void setBirthStr(final String pBirthStr) {
+		mBirthStr = pBirthStr;
 	}
 }

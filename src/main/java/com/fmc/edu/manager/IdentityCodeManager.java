@@ -27,7 +27,7 @@ public class IdentityCodeManager {
         return getIdentityCodeService().queryIdentityCodeByPhone(pPhone);
     }
 
-    public boolean verifyIdentityCode(String pPhone, String pAuthoCode) throws IdentityCodeException {
+    public boolean verifyIdentityCode(String pPhone, String pAuthCode) throws IdentityCodeException {
         IdentityCode identityCode = getIdentityCodeService().queryIdentityCodeByPhone(pPhone);
         if (identityCode == null) {
             throw new IdentityCodeException(ResourceManager.ERROR_IDENTITY_CODE_INVALID);
@@ -35,7 +35,7 @@ public class IdentityCodeManager {
         if (identityCode.getIdentityEndDate().before(new Timestamp(System.currentTimeMillis()))) {
             throw new IdentityCodeException(ResourceManager.ERROR_IDENTITY_CODE_EXPIRED);
         }
-        return identityCode.getIdentityCode().equalsIgnoreCase(pAuthoCode);
+        return identityCode.getIdentityCode().equalsIgnoreCase(pAuthCode);
     }
 
     public Date getIdentityCodeEndDate() {
