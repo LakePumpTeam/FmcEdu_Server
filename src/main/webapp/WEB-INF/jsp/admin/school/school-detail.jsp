@@ -12,7 +12,7 @@
                     <form action="${ctx}/admin/school/school-detail-save" method="post">
                         <div class="form-group input-group">
                             <span class="input-group-addon">学校名称：</span>
-                            <input type="text" id="name" name="name" class="form-control" value="${school.name}" />
+                            <input type="text" id="name" name="name" class="form-control" value="${school.name}" maxlength="40" />
                         </div>
                         <jsp:include page="../fragment/fragement-province-city-school.jsp" flush="true">
                             <jsp:param name="provinceId" value="${school.provinceId}" />
@@ -20,7 +20,7 @@
                         </jsp:include>
                         <div class="form-group input-group">
                             <span class="input-group-addon">地址：</span>
-                            <input type="text" id="address" name="address" class="form-control" value="${school.address}" />
+                            <input type="text" id="address" name="address" class="form-control" value="${school.address}" maxlength="100" />
                             <input type="hidden" name="addressId" value="${school.addressId gt 0? school.addressId : 0}" />
                         </div>
                         <div class="form-inline">

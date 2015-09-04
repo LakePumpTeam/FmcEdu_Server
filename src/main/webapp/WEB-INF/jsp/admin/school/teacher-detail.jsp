@@ -13,7 +13,7 @@
                         <div class="form-inline">
                             <div class="form-group input-group">
                                 <span class="input-group-addon">姓名：</span>
-                                <input type="text" id="name" name="name" class="form-control" value="${teacher.name}" />
+                                <input type="text" id="name" name="name" class="form-control" value="${teacher.name}" maxlength="7" />
                             </div>
                             <div class="form-group input-group">
                                 <span class="input-group-addon">所在学校：</span>
@@ -31,18 +31,19 @@
                             </div>
                             <div class="form-group input-group">
                                 <span class="input-group-addon">手机：</span>
-                                <input type="text" id="phone" name="phone" class="form-control" value="${teacher.phone}" />
+                                <input type="text" id="phone" name="phone" class="form-control" value="${teacher.phone}" maxlength="11" />
                             </div>
                         </div>
                         <div class="form-inline">
                             <div class="form-group input-group">
                                 <span class="input-group-addon">科目：</span>
-                                <input type="text" id="address" name="course" class="form-control" value="${teacher.course}" />
+                                <input type="text" id="address" name="course" class="form-control" value="${teacher.course}"
+                                       maxlength="7" />
                             </div>
                             <div class="form-group input-group">
                                 <span class="input-group-addon">出生日期：</span>
                                 <input type="text" id="birth" name="birthStr" class="form-control"
-                                       value="<fmt:formatDate pattern="${datePattern}" value="${teacher.birth}" />" />
+                                       value="<fmt:formatDate pattern="${datePattern}" value="${teacher.birth}" />" maxlength="10" />
                             </div>
                             <div class="form-group input-group">
                                 <span class="input-group-addon">性别：</span>
@@ -54,7 +55,7 @@
                         </div>
                         <div class="form-group input-group">
                             <span class="input-group-addon">简介：</span>
-                            <input type="text" id="resume" name="resume" class="form-control" value="${teacher.resume}" />
+                            <input type="text" id="resume" name="resume" class="form-control" value="${teacher.resume}" maxlength="300" />
                         </div>
                         <div class="form-inline">
                             <div class="form-group input-group">
@@ -118,7 +119,6 @@
                                         <td>${relationship.fmcClass.available ? '是' : '否'}</td>
                                         <td><fmt:formatDate pattern="${datetimePattern}"
                                                             value="${relationship.fmcClass.lastUpdateDate}" /></td>
-                                        111
                                     </tr>
                                 </c:forEach>
                                 </tbody>
