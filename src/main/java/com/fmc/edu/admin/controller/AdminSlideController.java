@@ -42,7 +42,7 @@ public class AdminSlideController extends AdminTransactionBaseController {
 		pModel.addAttribute("activeSlides", activeSlides);
 		List<Slide> inactiveSlides = getNewsManager().querySlideList(false, DateUtils.getDaysLater(-100), DateUtils.getDaysLater(100));
 		pModel.addAttribute("inactiveSlides", inactiveSlides);
-		List<News> newsList = getNewsManager().queryNewsListByClassId(NewsType.PARENT_CHILD_EDU, 0, buildDefaultPagination());
+		List<News> newsList = getNewsManager().queryNewsListByClassId(NewsType.PARENTING_CLASS, 0, buildDefaultPagination());
 		pModel.addAttribute("newsList", newsList);
 		return "admin/slide/slide";
 	}
