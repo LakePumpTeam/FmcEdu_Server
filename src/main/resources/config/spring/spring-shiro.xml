@@ -8,7 +8,7 @@
 		<property name="cacheManagerConfigFile" value="classpath:ehcache/shiro-ehcache.xml" />
 	</bean>
 
-	<bean id="fcmAuthorizingRealm" class="com.fmc.edu.service.auth.FCMAuthorizingRealm">
+	<bean id="fcmAuthorizingRealm" class="com.fmc.edu.service.auth.FMCAuthorizingRealm">
 		<property name="cachingEnabled" value="true" />
 		<property name="authenticationCachingEnabled" value="true" />
 		<property name="authenticationCacheName" value="authenticationCache" />

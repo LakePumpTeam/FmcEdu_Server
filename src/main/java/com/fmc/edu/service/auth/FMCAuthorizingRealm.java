@@ -20,7 +20,7 @@ import java.util.Set;
  * Created by YW on 2015/5/4.
  */
 @Service
-public class FCMAuthorizingRealm extends AuthorizingRealm {
+public class FMCAuthorizingRealm extends AuthorizingRealm {
     @Resource(name = "permissionManager")
     private PermissionManager mPermissionManager;
     @Resource(name = "myAccountManager")
