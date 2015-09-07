@@ -204,7 +204,12 @@
         FROM `appsetting` where profile_id=#{profileId};
     </select>
 
-    <select id="phoneExist" parameterType="string" resultType="boolean">
-        SELECT count(1) FROM profile
+    <select id="checkPhoneExist" parameterType="map" resultType="int">
+        SELECT count(1)
+        FROM profile
+        WHERE phone = #{phone}
+        <if test="@Ognl@id(id)">
+            AND id != #{id}
+        </if>
     </select>
 </mapper>

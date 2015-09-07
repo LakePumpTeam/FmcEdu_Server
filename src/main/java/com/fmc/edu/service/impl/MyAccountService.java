@@ -15,6 +15,7 @@ import java.util.Map;
  */
 @Service("myAccountService")
 public class MyAccountService {
+
     @Resource(name = "myAccountRepository")
     private IMyAccountRepository mMyAccountRepository;
 
@@ -77,6 +78,10 @@ public class MyAccountService {
 
     public boolean insertOrUpdateAppSetting(AppSetting pAppSetting) {
         return getMyAccountRepository().insertOrUpdateAppSetting(pAppSetting);
+    }
+
+    public boolean checkPhoneExist(int pId, String pPhone) {
+        return getMyAccountRepository().checkPhoneExist(pId, pPhone);
     }
 
     public AppSetting queryAppSetting(int pProfileId) {

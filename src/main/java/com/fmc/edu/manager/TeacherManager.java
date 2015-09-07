@@ -4,6 +4,7 @@ import com.fmc.edu.exception.ProfileException;
 import com.fmc.edu.model.profile.TeacherProfile;
 import com.fmc.edu.model.relationship.TeacherClassRelationship;
 import com.fmc.edu.model.school.FmcClass;
+import com.fmc.edu.service.impl.MyAccountService;
 import com.fmc.edu.service.impl.TeacherService;
 import com.fmc.edu.util.RepositoryUtils;
 import org.apache.log4j.Logger;
@@ -21,10 +22,11 @@ public class TeacherManager {
 
 	private static final Logger LOG = Logger.getLogger(TeacherManager.class);
 
-	public static final String ERROR_NOT_FOUND_TEACHER = "老师不存在.";
-
 	@Resource(name = "teacherService")
 	private TeacherService mTeacherService;
+
+	@Resource(name = "myAccountService")
+	private MyAccountService mMyAccountService;
 
 	public TeacherProfile queryTeacherById(int pTeacherId) {
 		return getTeacherService().queryTeacherById(pTeacherId);
@@ -40,7 +42,10 @@ public class TeacherManager {
 
 	public boolean updateTeacher(final TeacherProfile pTeacher) throws ProfileException {
 		if (queryTeacherById(pTeacher.getId()) == null) {
-			throw new ProfileException(TeacherManager.ERROR_NOT_FOUND_TEACHER);
+			throw new ProfileException(ResourceManager.VALIDATION_USER_TEACHER_ID_ERROR);
+		}
+		if (getMyAccountService().checkPhoneExist(pTeacher.getId(), pTeacher.getPhone())) {
+			throw new ProfileException(ResourceManager.VALIDATION_USER_PHONE_EXIST);
 		}
 		return getTeacherService().updateTeacher(pTeacher);
 	}
@@ -78,4 +83,13 @@ public class TeacherManager {
 		LOG.debug(String.format("Result of process persist teacher: %s", result));
 		return result;
 	}
+
+	public MyAccountService getMyAccountService() {
+		return mMyAccountService;
+	}
+
+	public void setMyAccountService(final MyAccountService pMyAccountService) {
+		mMyAccountService = pMyAccountService;
+	}
+
 }

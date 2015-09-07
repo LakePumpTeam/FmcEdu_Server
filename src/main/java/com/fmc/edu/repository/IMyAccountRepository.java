@@ -72,4 +72,8 @@ public interface IMyAccountRepository {
     String QUERY_APP_SETTING = "com.fmc.edu.myaccount.queryAppSetting";
 
     AppSetting queryAppSetting(int pProfileId);
+
+    String CHECK_PHONE_EXIST = "com.fmc.edu.myaccount.checkPhoneExist";
+
+    boolean checkPhoneExist(int pId, String pPhone);
 }
