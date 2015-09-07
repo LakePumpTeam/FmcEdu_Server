@@ -118,4 +118,12 @@ public class SchoolService {
 	public List<TeacherClassRelationship> queryTeacherClassRelationships(final int pClassId) {
 		return getSchoolRepository().queryTeacherClassRelationships(pClassId);
 	}
+
+	public boolean updateFmcClass(final FmcClass pFmcClass) {
+		return getSchoolRepository().updateFmcClass(pFmcClass);
+	}
+
+	public boolean createFmcClass(final FmcClass pFmcClass) {
+		return getSchoolRepository().createFmcClass(pFmcClass);
+	}
 }

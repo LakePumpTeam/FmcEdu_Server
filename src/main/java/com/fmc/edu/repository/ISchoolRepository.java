@@ -97,4 +97,12 @@ public interface ISchoolRepository {
 	String QUERY_TEACHER_CLASS_RELATIONSHIPS = "com.fmc.edu.school.queryTeacherClassRelationships";
 
 	List<TeacherClassRelationship> queryTeacherClassRelationships(int pClassId);
+
+	String UPDATE_FMC_CLASS = "com.fmc.edu.school.updateFmcClass";
+
+	boolean updateFmcClass(FmcClass pFmcClass);
+
+	String CREATE_FMC_CLASS = "com.fmc.edu.school.createFmcClass";
+
+	boolean createFmcClass(FmcClass pFmcClass);
 }

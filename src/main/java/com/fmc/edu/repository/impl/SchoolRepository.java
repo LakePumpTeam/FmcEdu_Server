@@ -163,4 +163,14 @@ public class SchoolRepository extends BaseRepository implements ISchoolRepositor
 	public List<TeacherClassRelationship> queryTeacherClassRelationships(final int pClassId) {
 		return getSqlSession().selectList(QUERY_TEACHER_CLASS_RELATIONSHIPS, pClassId);
 	}
+
+	@Override
+	public boolean updateFmcClass(final FmcClass pFmcClass) {
+		return getSqlSession().update(UPDATE_FMC_CLASS, pFmcClass) > 0;
+	}
+
+	@Override
+	public boolean createFmcClass(final FmcClass pFmcClass) {
+		return getSqlSession().insert(CREATE_FMC_CLASS, pFmcClass) > 0;
+	}
 }

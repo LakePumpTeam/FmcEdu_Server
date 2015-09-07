@@ -129,6 +129,25 @@ public class AdminSchoolController extends AdminTransactionBaseController {
 		return "admin/school/class-detail";
 	}
 
+	@RequestMapping(value = "/class-detail-save" + GlobalConstant.URL_SUFFIX)
+	public String saveClassDetail(HttpServletRequest pRequest, HttpServletResponse pResponse, Model pModel, FmcClass fmcClass) {
+		TransactionStatus status = ensureTransaction();
+		try {
+			boolean result = getSchoolManager().persistFmcClass(fmcClass);
+			//FIXME add logic to update teacher class relationship
+			//FIXME test create class logic, show correct school name/select
+			if (!result) {
+				status.setRollbackOnly();
+			}
+		} catch (Exception e) {
+			LOG.error(e);
+			status.setRollbackOnly();
+		} finally {
+			getTransactionManager().commit(status);
+		}
+		return "redirect:class-detail?classId=" + fmcClass.getId();
+	}
+
 	public SchoolManager getSchoolManager() {
 		return mSchoolManager;
 	}

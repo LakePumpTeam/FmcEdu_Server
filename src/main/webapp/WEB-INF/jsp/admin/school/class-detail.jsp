@@ -7,7 +7,7 @@
             <div class="panel panel-default" style="align-content: center;">
                 <div class="panel-heading">班级信息</div>
                 <div class="panel-body">
-                    <form action="${ctx}/admin/school/teacher-detail-save" method="post">
+                    <form action="${ctx}/admin/school/class-detail-save" method="post">
                         <div class="form-inline">
                             <div class="form-group input-group">
                                 <span class="input-group-addon">学校：</span>
@@ -25,11 +25,11 @@
                             </div>
                             <div class="form-group input-group">
                                 <span class="input-group-addon">年级：</span>
-                                <input type="text" id="name" name="name" class="form-control" value="${fmcClass.grade}" maxlength="7" />
+                                <input type="text" id="name" name="grade" class="form-control" value="${fmcClass.grade}" maxlength="7" />
                             </div>
                             <div class="form-group input-group">
                                 <span class="input-group-addon">班级：</span>
-                                <input type="text" id="phone" name="phone" class="form-control" value="${fmcClass.realClass}"
+                                <input type="text" id="phone" name="realClass" class="form-control" value="${fmcClass.realClass}"
                                        maxlength="11" />
                             </div>
                         </div>
@@ -55,8 +55,6 @@
                         <div class="form-inline">
                             <div class="form-group input-group">
                                 <input type="hidden" name="id" value="${fmcClass.id gt 0 ? fmcClass.id : 0}" />
-                                    <%-- default availabel is true--%>
-                                <input type="hidden" name="available" value="${fmcClass.id gt 0 ? fmcClass.available : true}" />
                                 <input type="submit" value="保存" class="btn btn-primary" />
                             </div>
                         </div>

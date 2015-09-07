@@ -168,4 +168,14 @@ public class SchoolManager {
 	public List<TeacherClassRelationship> queryTeacherClassRelationships(final int pClassId) {
 		return getSchoolService().queryTeacherClassRelationships(pClassId);
 	}
+
+	public boolean persistFmcClass(final FmcClass pFmcClass) {
+		boolean result;
+		if (RepositoryUtils.idIsValid(pFmcClass.getId())) {
+			result = getSchoolService().updateFmcClass(pFmcClass);
+		} else {
+			result = getSchoolService().createFmcClass(pFmcClass);
+		}
+		return result;
+	}
 }

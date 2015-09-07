@@ -231,4 +231,15 @@
         FROM teacher_class_map tcm
         WHERE tcm.class_id = #{classId}
     </select>
+
+    <insert id="createFmcClass" parameterType="fmcClass" keyProperty="id" useGeneratedKeys="true" flushCache="true">
+        INSERT INTO class (school_id, grade, class, available, head_teacher_id, last_update_date)
+        VALUES (#{schoolId}, #{grade}, #{realClass}, #{available}, #{headTeacherId}, now())
+    </insert>
+
+    <update id="updateFmcClass" parameterType="fmcClass" flushCache="true">
+        UPDATE class SET grade = #{grade}, class = #{realClass}, available = #{available}, head_teacher_id = #{headTeacherId},
+        last_update_date = now()
+        WHERE id = #{id}
+    </update>
 </mapper>
