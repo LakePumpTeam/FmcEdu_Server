@@ -17,6 +17,7 @@ import java.io.IOException;
 public class DecodeBase64ParameterFilter implements Filter {
 
 	private boolean mEnabled;
+	private boolean mEnableWebConfigContext;
 	private String[] mDisablePrefixArray;
 	private static final Logger LOG = Logger.getLogger(DecodeBase64ParameterFilter.class);
 
@@ -28,9 +29,21 @@ public class DecodeBase64ParameterFilter implements Filter {
 		} else {
 			setEnabled(Boolean.valueOf(enabled));
 		}
-		mDisablePrefixArray = pFilterConfig.getInitParameter("disablePrefixArray").split(",");
-		for (int i = 0; i < mDisablePrefixArray.length; i++) {
-			mDisablePrefixArray[i] = (WebConfig.getFMCWebContext() + mDisablePrefixArray[i]).replace("//", "/");
+		if (isEnabled()) {
+
+			// override servlet context path
+			String context = pFilterConfig.getServletContext().getContextPath();
+			String enableWebConfigCtx = pFilterConfig.getInitParameter("enableWebConfigContext");
+			if (StringUtils.isNotBlank(enableWebConfigCtx)) {
+				setEnableWebConfigContext(Boolean.valueOf(enableWebConfigCtx));
+				if (isEnableWebConfigContext()) {
+					context = WebConfig.getFMCWebContext();
+				}
+			}
+			mDisablePrefixArray = pFilterConfig.getInitParameter("disablePrefixArray").split(",");
+			for (int i = 0; i < mDisablePrefixArray.length; i++) {
+				mDisablePrefixArray[i] = (context + mDisablePrefixArray[i]).replace("//", "/");
+			}
 		}
 		LOG.debug("============== Initialized DecodeBase64ParameterFilter ==============");
 	}
@@ -71,4 +84,13 @@ public class DecodeBase64ParameterFilter implements Filter {
 	public void setEnabled(boolean pEnabled) {
 		mEnabled = pEnabled;
 	}
+
+	public boolean isEnableWebConfigContext() {
+		return mEnableWebConfigContext;
+	}
+
+	public void setEnableWebConfigContext(final boolean pEnableWebConfigContext) {
+		mEnableWebConfigContext = pEnableWebConfigContext;
+	}
+
 }

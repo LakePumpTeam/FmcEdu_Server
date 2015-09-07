@@ -2,11 +2,13 @@ package com.fmc.edu.admin.controller;
 
 import com.fmc.edu.constant.GlobalConstant;
 import com.fmc.edu.manager.SchoolManager;
+import com.fmc.edu.manager.StudentManager;
 import com.fmc.edu.manager.TeacherManager;
 import com.fmc.edu.model.profile.TeacherProfile;
 import com.fmc.edu.model.relationship.TeacherClassRelationship;
 import com.fmc.edu.model.school.FmcClass;
 import com.fmc.edu.model.school.School;
+import com.fmc.edu.model.student.Student;
 import com.fmc.edu.util.RepositoryUtils;
 import com.fmc.edu.util.StringUtils;
 import org.apache.log4j.Logger;
@@ -35,6 +37,9 @@ public class AdminSchoolController extends AdminTransactionBaseController {
 
 	@Resource(name = "teacherManager")
 	private TeacherManager mTeacherManager;
+
+	@Resource(name = "studentManager")
+	private StudentManager mStudentManager;
 
 	@RequestMapping(value = "/school-list" + GlobalConstant.URL_SUFFIX)
 	public String forwardSchoolList(HttpServletRequest pRequest, HttpServletResponse pResponse, Model pModel, String cityId) throws UnsupportedEncodingException {
@@ -108,6 +113,22 @@ public class AdminSchoolController extends AdminTransactionBaseController {
 		return "redirect:teacher-detail?teacherId=" + teacher.getId();
 	}
 
+	@RequestMapping(value = "/class-detail" + GlobalConstant.URL_SUFFIX)
+	public String forwardClassDetail(HttpServletRequest pRequest, HttpServletResponse pResponse, Model pModel, String classId) {
+		int classIdInt = RepositoryUtils.safeParseId(classId);
+		if (RepositoryUtils.idIsValid(classIdInt)) {
+			FmcClass fmcClass = getSchoolManager().loadClass(classIdInt);
+			if (fmcClass != null) {
+				pModel.addAttribute("fmcClass", fmcClass);
+				List<TeacherClassRelationship> teacherClassRelationships = getSchoolManager().queryTeacherClassRelationships(classIdInt);
+				pModel.addAttribute("relationships", teacherClassRelationships);
+				List<Student> students = getStudentManager().loadClassStudents(classIdInt);
+				pModel.addAttribute("students", students);
+			}
+		}
+		return "admin/school/class-detail";
+	}
+
 	public SchoolManager getSchoolManager() {
 		return mSchoolManager;
 	}
@@ -122,5 +143,13 @@ public class AdminSchoolController extends AdminTransactionBaseController {
 
 	public void setTeacherManager(final TeacherManager pTeacherManager) {
 		mTeacherManager = pTeacherManager;
+	}
+
+	public StudentManager getStudentManager() {
+		return mStudentManager;
+	}
+
+	public void setStudentManager(final StudentManager pStudentManager) {
+		mStudentManager = pStudentManager;
 	}
 }

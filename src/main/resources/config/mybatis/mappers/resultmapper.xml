@@ -128,9 +128,9 @@
         <result property="birth" column="birth"/>
         <result property="ringNumber" column="ring_number"/>
         <result property="ringPhone" column="ring_phone"/>
-        <result property="creationDate" column="creation_date"/>
         <result property="available" column="available"/>
-        <collection property="mParentStudentRelationship" resultMap="parentStudentRelationship"/>
+        <result property="creationDate" column="creation_date"/>
+        <collection property="parentStudentRelationship" resultMap="parentStudentRelationship"/>
         <collection property="school" resultMap="school"/>
         <collection property="fmcClass" resultMap="fmcClass"/>
     </resultMap>
@@ -357,5 +357,6 @@
         <result property="creationDate" column="creation_date" />
         <result property="lastUpdateDate" column="last_update_date" />
         <association property="fmcClass" column="class_id" select="com.fmc.edu.school.loadClass" />
+        <association property="teacher" column="teacher_id" select="com.fmc.edu.teacher.queryTeacherById" />
     </resultMap>
 </mapper>

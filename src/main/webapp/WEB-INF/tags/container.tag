@@ -1,8 +1,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
-<%@attribute name="template" %>
-<%@attribute name="subject" %>
+<%@ attribute name="template" %>
+<%@ attribute name="subject" %>
 <%@ tag pageEncoding="UTF-8" %>
+
+<%
+    String ctx = request.getContextPath();
+    request.setAttribute("ctx", ctx);
+%>
+<c:set var="ctx" value="${ctx}" scope="request" />
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,29 +19,26 @@
     <title>Fmc Education Admin</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${ctx}/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- MetisMenu CSS -->
-    <link href="/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
+    <link href="${ctx}/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
     <!-- Timeline CSS -->
-    <link href="/dist/css/timeline.css" rel="stylesheet">
+    <link href="${ctx}/dist/css/timeline.css" rel="stylesheet">
     <!-- Custom CSS -->
-    <link href="/dist/css/sb-admin-2.css" rel="stylesheet">
+    <link href="${ctx}/dist/css/sb-admin-2.css" rel="stylesheet">
     <!-- Morris Charts CSS -->
-    <link href="/bower_components/morrisjs/morris.css" rel="stylesheet">
+    <link href="${ctx}/bower_components/morrisjs/morris.css" rel="stylesheet">
     <!-- Custom Fonts -->
-    <link href="/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="${ctx}/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
+    <!-- jQuery -->
+    <script src="${ctx}/bower_components/jquery/dist/jquery.min.js"></script>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <%
-        String ctx = request.getContextPath();
-        request.setAttribute("ctx", ctx);
-    %>
-    <c:set var="ctx" value="${ctx}" scope="request" />
     <script>
         var ctx = "<%=ctx%>";
     </script>
@@ -51,7 +54,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/admin/home">Fmc Edu Admin</a>
+            <a class="navbar-brand" href="${ctx}/admin/home">Fmc Edu Admin</a>
         </div>
         <!-- /.navbar-header -->
 
@@ -292,7 +295,7 @@
                         <!-- /input-group -->
                     </li>
                     <li>
-                        <a href="${ctx}/admin/home"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                        <a href="${ctx}/admin/home"><i class="fa fa-dashboard fa-fw"></i> 首页</a>
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-sitemap fa-fw"></i> 校园管理<span class="fa arrow"></span></a>

@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletRequestWrapper;
  * Created by Yu on 6/4/2015.
  */
 public class Base64DecodeRequestWrapper extends HttpServletRequestWrapper {
+
     private static final Logger LOG = Logger.getLogger(Base64DecodeRequestWrapper.class);
+
     private ReplacementBase64EncryptService mBase64EncryptService;
 
     public Base64DecodeRequestWrapper(HttpServletRequest request) {

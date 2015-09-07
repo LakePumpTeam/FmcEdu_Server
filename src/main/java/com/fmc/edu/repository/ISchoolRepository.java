@@ -4,6 +4,7 @@ import com.fmc.edu.model.course.Course;
 import com.fmc.edu.model.course.TimeTable;
 import com.fmc.edu.model.profile.BaseProfile;
 import com.fmc.edu.model.profile.TeacherProfile;
+import com.fmc.edu.model.relationship.TeacherClassRelationship;
 import com.fmc.edu.model.school.FmcClass;
 import com.fmc.edu.model.school.School;
 import com.fmc.edu.model.student.Student;
@@ -88,4 +89,12 @@ public interface ISchoolRepository {
 	String QUERY_CLASSES_BY_SCHOOL_ID = "com.fmc.edu.school.queryClassesBySchoolId";
 
 	List<FmcClass> queryClassesBySchoolId(int pSchoolId);
+
+	String LOAD_CLASS = "com.fmc.edu.school.loadClass";
+
+	FmcClass loadClass(int pClassId);
+
+	String QUERY_TEACHER_CLASS_RELATIONSHIPS = "com.fmc.edu.school.queryTeacherClassRelationships";
+
+	List<TeacherClassRelationship> queryTeacherClassRelationships(int pClassId);
 }

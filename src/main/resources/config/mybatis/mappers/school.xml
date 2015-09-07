@@ -225,4 +225,10 @@
         LEFT JOIN profile p on p.id = c.head_teacher_id
         WHERE c.id = #{classId}
     </select>
+
+    <select id="queryTeacherClassRelationships" resultMap="rm.teacherClassRelationship">
+        SELECT class_id, teacher_id, sub_title, available, head_teacher, creation_date, last_update_date
+        FROM teacher_class_map tcm
+        WHERE tcm.class_id = #{classId}
+    </select>
 </mapper>

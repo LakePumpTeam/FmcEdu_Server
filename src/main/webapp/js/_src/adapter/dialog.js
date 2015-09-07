@@ -1,9 +1,11 @@
-UM.registerUI('link image video map formula', function (name) {
+//UM.registerUI('link image video map formula', function (name) {
+UM.registerUI('link image video formula', function (name) {
 
     var me = this, currentRange, $dialog,
         opt = {
             title: (me.options.labelMap && me.options.labelMap[name]) || me.getLang("labelMap." + name),
-            url: me.options.UMEDITOR_HOME_URL + 'dialogs/' + name + '/' + name + '.js'
+            //url: me.options.UMEDITOR_HOME_URL + 'dialogs/' + name + '/' + name + '.js'
+            url: me.options.UMEDITOR_HOME_URL + '_src/plugins/' + name + '.js'
         };
 
     var $btn = $.eduibutton({

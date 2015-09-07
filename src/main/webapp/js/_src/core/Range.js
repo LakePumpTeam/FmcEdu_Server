@@ -849,8 +849,7 @@
                             tmpNode = tmpNode.previousSibling;
                         }
                         firstIndex += (isStart ? me.startOffset : me.endOffset)// - (fillCharReg.test(node.nodeValue) ? 1 : 0 )
-                    };
-                    else {
+                    }; else {
                         node = node.childNodes[isStart ? me.startOffset : me.endOffset];
                         if (node) {
                             firstIndex = domUtils.getNodeIndex(node, ignoreTxt);

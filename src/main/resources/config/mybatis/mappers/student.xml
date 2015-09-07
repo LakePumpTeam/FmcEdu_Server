@@ -70,6 +70,7 @@
         ON psm.student_id = s.id
         where s.class_id = #{classId} AND psm.approved =1
     </select>
+
     <select id="queryParentStudentRelationshipByStudentId" parameterType="int" resultMap="rm.parentStudentRelationship">
         SELECT parent_id,
         student_id,
@@ -79,5 +80,12 @@
         creation_date,
         last_update_date
         FROM parent_student_map where student_id = #{studentId};
+    </select>
+
+    <select id="loadClassStudents" resultMap="rm.student">
+        SELECT s.id as s_id, s.class_id, s.name, s.sex, s.birth, s.ring_number, s.ring_phone, s.available, s.creation_date, s
+        .last_update_date
+        FROM student s
+        WHERE s.class_id = #{classId}
     </select>
 </mapper>

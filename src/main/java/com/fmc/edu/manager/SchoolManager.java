@@ -5,6 +5,7 @@ import com.fmc.edu.model.course.Course;
 import com.fmc.edu.model.course.TimeTable;
 import com.fmc.edu.model.profile.BaseProfile;
 import com.fmc.edu.model.profile.TeacherProfile;
+import com.fmc.edu.model.relationship.TeacherClassRelationship;
 import com.fmc.edu.model.school.FmcClass;
 import com.fmc.edu.model.school.School;
 import com.fmc.edu.model.student.Student;
@@ -152,11 +153,19 @@ public class SchoolManager {
 		return result;
 	}
 
+	public FmcClass loadClass(int pClassId) {
+		return getSchoolService().loadClass(pClassId);
+	}
+
 	public LocationService getLocationService() {
 		return mLocationService;
 	}
 
 	public void setLocationService(final LocationService pLocationService) {
 		mLocationService = pLocationService;
+	}
+
+	public List<TeacherClassRelationship> queryTeacherClassRelationships(final int pClassId) {
+		return getSchoolService().queryTeacherClassRelationships(pClassId);
 	}
 }

@@ -44,4 +44,8 @@ public class StudentManager {
 	public void setStudentService(StudentService pStudentService) {
 		mStudentService = pStudentService;
 	}
+
+	public List<Student> loadClassStudents(final int pClassId) {
+		return getStudentService().loadClassStudents(pClassId);
+	}
 }

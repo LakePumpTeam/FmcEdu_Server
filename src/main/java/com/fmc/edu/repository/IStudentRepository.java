@@ -30,4 +30,8 @@ public interface IStudentRepository {
     String QUERY_PARENT_STUDENT_RELATIONSHIP_BY_STUDENT_ID = "com.fmc.edu.student.queryParentStudentRelationshipByStudentId";
 
     List<ParentStudentRelationship> queryParentStudentRelationshipByStudentId(final int pStudentId);
+
+    String LOAD_CLASS_STUDENTS = "com.fmc.edu.student.loadClassStudents";
+
+    List<Student> loadClassStudents(int pClassId);
 }

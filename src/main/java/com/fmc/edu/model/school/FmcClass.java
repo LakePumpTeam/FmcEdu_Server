@@ -9,6 +9,8 @@ public class FmcClass extends BaseBean {
 
 	private int mSchoolId;
 
+	private String mSchoolName;
+
 	private String mGrade;
 
 	private boolean mAvailable;
@@ -22,6 +24,14 @@ public class FmcClass extends BaseBean {
 	private int mStudentCount;
 
 	public FmcClass() {
+	}
+
+	public String getSchoolName() {
+		return mSchoolName;
+	}
+
+	public void setSchoolName(final String pSchoolName) {
+		mSchoolName = pSchoolName;
 	}
 
 	public int getSchoolId() {

@@ -1,7 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!-- jQuery -->
-<script src="/bower_components/jquery/dist/jquery.min.js"></script>
 
 <fmc:container template="school" subject="校园管理 - 学校管理">
     <div class="row">
@@ -48,19 +46,19 @@
         </div>
     </div>
     <!-- Bootstrap Core JavaScript -->
-    <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="${ctx}/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
     <!-- Metis Menu Plugin JavaScript -->
-    <script src="/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+    <script src="${ctx}/bower_components/metisMenu/dist/metisMenu.min.js"></script>
 
     <!-- DataTables JavaScript -->
-    <script src="/bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
-    <script src="/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
+    <script src="${ctx}/bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
+    <script src="${ctx}/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
 
     <!-- Custom Theme JavaScript -->
-    <script src="/dist/js/sb-admin-2.js"></script>
+    <script src="${ctx}/dist/js/sb-admin-2.js"></script>
 
-    <link href="/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css"
+    <link href="${ctx}/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css"
           rel="stylesheet">
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
     <script>

@@ -4,6 +4,7 @@ import com.fmc.edu.model.course.Course;
 import com.fmc.edu.model.course.TimeTable;
 import com.fmc.edu.model.profile.BaseProfile;
 import com.fmc.edu.model.profile.TeacherProfile;
+import com.fmc.edu.model.relationship.TeacherClassRelationship;
 import com.fmc.edu.model.school.FmcClass;
 import com.fmc.edu.model.school.School;
 import com.fmc.edu.model.student.Student;
@@ -108,5 +109,13 @@ public class SchoolService {
 
 	public List<FmcClass> queryClassesBySchoolId(final int pSchoolId) {
 		return getSchoolRepository().queryClassesBySchoolId(pSchoolId);
+	}
+
+	public FmcClass loadClass(final int pClassId) {
+		return getSchoolRepository().loadClass(pClassId);
+	}
+
+	public List<TeacherClassRelationship> queryTeacherClassRelationships(final int pClassId) {
+		return getSchoolRepository().queryTeacherClassRelationships(pClassId);
 	}
 }

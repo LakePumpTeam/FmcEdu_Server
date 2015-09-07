@@ -14,6 +14,7 @@ import java.util.Map;
  */
 @Service("studentService")
 public class StudentService {
+
     @Resource(name = "studentRepository")
     private IStudentRepository mStudentRepository;
 
@@ -42,5 +43,9 @@ public class StudentService {
 
     public void setStudentRepository(IStudentRepository pStudentRepository) {
         mStudentRepository = pStudentRepository;
+    }
+
+    public List<Student> loadClassStudents(final int pClassId) {
+        return getStudentRepository().loadClassStudents(pClassId);
     }
 }
