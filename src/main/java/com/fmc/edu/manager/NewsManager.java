@@ -224,7 +224,7 @@ public class NewsManager {
 				String relativePath = ImageUtils.getSlideImageBasePath();
 				image = new Image();
 				image.setImgName(fileName);
-				// image.setImgPath(StringUtils.normalizeUrlNoEndSeparator(relativePath));
+				image.setImgPath(StringUtils.normalizeUrlNoEndSeparator(relativePath));
 				image.setNewsId(pSlide.getNewsId());
 				return insertImage(image);
 			}

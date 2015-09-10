@@ -15,7 +15,6 @@
                         <div class="form-group input-group">
                             <input type="button" value="新增" class="btn btn-primary" id="btn_create" />
                         </div>
-                        <input type="hidden" name="back" value="${originalURI}" />
                     </form>
 
                     <div class="dataTable_wrapper">
