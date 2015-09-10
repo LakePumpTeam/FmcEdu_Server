@@ -60,7 +60,8 @@ public class ImageUtils {
 
 			LOG.debug("Writing image to:" + slideImagePath);
 			byte[] bytes = pFile.getBytes();
-			BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(pFileName));
+			File image = new File(getSlideImagePath(pFileName));
+			BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(image));
 			stream.write(bytes);
 			IOUtils.closeQuietly(stream);
 

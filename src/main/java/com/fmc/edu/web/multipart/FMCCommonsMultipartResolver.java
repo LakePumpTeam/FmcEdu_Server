@@ -2,6 +2,7 @@ package com.fmc.edu.web.multipart;
 
 import com.fmc.edu.configuration.WebConfig;
 import com.fmc.edu.crypto.impl.ReplacementBase64EncryptService;
+import com.fmc.edu.util.StringUtils;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUpload;
 import org.apache.commons.fileupload.FileUploadBase;
@@ -30,6 +31,8 @@ public class FMCCommonsMultipartResolver extends CommonsMultipartResolver {
 	private ReplacementBase64EncryptService mBase64EncryptService;
 	private boolean mEnabled;
 
+	private static String COMPLETE_PREFIX_ADMIN;
+
 	public FMCCommonsMultipartResolver() {
 		super();
 		mBase64EncryptService = new ReplacementBase64EncryptService();
@@ -40,9 +43,13 @@ public class FMCCommonsMultipartResolver extends CommonsMultipartResolver {
 	protected MultipartParsingResult parseRequest(final HttpServletRequest request) throws MultipartException {
 		String encoding = determineEncoding(request);
 		FileUpload fileUpload = prepareFileUpload(encoding);
+		if (StringUtils.isBlank(COMPLETE_PREFIX_ADMIN)) {
+			COMPLETE_PREFIX_ADMIN = request.getServletContext().getContextPath() + PREFIX_ADMIN;
+			LOG.debug(String.format("Generate complete admin path prefix: %s", COMPLETE_PREFIX_ADMIN));
+		}
 		try {
 			List<FileItem> fileItems = ((ServletFileUpload) fileUpload).parseRequest(request);
-			if (request.getRequestURI().startsWith(PREFIX_ADMIN)) {
+			if (request.getRequestURI().startsWith(COMPLETE_PREFIX_ADMIN)) {
 				return super.parseFileItems(fileItems, encoding);
 			}
 			return parseFileItems(fileItems, encoding);

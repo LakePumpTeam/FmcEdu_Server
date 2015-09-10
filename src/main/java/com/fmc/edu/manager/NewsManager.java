@@ -218,17 +218,17 @@ public class NewsManager {
 		pSlide.setImgName(fileName);
 		pSlide.setImgPath("");
 		boolean created = getNewsService().createSlide(pSlide);
-		if (created) {
-			if (writeImageFile) {
-				Image image;
-				String relativePath = ImageUtils.getSlideImageBasePath();
-				image = new Image();
-				image.setImgName(fileName);
-				image.setImgPath(StringUtils.normalizeUrlNoEndSeparator(relativePath));
-				image.setNewsId(pSlide.getNewsId());
-				return insertImage(image);
-			}
-		}
+		//		if (created) {
+		//			if (writeImageFile) {
+		//				Image image;
+		//				String relativePath = ImageUtils.getSlideImageBasePath();
+		//				image = new Image();
+		//				image.setImgName(fileName);
+		//				image.setImgPath(StringUtils.normalizeUrlNoEndSeparator(relativePath));
+		//				image.setNewsId(pSlide.getNewsId());
+		//				return insertImage(image);
+		//			}
+		//		}
 		return created;
 	}
 
