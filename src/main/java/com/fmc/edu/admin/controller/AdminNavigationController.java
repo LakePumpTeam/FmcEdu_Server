@@ -24,5 +24,8 @@ public class AdminNavigationController {
 		return "admin/login";
 	}
 
-
+	@RequestMapping(value = "/data/toImport" + GlobalConstant.URL_SUFFIX)
+	public String toImport(HttpServletRequest pRequest, HttpServletResponse pResponse) {
+		return "admin/data/import";
+	}
 }

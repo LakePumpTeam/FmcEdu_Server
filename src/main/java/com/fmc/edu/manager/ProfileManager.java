@@ -12,6 +12,7 @@ import com.fmc.edu.model.student.Student;
 import com.fmc.edu.service.IMessageIdentifyService;
 import com.fmc.edu.service.impl.ParentService;
 import com.fmc.edu.service.impl.TempParentService;
+import com.fmc.edu.util.RepositoryUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -69,7 +70,7 @@ public class ProfileManager {
             baseProfile.setPassword(pPassword);
             baseProfile.setSalt(pSalt);
             baseProfile.setProfileType(ProfileType.PARENT.getValue());
-            if (getParentService().initialProfile(baseProfile)) {
+            if (RepositoryUtils.idIsValid(getParentService().initialProfile(baseProfile))) {
                 return true;
             }
         } else {
@@ -92,6 +93,10 @@ public class ProfileManager {
         getParentService().registerParentStudentRelationship(pParentStudentRelationship);
     }
 
+    public boolean registerParentStudentRelationship(final ParentStudentRelationship pParentStudentRelationship) throws ProfileException {
+        return getParentService().registerParentStudentRelationship(pParentStudentRelationship);
+    }
+
     public boolean updateParentProfile(ParentProfile pParentProfile) {
         return getParentService().updateParentProfile(pParentProfile);
     }
@@ -99,10 +104,18 @@ public class ProfileManager {
     public boolean insertOrUpdateParentProfile(ParentProfile pParentProfile) {
         ParentProfile parentProfile = getParentService().queryParentById(pParentProfile.getId());
         if (parentProfile == null) {
-            return getParentService().insertParentProfile(pParentProfile);
+            return getParentService().insertParentProfile(pParentProfile) > 0;
         } else {
             return getParentService().updateParentProfile(pParentProfile);
         }
+    }
+
+    public int insertParentProfile(ParentProfile pParentProfile) {
+        BaseProfile baseProfile = getParentService().queryParentByPhone(pParentProfile.getPhone());
+        if (baseProfile == null) {
+            getParentService().initialProfile(pParentProfile);
+        }
+        return getParentService().insertParentProfile(pParentProfile);
     }
 
     public boolean verifyIdentityCode(String pPhone, String pAuthCode) throws IdentityCodeException {

@@ -31,4 +31,6 @@ public class LocationManager {
 	public void setLocationService(final LocationService pLocationService) {
 		mLocationService = pLocationService;
 	}
+
+
 }

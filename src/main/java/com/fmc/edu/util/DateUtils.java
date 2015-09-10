@@ -36,6 +36,7 @@ public class DateUtils {
         if (StringUtils.isBlank(pBirthString)) {
             return null;
         }
+        pBirthString = pBirthString.replace(".", "-");
         return (new SimpleDateFormat(PATTERN_STUDENT_BIRTH)).parse(pBirthString);
     }
 

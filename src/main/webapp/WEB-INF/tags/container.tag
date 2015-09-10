@@ -8,7 +8,7 @@
     String ctx = request.getContextPath();
     request.setAttribute("ctx", ctx);
 %>
-<c:set var="ctx" value="${ctx}" scope="request" />
+<c:set var="ctx" value="${ctx}" scope="request"/>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -351,6 +351,15 @@
                         </ul>
                         <!-- /.nav-second-level -->
                     </li>
+                    <li>
+                        <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> 数据导入<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="${ctx}/admin/data/toImport">导入数据</a>
+                            </li>
+                        </ul>
+                        <!-- /.nav-second-level -->
+                    </li>
             </div>
             <!-- /.sidebar-collapse -->
         </div>
@@ -363,7 +372,7 @@
                 <h1 class="page-header">${subject}</h1>
             </div>
         </div>
-        <jsp:doBody />
+        <jsp:doBody/>
     </div>
 
 </div>

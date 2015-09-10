@@ -19,7 +19,7 @@ public interface IParentRepository {
 
 	String INSERT_PARENT_PROFILE = "com.fmc.edu.profile.parent.insertParentProfile";
 
-	boolean insertParentProfile(final ParentProfile pParentProfile);
+	int insertParentProfile(final ParentProfile pParentProfile);
 
 	String INITIAL_PARENT_ADDRESS = "com.fmc.edu.profile.parent.persistParentAddress";
 
@@ -64,5 +64,5 @@ public interface IParentRepository {
 
 	String INITIAL_PROFILE = "com.fmc.edu.profile.parent.initialProfile";
 
-	boolean initialProfile(BaseProfile pBaseProfile);
+	int initialProfile(BaseProfile pBaseProfile);
 }

@@ -48,4 +48,8 @@ public class StudentService {
     public List<Student> loadClassStudents(final int pClassId) {
         return getStudentRepository().loadClassStudents(pClassId);
     }
+
+    public Student queryStudentByIdentifyCode(String pIdentifyCode) {
+        return getStudentRepository().queryStudentByIdentifyCode(pIdentifyCode);
+    }
 }

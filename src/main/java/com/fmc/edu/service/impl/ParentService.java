@@ -29,7 +29,7 @@ public class ParentService {
         return getParentRepository().updateParentProfile(pParent);
     }
 
-    public boolean insertParentProfile(final ParentProfile pParent) {
+    public int insertParentProfile(final ParentProfile pParent) {
         return getParentRepository().insertParentProfile(pParent);
     }
 
@@ -77,7 +77,7 @@ public class ParentService {
         return getParentRepository().queryParentStudentRelationship(pParentStudentRelationship);
     }
 
-    public boolean initialProfile(BaseProfile baseProfile) {
+    public int initialProfile(BaseProfile baseProfile) {
         return getParentRepository().initialProfile(baseProfile);
     }
 

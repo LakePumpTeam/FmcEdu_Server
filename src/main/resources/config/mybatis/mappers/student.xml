@@ -14,6 +14,7 @@
         s.ring_phone,
         s.creation_date,
         s.available,
+        s.identify_code,
         psm.parent_id,
         psm.student_id,
         psm.relationship,
@@ -58,9 +59,25 @@
         s.ring_number,
         s.ring_phone,
         s.creation_date,
-        s.available
+        s.available,
+        s.identify_code
         from student s
         where s.id = #{studentId}
+    </select>
+
+    <select id="queryStudentByIdentifyCode" resultMap="rm.student" parameterType="string">
+        select s.id as s_id,
+        s.class_id,
+        s.name,
+        s.sex,
+        s.birth,
+        s.ring_number,
+        s.ring_phone,
+        s.creation_date,
+        s.available,
+        s.identify_code
+        from student s
+        where s.identify_code = #{identifyCode} limit 0,1;
     </select>
 
     <select id="queryStudentsByClassId" resultType="map" parameterType="int">
@@ -83,8 +100,8 @@
     </select>
 
     <select id="loadClassStudents" resultMap="rm.student">
-        SELECT s.id as s_id, s.class_id, s.name, s.sex, s.birth, s.ring_number, s.ring_phone, s.available, s.creation_date, s
-        .last_update_date
+        SELECT s.id as s_id, s.class_id, s.name, s.sex, s.birth, s.ring_number, s.ring_phone, s.available,
+        s.creation_date, s.last_update_date,s.identify_code
         FROM student s
         WHERE s.class_id = #{classId}
     </select>

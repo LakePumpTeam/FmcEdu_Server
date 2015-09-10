@@ -48,4 +48,8 @@ public class StudentManager {
 	public List<Student> loadClassStudents(final int pClassId) {
 		return getStudentService().loadClassStudents(pClassId);
 	}
+
+	public Student queryStudentByIdentifyCode(String pIdentifyCode) {
+		return getStudentService().queryStudentByIdentifyCode(pIdentifyCode);
+	}
 }

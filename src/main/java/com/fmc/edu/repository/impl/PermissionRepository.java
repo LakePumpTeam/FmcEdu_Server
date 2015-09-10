@@ -18,15 +18,7 @@ public class PermissionRepository extends BaseRepository implements IPermissionR
 
     @Override
     public List<Role> findRoleByUserId(int pUserId) {
-        Role role = new Role();
-        role.setId(1);
-        role.setAvailable(true);
-        role.setDescription("test");
-        role.setRole("test");
-        role.setLastUpdateDate(new Timestamp(System.currentTimeMillis()));
-        List<Role> roles = new ArrayList<Role>();
-        roles.add(role);
-        return roles;
+        return getSqlSession().selectList(FINED_ROLES_BY_IDENTITY, pUserId);
     }
 
     @Override
