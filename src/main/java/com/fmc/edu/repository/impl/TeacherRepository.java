@@ -7,6 +7,7 @@ import com.fmc.edu.repository.BaseRepository;
 import com.fmc.edu.repository.ITeacherRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -70,4 +71,18 @@ public class TeacherRepository extends BaseRepository implements ITeacherReposit
 	public boolean createTeacherProfile(final TeacherProfile pTeacher) {
 		return getSqlSession().insert(INITIAL_TEACHER_PROFILE, pTeacher) > 0;
 	}
+
+	@Override
+	public void resetAllHeadTeacherRelationship(final int pClassId) {
+		getSqlSession().update(RESET_ALL_HEADTEACHER_RELATIONSHIP, pClassId);
+	}
+
+	@Override
+	public boolean updateHeadTeacherRelationship(final int pClassId, final int pTeacherId) {
+		Map<String, Object> parameters = new HashMap<>();
+		parameters.put("classId", pClassId);
+		parameters.put("teacherId", pTeacherId);
+		return getSqlSession().update(UPDATE_HEADTEACHER_RELATIONSHIP, parameters) > 0;
+	}
+
 }

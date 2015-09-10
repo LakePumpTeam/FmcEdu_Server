@@ -77,4 +77,12 @@ public class TeacherService {
 		}
 		return result;
 	}
+
+	public boolean maintainHeadTeacherRelationship(final int pClassId, final int pTeacherId) {
+		LOG.debug(String.format("Reset all head teacher to false for class: %d", pClassId));
+		getTeacherRepository().resetAllHeadTeacherRelationship(pClassId);
+		boolean result = getTeacherRepository().updateHeadTeacherRelationship(pClassId, pTeacherId);
+		LOG.debug(String.format("Result of process to update head teacher on class / relationship: %s", result));
+		return result;
+	}
 }

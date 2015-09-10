@@ -134,7 +134,6 @@ public class AdminSchoolController extends AdminTransactionBaseController {
 		TransactionStatus status = ensureTransaction();
 		try {
 			boolean result = getSchoolManager().persistFmcClass(fmcClass);
-			//FIXME add logic to update teacher class relationship
 			//FIXME test create class logic, show correct school name/select
 			if (!result) {
 				status.setRollbackOnly();

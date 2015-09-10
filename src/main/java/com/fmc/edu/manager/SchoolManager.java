@@ -11,6 +11,7 @@ import com.fmc.edu.model.school.School;
 import com.fmc.edu.model.student.Student;
 import com.fmc.edu.service.impl.LocationService;
 import com.fmc.edu.service.impl.SchoolService;
+import com.fmc.edu.service.impl.TeacherService;
 import com.fmc.edu.util.NumberUtils;
 import com.fmc.edu.util.RepositoryUtils;
 import com.fmc.edu.util.StringUtils;
@@ -31,6 +32,9 @@ public class SchoolManager {
 
 	@Resource(name = "locationService")
 	private LocationService mLocationService;
+
+	@Resource
+	private TeacherService mTeacherService;
 
 	public Map<String, Object> querySchoolsPage(Pagination pPagination, int pCityId, String pKey) {
 		return getSchoolService().querySchoolsPage(pPagination, pCityId, pKey);
@@ -77,10 +81,9 @@ public class SchoolManager {
 			gradeY++;
 		}
 		StringBuilder convertedClass = new StringBuilder();
-		convertedClass.append(NumberUtils.numberToChineseNumber(gradeY))
+		convertedClass.append(NumberUtils.numberToChineseNumber(gradeY));
 		//.append("年级").append(NumberUtils.numberToChineseNumber(Integer.valueOf(cls)))
 		//.append("班");
-		;
 		return convertedClass.toString();
 	}
 
@@ -120,24 +123,18 @@ public class SchoolManager {
 		return allParentId;
 	}
 
-	public SchoolService getSchoolService() {
-		return mSchoolService;
-	}
-
-	public void setSchoolService(SchoolService pSchoolService) {
-		this.mSchoolService = pSchoolService;
-	}
 
 	public School loadSchool(final int pSchoolId) {
 		return getSchoolService().loadSchool(pSchoolId);
 	}
+
 
 	public boolean persistSchool(final School pSchool) {
 		boolean result;
 		Address schoolAddress = pSchool.extractAddress();
 		if (RepositoryUtils.idIsValid(schoolAddress.getId())) {
 			result = getLocationService().updateAddress(schoolAddress);
-		} else if (com.fmc.edu.util.StringUtils.isNoneBlank(schoolAddress.getAddress())) {
+		} else if (StringUtils.isNoneBlank(schoolAddress.getAddress())) {
 			result = getLocationService().createAddress(schoolAddress);
 			pSchool.setAddressId(schoolAddress.getId());
 		} else {
@@ -157,6 +154,30 @@ public class SchoolManager {
 		return getSchoolService().loadClass(pClassId);
 	}
 
+	public List<TeacherClassRelationship> queryTeacherClassRelationships(final int pClassId) {
+		return getSchoolService().queryTeacherClassRelationships(pClassId);
+	}
+
+	public boolean persistFmcClass(final FmcClass pFmcClass) {
+		if (RepositoryUtils.idIsValid(pFmcClass.getId())) {
+			boolean result = getSchoolService().updateFmcClass(pFmcClass);
+			if (result) {
+				result = getTeacherService().maintainHeadTeacherRelationship(pFmcClass.getId(), pFmcClass.getHeadTeacherId());
+			}
+			return result;
+		} else {
+			return getSchoolService().createFmcClass(pFmcClass);
+		}
+	}
+
+	public SchoolService getSchoolService() {
+		return mSchoolService;
+	}
+
+	public void setSchoolService(SchoolService pSchoolService) {
+		this.mSchoolService = pSchoolService;
+	}
+
 	public LocationService getLocationService() {
 		return mLocationService;
 	}
@@ -165,17 +186,11 @@ public class SchoolManager {
 		mLocationService = pLocationService;
 	}
 
-	public List<TeacherClassRelationship> queryTeacherClassRelationships(final int pClassId) {
-		return getSchoolService().queryTeacherClassRelationships(pClassId);
+	public TeacherService getTeacherService() {
+		return mTeacherService;
 	}
 
-	public boolean persistFmcClass(final FmcClass pFmcClass) {
-		boolean result;
-		if (RepositoryUtils.idIsValid(pFmcClass.getId())) {
-			result = getSchoolService().updateFmcClass(pFmcClass);
-		} else {
-			result = getSchoolService().createFmcClass(pFmcClass);
-		}
-		return result;
+	public void setTeacherService(final TeacherService pTeacherService) {
+		mTeacherService = pTeacherService;
 	}
 }

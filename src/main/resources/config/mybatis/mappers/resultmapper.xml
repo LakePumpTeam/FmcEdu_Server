@@ -138,6 +138,7 @@
     <resultMap id="fmcClass" type="FmcClass">
         <id property="id" column="cls_id"/>
         <id property="schoolId" column="school_id"/>
+        <result property="schoolName" column="school_name"/>
         <result property="grade" column="grade"/>
         <result property="available" column="available"/>
         <result property="realClass" column="class"/>

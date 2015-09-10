@@ -218,11 +218,12 @@
     </select>
 
     <select id="loadClass" resultMap="rm.fmcClass">
-        SELECT c.id `cls_id`, c.school_id, c.grade, c.class, c.available, c.head_teacher_id, c.last_update_date,
+        SELECT c.id `cls_id`, c.school_id, sc.name school_name, c.grade, c.class, c.available, c.head_teacher_id, c.last_update_date,
         p.name `teacherName`, count(s.id) `student_count`
         FROM class c
         LEFT JOIN student s on s.class_id = c.id
         LEFT JOIN profile p on p.id = c.head_teacher_id
+        LEFT JOIN school sc on sc.id = c.school_id
         WHERE c.id = #{classId}
     </select>
 
