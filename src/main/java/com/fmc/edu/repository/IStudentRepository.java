@@ -34,4 +34,8 @@ public interface IStudentRepository {
     String LOAD_CLASS_STUDENTS = "com.fmc.edu.student.loadClassStudents";
 
     List<Student> loadClassStudents(int pClassId);
+
+    String QUERY_STUDENT_BY_IDENTIFY_CODE = "com.fmc.edu.student.queryStudentByIdentifyCode";
+
+    Student queryStudentByIdentifyCode(String pIdentifyCode);
 }

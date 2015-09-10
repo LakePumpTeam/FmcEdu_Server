@@ -10,7 +10,8 @@ import java.util.List;
  */
 public interface IPermissionRepository {
 
-	String FINED_ROLE_BY_IDENTITY = "com.fmc.edu.permission.findRoleByIdentity";
+	String FINED_ROLES_BY_IDENTITY = "com.fmc.edu.permission.findRolesByIdentity";
+
 	String FIND_PERMISSION_BY_ROLE_ID = "com.fmc.edu.permission.findPermissionByRoleId";
 
 	List<Role> findRoleByUserId(final int pUserId);

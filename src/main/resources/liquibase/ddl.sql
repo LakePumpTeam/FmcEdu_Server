@@ -106,6 +106,7 @@ CREATE TABLE IF NOT EXISTS `fmc_edu`.`student` (
   `ring_phone` VARCHAR(11) NULL,
   `creation_date` DATETIME NULL,
   `available` TINYINT(1) NOT NULL DEFAULT 1,
+  `identify_code` VARCHAR(45) NULL,
   `last_update_date` DATETIME NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
@@ -114,7 +115,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `fmc_edu`.`profile`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `fmc_edu`.`profile` ;
+DROP TABLE IF EXISTS `profile` ;
 
 CREATE TABLE IF NOT EXISTS `fmc_edu`.`profile` (
   `id` INT NOT NULL AUTO_INCREMENT,
@@ -128,7 +129,6 @@ CREATE TABLE IF NOT EXISTS `fmc_edu`.`profile` (
   `last_login_date` DATETIME NULL,
   `last_update_date` DATETIME NOT NULL,
   `available` TINYINT(1) NOT NULL DEFAULT 1,
-  `online` TINYINT(1) NOT NULL DEFAULT 0,
   `profile_type` TINYINT(1) NOT NULL DEFAULT 1,
   `last_pc_id` INT NULL DEFAULT 0,
   `last_sdat_id` INT NULL DEFAULT 0,
@@ -138,9 +138,10 @@ CREATE TABLE IF NOT EXISTS `fmc_edu`.`profile` (
   `last_pce_id` INT NULL DEFAULT 0,
   `last_bbs_id` INT NULL DEFAULT 0,
   `device_type` INT NULL DEFAULT 3,
+  `online` TINYINT(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `phone_UNIQUE` (`phone` ASC))
-ENGINE = InnoDB
+ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `fmc_edu`.`teacher`
@@ -211,13 +212,15 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `fmc_edu`.`teacher_class_map` ;
 
 CREATE TABLE IF NOT EXISTS `fmc_edu`.`teacher_class_map` (
+  `id` INT NOT NULL AUTO_INCREMENT,
   `teacher_id` INT NOT NULL,
   `class_id` INT NOT NULL,
   `sub_title` VARCHAR(20) NULL,
+  `available` TINYINT(1) NOT NULL DEFAULT 1,
   `head_teacher` TINYINT(1) NOT NULL DEFAULT 0,
   `creation_date` DATETIME NULL,
   `last_update_date` DATETIME NOT NULL,
-  PRIMARY KEY (`teacher_id`, `class_id`))
+  PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
 
@@ -243,7 +246,7 @@ CREATE TABLE IF NOT EXISTS `fmc_edu`.`news` (
   `creation_date` DATETIME NOT NULL,
   `last_update_date` DATETIME NOT NULL,
   PRIMARY KEY (`id`))
-ENGINE = InnoDB
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -311,7 +314,7 @@ CREATE TABLE IF NOT EXISTS `fmc_edu`.`course` (
   `last_update_date` DATETIME NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_course_timetable1_idx` (`timetable_id` ASC))
-ENGINE = MyISAM
+ENGINE = MyISAM;
 
 
 -- -----------------------------------------------------
@@ -356,7 +359,7 @@ ENGINE = MyISAM;
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `fmc_edu`.`profile_like_map` ;
 
-CREATE TABLE IF NOT EXISTS `demo_fmc_edu`.`profile_like_map` (
+CREATE TABLE IF NOT EXISTS `fmc_edu`.`profile_like_map` (
   `profile_id` INT NOT NULL,
   `news_id` INT NOT NULL,
   `creation_date` DATETIME NULL)
@@ -392,7 +395,7 @@ CREATE TABLE IF NOT EXISTS `fmc_edu`.`task` (
   `publish_user_id` INT NOT NULL,
   `available` TINYINT(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`))
-ENGINE = MyISAM
+ENGINE = MyISAM;
 
 -- -----------------------------------------------------
 -- Table `fmc_edu`.`task_student_map`
@@ -420,7 +423,7 @@ CREATE TABLE IF NOT EXISTS `fmc_edu`.`task_student_map` (
     REFERENCES `fmc_edu`.`task` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = MyISAM
+ENGINE = MyISAM;
 
 -- -----------------------------------------------------
 -- Table `fmc_edu`.`profile_selection_map`
@@ -433,7 +436,7 @@ CREATE TABLE IF NOT EXISTS `fmc_edu`.`profile_selection_map` (
   INDEX `fk_profile_selection_map_selection1_idx` (`selection_id` ASC),
   INDEX `fk_profile_selection_map_news1_idx` (`news_id` ASC),
   INDEX `fk_profile_selection_map_profile1_idx` (`profile_id` ASC))
-ENGINE = MyISAM
+ENGINE = MyISAM;
 
 -- -----------------------------------------------------
 -- Table `fmc_edu`.`selection`
@@ -447,19 +450,19 @@ CREATE TABLE IF NOT EXISTS `fmc_edu`.`selection` (
   `last_update_date` DATETIME NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_selection_news1_idx` (`news_id` ASC))
-ENGINE = MyISAM
+ENGINE = MyISAM;
 
 
 CREATE TABLE IF NOT EXISTS `fmc_edu`.`magnetic_card` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `card_no` VARCHAR(45) NOT NULL,
   `comments` VARCHAR(45) NULL,
-  `last_update_date` TIMESTAMP NOT NULL,
-  `creation_date` TIMESTAMP NOT NULL,
+  `last_update_date` DATETIME NOT NULL,
+  `creation_date` DATETIME NOT NULL,
   `card_type` TINYINT(1) NOT NULL DEFAULT 0 COMMENT '0:student\n1:parent\n',
   PRIMARY KEY (`id`),
   UNIQUE INDEX `card_no_UNIQUE` (`card_no` ASC))
-ENGINE = InnoDB
+ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `fmc_edu`.`student_card_map` (
   `id` INT NOT NULL AUTO_INCREMENT,
@@ -480,7 +483,7 @@ CREATE TABLE IF NOT EXISTS `fmc_edu`.`student_card_map` (
     REFERENCES `fmc_edu`.`magnetic_card` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
+ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `fmc_edu`.`clock_in_record` (
   `id` INT NOT NULL AUTO_INCREMENT,
@@ -498,7 +501,7 @@ CREATE TABLE IF NOT EXISTS `fmc_edu`.`clock_in_record` (
     REFERENCES `fmc_edu`.`magnetic_card` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
+ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `fmc_edu`.`appSetting` (
   `id` INT NOT NULL AUTO_INCREMENT,
@@ -512,7 +515,7 @@ CREATE TABLE IF NOT EXISTS `fmc_edu`.`appSetting` (
     REFERENCES `fmc_edu`.`profile` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
+ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `fmc_edu`.`push_message` (
   `id` INT NOT NULL AUTO_INCREMENT,
@@ -524,7 +527,38 @@ CREATE TABLE IF NOT EXISTS `fmc_edu`.`push_message` (
   `push_status` TINYINT(1) NOT NULL,
   `creation_date` TIMESTAMP NOT NULL,
   PRIMARY KEY (`id`))
-ENGINE = InnoDB
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `fmc_edu`.`role` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `role` VARCHAR(45) NOT NULL,
+  `description` VARCHAR(200) NULL,
+  `available` TINYINT(1) NOT NULL DEFAULT 1,
+  `last_update_date` DATETIME NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `fmc_edu`.`profile_role_map` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `profile_id` INT NOT NULL,
+  `role_id` INT NOT NULL,
+  `available` TINYINT(1) NOT NULL DEFAULT 1,
+  `creation_date` DATETIME NOT NULL,
+  `last_update_date` DATETIME NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `proile_map_fk_idx` (`profile_id` ASC),
+  INDEX `role_map_fk_idx` (`role_id` ASC),
+  CONSTRAINT `proile_map_fk`
+    FOREIGN KEY (`profile_id`)
+    REFERENCES `fmc_edu`.`profile` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `role_map_fk`
+    FOREIGN KEY (`role_id`)
+    REFERENCES `fmc_edu`.`role` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

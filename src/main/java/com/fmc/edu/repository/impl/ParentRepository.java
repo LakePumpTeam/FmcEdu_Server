@@ -25,8 +25,11 @@ public class ParentRepository extends BaseRepository implements IParentRepositor
     }
 
     @Override
-    public boolean insertParentProfile(ParentProfile pParentProfile) {
-        return getSqlSession().insert(INSERT_PARENT_PROFILE, pParentProfile) > 0;
+    public int insertParentProfile(ParentProfile pParentProfile) {
+        if (getSqlSession().insert(INSERT_PARENT_PROFILE, pParentProfile) > 0) {
+            return pParentProfile.getId();
+        }
+        return 0;
     }
 
     @Override
@@ -88,7 +91,10 @@ public class ParentRepository extends BaseRepository implements IParentRepositor
     }
 
     @Override
-    public boolean initialProfile(BaseProfile pBaseProfile) {
-        return getSqlSession().insert(INITIAL_PROFILE, pBaseProfile) > 0;
+    public int initialProfile(BaseProfile pBaseProfile) {
+        if (getSqlSession().insert(INITIAL_PROFILE, pBaseProfile) > 0) {
+            return pBaseProfile.getId();
+        }
+        return 0;
     }
 }

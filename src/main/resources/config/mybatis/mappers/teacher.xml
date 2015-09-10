@@ -101,6 +101,12 @@
         WHERE id = #{id}
     </update>
 
+    <insert id="createTeacherClassRelationship" parameterType="TeacherClassRelationship" keyProperty="id"
+            useGeneratedKeys="true">
+        INSERT INTO `teacher_class_map` (`teacher_id`, `class_id`,`sub_title`, `head_teacher`, `creation_date`,`last_update_date`)
+        VALUES (#{teacherId},#{classId}, #{subTitle}, #{headTeacher},now(),now());
+    </insert>
+
     <update id="resetAllHeadTeacherRelationship" parameterType="int">
         UPDATE teacher_class_map SET head_teacher = 0
         WHERE class_id = #{classId}

@@ -12,9 +12,9 @@
 		profile_type = 9
 	</sql>
 
-    <insert id="initialProfile" parameterType="BaseProfile">
-        INSERT INTO profile (phone, password, salt, last_update_date, profile_type,creation_date)
-        VALUES (#{phone},#{password},#{salt}, now(), #{profileType}, now())
+	<insert id="initialProfile" parameterType="BaseProfile" keyProperty="id" useGeneratedKeys="true">
+		INSERT INTO profile (phone,`name`, password, salt, last_update_date, profile_type,creation_date)
+		VALUES (#{phone},#{name}, #{password},#{salt}, now(), #{profileType}, now())
 	</insert>
 
     <update id="initialParentProfile" parameterType="ParentProfile">
@@ -29,7 +29,7 @@
         or<include refid="condition_parent"/>)
     </update>
 
-    <insert id="insertParentProfile" parameterType="string">
+	<insert id="insertParentProfile" parameterType="ParentProfile" keyProperty="id" useGeneratedKeys="true">
         INSERT INTO parent (profile_id, address_id, paid, free_trial)
 		VALUES (#{id}, #{addressId},0, 0)
 	</insert>

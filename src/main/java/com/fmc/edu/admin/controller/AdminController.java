@@ -51,21 +51,22 @@ public class AdminController extends BaseController {
             authenticationToken.setRememberMe(true);
             currentUser.login(authenticationToken);
 
+            currentUser.checkRole("admin");
         } catch (UnknownAccountException e) {
             LOG.error(e);
-            return "";//"redirect:/admin/login";
+            return "redirect:/admin/login?autho=unknownAccount";
         } catch (IncorrectCredentialsException e) {
             LOG.error(e);
-            return "";//"redirect:/admin/login";
+            return "redirect:/admin/login?autho=pwd";
         } catch (LockedAccountException e) {
             LOG.error(e);
-            return "";//"redirect:/admin/login";
+            return "redirect:/admin/login?autho=accountLock";
         } catch (ExcessiveAttemptsException e) {
             LOG.error(e);
-            return "";//"redirect:/admin/login";
+            return "redirect:/admin/login?autho=attempt";
         } catch (AuthenticationException e) {
             LOG.error(e);
-            return "";//"redirect:/admin/login";
+            return "redirect:/admin/login?autho=authoFailed";
         }
         return "redirect:/admin/home";
     }

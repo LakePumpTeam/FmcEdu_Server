@@ -29,6 +29,8 @@ public class Student extends BaseBean {
 
 	private boolean mAvailable;
 
+	private String mIdentifyCode;
+
 	private ParentStudentRelationship mParentStudentRelationship;
 
 	private School mSchool;
@@ -129,5 +131,13 @@ public class Student extends BaseBean {
 
 	public void setSchool(School pSchool) {
 		mSchool = pSchool;
+	}
+
+	public String getIdentifyCode() {
+		return mIdentifyCode;
+	}
+
+	public void setIdentifyCode(String pIdentifyCode) {
+		mIdentifyCode = pIdentifyCode;
 	}
 }

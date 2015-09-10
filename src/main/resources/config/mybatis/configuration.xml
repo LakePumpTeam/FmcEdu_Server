@@ -38,6 +38,8 @@
         <typeAlias alias="AppSetting" type="com.fmc.edu.model.app.AppSetting"/>
         <typeAlias alias="PushMessage" type="com.fmc.edu.model.push.PushMessage"/>
         <typeAlias alias="TeacherClassRelationship" type="com.fmc.edu.model.relationship.TeacherClassRelationship"/>
+        <typeAlias alias="Role" type="com.fmc.edu.model.autho.Role"/>
+        <typeAlias alias="ProfileRoleRelationship" type="com.fmc.edu.model.autho.ProfileRoleRelationship"/>
     </typeAliases>
     <typeHandlers>
         <typeHandler handler="org.apache.ibatis.type.BlobTypeHandler" javaType="byte[]" jdbcType="BLOB"/>

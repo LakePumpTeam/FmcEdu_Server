@@ -36,8 +36,22 @@
             </if>
         </where>
         <if test="@Ognl@isNotEmpty(start) and @Ognl@isNotEmpty(size)">
-            <include refid="limit-split-page" />
+            <include refid="limit-split-page"/>
         </if>
+    </select>
+
+    <select id="querySchoolByFields" parameterType="map" resultMap="rm.school">
+        SELECT  s.id, s.name, s.province_id, s.city_id, s.address_id, a.full_address
+        FROM school s
+        inner join province p
+        on s.province_id = p.id
+        inner join city c
+        on s.city_id = c.id
+        LEFT JOIN address a on s.address_id = a.id
+        where s.name=#{schoolName}
+        and p.name=#{provName}
+        and c.name=#{cityName}
+        limit 0, 1;
     </select>
 
     <select id="queryClassCount" parameterType="map" resultType="int">
@@ -61,7 +75,7 @@
                 and (`grade` LIKE CONCAT('%', #{key}) or `class` LIKE CONCAT('%', #{key}))
             </if>
         </where>
-        <include refid="limit-split-page" />
+        <include refid="limit-split-page"/>
     </select>
 
     <select id="queryHeadmaster" parameterType="map" resultType="map">
@@ -74,10 +88,21 @@
         where cls.id=#{classId};
     </select>
 
+    <select id="queryHeadmasterByClassAndSchool" parameterType="map" resultType="map">
+        select p.id as headTeacherId, p.name as headTeacherName
+        from class cls
+        left join teacher_class_map tcm
+        on tcm.teacher_id = cls.head_teacher_id
+        left join profile p
+        on p.id = tcm.teacher_id
+        where cls.grade=#{grade} and cls.class=#{cls} and cls.school_id=#{schoolId}
+        limit 0,1;
+    </select>
     <insert id="initialStudent" useGeneratedKeys="true" keyProperty="id"
             parameterType="Student" flushCache="true">
-        INSERT INTO student (name, class_id, sex, birth, ring_number, ring_phone, creation_date, last_update_date)
-        VALUES (#{name}, #{classId}, #{male}, #{birth}, #{ringNumber}, #{ringPhone}, #{creationDate},
+        INSERT INTO student (name, class_id, sex, birth, ring_number, ring_phone, identify_code, creation_date,
+        last_update_date)
+        VALUES (#{name}, #{classId}, #{male}, #{birth}, #{ringNumber}, #{ringPhone},#{identifyCode}, #{creationDate},
         #{lastUpdateDate})
     </insert>
 
@@ -90,7 +115,7 @@
     <update id="updateStudentById" parameterType="Student" flushCache="true">
         UPDATE student
         SET name = #{name}, class_id = #{classId}, sex = #{male}, birth = #{birth}, ring_number = #{ringNumber},
-        ring_phone = #{ringPhone}, last_update_date = #{lastUpdateDate}
+        ring_phone = #{ringPhone}, identify_code = #{identifyCode}, last_update_date = #{lastUpdateDate}
         WHERE id = #{id}
     </update>
 

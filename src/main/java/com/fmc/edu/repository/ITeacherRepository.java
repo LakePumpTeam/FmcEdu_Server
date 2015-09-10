@@ -50,11 +50,15 @@ public interface ITeacherRepository {
 
 	String INITIAL_TEACHER_PROFILE = "com.fmc.edu.teacher.initialTeacherProfile";
 
-	boolean createTeacherProfile(final TeacherProfile pTeacher);
+	int createTeacherProfile(final TeacherProfile pTeacher);
 
 	String INITIAL_TEACHER = "com.fmc.edu.teacher.initialTeacher";
 
 	boolean createTeacherDetail(TeacherProfile pTeacher);
+
+	String CREATE_TEACHER_CLASS_RELATIONSHIP = "com.fmc.edu.teacher.createTeacherClassRelationship";
+
+	int createTeacherClassRelationship(TeacherClassRelationship pTeacherClassRelationship);
 
 	String RESET_ALL_HEADTEACHER_RELATIONSHIP = "com.fmc.edu.teacher.resetAllHeadTeacherRelationship";
 

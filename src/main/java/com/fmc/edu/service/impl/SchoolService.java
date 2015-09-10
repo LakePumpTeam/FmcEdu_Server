@@ -22,108 +22,116 @@ import java.util.Map;
 @Service("schoolService")
 public class SchoolService {
 
-	@Resource(name = "schoolRepository")
-	private ISchoolRepository mSchoolRepository;
+    @Resource(name = "schoolRepository")
+    private ISchoolRepository mSchoolRepository;
 
-	public Map<String, Object> querySchoolsPage(Pagination pPagination, int pCityId, String pKey) {
-		return getSchoolRepository().querySchoolsPage(pPagination, pCityId, pKey);
-	}
+    public Map<String, Object> querySchoolsPage(Pagination pPagination, int pCityId, String pKey) {
+        return getSchoolRepository().querySchoolsPage(pPagination, pCityId, pKey);
+    }
 
-	public List querySchools(final int pCityId, final String pKey) {
-		return getSchoolRepository().querySchools(pCityId, pKey);
-	}
+    public List querySchools(final int pCityId, final String pKey) {
+        return getSchoolRepository().querySchools(pCityId, pKey);
+    }
 
-	public Map<String, Object> queryClassesPage(Pagination pPagination, int pSchoolId, String pKey) {
-		return getSchoolRepository().queryClassesPage(pPagination, pSchoolId, pKey);
-	}
+    public Map<String, Object> queryClassesPage(Pagination pPagination, int pSchoolId, String pKey) {
+        return getSchoolRepository().queryClassesPage(pPagination, pSchoolId, pKey);
+    }
 
-	public FmcClass queryDefaultClassBySchoolId(int pSchoolId) {
-		return getSchoolRepository().queryDefaultClassBySchoolId(pSchoolId);
-	}
+    public FmcClass queryDefaultClassBySchoolId(int pSchoolId) {
+        return getSchoolRepository().queryDefaultClassBySchoolId(pSchoolId);
+    }
 
-	public Map<String, Object> queryHeadmasterPage(final int pClassId) {
-		return getSchoolRepository().queryHeadmasterPage(pClassId);
-	}
+    public Map<String, Object> queryHeadmasterPage(final int pClassId) {
+        return getSchoolRepository().queryHeadmasterPage(pClassId);
+    }
 
-	public boolean updateStudentById(final Student pStudent) {
-		return getSchoolRepository().updateStudentById(pStudent);
-	}
+    public boolean updateStudentById(final Student pStudent) {
+        return getSchoolRepository().updateStudentById(pStudent);
+    }
 
-	public int queryStudentIdByFields(final Student pStudent) {
-		return getSchoolRepository().queryStudentIdByFields(pStudent);
-	}
+    public int queryStudentIdByFields(final Student pStudent) {
+        return getSchoolRepository().queryStudentIdByFields(pStudent);
+    }
 
-	public boolean saveOrUpdateStudentByFields(final Student pStudent) {
-		int id = getSchoolRepository().queryStudentIdByFields(pStudent);
-		if (id > 0) {
-			pStudent.setId(id);
-			return updateStudentById(pStudent);
-		}
-		return getSchoolRepository().initialStudent(pStudent);
-	}
+    public boolean saveOrUpdateStudentByFields(final Student pStudent) {
+        int id = getSchoolRepository().queryStudentIdByFields(pStudent);
+        if (id > 0) {
+            pStudent.setId(id);
+            return updateStudentById(pStudent);
+        }
+        return getSchoolRepository().initialStudent(pStudent);
+    }
 
-	public TeacherProfile queryTeacherById(final int pTeacherId) {
-		return getSchoolRepository().queryTeacherById(pTeacherId);
-	}
+    public TeacherProfile queryTeacherById(final int pTeacherId) {
+        return getSchoolRepository().queryTeacherById(pTeacherId);
+    }
 
-	public List<Course> queryCourseListByClassId(int pClassId, int pWeek) {
-		return getSchoolRepository().queryCourseListByClassId(pClassId, pWeek);
-	}
+    public List<Course> queryCourseListByClassId(int pClassId, int pWeek) {
+        return getSchoolRepository().queryCourseListByClassId(pClassId, pWeek);
+    }
 
-	public int insertTimeTable(TimeTable pTimeTable) {
-		return getSchoolRepository().insertTimeTable(pTimeTable);
-	}
+    public int insertTimeTable(TimeTable pTimeTable) {
+        return getSchoolRepository().insertTimeTable(pTimeTable);
+    }
 
-	public int insertCourse(Course pCourse) {
-		return getSchoolRepository().insertCourse(pCourse);
-	}
+    public int insertCourse(Course pCourse) {
+        return getSchoolRepository().insertCourse(pCourse);
+    }
 
-	public int updateCourse(Course pCourse) {
-		return getSchoolRepository().updateCourse(pCourse);
-	}
+    public int updateCourse(Course pCourse) {
+        return getSchoolRepository().updateCourse(pCourse);
+    }
 
-	public List<BaseProfile> queryAllParentByClassId(int pClassId) {
-		return getSchoolRepository().queryAllParentByClassId(pClassId);
-	}
+    public List<BaseProfile> queryAllParentByClassId(int pClassId) {
+        return getSchoolRepository().queryAllParentByClassId(pClassId);
+    }
 
-	public ISchoolRepository getSchoolRepository() {
-		return mSchoolRepository;
-	}
+    public ISchoolRepository getSchoolRepository() {
+        return mSchoolRepository;
+    }
 
-	public void setSchoolRepository(ISchoolRepository schoolRepository) {
-		this.mSchoolRepository = schoolRepository;
-	}
+    public void setSchoolRepository(ISchoolRepository schoolRepository) {
+        this.mSchoolRepository = schoolRepository;
+    }
 
 
-	public School loadSchool(final int pSchoolId) {
-		return getSchoolRepository().loadSchool(pSchoolId);
-	}
+    public School loadSchool(final int pSchoolId) {
+        return getSchoolRepository().loadSchool(pSchoolId);
+    }
 
-	public boolean updateSchool(final School pSchool) {
-		return getSchoolRepository().updateSchool(pSchool);
-	}
+    public boolean updateSchool(final School pSchool) {
+        return getSchoolRepository().updateSchool(pSchool);
+    }
 
-	public boolean createSchool(final School pSchool) {
-		return getSchoolRepository().createSchool(pSchool);
-	}
+    public boolean createSchool(final School pSchool) {
+        return getSchoolRepository().createSchool(pSchool);
+    }
 
-	public List<FmcClass> queryClassesBySchoolId(final int pSchoolId) {
-		return getSchoolRepository().queryClassesBySchoolId(pSchoolId);
-	}
+    public List<FmcClass> queryClassesBySchoolId(final int pSchoolId) {
+        return getSchoolRepository().queryClassesBySchoolId(pSchoolId);
+    }
 
-	public FmcClass loadClass(final int pClassId) {
-		return getSchoolRepository().loadClass(pClassId);
-	}
+    public FmcClass loadClass(final int pClassId) {
+        return getSchoolRepository().loadClass(pClassId);
+    }
 
-	public List<TeacherClassRelationship> queryTeacherClassRelationships(final int pClassId) {
-		return getSchoolRepository().queryTeacherClassRelationships(pClassId);
-	}
+    public List<TeacherClassRelationship> queryTeacherClassRelationships(final int pClassId) {
+        return getSchoolRepository().queryTeacherClassRelationships(pClassId);
+    }
 
-	public boolean updateFmcClass(final FmcClass pFmcClass) {
-		return getSchoolRepository().updateFmcClass(pFmcClass);
-	}
+    public boolean updateFmcClass(final FmcClass pFmcClass) {
+        return getSchoolRepository().updateFmcClass(pFmcClass);
+    }
 
-	public boolean createFmcClass(final FmcClass pFmcClass) {
-		return getSchoolRepository().createFmcClass(pFmcClass);
-	}
+    public int createFmcClass(final FmcClass pFmcClass) {
+        return getSchoolRepository().createFmcClass(pFmcClass);
+    }
+
+    public School querySchoolByFields(Map<String, Object> pFields) {
+        return getSchoolRepository().querySchoolByFields(pFields);
+    }
+
+    public Map<String, Object> queryHeadmasterByClassAndSchool(Map<String, Object> pMap) {
+        return getSchoolRepository().queryHeadmasterByClassAndSchool(pMap);
+    }
 }
