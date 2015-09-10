@@ -22,7 +22,7 @@
                                     </c:when>
                                     <c:otherwise>
                                         <input type="text" id="_school" name="_school" class="form-control"
-                                               value="${locationMap[param.schoolId].name}" disabled="disabled" />
+                                               value="${school.name}" disabled="disabled" />
                                         <input type="hidden" name="school.id" value="${param.schoolId}" />
                                     </c:otherwise>
                                 </c:choose>

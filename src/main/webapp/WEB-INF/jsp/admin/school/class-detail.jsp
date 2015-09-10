@@ -104,9 +104,6 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div>
-                            <input type="button" value="新增" class="btn btn-primary" id="btn_create" />
-                        </div>
                     </div>
                 </div>
                 <div class="panel panel-default" style="align-content: center;">

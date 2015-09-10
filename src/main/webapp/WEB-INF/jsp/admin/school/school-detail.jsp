@@ -62,6 +62,9 @@
                                 </tbody>
                             </table>
                         </div>
+                        <div>
+                            <input type="button" value="新增班级" class="btn btn-primary" id="btn_create_class" />
+                        </div>
                     </div>
                 </div>
                 <div class="panel panel-default" style="align-content: center;">
@@ -102,7 +105,7 @@
                             </table>
                         </div>
                         <div>
-                            <input type="button" value="新增" class="btn btn-primary" id="btn_create" />
+                            <input type="button" value="新增教师" class="btn btn-primary" id="btn_create_teacher" />
                         </div>
                     </div>
                 </div>
@@ -133,8 +136,11 @@
                 $('#table-teachers').DataTable({
                     responsive: true
                 });
-                $("#btn_create").on('click', document, function (e) {
+                $("#btn_create_teacher").on('click', document, function (e) {
                     window.location.href = "${ctx}/admin/school/teacher-detail?schoolId=${school.id}";
+                });
+                $("#btn_create_class").on('click', document, function (e) {
+                    window.location.href = "${ctx}/admin/school/class-detail?schoolId=${school.id}";
                 });
             });
         </script>

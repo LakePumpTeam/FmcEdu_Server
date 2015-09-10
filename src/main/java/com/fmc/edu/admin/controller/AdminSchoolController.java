@@ -84,13 +84,18 @@ public class AdminSchoolController extends AdminTransactionBaseController {
 	}
 
 	@RequestMapping(value = "/teacher-detail" + GlobalConstant.URL_SUFFIX)
-	public String forwardTeacherDetail(HttpServletRequest pRequest, HttpServletResponse pResponse, Model pModel, String teacherId) {
+	public String forwardTeacherDetail(HttpServletRequest pRequest, HttpServletResponse pResponse, Model pModel, String teacherId, String schoolId) {
 		int teacherIdInt = RepositoryUtils.safeParseId(teacherId);
 		if (RepositoryUtils.idIsValid(teacherIdInt)) {
 			TeacherProfile teacher = getTeacherManager().queryTeacherById(teacherIdInt);
 			pModel.addAttribute("teacher", teacher);
 			List<TeacherClassRelationship> relationships = getTeacherManager().queryTeacherClassRelationships(teacherIdInt);
 			pModel.addAttribute("relationships", relationships);
+		}
+		int schoolIdInt = RepositoryUtils.safeParseId(schoolId);
+		if (RepositoryUtils.idIsValid(schoolIdInt)) {
+			School school = getSchoolManager().loadSchool(schoolIdInt);
+			pModel.addAttribute("school", school);
 		}
 		return "admin/school/teacher-detail";
 	}
