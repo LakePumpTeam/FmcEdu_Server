@@ -133,11 +133,13 @@
 			<artifactId>mybatis</artifactId>
 			<version>${mybatisVersion}</version>
 		</dependency>
+		<!--
 		<dependency>
 			<groupId>org.mybatis.caches</groupId>
 			<artifactId>mybatis-ehcache</artifactId>
 			<version>1.0.3</version>
 		</dependency>
+		-->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>jcl-over-slf4j</artifactId>
@@ -289,6 +291,16 @@
 			<groupId>ccp</groupId>
 			<artifactId>ccp-rest-sms-java</artifactId>
 			<version>v2.6.3r</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.10-FINAL</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>3.5-FINAL</version>
 		</dependency>
 	</dependencies>
 	<profiles>
