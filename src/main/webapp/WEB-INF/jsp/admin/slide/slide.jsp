@@ -154,25 +154,25 @@
                                 <table class="table table-striped table-bordered table-hover" id="table-news">
                                     <thead>
                                     <tr>
-                                        <th>选择</th>
                                         <th>#</th>
                                         <th>标题</th>
                                         <th>内容</th>
                                         <th>赞</th>
                                         <th>创建时间</th>
                                         <th>发布时间</th>
+                                        <th>选择</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <c:forEach var="news" items="${newsList}">
                                         <tr>
-                                            <td><input type="radio" name="newsId" value="${news.id}" /></td>
                                             <td>${news.id}</td>
                                             <td>${news.subject}</td>
                                             <td>${fn:substring(news.content, 0, 25)}...</td>
                                             <td>${news.like}</td>
                                             <td><fmt:formatDate pattern="${datetimePattern}" value="${news.creationDate}" /></td>
                                             <td><fmt:formatDate pattern="${datetimePattern}" value="${news.publishDate}" /></td>
+                                            <td><input type="radio" name="newsId" value="${news.id}" /></td>
                                         </tr>
                                     </c:forEach>
                                     </tbody>

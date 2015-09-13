@@ -141,6 +141,77 @@
                         </div>
                     </div>
                 </div>
+                <div class="panel panel-default" style="align-content: center;">
+                    <div class="panel-heading">待选教师列表</div>
+                    <div class="panel-body">
+                        <form action="/admin/school/class-teacher-rel-save" method="post">
+                            <div class="form-group form-inline">
+                                <label>科目：</label>
+                                <input type="text" name="subTitle" class="form-control">
+                            </div>
+                            <div class="dataTable_wrapper">
+                                <table class="table table-striped table-bordered table-hover" id="table-teachers-no-rel">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>姓名</th>
+                                        <th>电话号码</th>
+                                        <th>性别</th>
+                                        <th>出生日期</th>
+                                        <th>已初始化</th>
+                                        <th>教师启用</th>
+                                        <th>最后登录</th>
+                                        <th>最后更新</th>
+                                        <th>选择</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <c:forEach var="nrTeacher" items="${noRelTeachers}" varStatus="index">
+                                        <tr align="right">
+                                            <td>${nrTeacher.id}</td>
+                                            <td>
+                                                <a href="${ctx}/admin/school/teacher-detail?teacherId=${nrTeacher.id}">${nrTeacher.name}</a>
+                                            </td>
+                                            <td>${nrTeacher.phone}</td>
+                                            <td>${nrTeacher.male ? '男' : '女'}</td>
+                                            <td><fmt:formatDate pattern="${datePattern}" value="${nrTeacher.birth}" /></td>
+                                            <td>${nrTeacher.initialized ? '已初始化' : '未初始化'}</td>
+                                            <td>${nrTeacher.available ? '已启用' : '未启用'}</td>
+                                            <td><fmt:formatDate pattern="${datetimePattern}" value="${nrTeacher.lastLoginDate}" /></td>
+                                            <td><fmt:formatDate pattern="${datetimePattern}" value="${nrTeacher.lastUpdateDate}" /></td>
+                                            <td><input type="radio" name="teacherId" value="${nrTeacher.id}" /></td>
+                                        </tr>
+                                    </c:forEach>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="form-group">
+                                <label>班主任：</label>&nbsp;
+                                <label class="radio-inline text-danger">
+                                    <input type="radio" name="headTeacher" value="false" checked="checked"> 否
+                                </label>
+                                <label class="radio-inline text-success">
+                                    <input type="radio" name="headTeacher" value="true"> 是
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>是否启用：</label>&nbsp;
+                                <label class="radio-inline text-danger">
+                                    <input type="radio" name="available" value="false" checked="checked"> 禁用
+                                </label>
+                                <label class="radio-inline text-success">
+                                    <input type="radio" name="available" value="true"> 启用
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <input type="hidden" name="classId" value="${fmcClass.id}">
+                                    <input type="submit" value="新增关系" class="btn btn-primary" />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </c:if>
         </div>
         <!-- /.panel-heading -->
@@ -166,6 +237,9 @@
                     responsive: true
                 });
                 $('#table-students').DataTable({
+                    responsive: true
+                });
+                $('#table-teachers-no-rel').DataTable({
                     responsive: true
                 });
             });

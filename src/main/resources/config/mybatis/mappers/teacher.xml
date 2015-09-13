@@ -116,4 +116,12 @@
         UPDATE teacher_class_map tcm, class cl SET tcm.head_teacher = 1, cl.head_teacher_id = #{teacherId}
         WHERE tcm.class_id = #{classId} AND tcm.teacher_id = #{teacherId} AND cl.id = ${classId}
     </update>
+
+    <select id="queryTeacherNotInClass" resultMap="rm.teacher">
+        SELECT id, name, phone, sex, head_teacher, initialized, birth, resume, course, app_id, available, channel_id, device_type,
+            creation_date, last_login_date, last_update_date
+        FROM profile p
+        LEFT JOIN teacher t ON p.id = t.profile_id AND p.profile_type = 1
+        WHERE p.id NOT IN (SELECT tcm.teacher_id FROM teacher_class_map tcm WHERE class_id = #{classId})
+    </select>
 </mapper>

@@ -94,4 +94,8 @@ public class TeacherRepository extends BaseRepository implements ITeacherReposit
 		return getSqlSession().update(UPDATE_HEADTEACHER_RELATIONSHIP, parameters) > 0;
 	}
 
+    @Override
+    public List<TeacherProfile> queryTeacherNotInClass(final int pClassId) {
+        return getSqlSession().selectList(QUERY_TEACHER_NOT_IN_CLASS, pClassId);
+    }
 }

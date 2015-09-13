@@ -100,4 +100,8 @@ public class TeacherManager {
     public int createTeacherClassRelationship(TeacherClassRelationship pTeacherClassRelationship) {
         return getTeacherService().createTeacherClassRelationship(pTeacherClassRelationship);
     }
+
+    public List<TeacherProfile> queryTeacherNotInClass(final int pClassId) {
+        return getTeacherService().queryTeacherNotInClass(pClassId);
+    }
 }

@@ -129,6 +129,8 @@ public class AdminSchoolController extends AdminTransactionBaseController {
 				pModel.addAttribute("relationships", teacherClassRelationships);
 				List<Student> students = getStudentManager().loadClassStudents(classIdInt);
 				pModel.addAttribute("students", students);
+				List<TeacherProfile> noRelTeachers = getTeacherManager().queryTeacherNotInClass(classIdInt);
+				pModel.addAttribute("noRelTeachers", noRelTeachers);
 			}
 		}
 		return "admin/school/class-detail";
@@ -150,6 +152,14 @@ public class AdminSchoolController extends AdminTransactionBaseController {
 		}
 		return "redirect:class-detail?classId=" + fmcClass.getId();
 	}
+
+	@RequestMapping(value = "/class-teacher-rel-save" + GlobalConstant.URL_SUFFIX)
+	public String saveClassTeacherRelationship(HttpServletRequest pRequest, HttpServletResponse pResponse, Model pModel,
+			TeacherClassRelationship rel) {
+		//TODO
+		return "redirect:class-detail?classId=" + rel.getClassId();
+	}
+
 
 	public SchoolManager getSchoolManager() {
 		return mSchoolManager;

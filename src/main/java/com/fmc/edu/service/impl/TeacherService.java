@@ -91,4 +91,8 @@ public class TeacherService {
 		LOG.debug(String.format("Result of process to update head teacher on class / relationship: %s", result));
 		return result;
 	}
+
+    public List<TeacherProfile> queryTeacherNotInClass(final int pClassId) {
+        return getTeacherRepository().queryTeacherNotInClass(pClassId);
+    }
 }
