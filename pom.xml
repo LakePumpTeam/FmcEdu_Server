@@ -161,7 +161,11 @@
 			<artifactId>poi</artifactId>
 			<version>${pioVersion}</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>${pioVersion}</version>
+		</dependency>
 		<dependency>
 			<groupId>net.sf.json-lib</groupId>
 			<artifactId>json-lib</artifactId>
@@ -291,16 +295,6 @@
 			<groupId>ccp</groupId>
 			<artifactId>ccp-rest-sms-java</artifactId>
 			<version>v2.6.3r</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi</artifactId>
-			<version>3.10-FINAL</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi-ooxml</artifactId>
-			<version>3.5-FINAL</version>
 		</dependency>
 	</dependencies>
 	<profiles>
