@@ -161,7 +161,11 @@
 			<artifactId>poi</artifactId>
 			<version>${pioVersion}</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>${pioVersion}</version>
+		</dependency>
 		<dependency>
 			<groupId>net.sf.json-lib</groupId>
 			<artifactId>json-lib</artifactId>
@@ -292,16 +296,6 @@
 			<artifactId>ccp-rest-sms-java</artifactId>
 			<version>v2.6.3r</version>
 		</dependency>
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi</artifactId>
-			<version>3.10-FINAL</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi-ooxml</artifactId>
-			<version>3.5-FINAL</version>
-		</dependency>
 	</dependencies>
 	<profiles>
 		<profile>
@@ -311,7 +305,7 @@
 			</activation>
 			<properties>
 				<!-- local -->
-				<mybatis.db.url>jdbc:mysql://127.0.0.1/fmc_edu?useUnicode=true&amp;amp;allowMultiQueries=true&amp;amp;zeroDateTimeBehavior=convertToNull
+				<mybatis.db.url>jdbc:mysql://127.0.0.1/fmc_edu_auto?useUnicode=true&amp;amp;allowMultiQueries=true&amp;amp;zeroDateTimeBehavior=convertToNull
 				</mybatis.db.url>
 				<mybatis.db.username>root</mybatis.db.username>
 				<mybatis.db.password>root</mybatis.db.password>
