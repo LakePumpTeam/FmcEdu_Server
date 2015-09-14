@@ -305,7 +305,7 @@
 			</activation>
 			<properties>
 				<!-- local -->
-				<mybatis.db.url>jdbc:mysql://127.0.0.1/fmc_edu_auto?useUnicode=true&amp;amp;allowMultiQueries=true&amp;amp;zeroDateTimeBehavior=convertToNull
+				<mybatis.db.url>jdbc:mysql://127.0.0.1/fmc_edu?useUnicode=true&amp;amp;allowMultiQueries=true&amp;amp;zeroDateTimeBehavior=convertToNull
 				</mybatis.db.url>
 				<mybatis.db.username>root</mybatis.db.username>
 				<mybatis.db.password>root</mybatis.db.password>
