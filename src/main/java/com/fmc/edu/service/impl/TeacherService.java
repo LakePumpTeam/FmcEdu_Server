@@ -95,4 +95,8 @@ public class TeacherService {
     public List<TeacherProfile> queryTeacherNotInClass(final int pClassId) {
         return getTeacherRepository().queryTeacherNotInClass(pClassId);
     }
+
+    public boolean updateTeacherClassRelationship(final TeacherClassRelationship pRelationship) {
+        return getTeacherRepository().updateTeacherClassRelationship(pRelationship);
+    }
 }

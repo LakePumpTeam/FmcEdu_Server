@@ -96,7 +96,7 @@ public interface ISchoolRepository {
 
     String QUERY_TEACHER_CLASS_RELATIONSHIPS = "com.fmc.edu.school.queryTeacherClassRelationships";
 
-    List<TeacherClassRelationship> queryTeacherClassRelationships(int pClassId);
+    List<TeacherClassRelationship> queryTeacherClassRelationships(int pClassId, int pTeacherId);
 
     String UPDATE_FMC_CLASS = "com.fmc.edu.school.updateFmcClass";
 

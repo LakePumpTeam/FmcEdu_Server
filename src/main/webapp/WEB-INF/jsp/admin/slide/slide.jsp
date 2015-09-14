@@ -28,7 +28,7 @@
                 </div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
-                    <form action="/admin/saveSlides" method="post">
+                    <form action="${ctx}/admin/saveSlides" method="post">
                         <p class="text-success">当前已启用的育儿学堂幻灯片：
                             <c:if test="${fn:length(activeSlides) eq 0}">
                                 <span class="text-warning">暂时没有记录。</span>
@@ -138,7 +138,7 @@
                 <div class="panel-heading">创建新的育儿学堂幻灯片</div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
-                    <form action="/admin/createSlide" method="post" enctype="multipart/form-data">
+                    <form action="${ctx}/admin/createSlide" method="post" enctype="multipart/form-data">
                         <div class="form-group">
                             <label>主题：</label>
                             <input type="text" name="subject" class="form-control">

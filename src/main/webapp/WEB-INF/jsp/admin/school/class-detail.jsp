@@ -65,45 +65,59 @@
                 <div class="panel panel-default" style="align-content: center;">
                     <div class="panel-heading">科任教师列表</div>
                     <div class="panel-body">
-                        <div class="dataTable_wrapper">
-                            <table class="table table-striped table-bordered table-hover" id="table-teachers">
-                                <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>姓名</th>
-                                    <th>电话号码</th>
-                                    <th>性别</th>
-                                    <th>出生日期</th>
-                                    <th>班主任</th>
-                                    <th>科目</th>
-                                    <th>已初始化</th>
-                                    <th>教师启用</th>
-                                    <th>关系启用</th>
-                                    <th>最后登录</th>
-                                    <th>最后更新</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <c:forEach var="rel" items="${relationships}" varStatus="index">
-                                    <tr align="right">
-                                        <td>${rel.teacher.id}</td>
-                                        <td><a href="${ctx}/admin/school/teacher-detail?teacherId=${rel.teacher.id}">${rel.teacher.name}</a>
-                                        </td>
-                                        <td>${rel.teacher.phone}</td>
-                                        <td>${rel.teacher.male ? '男' : '女'}</td>
-                                        <td><fmt:formatDate pattern="${datePattern}" value="${rel.teacher.birth}" /></td>
-                                        <td>${rel.headTeacher ? '是' : '否'}</td>
-                                        <td>${rel.subTitle}</td>
-                                        <td>${rel.teacher.initialized ? '已初始化' : '未初始化'}</td>
-                                        <td>${rel.teacher.available ? '已启用' : '未启用'}</td>
-                                        <td>${rel.available ? '已启用' : '未启用'}</td>
-                                        <td><fmt:formatDate pattern="${datetimePattern}" value="${rel.teacher.lastLoginDate}" /></td>
-                                        <td><fmt:formatDate pattern="${datetimePattern}" value="${rel.teacher.lastUpdateDate}" /></td>
+                        <form action="${ctx}/admin/school/class-teacher-rel-batch-save" method="post">
+                            <div class="dataTable_wrapper">
+                                <table class="table table-striped table-bordered table-hover" id="table-teachers">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>姓名</th>
+                                        <th>电话号码</th>
+                                        <th>性别</th>
+                                        <th>出生日期</th>
+                                        <th>班主任</th>
+                                        <th>科目</th>
+                                        <th>已初始化</th>
+                                        <th>教师启用</th>
+                                        <th>关系启用</th>
+                                        <th>最后登录</th>
+                                        <th>最后更新</th>
                                     </tr>
-                                </c:forEach>
-                                </tbody>
-                            </table>
-                        </div>
+                                    </thead>
+                                    <tbody>
+                                    <c:forEach var="rel" items="${relationships}" varStatus="index">
+                                        <tr align="right">
+                                            <td>${rel.teacher.id}
+                                                <input type="hidden" name="teacherIds" value="${rel.teacher.id}" />
+                                            </td>
+                                            <td>
+                                                <a href="${ctx}/admin/school/teacher-detail?teacherId=${rel.teacher.id}">${rel.teacher.name}</a>
+                                            </td>
+                                            <td>${rel.teacher.phone}</td>
+                                            <td>${rel.teacher.male ? '男' : '女'}</td>
+                                            <td><fmt:formatDate pattern="${datePattern}" value="${rel.teacher.birth}" /></td>
+                                            <td>${rel.headTeacher ? '是' : '否'}</td>
+                                            <td>${rel.subTitle}</td>
+                                            <td>${rel.teacher.initialized ? '已初始化' : '未初始化'}</td>
+                                            <td>${rel.teacher.available ? '已启用' : '未启用'}</td>
+                                            <td><select name="available" class="form-control">
+                                                <option value="false" ${not rel.available ? 'selected' : ''}>未启用</option>
+                                                <option value="true" ${rel.available ? 'selected' : ''}>已启用</option>
+                                            </select></td>
+                                            <td><fmt:formatDate pattern="${datetimePattern}" value="${rel.teacher.lastLoginDate}" /></td>
+                                            <td><fmt:formatDate pattern="${datetimePattern}" value="${rel.teacher.lastUpdateDate}" /></td>
+                                        </tr>
+                                    </c:forEach>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <input type="hidden" name="classId" value="${fmcClass.id}">
+                                    <input type="submit" value="更新启用状态" class="btn btn-primary" />
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
                 <div class="panel panel-default" style="align-content: center;">
@@ -144,10 +158,10 @@
                 <div class="panel panel-default" style="align-content: center;">
                     <div class="panel-heading">待选教师列表</div>
                     <div class="panel-body">
-                        <form action="/admin/school/class-teacher-rel-save" method="post">
+                        <form action="${ctx}/admin/school/class-teacher-rel-save" method="post">
                             <div class="form-group form-inline">
                                 <label>科目：</label>
-                                <input type="text" name="subTitle" class="form-control">
+                                <input type="text" name="subTitle" class="form-control" maxlength="10">
                             </div>
                             <div class="dataTable_wrapper">
                                 <table class="table table-striped table-bordered table-hover" id="table-teachers-no-rel">
@@ -158,6 +172,7 @@
                                         <th>电话号码</th>
                                         <th>性别</th>
                                         <th>出生日期</th>
+                                        <th>科目</th>
                                         <th>已初始化</th>
                                         <th>教师启用</th>
                                         <th>最后登录</th>
@@ -175,6 +190,7 @@
                                             <td>${nrTeacher.phone}</td>
                                             <td>${nrTeacher.male ? '男' : '女'}</td>
                                             <td><fmt:formatDate pattern="${datePattern}" value="${nrTeacher.birth}" /></td>
+                                            <td>${nrTeacher.course}</td>
                                             <td>${nrTeacher.initialized ? '已初始化' : '未初始化'}</td>
                                             <td>${nrTeacher.available ? '已启用' : '未启用'}</td>
                                             <td><fmt:formatDate pattern="${datetimePattern}" value="${nrTeacher.lastLoginDate}" /></td>

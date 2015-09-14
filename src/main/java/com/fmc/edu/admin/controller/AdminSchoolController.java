@@ -125,7 +125,7 @@ public class AdminSchoolController extends AdminTransactionBaseController {
 			FmcClass fmcClass = getSchoolManager().loadClass(classIdInt);
 			if (fmcClass != null) {
 				pModel.addAttribute("fmcClass", fmcClass);
-				List<TeacherClassRelationship> teacherClassRelationships = getSchoolManager().queryTeacherClassRelationships(classIdInt);
+				List<TeacherClassRelationship> teacherClassRelationships = getSchoolManager().queryTeacherClassRelationships(classIdInt, -1);
 				pModel.addAttribute("relationships", teacherClassRelationships);
 				List<Student> students = getStudentManager().loadClassStudents(classIdInt);
 				pModel.addAttribute("students", students);
@@ -156,8 +156,38 @@ public class AdminSchoolController extends AdminTransactionBaseController {
 	@RequestMapping(value = "/class-teacher-rel-save" + GlobalConstant.URL_SUFFIX)
 	public String saveClassTeacherRelationship(HttpServletRequest pRequest, HttpServletResponse pResponse, Model pModel,
 			TeacherClassRelationship rel) {
-		//TODO
+		TransactionStatus status = ensureTransaction();
+		try {
+			boolean result = getSchoolManager().persistClassTeacherRelationship(rel, Boolean.TRUE);
+			if (!result) {
+				status.setRollbackOnly();
+			}
+		} catch (Exception e) {
+			LOG.error(e);
+			status.setRollbackOnly();
+		} finally {
+			getTransactionManager().commit(status);
+		}
 		return "redirect:class-detail?classId=" + rel.getClassId();
+	}
+
+	@RequestMapping(value = "/class-teacher-rel-batch-save" + GlobalConstant.URL_SUFFIX)
+	public String saveClassTeacherRelationshipBatch(HttpServletRequest pRequest, HttpServletResponse pResponse, Model pModel,
+			String classId, String[] teacherIds, Boolean[] available) {
+		TransactionStatus status = ensureTransaction();
+		try {
+			//TODO
+			boolean result = false;
+			if (!result) {
+				status.setRollbackOnly();
+			}
+		} catch (Exception e) {
+			LOG.error(e);
+			status.setRollbackOnly();
+		} finally {
+			getTransactionManager().commit(status);
+		}
+		return "redirect:class-detail?classId=" + classId;
 	}
 
 

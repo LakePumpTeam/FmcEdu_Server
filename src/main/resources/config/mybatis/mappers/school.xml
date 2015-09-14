@@ -36,7 +36,7 @@
             </if>
         </where>
         <if test="@Ognl@isNotEmpty(start) and @Ognl@isNotEmpty(size)">
-            <include refid="limit-split-page"/>
+            <include refid="limit-split-page" />
         </if>
     </select>
 
@@ -75,7 +75,7 @@
                 and (`grade` LIKE CONCAT('%', #{key}) or `class` LIKE CONCAT('%', #{key}))
             </if>
         </where>
-        <include refid="limit-split-page"/>
+        <include refid="limit-split-page" />
     </select>
 
     <select id="queryHeadmaster" parameterType="map" resultType="map">
@@ -255,7 +255,16 @@
     <select id="queryTeacherClassRelationships" resultMap="rm.teacherClassRelationship">
         SELECT class_id, teacher_id, sub_title, available, head_teacher, creation_date, last_update_date
         FROM teacher_class_map tcm
-        WHERE tcm.class_id = #{classId}
+        WHERE
+        <if test="@Ognl@id(classId)">
+            tcm.class_id = #{classId}
+        </if>
+        <if test="@Ognl@id(classId) and @Ognl@id(teacherId)">
+            AND
+        </if>
+        <if test="@Ognl@id(teacherId)">
+            tcm.teacher_id = #{teacherId}
+        </if>
     </select>
 
     <insert id="createFmcClass" parameterType="fmcClass" keyProperty="id" useGeneratedKeys="true" flushCache="true">

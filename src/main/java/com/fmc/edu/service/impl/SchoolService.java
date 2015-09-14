@@ -115,8 +115,8 @@ public class SchoolService {
         return getSchoolRepository().loadClass(pClassId);
     }
 
-    public List<TeacherClassRelationship> queryTeacherClassRelationships(final int pClassId) {
-        return getSchoolRepository().queryTeacherClassRelationships(pClassId);
+    public List<TeacherClassRelationship> queryTeacherClassRelationships(final int pClassId, int pTeacherId) {
+        return getSchoolRepository().queryTeacherClassRelationships(pClassId, pTeacherId);
     }
 
     public boolean updateFmcClass(final FmcClass pFmcClass) {

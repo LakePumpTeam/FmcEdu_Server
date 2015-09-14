@@ -103,8 +103,9 @@
 
     <insert id="createTeacherClassRelationship" parameterType="TeacherClassRelationship" keyProperty="id"
             useGeneratedKeys="true">
-        INSERT INTO `teacher_class_map` (`teacher_id`, `class_id`,`sub_title`, `head_teacher`, `creation_date`,`last_update_date`)
-        VALUES (#{teacherId},#{classId}, #{subTitle}, #{headTeacher},now(),now());
+        INSERT INTO `teacher_class_map` (`teacher_id`, `class_id`,`sub_title`, `head_teacher`, `available`, `creation_date`,
+        `last_update_date`)
+        VALUES (#{teacherId}, #{classId}, #{subTitle}, #{headTeacher}, #{available}, now(), now());
     </insert>
 
     <update id="resetAllHeadTeacherRelationship" parameterType="int">
@@ -121,7 +122,14 @@
         SELECT id, name, phone, sex, head_teacher, initialized, birth, resume, course, app_id, available, channel_id, device_type,
             creation_date, last_login_date, last_update_date
         FROM profile p
-        LEFT JOIN teacher t ON p.id = t.profile_id AND p.profile_type = 1
-        WHERE p.id NOT IN (SELECT tcm.teacher_id FROM teacher_class_map tcm WHERE class_id = #{classId})
+        LEFT JOIN teacher t ON p.id = t.profile_id
+        WHERE p.profile_type = 1
+        AND p.id NOT IN (SELECT tcm.teacher_id FROM teacher_class_map tcm WHERE class_id = #{classId})
     </select>
+
+    <update id="updateTeacherClassRelationship" parameterType="TeacherClassRelationship">
+        UPDATE teacher_class_map
+        SET sub_title = #{subTitle}, available = #{available}, head_teacher = #{headTeacher}, last_update_date = now()
+        WHERE class_id = #{classId} AND teacher_id = #{teacherId}
+    </update>
 </mapper>

@@ -780,9 +780,9 @@
                     }
                     if (!(start.nodeType == 3 && this.startOffset) &&
                         (child ?
-                                (!child.previousSibling || child.previousSibling.nodeType != 3)
-                                :
-                                (!start.lastChild || start.lastChild.nodeType != 3)
+                            (!child.previousSibling || child.previousSibling.nodeType != 3)
+                            :
+                            (!start.lastChild || start.lastChild.nodeType != 3)
                         )
                     ) {
                         txtNode = this.document.createTextNode(fillChar);
@@ -849,7 +849,8 @@
                             tmpNode = tmpNode.previousSibling;
                         }
                         firstIndex += (isStart ? me.startOffset : me.endOffset)// - (fillCharReg.test(node.nodeValue) ? 1 : 0 )
-                    }; else {
+                    };
+                    else {
                         node = node.childNodes[isStart ? me.startOffset : me.endOffset];
                         if (node) {
                             firstIndex = domUtils.getNodeIndex(node, ignoreTxt);

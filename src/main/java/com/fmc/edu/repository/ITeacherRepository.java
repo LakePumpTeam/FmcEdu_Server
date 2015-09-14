@@ -71,4 +71,8 @@ public interface ITeacherRepository {
 	String QUERY_TEACHER_NOT_IN_CLASS = "com.fmc.edu.teacher.queryTeacherNotInClass";
 
 	List<TeacherProfile> queryTeacherNotInClass(int pClassId);
+
+	String UPDATE_TEACHER_CLASS_RELATIONSHIP = "com.fmc.edu.teacher.updateTeacherClassRelationship";
+
+	boolean updateTeacherClassRelationship(TeacherClassRelationship pRelationship);
 }
