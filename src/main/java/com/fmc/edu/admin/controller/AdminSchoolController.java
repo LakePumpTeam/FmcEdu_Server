@@ -174,18 +174,27 @@ public class AdminSchoolController extends AdminTransactionBaseController {
 	@RequestMapping(value = "/class-teacher-rel-batch-save" + GlobalConstant.URL_SUFFIX)
 	public String saveClassTeacherRelationshipBatch(HttpServletRequest pRequest, HttpServletResponse pResponse, Model pModel,
 			String classId, String[] teacherIds, Boolean[] available) {
-		TransactionStatus status = ensureTransaction();
-		try {
-			//TODO
-			boolean result = false;
-			if (!result) {
-				status.setRollbackOnly();
+		int classIdInt = RepositoryUtils.safeParseId(classId);
+		if (RepositoryUtils.idIsValid(classIdInt)) {
+			TeacherClassRelationship[] relationships = new TeacherClassRelationship[teacherIds.length];
+			for (int i = 0; i < teacherIds.length; i++) {
+				int teacherIdInt = RepositoryUtils.safeParseId(teacherIds[i]);
+				boolean availableVal = available[i] == null ? false : available[i].booleanValue();
+				TeacherClassRelationship rel = new TeacherClassRelationship(teacherIdInt, classIdInt, availableVal);
+				relationships[i] = rel;
 			}
-		} catch (Exception e) {
-			LOG.error(e);
-			status.setRollbackOnly();
-		} finally {
-			getTransactionManager().commit(status);
+			TransactionStatus status = ensureTransaction();
+			try {
+				boolean result = getSchoolManager().updateTeacherClassRelationshipAvailableBatch(relationships);
+				if (!result) {
+					status.setRollbackOnly();
+				}
+			} catch (Exception e) {
+				LOG.error(e);
+				status.setRollbackOnly();
+			} finally {
+				getTransactionManager().commit(status);
+			}
 		}
 		return "redirect:class-detail?classId=" + classId;
 	}

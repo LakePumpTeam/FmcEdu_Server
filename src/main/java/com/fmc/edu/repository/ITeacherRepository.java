@@ -75,4 +75,8 @@ public interface ITeacherRepository {
 	String UPDATE_TEACHER_CLASS_RELATIONSHIP = "com.fmc.edu.teacher.updateTeacherClassRelationship";
 
 	boolean updateTeacherClassRelationship(TeacherClassRelationship pRelationship);
+
+	String UPDATE_TEACHER_CLASS_RELATIONSHIP_AVAILABLE_BATCH = "com.fmc.edu.teacher.updateTeacherClassRelationshipAvailableBatch";
+
+	boolean updateTeacherClassRelationshipAvailableBatch(TeacherClassRelationship[] pRelationships);
 }

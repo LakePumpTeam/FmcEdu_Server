@@ -22,6 +22,15 @@ public class TeacherClassRelationship extends BaseRelationship {
 
 	private boolean mHeadTeacher;
 
+	public TeacherClassRelationship() {
+	}
+
+	public TeacherClassRelationship(final int pTeacherId, final int pClassId, final boolean pAvailable) {
+		mTeacherId = pTeacherId;
+		mClassId = pClassId;
+		mAvailable = pAvailable;
+	}
+
 	public int getTeacherId() {
 		return mTeacherId;
 	}

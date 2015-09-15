@@ -200,6 +200,10 @@ public class SchoolManager {
 		return getSchoolService().queryTeacherClassRelationships(pClassId, pTeacherId);
 	}
 
+	public boolean updateTeacherClassRelationshipAvailableBatch(final TeacherClassRelationship[] pRelationships) {
+		return getTeacherService().updateTeacherClassRelationshipAvailableBatch(pRelationships);
+	}
+
 	public LocationService getLocationService() {
 		return mLocationService;
 	}

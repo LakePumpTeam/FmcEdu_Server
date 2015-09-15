@@ -132,4 +132,14 @@
         SET sub_title = #{subTitle}, available = #{available}, head_teacher = #{headTeacher}, last_update_date = now()
         WHERE class_id = #{classId} AND teacher_id = #{teacherId}
     </update>
+
+    <update id="updateTeacherClassRelationshipAvailableBatch">
+        <foreach collection="array" item="item" index="index" open="" close="" separator=";">
+            UPDATE teacher_class_map
+            <set>
+                available = #{item.available}, last_update_date = now()
+            </set>
+            WHERE teacher_id = #{item.teacherId} AND class_id = #{item.classId}
+        </foreach>
+    </update>
 </mapper>

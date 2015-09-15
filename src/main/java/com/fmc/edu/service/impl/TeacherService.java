@@ -99,4 +99,8 @@ public class TeacherService {
     public boolean updateTeacherClassRelationship(final TeacherClassRelationship pRelationship) {
         return getTeacherRepository().updateTeacherClassRelationship(pRelationship);
     }
+
+    public boolean updateTeacherClassRelationshipAvailableBatch(final TeacherClassRelationship[] pRelationships) {
+        return getTeacherRepository().updateTeacherClassRelationshipAvailableBatch(pRelationships);
+    }
 }
