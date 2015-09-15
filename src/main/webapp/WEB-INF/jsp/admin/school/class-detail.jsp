@@ -114,7 +114,7 @@
                             <div class="form-group">
                                 <div class="form-group">
                                     <input type="hidden" name="classId" value="${fmcClass.id}">
-                                    <input type="submit" value="更新启用状态" class="btn btn-primary" />
+                                    <input type="submit" value="更新教师和班级的关系状态" class="btn btn-primary" />
                                 </div>
                             </div>
                         </form>
@@ -222,7 +222,7 @@
                             <div class="form-group">
                                 <div class="form-group">
                                     <input type="hidden" name="classId" value="${fmcClass.id}">
-                                    <input type="submit" value="新增关系" class="btn btn-primary" />
+                                    <input type="submit" value="新增教师和班级的关系" class="btn btn-primary" />
                                 </div>
                             </div>
                         </form>

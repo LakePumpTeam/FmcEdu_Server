@@ -26,7 +26,7 @@
         <div class="input-group">
             <span class="input-group-addon">学校：</span>
             <select name="schoolId" class="form-control" id="slt-schools">
-                <c:forEach var="school" items="${schools}">
+                <c:forEach var="school" items="${not empty schools ? schools : schoolsOfDefaultCity}">
                     <option value="${school.schoolId}" ${school.schoolId eq param.schoolId ? 'selected' : ''}>${school.schoolName}</option>
                 </c:forEach>
             </select>

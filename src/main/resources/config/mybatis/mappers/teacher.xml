@@ -119,11 +119,14 @@
     </update>
 
     <select id="queryTeacherNotInClass" resultMap="rm.teacher">
-        SELECT id, name, phone, sex, head_teacher, initialized, birth, resume, course, app_id, available, channel_id, device_type,
-            creation_date, last_login_date, last_update_date
+        SELECT p.id, p.name, phone, sex, t.head_teacher, initialized, birth, resume, course, app_id, p.available, channel_id, device_type,
+        p.creation_date, last_login_date, p.last_update_date
         FROM profile p
         LEFT JOIN teacher t ON p.id = t.profile_id
+        LEFT JOIN school s ON s.id = t.school_id
+        LEFT JOIN class c ON c.school_id = s.id
         WHERE p.profile_type = 1
+        AND c.id = #{classId}
         AND p.id NOT IN (SELECT tcm.teacher_id FROM teacher_class_map tcm WHERE class_id = #{classId})
     </select>
 

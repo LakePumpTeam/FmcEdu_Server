@@ -3,7 +3,10 @@ package com.fmc.edu.executor.handler;
 import com.fmc.edu.admin.builder.SelectPaginationBuilder;
 import com.fmc.edu.executor.IInitializationHandler;
 import com.fmc.edu.manager.LocationManager;
-import org.apache.commons.lang3.StringUtils;
+import com.fmc.edu.manager.SchoolManager;
+import com.fmc.edu.model.school.School;
+import com.fmc.edu.util.RepositoryUtils;
+import com.fmc.edu.util.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -21,6 +24,9 @@ public class LocationInitHandler implements IInitializationHandler {
 	@Resource(name = "locationManager")
 	private LocationManager mLocationManager;
 
+	@Resource(name = "schoolManager")
+	private SchoolManager mSchoolManager;
+
 	private static final Logger LOG = Logger.getLogger(LocationInitHandler.class);
 
 	@Override
@@ -29,6 +35,8 @@ public class LocationInitHandler implements IInitializationHandler {
 		List<Map<String, Object>> provinceList = (List<Map<String, Object>>) provincePageMap.get("provinces");
 		Map<String, Object> cityPageMap = getLocationManager().queryCityPage(SelectPaginationBuilder.getSelectPagination(), 0, "");
 		List<Map<String, Object>> cityList = (List<Map<String, Object>>) cityPageMap.get("cities");
+		// used to query schools of default city
+		String defaultCityId = null;
 		// map result which would be cached in memory
 		Map<String, Object> locationMap = new TreeMap<>();
 		// fill data
@@ -41,13 +49,24 @@ public class LocationInitHandler implements IInitializationHandler {
 				if (StringUtils.equals(provinceId, cityProvinceId)) {
 					String cityId = String.valueOf(cityMap.get("cityId"));
 					cities.put(cityId, cityMap);
+					if (defaultCityId == null) {
+						defaultCityId = cityId;
+					}
 				}
 			}
 			provinceMap.put("cities", cities);
 		}
-		// cached into memory
+
+		// cache into memory
 		ServletContext servletContext = pWebApplicationContext.getServletContext();
 		servletContext.setAttribute("locationMap", locationMap);
+
+		// query schools of default city
+		int cityId = RepositoryUtils.safeParseId(defaultCityId);
+		if (RepositoryUtils.idIsValid(cityId)) {
+			List<School> defaultSchools = getSchoolManager().querySchools(cityId, StringUtils.EMPTY);
+			servletContext.setAttribute("schoolsOfDefaultCity", defaultSchools);
+		}
 	}
 
 	public LocationManager getLocationManager() {
@@ -56,5 +75,13 @@ public class LocationInitHandler implements IInitializationHandler {
 
 	public void setLocationManager(final LocationManager pLocationManager) {
 		mLocationManager = pLocationManager;
+	}
+
+	public SchoolManager getSchoolManager() {
+		return mSchoolManager;
+	}
+
+	public void setSchoolManager(final SchoolManager pSchoolManager) {
+		mSchoolManager = pSchoolManager;
 	}
 }

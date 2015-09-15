@@ -11,6 +11,7 @@ import com.fmc.edu.model.school.School;
 import com.fmc.edu.model.student.Student;
 import com.fmc.edu.util.RepositoryUtils;
 import com.fmc.edu.util.StringUtils;
+import org.apache.commons.collections.MapUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.TransactionStatus;
@@ -21,7 +22,9 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.TreeMap;
 
 /**
  * Created by Yove on 8/14/2015.
@@ -43,6 +46,18 @@ public class AdminSchoolController extends AdminTransactionBaseController {
 
 	@RequestMapping(value = "/school-list" + GlobalConstant.URL_SUFFIX)
 	public String forwardSchoolList(HttpServletRequest pRequest, HttpServletResponse pResponse, Model pModel, String cityId) throws UnsupportedEncodingException {
+		// initialization situation
+		if (StringUtils.isBlank(cityId)) {
+			TreeMap locationMap = (TreeMap) pRequest.getServletContext().getAttribute("locationMap");
+			if (MapUtils.isNotEmpty(locationMap)) {
+				HashMap provinceMap = (HashMap) locationMap.firstEntry().getValue();
+				TreeMap cityMap = (TreeMap) provinceMap.get("cities");
+				if (MapUtils.isNotEmpty(cityMap)) {
+					cityId = String.valueOf(cityMap.firstEntry().getKey());
+				}
+			}
+		}
+
 		int cityIdInt = RepositoryUtils.safeParseId(cityId);
 		if (RepositoryUtils.idIsValid(cityIdInt)) {
 			List schools = getSchoolManager().querySchools(cityIdInt, StringUtils.EMPTY);
@@ -84,7 +99,8 @@ public class AdminSchoolController extends AdminTransactionBaseController {
 	}
 
 	@RequestMapping(value = "/teacher-detail" + GlobalConstant.URL_SUFFIX)
-	public String forwardTeacherDetail(HttpServletRequest pRequest, HttpServletResponse pResponse, Model pModel, String teacherId, String schoolId) {
+	public String forwardTeacherDetail(HttpServletRequest pRequest, HttpServletResponse pResponse, Model pModel, String
+			teacherId, String schoolId) {
 		int teacherIdInt = RepositoryUtils.safeParseId(teacherId);
 		if (RepositoryUtils.idIsValid(teacherIdInt)) {
 			TeacherProfile teacher = getTeacherManager().queryTeacherById(teacherIdInt);

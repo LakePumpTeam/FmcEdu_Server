@@ -39,10 +39,10 @@
                                 <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>班级</th>
+                                    <th>年级 / 班级</th>
                                     <th>班主任老师</th>
                                     <th>学生人数</th>
-                                    <th>启用</th>
+                                    <th>班级状态</th>
                                     <th>最后更新</th>
                                 </tr>
                                 </thead>
@@ -55,7 +55,7 @@
                                         <td><a href="${ctx}/admin/school/teacher-detail?teacherId=${fmcClass.headTeacherId}">
                                                 ${fmcClass.headTeacherName}</a></td>
                                         <td>${fmcClass.studentCount}</td>
-                                        <td>${fmcClass.available ? '是' : '否'}</td>
+                                        <td>${fmcClass.available ? '已启用' : '未启用'}</td>
                                         <td><fmt:formatDate pattern="${datetimePattern}" value="${fmcClass.lastUpdateDate}" /></td>
                                     </tr>
                                 </c:forEach>
@@ -82,6 +82,7 @@
                                     <th>班主任</th>
                                     <th>科目</th>
                                     <th>已初始化</th>
+                                    <th>教师状态</th>
                                     <th>最后登录</th>
                                     <th>最后更新</th>
                                 </tr>
@@ -97,6 +98,7 @@
                                         <td>${teacher.headTeacher ? '是' : '否'}</td>
                                         <td>${teacher.course}</td>
                                         <td>${teacher.initialized ? '已初始化' : '未初始化'}</td>
+                                        <td>${teacher.available ? '已启用' : '未启用'}</td>
                                         <td><fmt:formatDate pattern="${datetimePattern}" value="${teacher.lastLoginDate}" /></td>
                                         <td><fmt:formatDate pattern="${datetimePattern}" value="${teacher.lastUpdateDate}" /></td>
                                     </tr>
