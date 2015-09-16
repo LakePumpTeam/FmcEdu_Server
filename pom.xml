@@ -353,6 +353,24 @@
 			</properties>
 		</profile>
 		<profile>
+			<id>unstable</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<!-- production -->
+				<mybatis.db.url>jdbc:mysql://127.0.0.1/unstable_fmc_edu?useUnicode=true&amp;amp;allowMultiQueries=true&amp;amp;zeroDateTimeBehavior=convertToNull
+				</mybatis.db.url>
+				<mybatis.db.username>root</mybatis.db.username>
+				<mybatis.db.password>123abcABC</mybatis.db.password>
+				<cache.disk.store.path>/mnt/xvdb/var/ehcache</cache.disk.store.path>
+				<uploadFileRootPath>/mnt/xvdb/var/upload</uploadFileRootPath>
+				<tomcat.logger.path>/mnt/xvdb/var/logs/tomcat</tomcat.logger.path>
+				<webXmlPath>${project.basedir}/src/main/webapp/web-config/prod-web.xml</webXmlPath>
+				<fmc.webContext>/</fmc.webContext>
+			</properties>
+		</profile>
+		<profile>
 			<id>prod</id>
 			<activation>
 				<activeByDefault>false</activeByDefault>
