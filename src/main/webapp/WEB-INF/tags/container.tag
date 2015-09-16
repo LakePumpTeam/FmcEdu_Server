@@ -352,10 +352,13 @@
                         <!-- /.nav-second-level -->
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> 数据导入<span class="fa arrow"></span></a>
+                        <a href="#"><i class="fa fa-tasks fa-fw"></i> 系统管理<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="${ctx}/admin/data/toImport">导入数据</a>
+                                <a href="${ctx}/admin/sys/main-sys">系统管理</a>
+                            </li>
+                            <li>
+                                <a href="${ctx}/admin/data/toImport">数据导入</a>
                             </li>
                         </ul>
                         <!-- /.nav-second-level -->
