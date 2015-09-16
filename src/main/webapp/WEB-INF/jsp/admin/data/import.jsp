@@ -9,7 +9,7 @@
                 <div class="panel-heading">导入数据</div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
-                    <form action="/admin/data/import" method="post" enctype="multipart/form-data">
+                    <form action="${ctx}/admin/data/import" method="post" enctype="multipart/form-data">
                         <div class="form-group">
                             <label>选择excel数据文件：</label>
                             <input type="file" name="file" class="btn btn-primary">
