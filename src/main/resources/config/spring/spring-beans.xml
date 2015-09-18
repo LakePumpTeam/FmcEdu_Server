@@ -43,6 +43,17 @@
 				<entry key="5" value="Windows Phone" />
 			</map>
 		</property>
+		<property name="parentStudentRelationshipStrings">
+			<array>
+				<value>妈妈</value>
+				<value>爸爸</value>
+				<value>爷爷</value>
+				<value>奶奶</value>
+				<value>姥爷</value>
+				<value>姥姥</value>
+				<value>其他</value>
+			</array>
+		</property>
 		<property name="datePattern" value="yyyy-MM-dd" />
 	</bean>
 	<bean id="locationInitHandler" class="com.fmc.edu.executor.handler.LocationInitHandler" />

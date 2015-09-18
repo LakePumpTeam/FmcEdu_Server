@@ -1,16 +1,20 @@
 package com.fmc.edu.admin.controller;
 
 import com.fmc.edu.constant.GlobalConstant;
+import com.fmc.edu.manager.ProfileManager;
 import com.fmc.edu.manager.SchoolManager;
 import com.fmc.edu.manager.StudentManager;
 import com.fmc.edu.manager.TeacherManager;
+import com.fmc.edu.model.profile.ParentProfile;
 import com.fmc.edu.model.profile.TeacherProfile;
+import com.fmc.edu.model.relationship.ParentStudentRelationship;
 import com.fmc.edu.model.relationship.TeacherClassRelationship;
 import com.fmc.edu.model.school.FmcClass;
 import com.fmc.edu.model.school.School;
 import com.fmc.edu.model.student.Student;
 import com.fmc.edu.util.RepositoryUtils;
 import com.fmc.edu.util.StringUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -22,9 +26,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * Created by Yove on 8/14/2015.
@@ -43,6 +45,9 @@ public class AdminSchoolController extends AdminTransactionBaseController {
 
 	@Resource(name = "studentManager")
 	private StudentManager mStudentManager;
+
+	@Resource(name = "profileManager")
+	private ProfileManager mProfileManager;
 
 	@RequestMapping(value = "/school-list" + GlobalConstant.URL_SUFFIX)
 	public String forwardSchoolList(HttpServletRequest pRequest, HttpServletResponse pResponse, Model pModel, String cityId) throws UnsupportedEncodingException {
@@ -215,6 +220,27 @@ public class AdminSchoolController extends AdminTransactionBaseController {
 		return "redirect:class-detail?classId=" + classId;
 	}
 
+	@RequestMapping(value = "/student-detail" + GlobalConstant.URL_SUFFIX)
+	public String forwardStudentDetail(HttpServletRequest pRequest, HttpServletResponse pResponse, Model pModel, String studentId) {
+		int studentIdInt = RepositoryUtils.safeParseId(studentId);
+		if (RepositoryUtils.idIsValid(studentIdInt)) {
+			Student student = getStudentManager().queryStudentById(studentIdInt);
+			pModel.addAttribute("student", student);
+			School school = getSchoolManager().loadSchool(student.getFmcClass().getSchoolId());
+			pModel.addAttribute("school", school);
+			List<ParentStudentRelationship> relationships = getStudentManager().queryParentStudentRelationshipByStudentId(studentIdInt);
+			if (CollectionUtils.isNotEmpty(relationships)) {
+				Set<ParentProfile> parents = new HashSet<>(relationships.size());
+				for (ParentStudentRelationship rel : relationships) {
+					ParentProfile parent = getProfileManager().queryParentDetailById(rel.getParentId());
+					parent.setParentStudentRelationship(rel);
+					parents.add(parent);
+				}
+				pModel.addAttribute("parents", parents);
+			}
+		}
+		return "admin/school/student-detail";
+	}
 
 	public SchoolManager getSchoolManager() {
 		return mSchoolManager;
@@ -238,5 +264,13 @@ public class AdminSchoolController extends AdminTransactionBaseController {
 
 	public void setStudentManager(final StudentManager pStudentManager) {
 		mStudentManager = pStudentManager;
+	}
+
+	public ProfileManager getProfileManager() {
+		return mProfileManager;
+	}
+
+	public void setProfileManager(final ProfileManager pProfileManager) {
+		mProfileManager = pProfileManager;
 	}
 }

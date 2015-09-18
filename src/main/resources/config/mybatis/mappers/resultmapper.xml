@@ -132,9 +132,9 @@
         <result property="available" column="available"/>
         <result property="identifyCode" column="identify_code"/>
         <result property="creationDate" column="creation_date"/>
+        <association property="fmcClass" column="class_id" select="com.fmc.edu.school.loadClass" />
+        <association property="school" column="school_id" select="com.fmc.edu.school.loadSchool" />
         <collection property="parentStudentRelationship" resultMap="parentStudentRelationship"/>
-        <collection property="school" resultMap="school"/>
-        <collection property="fmcClass" resultMap="fmcClass"/>
     </resultMap>
 
     <resultMap id="fmcClass" type="FmcClass">

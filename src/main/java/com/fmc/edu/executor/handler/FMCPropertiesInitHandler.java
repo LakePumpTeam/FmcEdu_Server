@@ -18,6 +18,8 @@ public class FMCPropertiesInitHandler implements IInitializationHandler {
 
 	private String mDatePattern;
 
+	private String[] mParentStudentRelationshipStrings;
+
 	@Override
 	public void initialize(final WebApplicationContext pWebApplicationContext) {
 		ServletContext servletContext = pWebApplicationContext.getServletContext();
@@ -27,6 +29,9 @@ public class FMCPropertiesInitHandler implements IInitializationHandler {
 		// init date pattern
 		servletContext.setAttribute("datePattern", getDatePattern());
 		LOG.debug("Set date pattern: " + getDatePattern());
+		// init parent-student relationships
+		servletContext.setAttribute("parentStudentRelationshipStrings", getParentStudentRelationshipStrings());
+		LOG.debug("Set date parentStudentRelationshipStrings: " + getParentStudentRelationshipStrings());
 	}
 
 	public Map<Integer, String> getDeviceTypeMap() {
@@ -43,5 +48,13 @@ public class FMCPropertiesInitHandler implements IInitializationHandler {
 
 	public void setDatePattern(final String pDatePattern) {
 		mDatePattern = pDatePattern;
+	}
+
+	public String[] getParentStudentRelationshipStrings() {
+		return mParentStudentRelationshipStrings;
+	}
+
+	public void setParentStudentRelationshipStrings(final String[] pParentStudentRelationshipStrings) {
+		mParentStudentRelationshipStrings = pParentStudentRelationshipStrings;
 	}
 }

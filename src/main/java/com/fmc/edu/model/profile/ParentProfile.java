@@ -1,6 +1,7 @@
 package com.fmc.edu.model.profile;
 
 import com.fmc.edu.model.address.Address;
+import com.fmc.edu.model.relationship.ParentStudentRelationship;
 import com.fmc.edu.model.student.Student;
 
 import java.sql.Timestamp;
@@ -21,6 +22,8 @@ public class ParentProfile extends BaseProfile {
 	private Timestamp mFreeTrialEndDate;
 
 	private boolean mFreeTrial;
+
+	private ParentStudentRelationship mParentStudentRelationship;
 
 	public int getAddressId() {
 		return mAddressId;
@@ -68,5 +71,13 @@ public class ParentProfile extends BaseProfile {
 
 	public void setFreeTrial(final boolean pFreeTrial) {
 		mFreeTrial = pFreeTrial;
+	}
+
+	public ParentStudentRelationship getParentStudentRelationship() {
+		return mParentStudentRelationship;
+	}
+
+	public void setParentStudentRelationship(final ParentStudentRelationship pParentStudentRelationship) {
+		mParentStudentRelationship = pParentStudentRelationship;
 	}
 }
