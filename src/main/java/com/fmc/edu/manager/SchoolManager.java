@@ -70,9 +70,8 @@ public class SchoolManager {
 			gradeY++;
 		}
 		StringBuilder convertedClass = new StringBuilder();
-		convertedClass.append(NumberUtils.numberToChineseNumber(gradeY));
-		//.append("年级").append(NumberUtils.numberToChineseNumber(Integer.valueOf(cls)))
-		//.append("班");
+		convertedClass.append(NumberUtils.numberToChineseNumber(gradeY)).append("年级").append(NumberUtils.numberToChineseNumber(Integer.valueOf(cls)))
+				.append("班");
 		return convertedClass.toString();
 	}
 

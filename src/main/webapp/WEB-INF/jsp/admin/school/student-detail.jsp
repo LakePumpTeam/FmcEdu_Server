@@ -5,7 +5,7 @@
     <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-default" style="align-content: center;">
-            <div class="panel-heading">学生信息</div>
+            <div class="panel-heading">学生信息: ${student.name}</div>
             <div class="panel-body">
                 <form action="${ctx}/admin/school/student-detail-save" method="post">
                     <div class="form-inline">
@@ -81,7 +81,7 @@
             <c:forEach var="parent" items="${parents}" varStatus="index">
                 <c:set var="rel" value="${parent.parentStudentRelationship}" />
                 <div class="panel panel-default" style="align-content: center;">
-                    <div class="panel-heading">${parent.name}(${parent.phone})</div>
+                    <div class="panel-heading">家长信息: ${parent.name} - ${parent.phone}</div>
                     <div class="panel-body">
                         <form action="${ctx}/admin/school/parent-detail-save" method="post">
                             <div class="form-inline">
@@ -172,12 +172,13 @@
                                                disabled="disabled" />
                                     </div>
                                 </div>
-                                <div class="form-inline">
-                                    <div class="form-group input-group">
-                                        <input type="hidden" name="id" value="${parent.id gt 0 ? parent.id : 0}" />
-                                        <input type="submit" value="保存" class="btn btn-primary" />
-                                    </div>
+                            </div>
+                            <div class="form-inline">
+                                <div class="form-group input-group">
+                                    <input type="hidden" name="id" value="${parent.id gt 0 ? parent.id : 0}" />
+                                    <input type="submit" value="保存" class="btn btn-primary" />
                                 </div>
+                            </div>
                         </form>
                     </div>
                 </div>
