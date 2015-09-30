@@ -120,4 +120,24 @@
 		LEFT JOIN profile tpro ON t.profile_id = tpro.id
 		WHERE pro.id = #{id}
 	</select>
+
+	<update id="updateParentProfileDetail" parameterType="ParentProfile">
+		UPDATE profile pro, parent par, parent_student_map psm
+		SET pro.name = #{name}, pro.phone = #{phone}, pro.available = #{available}, pro.last_update_date = now(),
+		<if test="@Ognl@id(address.id)">
+			par.address_id = #{address.id},
+		</if>
+		psm.relationship = #{parentStudentRelationship.relationship},
+		psm.approved = #{parentStudentRelationship.approved}, psm.last_update_date = now(),
+		<choose>
+			<when test="parentStudentRelationship.approved == 1">
+				psm.approved_date = now()
+			</when>
+			<otherwise>
+				psm.approved_date = null
+			</otherwise>
+		</choose>
+		WHERE pro.id = #{id} AND par.profile_id = #{id}
+		AND psm.parent_id = #{id} AND psm.student_id = #{parentStudentRelationship.studentId}
+	</update>
 </mapper>

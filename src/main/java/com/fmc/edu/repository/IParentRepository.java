@@ -54,15 +54,19 @@ public interface IParentRepository {
 
 	boolean updateParentAddress(Address pAddress);
 
-	String QUREY_PARENT_BY_ID = "com.fmc.edu.profile.parent.queryParentById";
+	String QUERY_PARENT_BY_ID = "com.fmc.edu.profile.parent.queryParentById";
 
 	ParentProfile queryParentById(int pParentId);
 
-	String QUREY_PARENT_DETAIL_BY_ID = "com.fmc.edu.profile.parent.queryParentDetailById";
+	String QUERY_PARENT_DETAIL_BY_ID = "com.fmc.edu.profile.parent.queryParentDetailById";
 
 	ParentProfile queryParentDetailById(int pParentId);
 
 	String INITIAL_PROFILE = "com.fmc.edu.profile.parent.initialProfile";
 
 	int initialProfile(BaseProfile pBaseProfile);
+
+	String UPDATE_PARENT_PROFILE_DETAIL = "com.fmc.edu.profile.parent.updateParentProfileDetail";
+
+	boolean updateParentProfileDetail(ParentProfile pParent);
 }

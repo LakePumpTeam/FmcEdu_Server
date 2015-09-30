@@ -52,8 +52,7 @@
                         </div>
                         <div class="form-group input-group">
                             <span class="input-group-addon">手环电话：</span>
-                            <input type="text" id="ringPhone" name="ringPhone" class="form-control"
-                                   value="${student.ringPhone}" />
+                            <input type="text" id="ringPhone" name="ringPhone" class="form-control" value="${student.ringPhone}" />
                         </div>
                         <div class="form-group input-group">
                             <span class="input-group-addon">创建时间：</span>
@@ -71,6 +70,7 @@
                     <div class="form-inline">
                         <div class="form-group input-group">
                             <input type="hidden" name="id" value="${student.id gt 0 ? student.id : 0}" />
+                            <input type="hidden" name="classId" value="${student.classId gt 0 ? student.id : classId}" />
                             <input type="submit" value="保存" class="btn btn-primary" />
                         </div>
                     </div>
@@ -83,7 +83,7 @@
                 <div class="panel panel-default" style="align-content: center;">
                     <div class="panel-heading">家长信息: ${parent.name} - ${parent.phone}</div>
                     <div class="panel-body">
-                        <form action="${ctx}/admin/school/parent-detail-save" method="post">
+                        <form action="${ctx}/admin/school/student-parent-save" method="post">
                             <div class="form-inline">
                                 <div class="form-group input-group">
                                     <span class="input-group-addon">家长姓名：</span>
@@ -96,7 +96,7 @@
                                 </div>
                                 <div class="form-group input-group">
                                     <span class="input-group-addon">亲属关系：</span>
-                                    <select name="relationship" class="form-control">
+                                    <select name="parentStudentRelationship.relationship" class="form-control">
                                         <c:forEach var="relationshipString" items="${parentStudentRelationshipStrings}">
                                             <option ${relationshipString eq rel.relationship ? 'selected' : ''}
                                                     value="${relationshipString}">${relationshipString}</option>
@@ -114,7 +114,7 @@
                                 </div>
                                 <div class="form-group input-group">
                                     <span class="input-group-addon">审核状态：</span>
-                                    <select name="approved" class="form-control">
+                                    <select name="parentStudentRelationship.approved" class="form-control">
                                         <option value="0" ${rel.approved eq 0 ? 'selected' : ''}>未通过</option>
                                         <option value="1" ${rel.approved eq 1 ? 'selected' : ''}>已通过</option>
                                     </select>
@@ -132,7 +132,11 @@
                                 <span class="input-group-addon">地址：</span>
                                 <input type="text" name="address.address" class="form-control"
                                        value="${parent.address.address}" maxlength="100" />
-                                <input type="hidden" name="addressId" value="${parent.addressId gt 0? parent.addressId : 0}" />
+                                <input type="hidden" name="address.id" value="${parent.addressId gt 0? parent.addressId : 0}" />
+                                <input type="hidden" name="address.cityId"
+                                       value="${parent.address.cityId gt 0 ? parent.address.cityId : school.cityId}" />
+                                <input type="hidden" name="address.provinceId"
+                                       value="${parent.address.provinceId gt 0 ? parent.address.provinceId : school.provinceId}" />
                             </div>
                             <div class="form-inline">
                                 <div class="form-group input-group">
@@ -176,6 +180,8 @@
                             <div class="form-inline">
                                 <div class="form-group input-group">
                                     <input type="hidden" name="id" value="${parent.id gt 0 ? parent.id : 0}" />
+                                    <input type="hidden" name="parentStudentRelationship.studentId"
+                                           value="${rel.studentId gt 0 ? rel.studentId : 0}" />
                                     <input type="submit" value="保存" class="btn btn-primary" />
                                 </div>
                             </div>

@@ -52,4 +52,12 @@ public class StudentService {
     public Student queryStudentByIdentifyCode(String pIdentifyCode) {
         return getStudentRepository().queryStudentByIdentifyCode(pIdentifyCode);
     }
+
+    public boolean updateStudent(final Student pStudent) {
+        return getStudentRepository().updateStudent(pStudent);
+    }
+
+    public boolean createStudent(final Student pStudent) {
+        return getStudentRepository().createStudent(pStudent);
+    }
 }

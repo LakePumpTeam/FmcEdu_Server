@@ -11,31 +11,39 @@ import java.util.Map;
  */
 public interface IStudentRepository {
 
-    String QUERY_STUDENTS_BY_PARENT_ID = "com.fmc.edu.student.queryStudentsByParentId";
+	String QUERY_STUDENTS_BY_PARENT_ID = "com.fmc.edu.student.queryStudentsByParentId";
 
-    List<Student> queryStudentByParentId(final int pParentId);
+	List<Student> queryStudentByParentId(final int pParentId);
 
-    String QUERY_STUDENT_LIST_BY_TEACHER_ID = "com.fmc.edu.student.queryStudentListByTeacherId";
+	String QUERY_STUDENT_LIST_BY_TEACHER_ID = "com.fmc.edu.student.queryStudentListByTeacherId";
 
-    Map<String, Object> queryStudentListByTeacherId(int pTeacherId);
+	Map<String, Object> queryStudentListByTeacherId(int pTeacherId);
 
-    String QUERY_STUDENT_BY_ID = "com.fmc.edu.student.queryStudentById";
+	String QUERY_STUDENT_BY_ID = "com.fmc.edu.student.queryStudentById";
 
-    Student queryStudentById(int pStudentId);
+	Student queryStudentById(int pStudentId);
 
-    String QUERY_STUDENTS_BY_CLASS_ID = "com.fmc.edu.student.queryStudentsByClassId";
+	String QUERY_STUDENTS_BY_CLASS_ID = "com.fmc.edu.student.queryStudentsByClassId";
 
-    Map<String, Object> queryStudentsByClassId(int pClassId);
+	Map<String, Object> queryStudentsByClassId(int pClassId);
 
-    String QUERY_PARENT_STUDENT_RELATIONSHIP_BY_STUDENT_ID = "com.fmc.edu.student.queryParentStudentRelationshipByStudentId";
+	String QUERY_PARENT_STUDENT_RELATIONSHIP_BY_STUDENT_ID = "com.fmc.edu.student.queryParentStudentRelationshipByStudentId";
 
-    List<ParentStudentRelationship> queryParentStudentRelationshipByStudentId(final int pStudentId);
+	List<ParentStudentRelationship> queryParentStudentRelationshipByStudentId(final int pStudentId);
 
-    String LOAD_CLASS_STUDENTS = "com.fmc.edu.student.loadClassStudents";
+	String LOAD_CLASS_STUDENTS = "com.fmc.edu.student.loadClassStudents";
 
-    List<Student> loadClassStudents(int pClassId);
+	List<Student> loadClassStudents(int pClassId);
 
-    String QUERY_STUDENT_BY_IDENTIFY_CODE = "com.fmc.edu.student.queryStudentByIdentifyCode";
+	String QUERY_STUDENT_BY_IDENTIFY_CODE = "com.fmc.edu.student.queryStudentByIdentifyCode";
 
-    Student queryStudentByIdentifyCode(String pIdentifyCode);
+	Student queryStudentByIdentifyCode(String pIdentifyCode);
+
+	String UPDATE_STUDENT = "com.fmc.edu.student.updateStudent";
+
+	boolean updateStudent(Student pStudent);
+
+	String CREATE_STUDENT = "com.fmc.edu.student.createStudent";
+
+	boolean createStudent(Student pStudent);
 }

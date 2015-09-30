@@ -25,7 +25,6 @@ public class ParentService {
     private IParentRepository mParentRepository;
 
     public boolean updateParentProfile(final ParentProfile pParent) {
-        //parent.setFreeTrialEndDate(DateUtils.getDaysLater(30));
         return getParentRepository().updateParentProfile(pParent);
     }
 
@@ -95,5 +94,9 @@ public class ParentService {
 
     public void setParentRepository(final IParentRepository pParentRepository) {
         mParentRepository = pParentRepository;
+    }
+
+    public boolean updateParentProfileDetail(final ParentProfile pParent) {
+        return getParentRepository().updateParentProfileDetail(pParent);
     }
 }

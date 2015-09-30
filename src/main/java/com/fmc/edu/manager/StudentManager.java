@@ -3,6 +3,7 @@ package com.fmc.edu.manager;
 import com.fmc.edu.model.relationship.ParentStudentRelationship;
 import com.fmc.edu.model.student.Student;
 import com.fmc.edu.service.impl.StudentService;
+import com.fmc.edu.util.RepositoryUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -51,5 +52,13 @@ public class StudentManager {
 
 	public Student queryStudentByIdentifyCode(String pIdentifyCode) {
 		return getStudentService().queryStudentByIdentifyCode(pIdentifyCode);
+	}
+
+	public boolean persistStudent(final Student pStudent) {
+		if (RepositoryUtils.idIsValid(pStudent.getId())) {
+			return getStudentService().updateStudent(pStudent);
+		} else {
+			return getStudentService().createStudent(pStudent);
+		}
 	}
 }

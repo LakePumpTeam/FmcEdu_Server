@@ -4,8 +4,10 @@ import com.fmc.edu.model.BaseBean;
 import com.fmc.edu.model.relationship.ParentStudentRelationship;
 import com.fmc.edu.model.school.FmcClass;
 import com.fmc.edu.model.school.School;
+import com.fmc.edu.util.DateUtils;
 
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.util.Date;
 
 /**
@@ -20,6 +22,8 @@ public class Student extends BaseBean {
 	private boolean mMale;
 
 	private Date mBirth;
+
+	private String mBirthStr;
 
 	private String mRingNumber;
 
@@ -43,6 +47,10 @@ public class Student extends BaseBean {
 	public Student(final int pClassId, final String pName) {
 		mClassId = pClassId;
 		mName = pName;
+	}
+
+	public void convertBirth() throws ParseException {
+		mBirth = DateUtils.convertStringToDate(getBirthStr());
 	}
 
 	public int getClassId() {
@@ -75,6 +83,14 @@ public class Student extends BaseBean {
 
 	public void setBirth(final Date pBirth) {
 		mBirth = pBirth;
+	}
+
+	public String getBirthStr() {
+		return mBirthStr;
+	}
+
+	public void setBirthStr(final String pBirthStr) {
+		mBirthStr = pBirthStr;
 	}
 
 	public String getRingNumber() {

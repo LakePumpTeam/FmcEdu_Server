@@ -242,6 +242,41 @@ public class AdminSchoolController extends AdminTransactionBaseController {
 		return "admin/school/student-detail";
 	}
 
+	@RequestMapping(value = "/student-detail-save" + GlobalConstant.URL_SUFFIX)
+	public String saveStudentDetail(HttpServletRequest pRequest, HttpServletResponse pResponse, Model pModel, Student student) {
+		TransactionStatus status = ensureTransaction();
+		try {
+			student.convertBirth();
+			boolean result = getStudentManager().persistStudent(student);
+			if (!result) {
+				status.setRollbackOnly();
+			}
+		} catch (Exception e) {
+			LOG.error(e);
+			status.setRollbackOnly();
+		} finally {
+			getTransactionManager().commit(status);
+		}
+		return "redirect:student-detail?studentId=" + student.getId();
+	}
+
+	@RequestMapping(value = "/student-parent-save" + GlobalConstant.URL_SUFFIX)
+	public String saveParentDetail(HttpServletRequest pRequest, HttpServletResponse pResponse, Model pModel, ParentProfile parent) {
+		TransactionStatus status = ensureTransaction();
+		try {
+			boolean result = getProfileManager().persistParentDetail(parent);
+			if (!result) {
+				status.setRollbackOnly();
+			}
+		} catch (Exception e) {
+			LOG.error(e);
+			status.setRollbackOnly();
+		} finally {
+			getTransactionManager().commit(status);
+		}
+		return "redirect:student-detail?studentId=" + parent.getParentStudentRelationship().getStudentId();
+	}
+
 	public SchoolManager getSchoolManager() {
 		return mSchoolManager;
 	}

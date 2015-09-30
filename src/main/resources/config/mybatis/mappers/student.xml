@@ -105,4 +105,16 @@
         FROM student s
         WHERE s.class_id = #{classId}
     </select>
+
+    <insert id="createStudent" useGeneratedKeys="true" keyProperty="id" parameterType="Student" flushCache="true">
+        INSERT INTO student (`name`, class_id, sex, birth, ring_number, ring_phone, available, creation_date, last_update_date)
+        VALUES (#{name}, #{classId}, #{male}, #{birth}, #{ringNumber}, #{ringPhone}, #{available}, now(), now())
+    </insert>
+
+    <update id="updateStudent" parameterType="Student" flushCache="true">
+        UPDATE student
+        SET `name` = #{name}, class_id = #{classId}, sex = #{male}, birth = #{birth}, ring_number = #{ringNumber},
+        ring_phone = #{ringPhone}, available = #{available}, last_update_date = now()
+        WHERE id = #{id}
+    </update>
 </mapper>
