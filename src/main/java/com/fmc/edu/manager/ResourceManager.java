@@ -106,7 +106,6 @@ public class ResourceManager {
 
 	public static final String ERROR_APP_UNKNOWN_DEVICE_TYPE = "app.device.type.unknown";
 
-
 	public static final String BAIDU_PUSH_MESSAGE_NOTIFY_NORTH_DELTA = "baidu.push.message.notify.north.delta";
 
 	public static final String BAIDU_PUSH_MESSAGE_SENT_CHILD = "baidu.push.message.sent.child";

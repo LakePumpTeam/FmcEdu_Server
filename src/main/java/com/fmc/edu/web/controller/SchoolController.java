@@ -74,7 +74,7 @@ public class SchoolController extends BaseController {
             responseBean.addData(schools);
         } catch (IOException e) {
             responseBean.addErrorMsg(e);
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
         } catch (Exception ex) {
             responseBean.addErrorMsg(ex);
             LOG.error(ex);
@@ -102,7 +102,7 @@ public class SchoolController extends BaseController {
             responseBean.addData(classses);
         } catch (IOException e) {
             responseBean.addErrorMsg(e);
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
         } catch (Exception ex) {
             responseBean.addErrorMsg(ex);
             LOG.error(ex);
@@ -180,7 +180,7 @@ public class SchoolController extends BaseController {
             status.setRollbackOnly();
         } catch (Exception e) {
             responseBean.addErrorMsg(e);
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
             status.setRollbackOnly();
         } finally {
             getTransactionManager().commit(status);
@@ -202,7 +202,7 @@ public class SchoolController extends BaseController {
             Map<String, Object> studentMap = getStudentManager().queryStudentsByClassId(decodeClassId);
             responseBean.addData(studentMap);
         } catch (Exception e) {
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
             responseBean.addErrorMsg(e);
         }
         return output(responseBean);
@@ -326,7 +326,7 @@ public class SchoolController extends BaseController {
             }
         } catch (Exception e) {
             txStatus.setRollbackOnly();
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
         } finally {
             getTransactionManager().commit(txStatus);
         }

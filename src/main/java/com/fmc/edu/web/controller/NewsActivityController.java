@@ -147,7 +147,7 @@ public class NewsActivityController extends BaseController {
         } catch (Exception e) {
             txStatus.setRollbackOnly();
             responseBean.addErrorMsg(e);
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
         } finally {
             getTransactionManager().commit(txStatus);
         }
@@ -165,7 +165,7 @@ public class NewsActivityController extends BaseController {
             return output(responseBean);
         } catch (Exception e) {
             responseBean.addErrorMsg(e);
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
         }
         return output(responseBean);
     }
@@ -201,7 +201,7 @@ public class NewsActivityController extends BaseController {
             getResponseBuilder().buildNewsDetailResponse(responseBean, news, userId);
         } catch (Exception e) {
             responseBean.addErrorMsg(e);
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
         }
         return output(responseBean);
     }
@@ -235,7 +235,7 @@ public class NewsActivityController extends BaseController {
             return output(responseBean);
         } catch (Exception e) {
             responseBean.addErrorMsg(e);
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
         }
         return output(responseBean);
     }
@@ -290,7 +290,7 @@ public class NewsActivityController extends BaseController {
         } catch (Exception e) {
             txStatus.setRollbackOnly();
             responseBean.addErrorMsg(e);
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
         } finally {
             getTransactionManager().commit(txStatus);
         }
@@ -313,7 +313,7 @@ public class NewsActivityController extends BaseController {
             responseBean.addBusinessMsg(e.getMessage(), e.getArgs());
         } catch (Exception e) {
             responseBean.addErrorMsg(e);
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
         }
         return output(responseBean);
     }
@@ -438,7 +438,7 @@ public class NewsActivityController extends BaseController {
         } catch (Exception e) {
             responseBean.addErrorMsg(e);
             txStatus.setRollbackOnly();
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
         } finally {
             getTransactionManager().commit(txStatus);
         }
@@ -466,7 +466,7 @@ public class NewsActivityController extends BaseController {
                 responseBean.addBusinessMsg(ResourceManager.ERROR_NEWS_DISABLE_NEWS_FAILED);
             }
         } catch (Exception e) {
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
             ts.setRollbackOnly();
         } finally {
             getTransactionManager().commit(ts);

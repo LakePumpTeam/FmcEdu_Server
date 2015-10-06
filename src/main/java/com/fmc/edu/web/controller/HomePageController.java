@@ -42,7 +42,7 @@ public class HomePageController extends BaseController {
         } catch (ProfileException e) {
             responseBean.addBusinessMsg(e.getMessage(), e.getArgs());
         } catch (Exception e) {
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
             responseBean.addErrorMsg(e);
         }
         return responseBean.toString();

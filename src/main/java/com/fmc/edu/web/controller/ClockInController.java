@@ -385,7 +385,7 @@ public class ClockInController extends BaseController {
         try {
             getBaiDuPushManager().pushNotificationMsg(personCarMagneticRelationship.getStudentId(), pushMessage);
         } catch (Exception e) {
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
         }
     }
 
@@ -425,7 +425,7 @@ public class ClockInController extends BaseController {
         try {
             getBaiDuPushManager().pushNotificationMsg(personCarMagneticRelationship.getStudentId(), pushMessage);
         } catch (Exception e) {
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
         }
     }
 
@@ -470,7 +470,7 @@ public class ClockInController extends BaseController {
         try {
             getBaiDuPushManager().pushNotificationMsg(personCarMagneticRelationship.getStudentId(), pushMessage);
         } catch (Exception e) {
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
         }
     }
 
@@ -515,7 +515,7 @@ public class ClockInController extends BaseController {
         try {
             getBaiDuPushManager().pushNotificationMsg(personCarMagneticRelationship.getStudentId(), pushMessage);
         } catch (Exception e) {
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
         }
     }
 
@@ -569,7 +569,7 @@ public class ClockInController extends BaseController {
         try {
             getBaiDuPushManager().pushNotificationMsg(personCarMagneticRelationship.getStudentId(), pushMessage);
         } catch (Exception e) {
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
         }
     }
 

@@ -29,7 +29,7 @@ public class DESEncryptService implements IEncryptService {
 			cipher.init(Cipher.ENCRYPT_MODE, secreTkey, random);
 			return cipher.doFinal(pSrc);
 		} catch (Throwable e) {
-			LOG.error(e);
+			LOG.error(e.getMessage(), e);
 		}
 		return null;
 	}
@@ -45,7 +45,7 @@ public class DESEncryptService implements IEncryptService {
 			cipher.init(Cipher.DECRYPT_MODE, secreTkey, random);
 			return cipher.doFinal(pSrc);
 		} catch (Throwable e) {
-			LOG.error(e);
+			LOG.error(e.getMessage(), e);
 		}
 		return null;
 	}

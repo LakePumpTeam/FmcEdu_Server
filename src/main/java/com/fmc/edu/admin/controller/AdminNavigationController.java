@@ -19,11 +19,6 @@ public class AdminNavigationController {
 		return "admin/index";
 	}
 
-	@RequestMapping(value = "/login" + GlobalConstant.URL_SUFFIX)
-	public String toLogin(HttpServletRequest pRequest, HttpServletResponse pResponse) {
-		return "admin/login";
-	}
-
 	@RequestMapping(value = "/data/toImport" + GlobalConstant.URL_SUFFIX)
 	public String toImport(HttpServletRequest pRequest, HttpServletResponse pResponse) {
 		return "admin/data/import";

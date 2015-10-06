@@ -105,7 +105,7 @@ public class AdminNewsController extends AdminTransactionBaseController {
 				responseBean.addBusinessMsg("Publish news failed.");
 			}
 		} catch (Exception e) {
-			LOG.error(e);
+			LOG.error(e.getMessage(), e);
 			txStatus.setRollbackOnly();
 			responseBean.addBusinessMsg(e.getMessage());
 		} finally {

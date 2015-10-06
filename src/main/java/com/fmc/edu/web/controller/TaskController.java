@@ -79,10 +79,10 @@ public class TaskController extends BaseController {
             responseBean.addData(taskList);
         } catch (IOException e) {
             responseBean.addErrorMsg(e);
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
         } catch (Exception e) {
             responseBean.addErrorMsg(e);
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
         }
         return output(responseBean);
     }
@@ -123,7 +123,7 @@ public class TaskController extends BaseController {
                 getTaskManager().insertTaskStudentRelationship(taskStudentsRelationships);
             }
         } catch (ParseException e) {
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
             responseBean.addErrorMsg(e);
             txStatus.setRollbackOnly();
         } catch (Exception ex) {
@@ -154,7 +154,7 @@ public class TaskController extends BaseController {
         } catch (Exception e) {
             txStatus.setRollbackOnly();
             responseBean.addErrorMsg(e);
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
         } finally {
             getTransactionManager().commit(txStatus);
         }
@@ -176,7 +176,7 @@ public class TaskController extends BaseController {
             getResponseBuilder().buildTaskDetail(task, studentId, responseBean);
         } catch (Exception e) {
             responseBean.addErrorMsg(e);
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
         }
         return output(responseBean);
     }
@@ -207,7 +207,7 @@ public class TaskController extends BaseController {
         } catch (Exception e) {
             txStatus.setRollbackOnly();
             responseBean.addErrorMsg(e);
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
         } finally {
             getTransactionManager().commit(txStatus);
         }
@@ -230,7 +230,7 @@ public class TaskController extends BaseController {
         } catch (Exception e) {
             txStatus.setRollbackOnly();
             responseBean.addErrorMsg(e);
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
         } finally {
             getTransactionManager().commit(txStatus);
         }
@@ -257,7 +257,7 @@ public class TaskController extends BaseController {
         } catch (Exception e) {
             txStatus.setRollbackOnly();
             responseBean.addErrorMsg(e);
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
         } finally {
             getTransactionManager().commit(txStatus);
         }
@@ -280,7 +280,7 @@ public class TaskController extends BaseController {
         } catch (Exception e) {
             txStatus.setRollbackOnly();
             responseBean.addErrorMsg(e);
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
         } finally {
             getTransactionManager().commit(txStatus);
         }

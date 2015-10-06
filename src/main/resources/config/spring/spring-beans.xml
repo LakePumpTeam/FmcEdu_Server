@@ -55,6 +55,23 @@
 			</array>
 		</property>
 		<property name="datePattern" value="yyyy-MM-dd" />
+		<property name="enableWebConfigContext">
+			<value>false</value>
+		</property>
+		<property name="disableDecodeURLPrefixArray">
+			<array>
+				<value>/admin/</value>
+				<value>/WEB-INF/jsp/admin/</value>
+			</array>
+		</property>
+		<property name="disableDecodeURLSuffixArray">
+			<array>
+				<value>js</value>
+				<value>css</value>
+				<value>png</value>
+				<value>woff</value>
+			</array>
+		</property>
 	</bean>
 	<bean id="locationInitHandler" class="com.fmc.edu.executor.handler.LocationInitHandler" />
 

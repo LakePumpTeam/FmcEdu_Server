@@ -67,7 +67,7 @@ public class ImageUtils {
 
 			LOG.debug("Writing image completed.");
 		} catch (IOException e) {
-			LOG.error(e);
+			LOG.error(e.getMessage(), e);
 			return false;
 		}
 		return true;

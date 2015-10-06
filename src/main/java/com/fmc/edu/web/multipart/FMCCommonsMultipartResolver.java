@@ -2,7 +2,7 @@ package com.fmc.edu.web.multipart;
 
 import com.fmc.edu.configuration.WebConfig;
 import com.fmc.edu.crypto.impl.ReplacementBase64EncryptService;
-import com.fmc.edu.util.StringUtils;
+import com.fmc.edu.util.URLUtils;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUpload;
 import org.apache.commons.fileupload.FileUploadBase;
@@ -14,24 +14,22 @@ import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Yu on 6/4/2015.
  */
 public class FMCCommonsMultipartResolver extends CommonsMultipartResolver {
 
-	protected static final String PREFIX_ADMIN = "/admin";
 
 	private static final Logger LOG = Logger.getLogger(FMCCommonsMultipartResolver.class);
 	private ReplacementBase64EncryptService mBase64EncryptService;
 	private boolean mEnabled;
 
-	private static String COMPLETE_PREFIX_ADMIN;
+	private boolean mInitialized = false;
+	private String[] mDisablePrefixArray;
 
 	public FMCCommonsMultipartResolver() {
 		super();
@@ -40,23 +38,24 @@ public class FMCCommonsMultipartResolver extends CommonsMultipartResolver {
 	}
 
 	@Override
-	protected MultipartParsingResult parseRequest(final HttpServletRequest request) throws MultipartException {
-		String encoding = determineEncoding(request);
+	protected MultipartParsingResult parseRequest(final HttpServletRequest pRequest) throws MultipartException {
+		String encoding = determineEncoding(pRequest);
 		FileUpload fileUpload = prepareFileUpload(encoding);
-		if (StringUtils.isBlank(COMPLETE_PREFIX_ADMIN)) {
-			COMPLETE_PREFIX_ADMIN = request.getServletContext().getContextPath() + PREFIX_ADMIN;
-			LOG.debug(String.format("Generate complete admin path prefix: %s", COMPLETE_PREFIX_ADMIN));
+		if (!mInitialized) {
+			Initialize(pRequest);
 		}
 		try {
-			List<FileItem> fileItems = ((ServletFileUpload) fileUpload).parseRequest(request);
-			if (request.getRequestURI().startsWith(COMPLETE_PREFIX_ADMIN)) {
-				return super.parseFileItems(fileItems, encoding);
+			List<FileItem> fileItems = ((ServletFileUpload) fileUpload).parseRequest(pRequest);
+			for (String disablePrefix : getDisablePrefixArray()) {
+				if (URLUtils.PrefixURLMatch(pRequest.getRequestURI(), disablePrefix)) {
+					super.parseFileItems(fileItems, encoding);
+				}
 			}
 			return parseFileItems(fileItems, encoding);
 		} catch (FileUploadBase.SizeLimitExceededException ex) {
 			throw new MaxUploadSizeExceededException(fileUpload.getSizeMax(), ex);
 		} catch (FileUploadException ex) {
-			throw new MultipartException("Could not parse multipart servlet request", ex);
+			throw new MultipartException("Could not parse multipart servlet pRequest", ex);
 		}
 	}
 
@@ -98,11 +97,40 @@ public class FMCCommonsMultipartResolver extends CommonsMultipartResolver {
 		return new MultipartParsingResult(multipartParsingResult.getMultipartFiles(), encodedMultipartParameters, multipartParsingResult.getMultipartParameterContentTypes());
 	}
 
+	private void Initialize(final HttpServletRequest pRequest) {
+		ServletContext sc = pRequest.getServletContext();
+		String context = pRequest.getServletContext().getContextPath();
+		// check web context configuration
+		Boolean enableWebConfigCtx = (Boolean) sc.getAttribute("enableWebConfigContext");
+		if (enableWebConfigCtx != null && enableWebConfigCtx.booleanValue()) {
+			// set context configured manually in web.properties
+			context = WebConfig.getFMCWebContext();
+			LOG.debug("Override context from web.properties: " + context);
+		}
+		LOG.debug("Get final context: " + context);
+		// disable decode url parameters prefix URL set
+		String[] prefixArray = (String[]) sc.getAttribute("disableDecodeURLPrefixArray");
+		mDisablePrefixArray = new String[prefixArray.length];
+		for (int i = 0; i < prefixArray.length; i++) {
+			mDisablePrefixArray[i] = (context + prefixArray[i]).replace("//", "/");
+		}
+		LOG.debug("Set disable decode URL prefix: " + Arrays.toString(mDisablePrefixArray));
+	}
+
+
 	public boolean isEnabled() {
 		return mEnabled;
 	}
 
 	public void setEnabled(boolean pEnabled) {
 		mEnabled = pEnabled;
+	}
+
+	public String[] getDisablePrefixArray() {
+		return mDisablePrefixArray;
+	}
+
+	public void setDisablePrefixArray(final String[] pDisablePrefixArray) {
+		mDisablePrefixArray = pDisablePrefixArray;
 	}
 }

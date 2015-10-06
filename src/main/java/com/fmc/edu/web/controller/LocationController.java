@@ -44,7 +44,7 @@ public class LocationController extends BaseController {
             responseBean.addData(dataList);
         } catch (IOException e) {
             responseBean.addErrorMsg(e);
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
         } catch (Exception ex) {
             responseBean.addErrorMsg(ex);
         }
@@ -73,7 +73,7 @@ public class LocationController extends BaseController {
             responseBean.addData(dataList);
         } catch (IOException e) {
             responseBean.addErrorMsg(e);
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
         } catch (Exception ex) {
             responseBean.addErrorMsg(ex);
         }

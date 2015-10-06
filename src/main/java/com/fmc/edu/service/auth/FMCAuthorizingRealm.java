@@ -21,100 +21,96 @@ import java.util.Set;
  */
 @Service
 public class FMCAuthorizingRealm extends AuthorizingRealm {
-    @Resource(name = "permissionManager")
-    private PermissionManager mPermissionManager;
-    @Resource(name = "myAccountManager")
-    private MyAccountManager mMyAccountManager;
 
-    /**
-     * Do the permission authorize.
-     *
-     * @param principalCollection
-     * @return
-     */
-    @Override
-    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        if (principalCollection == null) {
-            throw new AuthorizationException("Principal can not be null");
-        }
-        String loginName = (String) principalCollection.getPrimaryPrincipal();
-        BaseProfile baseProfile = getMyAccountManager().findUser(loginName);
+	@Resource(name = "permissionManager")
+	private PermissionManager mPermissionManager;
 
-        SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-        Set<String> role = getPermissionManager().getRolesForUser(baseProfile.getId());
-        authorizationInfo.setRoles(role);
-        authorizationInfo.setStringPermissions(getPermissionManager().getPermissionsByUserId(baseProfile.getId()));
+	@Resource(name = "myAccountManager")
+	private MyAccountManager mMyAccountManager;
 
-        return authorizationInfo;
-    }
+	/**
+	 * Do the permission authorize.
+	 *
+	 * @param principalCollection
+	 * @return
+	 */
+	@Override
+	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
+		if (principalCollection == null) {
+			throw new AuthorizationException("Principal can not be null");
+		}
+		String loginName = (String) principalCollection.getPrimaryPrincipal();
+		BaseProfile baseProfile = getMyAccountManager().findUser(loginName);
 
-    /**
-     * Authenticate the login.
-     *
-     * @param authenticationToken
-     * @return
-     * @throws AuthenticationException
-     */
-    @Override
-    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
+		SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
+		Set<String> role = getPermissionManager().getRolesForUser(baseProfile.getId());
+		authorizationInfo.setRoles(role);
+		authorizationInfo.setStringPermissions(getPermissionManager().getPermissionsByUserId(baseProfile.getId()));
 
-        String account = (String) authenticationToken.getPrincipal();
-        BaseProfile user = getMyAccountManager().findUser(account);
+		return authorizationInfo;
+	}
 
-        if (user == null) {
-            throw new UnknownAccountException(ResourceManager.ERROR_NOT_FIND_USER);
-        }
+	/**
+	 * Authenticate the login.
+	 *
+	 * @param authenticationToken
+	 * @return
+	 * @throws AuthenticationException
+	 */
+	@Override
+	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
+		String account = (String) authenticationToken.getPrincipal();
+		BaseProfile user = getMyAccountManager().findUser(account);
+		if (user == null) {
+			throw new UnknownAccountException(ResourceManager.ERROR_NOT_FIND_USER);
+		}
 
-        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
-                user.getPhone(),
-                user.getPassword(),
-                getName()
-        );
-        SecurityUtils.getSubject().getSession().setAttribute(MyAccountManager.CURRENT_SESSION_USER_KEY, user);
-        return authenticationInfo;
-    }
+		SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(user.getPhone(), user.getPassword(), getName());
+		SecurityUtils.getSubject().getSession().setAttribute(MyAccountManager.CURRENT_SESSION_USER_KEY, user);
+		return authenticationInfo;
+	}
 
-    @Override
-    public void clearCachedAuthorizationInfo(PrincipalCollection principals) {
-        super.clearCachedAuthorizationInfo(principals);
-    }
+	@Override
+	public void clearCachedAuthorizationInfo(PrincipalCollection principals) {
+		super.clearCachedAuthorizationInfo(principals);
+	}
 
-    @Override
-    public void clearCachedAuthenticationInfo(PrincipalCollection principals) {
-        super.clearCachedAuthenticationInfo(principals);
-    }
+	@Override
+	public void clearCachedAuthenticationInfo(PrincipalCollection principals) {
+		super.clearCachedAuthenticationInfo(principals);
+	}
 
-    @Override
-    public void clearCache(PrincipalCollection principals) {
-        super.clearCache(principals);
-    }
+	@Override
+	public void clearCache(PrincipalCollection principals) {
+		super.clearCache(principals);
+	}
 
-    public void clearAllCachedAuthorizationInfo() {
-        getAuthorizationCache().clear();
-    }
+	public void clearAllCachedAuthorizationInfo() {
+		getAuthorizationCache().clear();
+	}
 
-    public void clearAllCachedAuthenticationInfo() {
-        getAuthenticationCache().clear();
-    }
+	public void clearAllCachedAuthenticationInfo() {
+		getAuthenticationCache().clear();
+	}
 
-    public void clearAllCache() {
-        clearAllCachedAuthenticationInfo();
-        clearAllCachedAuthorizationInfo();
-    }
+	public void clearAllCache() {
+		clearAllCachedAuthenticationInfo();
+		clearAllCachedAuthorizationInfo();
+	}
 
-    public PermissionManager getPermissionManager() {
-        return mPermissionManager;
-    }
+	public PermissionManager getPermissionManager() {
+		return mPermissionManager;
+	}
 
-    public void setPermissionManager(PermissionManager pPermissionManager) {
-        mPermissionManager = pPermissionManager;
-    }
+	public void setPermissionManager(PermissionManager pPermissionManager) {
+		mPermissionManager = pPermissionManager;
+	}
 
-    public MyAccountManager getMyAccountManager() {
-        return mMyAccountManager;
-    }
+	public MyAccountManager getMyAccountManager() {
+		return mMyAccountManager;
+	}
 
-    public void setMyAccountManager(MyAccountManager pMyAccountManager) {
-        mMyAccountManager = pMyAccountManager;
-    }
+	public void setMyAccountManager(MyAccountManager pMyAccountManager) {
+		mMyAccountManager = pMyAccountManager;
+	}
 }

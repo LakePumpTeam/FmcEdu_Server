@@ -65,7 +65,7 @@ public class AdminSlideController extends AdminTransactionBaseController {
 				ts.setRollbackOnly();
 			}
 		} catch (Exception e) {
-			LOG.error(e);
+			LOG.error(e.getMessage(), e);
 			ts.setRollbackOnly();
 		} finally {
 			pModel.addAttribute("success", ts.isRollbackOnly() ? 0 : 1);
@@ -95,7 +95,7 @@ public class AdminSlideController extends AdminTransactionBaseController {
 				ts.setRollbackOnly();
 			}
 		} catch (Exception e) {
-			LOG.error(e);
+			LOG.error(e.getMessage(), e);
 			ts.setRollbackOnly();
 		} finally {
 			pModel.addAttribute("success", ts.isRollbackOnly() ? 0 : 1);

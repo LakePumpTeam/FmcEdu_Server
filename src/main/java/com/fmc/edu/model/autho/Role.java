@@ -5,6 +5,7 @@ import com.fmc.edu.model.BaseBean;
 import java.io.Serializable;
 
 public class Role extends BaseBean implements Serializable {
+
 	private String mRole;
 	private String mDescription;
 	private Boolean mAvailable = Boolean.FALSE;

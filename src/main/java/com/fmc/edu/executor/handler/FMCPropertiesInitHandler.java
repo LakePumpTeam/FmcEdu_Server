@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.servlet.ServletContext;
+import java.util.Arrays;
 import java.util.Map;
 
 /**
@@ -20,6 +21,13 @@ public class FMCPropertiesInitHandler implements IInitializationHandler {
 
 	private String[] mParentStudentRelationshipStrings;
 
+	private boolean mEnableWebConfigContext;
+
+	private String[] mDisableDecodeURLPrefixArray;
+
+	private String[] mDisableDecodeURLSuffixArray;
+
+
 	@Override
 	public void initialize(final WebApplicationContext pWebApplicationContext) {
 		ServletContext servletContext = pWebApplicationContext.getServletContext();
@@ -31,7 +39,17 @@ public class FMCPropertiesInitHandler implements IInitializationHandler {
 		LOG.debug("Set date pattern: " + getDatePattern());
 		// init parent-student relationships
 		servletContext.setAttribute("parentStudentRelationshipStrings", getParentStudentRelationshipStrings());
-		LOG.debug("Set date parentStudentRelationshipStrings: " + getParentStudentRelationshipStrings());
+		LOG.debug("Set date parentStudentRelationshipStrings: " + Arrays.toString(getParentStudentRelationshipStrings()));
+
+		// init enable web config context
+		servletContext.setAttribute("enableWebConfigContext", isEnableWebConfigContext());
+		LOG.debug("Set enable web config context: " + isEnableWebConfigContext());
+		// init disable decode URL prefix array
+		servletContext.setAttribute("disableDecodeURLPrefixArray", getDisableDecodeURLPrefixArray());
+		LOG.debug("Set disable decode URL prefix array: " + Arrays.toString(getDisableDecodeURLPrefixArray()));
+		// init disable decode URL suffix array
+		servletContext.setAttribute("disableDecodeURLSuffixArray", getDisableDecodeURLSuffixArray());
+		LOG.debug("Set disable decode URL suffix array: " + Arrays.toString(getDisableDecodeURLSuffixArray()));
 	}
 
 	public Map<Integer, String> getDeviceTypeMap() {
@@ -56,5 +74,29 @@ public class FMCPropertiesInitHandler implements IInitializationHandler {
 
 	public void setParentStudentRelationshipStrings(final String[] pParentStudentRelationshipStrings) {
 		mParentStudentRelationshipStrings = pParentStudentRelationshipStrings;
+	}
+
+	public boolean isEnableWebConfigContext() {
+		return mEnableWebConfigContext;
+	}
+
+	public void setEnableWebConfigContext(final boolean pEnableWebConfigContext) {
+		mEnableWebConfigContext = pEnableWebConfigContext;
+	}
+
+	public String[] getDisableDecodeURLPrefixArray() {
+		return mDisableDecodeURLPrefixArray;
+	}
+
+	public void setDisableDecodeURLPrefixArray(final String[] pDisableDecodeURLPrefixArray) {
+		mDisableDecodeURLPrefixArray = pDisableDecodeURLPrefixArray;
+	}
+
+	public String[] getDisableDecodeURLSuffixArray() {
+		return mDisableDecodeURLSuffixArray;
+	}
+
+	public void setDisableDecodeURLSuffixArray(final String[] pDisableDecodeURLSuffixArray) {
+		mDisableDecodeURLSuffixArray = pDisableDecodeURLSuffixArray;
 	}
 }

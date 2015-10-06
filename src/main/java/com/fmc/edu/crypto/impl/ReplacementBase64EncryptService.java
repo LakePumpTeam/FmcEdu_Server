@@ -62,7 +62,7 @@ public class ReplacementBase64EncryptService implements IEncryptService {
         try {
             return decrypt(new String(pSrc, Charset.forName(GlobalConstant.CHARSET_UTF8))).getBytes(GlobalConstant.CHARSET_UTF8);
         } catch (UnsupportedEncodingException e) {
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
         }
         return null;
     }

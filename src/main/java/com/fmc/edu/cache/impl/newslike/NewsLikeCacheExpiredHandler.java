@@ -51,7 +51,7 @@ public class NewsLikeCacheExpiredHandler implements ICacheExpiredHandler {
 				status.setRollbackOnly();
 			}
 		} catch (Exception e) {
-			LOG.error(e);
+			LOG.error(e.getMessage(), e);
 			status.setRollbackOnly();
 		} finally {
 			getTransactionManager().commit(status);

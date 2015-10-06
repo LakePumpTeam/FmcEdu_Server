@@ -47,7 +47,7 @@ public class DateUtils {
         try {
             return (new SimpleDateFormat(PATTERN_STUDENT_BIRTH + " " + PATTERN_TIME)).parse(pBirthString);
         } catch (ParseException e) {
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
         }
         return null;
     }
@@ -72,7 +72,7 @@ public class DateUtils {
         try {
             date = (new SimpleDateFormat(PATTERN_TIME)).parse(pTimeString);
         } catch (ParseException e) {
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
             return null;
         }
         return new Time(date.getTime());

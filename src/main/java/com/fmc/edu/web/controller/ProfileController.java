@@ -99,7 +99,7 @@ public class ProfileController extends BaseController {
             responseBean.addBusinessMsg(ex.getMessage(), ex.getArgs());
             status.setRollbackOnly();
         } catch (Exception e) {
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
             responseBean.addErrorMsg(e);
             status.setRollbackOnly();
         } finally {
@@ -141,7 +141,7 @@ public class ProfileController extends BaseController {
             responseBean.addBusinessMsg(e.getMessage(), e.getArgs());
             status.setRollbackOnly();
         } catch (Exception e) {
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
             responseBean.addErrorMsg(e);
         } finally {
             getTransactionManager().commit(status);
@@ -201,7 +201,7 @@ public class ProfileController extends BaseController {
             responseBean.addBusinessMsg(e.getMessage(), e.getArgs());
             status.setRollbackOnly();
         } catch (Exception e) {
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
             responseBean.addErrorMsg(e);
             status.setRollbackOnly();
         } finally {
@@ -229,7 +229,7 @@ public class ProfileController extends BaseController {
             responseBean.addData("salt", user.getSalt());
         } catch (Exception e) {
             responseBean.addErrorMsg(e);
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
         }
         return output(responseBean);
     }
@@ -254,7 +254,7 @@ public class ProfileController extends BaseController {
             LOG.debug("Login failed:" + getResourceManager().getMessage(pRequest, e.getMessage(), e.getArgs()));
             responseBean.addBusinessMsg(e.getMessage(), e.getArgs());
         } catch (Exception e) {
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
             responseBean.addErrorMsg(e);
         }
         if (user != null && responseBean.isSuccess()) {
@@ -287,7 +287,7 @@ public class ProfileController extends BaseController {
             user.setOnline(false);
             getMyAccountManager().updateBaseProfile(user);
         } catch (Exception e) {
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
             responseBean.addErrorMsg(e);
             txStatus.setRollbackOnly();
         } finally {
@@ -483,7 +483,7 @@ public class ProfileController extends BaseController {
             LOG.debug("requestParentAudit():decode setPass:" + pass);
             getMyAccountManager().updateParentAuditStatus(tid, ids, pass);
         } catch (Exception e) {
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
             responseBean.addErrorMsg(e);
             status.setRollbackOnly();
         } finally {
@@ -509,7 +509,7 @@ public class ProfileController extends BaseController {
             int pass = Integer.valueOf(allPass);
             getMyAccountManager().updateAllParentAuditStatus(tid, pass);
         } catch (Exception e) {
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
             responseBean.addErrorMsg(e);
             status.setRollbackOnly();
         } finally {
@@ -585,7 +585,7 @@ public class ProfileController extends BaseController {
         try {
             getMyAccountManager().updateBaseProfile(user);
         } catch (Exception e) {
-            LOG.error(e);
+            LOG.error(e.getMessage(), e);
             responseBean.addErrorMsg(e);
             status.setRollbackOnly();
         } finally {

@@ -12,24 +12,37 @@
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th>操作</th>
-                                <th>备注</th>
                                 <th>说明</th>
+                                <th>备注</th>
+                                <th>操作</th>
                             </tr>
                             </thead>
                             <tr>
                                 <td>1</td>
-                                <td align="right"><a href="${ctx}/admin/sys/invalid-location-cache">清除省市缓存</a></td>
-                                <td></td>
                                 <td>清除并重新加载省份, 城市和默认城市的学校列表的缓存</td>
+                                <td></td>
+                                <td><a class="btn btn-primary" href="${ctx}/admin/sys/invalid-location-cache">清除省市缓存</a></td>
                             </tr>
                             <tr>
                                 <td>2</td>
-                                <td align="right"><a href="${ctx}/admin/sys/persist-news-like-cache">保存当前点赞数量</a></td>
-                                <td>当前未保存的点赞数:&nbsp;
-                                    <span style="${cachedNewLike gt 0 ? 'color: #31708f;' : ''}">${cachedNewLike}</span></td>
                                 <td>立刻将当期缓存的点赞数保存到数据库</td>
+                                <td>当前未保存的点赞数:&nbsp;
+                                    <span class="${cachedNewLike gt 0 ? 'text-success' : 'text-primary'}">${cachedNewLike}</span></td>
+                                <td><a class="btn btn-primary" href="${ctx}/admin/sys/persist-news-like-cache">保存当前点赞数量</a></td>
                             </tr>
+                            <form action="${ctx}/admin/sys/reset-log-level" method="POST">
+                                <tr>
+                                    <td>3</td>
+                                    <td>设置日志级别</td>
+                                    <td><select name="logLevel" class="form-control">
+                                        <option value="10000" ${logLevel eq 10000 ? 'selected' : ''}>DEBUG</option>
+                                        <option value="20000" ${logLevel eq 20000 ? 'selected' : ''}>INFO</option>
+                                        <option value="30000" ${logLevel eq 30000 ? 'selected' : ''}>WARN</option>
+                                        <option value="40000" ${logLevel eq 40000 ? 'selected' : ''}>ERROR</option>
+                                    </select></td>
+                                    <td><input type="submit" class="btn btn-primary" value="保存" /></td>
+                                </tr>
+                            </form>
                         </table>
                     </div>
 
@@ -58,11 +71,7 @@
           rel="stylesheet">
     <script>
         $(document).ready(function () {
-//            $('#table-config').DataTable({
-//                responsive: true,
-//                bPaginate: false,
-//                bFilter: false
-//            });
+
         });
     </script>
 </fmc:container>

@@ -6,6 +6,8 @@ import com.fmc.edu.cache.impl.newslike.NewsLikeCacheContent;
 import com.fmc.edu.constant.GlobalConstant;
 import com.fmc.edu.executor.IInitializationHandler;
 import com.fmc.edu.util.RepositoryUtils;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +27,10 @@ import java.util.Map;
 @RequestMapping("/admin/sys")
 public class AdminSystemController implements ServletContextAware {
 
+	private static final String REDIRECT_SYS_MAIN = "redirect:main-sys";
+
+	private static final Logger LOG = Logger.getLogger(AdminSystemController.class);
+
 	@Resource(name = "locationInitHandler")
 	private IInitializationHandler mLocationInitHandler;
 
@@ -35,26 +41,39 @@ public class AdminSystemController implements ServletContextAware {
 
 	@RequestMapping("/main-sys" + GlobalConstant.URL_SUFFIX)
 	public String forwardMainSystem(HttpServletRequest pRequest, HttpServletResponse pResponse, Model pModel) {
+		// init news like cache
 		int cachedNewLike = 0;
 		NewsLikeCacheContent cacheContent = (NewsLikeCacheContent) getCacheManager().getCacheContent(CacheManager.CACHE_CONTENT_NEWS_LIKE);
 		for (Map.Entry<String, Cache> entry : cacheContent.getCacheCopy().entrySet()) {
 			cachedNewLike += RepositoryUtils.safeParseId(String.valueOf(entry.getValue().getValue()));
 		}
 		pModel.addAttribute("cachedNewLike", cachedNewLike);
+		// log level
+		int logLevel = Logger.getRootLogger().getLevel().toInt();
+		pModel.addAttribute("logLevel", logLevel);
 		return "admin/sys/sys-main";
 	}
 
 	@RequestMapping("/invalid-location-cache" + GlobalConstant.URL_SUFFIX)
-	public String invalidLocationCache() {
+	public String invalidLocationCache(HttpServletRequest pRequest, HttpServletResponse pResponse) {
+		LOG.debug("Invalid location cache");
 		getLocationInitHandler().initialize(WebApplicationContextUtils.getWebApplicationContext(mServletContext));
-		return "redirect:main-sys";
+		return REDIRECT_SYS_MAIN;
 	}
 
 	@RequestMapping("/persist-news-like-cache" + GlobalConstant.URL_SUFFIX)
-	public String persistNewsLike() {
+	public String persistNewsLike(HttpServletRequest pRequest, HttpServletResponse pResponse) {
 		NewsLikeCacheContent cacheContent = (NewsLikeCacheContent) getCacheManager().getCacheContent(CacheManager.CACHE_CONTENT_NEWS_LIKE);
 		cacheContent.handleCacheExpiration();
-		return "redirect:main-sys";
+		return REDIRECT_SYS_MAIN;
+	}
+
+	@RequestMapping("/reset-log-level" + GlobalConstant.URL_SUFFIX)
+	public String resetGlobalLogLevel(HttpServletRequest pRequest, HttpServletResponse pResponse, int logLevel) {
+		Level newLevel = Level.toLevel(logLevel);
+		LOG.debug(String.format("Reset log level to: %s", newLevel));
+		Logger.getRootLogger().setLevel(newLevel);
+		return REDIRECT_SYS_MAIN;
 	}
 
 	@Override

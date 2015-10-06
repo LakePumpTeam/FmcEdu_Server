@@ -95,7 +95,7 @@ public class AdminSchoolController extends AdminTransactionBaseController {
 				status.setRollbackOnly();
 			}
 		} catch (Exception e) {
-			LOG.error(e);
+			LOG.error(e.getMessage(), e);
 			status.setRollbackOnly();
 		} finally {
 			getTransactionManager().commit(status);
@@ -131,7 +131,7 @@ public class AdminSchoolController extends AdminTransactionBaseController {
 				status.setRollbackOnly();
 			}
 		} catch (Exception e) {
-			LOG.error(e);
+			LOG.error(e.getMessage(), e);
 			status.setRollbackOnly();
 		} finally {
 			getTransactionManager().commit(status);
@@ -166,7 +166,7 @@ public class AdminSchoolController extends AdminTransactionBaseController {
 				status.setRollbackOnly();
 			}
 		} catch (Exception e) {
-			LOG.error(e);
+			LOG.error(e.getMessage(), e);
 			status.setRollbackOnly();
 		} finally {
 			getTransactionManager().commit(status);
@@ -184,7 +184,7 @@ public class AdminSchoolController extends AdminTransactionBaseController {
 				status.setRollbackOnly();
 			}
 		} catch (Exception e) {
-			LOG.error(e);
+			LOG.error(e.getMessage(), e);
 			status.setRollbackOnly();
 		} finally {
 			getTransactionManager().commit(status);
@@ -211,7 +211,7 @@ public class AdminSchoolController extends AdminTransactionBaseController {
 					status.setRollbackOnly();
 				}
 			} catch (Exception e) {
-				LOG.error(e);
+				LOG.error(e.getMessage(), e);
 				status.setRollbackOnly();
 			} finally {
 				getTransactionManager().commit(status);
@@ -252,7 +252,7 @@ public class AdminSchoolController extends AdminTransactionBaseController {
 				status.setRollbackOnly();
 			}
 		} catch (Exception e) {
-			LOG.error(e);
+			LOG.error(e.getMessage(), e);
 			status.setRollbackOnly();
 		} finally {
 			getTransactionManager().commit(status);
@@ -269,7 +269,7 @@ public class AdminSchoolController extends AdminTransactionBaseController {
 				status.setRollbackOnly();
 			}
 		} catch (Exception e) {
-			LOG.error(e);
+			LOG.error(e.getMessage(), e);
 			status.setRollbackOnly();
 		} finally {
 			getTransactionManager().commit(status);
