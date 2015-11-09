@@ -44,7 +44,7 @@
 		SELECT id, `name`, phone, app_id, channel_id, creation_date, last_login_date, last_update_date, available, address_id, paid,
 		free_trial, free_trial_end_date
 		FROM profile
-		INNER JOIN parent ON id = profile_id
+		LEFT JOIN parent ON id = profile_id
 		WHERE phone = #{phone}
 	</select>
 

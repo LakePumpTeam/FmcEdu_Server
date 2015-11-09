@@ -118,6 +118,11 @@ public class ProfileManager {
 		BaseProfile baseProfile = getParentService().queryParentByPhone(pParentProfile.getPhone());
 		if (baseProfile == null) {
 			getParentService().initialProfile(pParentProfile);
+		} else {
+			pParentProfile.setId(baseProfile.getId());
+		}
+		if (queryParentDetailById(pParentProfile.getId()) != null) {
+			return pParentProfile.getId();
 		}
 		return getParentService().insertParentProfile(pParentProfile);
 	}

@@ -17,7 +17,6 @@ public enum ProfileType {
 		return this.name();
 	}
 
-
 	public int getValue() {
 		return this.mValue;
 	}
