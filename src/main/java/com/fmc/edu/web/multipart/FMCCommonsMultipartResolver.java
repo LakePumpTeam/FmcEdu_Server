@@ -43,12 +43,14 @@ public class FMCCommonsMultipartResolver extends CommonsMultipartResolver {
 		FileUpload fileUpload = prepareFileUpload(encoding);
 		if (!mInitialized) {
 			Initialize(pRequest);
+			mInitialized = true;
 		}
 		try {
 			List<FileItem> fileItems = ((ServletFileUpload) fileUpload).parseRequest(pRequest);
 			for (String disablePrefix : getDisablePrefixArray()) {
+				LOG.info(String.format("Request URI: %s", pRequest.getRequestURI()));
 				if (URLUtils.PrefixURLMatch(pRequest.getRequestURI(), disablePrefix)) {
-					super.parseFileItems(fileItems, encoding);
+					return super.parseFileItems(fileItems, encoding);
 				}
 			}
 			return parseFileItems(fileItems, encoding);
