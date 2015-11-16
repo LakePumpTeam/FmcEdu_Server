@@ -21,10 +21,8 @@
         select pf.id as profileId,t_pf.id as teacherId, t_pf.name as teacherName, st.sex as sex, cls.grade as
         grade,cls.class as class from
         profile pf
-        left join parent p
-        on pf.id = p.profile_id
         left join parent_student_map psm
-        on p.profile_id=psm.parent_id
+        on pf.id=psm.parent_id
         left join student st
         on st.id= psm.student_id
         left join class cls
